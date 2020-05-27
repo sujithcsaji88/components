@@ -3,9 +3,13 @@ import offerData from "./getofferlist.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 
+const imageFormatter = (cell, row) => {
+	return <p style={{ color: "red" }}>{cell}</p>;
+};
+
 const App = () => {
 	const columns = [
-		{ dataField: "id", text: "Offer Code" },
+		{ dataField: "id", text: "Offer Code", formatter: imageFormatter },
 		{ dataField: "type", text: "Offer Type" },
 		{ dataField: "status", text: "Offer Status" },
 		{ dataField: "displayid", text: "displayid" },
@@ -21,7 +25,7 @@ const App = () => {
 
 	return (
 		<div className='App'>
-			<BootstrapTable keyField='id' data={offerData.offers} columns={columns} />
+			<BootstrapTable keyField='id' data={offerData.offers} columns={columns}></BootstrapTable>
 		</div>
 	);
 };
