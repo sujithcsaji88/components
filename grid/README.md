@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## How to Start
+
+1. Checkout the code from repository
+2. Run npm install from terminal
+3. Run npm start, to run the application
+
 ## Available Scripts
 
 In the project directory, you can run:
