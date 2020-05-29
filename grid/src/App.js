@@ -2,6 +2,9 @@ import React from "react";
 import sampleData from "./sample_data.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
+import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+
+const { SearchBar } = Search;
 
 const styleFormatter = (cell, row) => {
 	return <p style={{ color: "red" }}>{cell}</p>;
@@ -57,13 +60,16 @@ const App = () => {
 	console.log("JSON Length: " + sampleData.length);
 	return (
 		<div className='App'>
-			<BootstrapTable
-				keyField='id'
-				data={sampleData}
-				columns={columns}
-				rowStyle={rowStyle}
-				pagination={pagination}
-			></BootstrapTable>
+			<ToolkitProvider keyField='id' data={sampleData} columns={columns} search>
+				{(props) => (
+					<div>
+						<h3>Input something at below input field:</h3>
+						<SearchBar {...props.searchProps} />
+						<hr />
+						<BootstrapTable {...props.baseProps} rowStyle={rowStyle} pagination={pagination} />
+					</div>
+				)}
+			</ToolkitProvider>
 		</div>
 	);
 };
