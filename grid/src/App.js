@@ -4,6 +4,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
+import cellEditFactory from "react-bootstrap-table2-editor";
 
 const { SearchBar } = Search;
 const $ = window.$;
@@ -150,6 +151,7 @@ const App = () => {
 							expandRow={expandRow}
 							rowStyle={rowStyle}
 							filter={filterFactory()}
+							cellEdit={cellEditFactory({ mode: "dbclick" })}
 							pagination={pagination}
 						/>
 					</div>
