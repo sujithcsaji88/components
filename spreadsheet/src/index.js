@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import './examples.scss';
+import './scss/iCargo.scss';
 
 ReactDOM.render(
   <React.StrictMode>
