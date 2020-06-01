@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import spreadsheet from "./slidegrid";
+import spreadsheet from "./slickgrid";
 
 
 class App extends Component {
@@ -11,7 +11,7 @@ class App extends Component {
 
     return (
       <div>
-          <div id="spreadsheet"></div>
+          <div id="myGrid"  className="slickgrid-container"></div>
       </div>
     );
   }
