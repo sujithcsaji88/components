@@ -1,8 +1,15 @@
-import { Grid, Editors} from 'slickgrid-es6';
+import { Grid, Formatters, Editors} from 'slickgrid-es6';
 import data from '../stubs/data';
 import {CustomFormatter} from '../utilities/iCargo.formatters'
 
 const columns = [
+  {
+    id: 'id',
+    width: 1,
+    field: 'id',
+    formatter: Formatters.Checkmark,
+    editor: Editors.Checkbox
+  },
   {id: 'flight', name: 'Flight No', field: 'flight', minWidth: 90, editor: Editors.Text,formatter: CustomFormatter},
   {id: 'flight', name: 'Flight Date', field: 'flight', cssClass: 'cell-title', editor: Editors.Text,formatter: CustomFormatter },
   {id: 'segment', name: 'Segment From', field: 'segment', editor: Editors.Text,formatter: CustomFormatter },
