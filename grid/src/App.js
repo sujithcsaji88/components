@@ -3,54 +3,109 @@ import sampleData from "./sample_data.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
+import filterFactory, { textFilter, selectFilter } from "react-bootstrap-table2-filter";
 
 const { SearchBar } = Search;
 
-const styleFormatter = (cell, row) => {
-	return <p style={{ color: "red" }}>{cell}</p>;
+const flightFormatter = (cell) => {
+	return (
+		<div>
+			<p style={{ color: "red" }}>{cell.flightno}</p>
+			<br />
+			<p>{cell.date}</p>
+		</div>
+	);
 };
 
-const arrayFormatter = (cell, row) => {
-	return cell.join(",");
+const segmentFormatter = (cell) => {
+	return (
+		<div>
+			<p>
+				{cell.from} - {cell.to}
+			</p>
+		</div>
+	);
 };
 
-const objectFormatter = (cell, row) => {
-	const names = cell.map((friend) => {
-		return friend.name;
+const detailsFormatter = (cell) => {
+	return (
+		<div>
+			<p>
+				{cell.startTime} - {cell.endTime} | {cell.status} | {cell.additionalStatus}
+			</p>
+			<br />
+			<p>
+				{cell.flightModel} | {cell.bodyType} | {cell.type} | {cell.timeStatus}
+			</p>
+		</div>
+	);
+};
+
+const weightAndVolumeFormatter = (cell) => {
+	return (
+		<div>
+			<p>{cell.percentage}</p>
+			<br />
+			<p>{cell.value}</p>
+		</div>
+	);
+};
+
+const positionFormatter = (cell) => {
+	return cell.map((positions, index) => {
+		return (
+			<div key={index}>
+				<p>
+					{positions.position} {positions.value}
+				</p>
+			</div>
+		);
 	});
-	return names.join(",");
 };
 
-const imageFormatter = (cell, row) => {
-	return <img src={cell} style={{ width: "100%", height: "100%" }} alt='Employee DP' />;
+const revenueFormatter = (cell) => {
+	return (
+		<div>
+			<p>{cell.revenue}</p>
+			<br />
+			<p>{cell.yeild}</p>
+		</div>
+	);
+};
+
+const bookingFormatter = (cell) => {
+	return (
+		<div>
+			<p>{cell.sr}</p>
+			<br />
+			<p>{cell.volume}</p>
+		</div>
+	);
 };
 
 const rowStyle = (row, rowIndex) => {
 	return { wordBreak: "break-all" };
 };
 
+const expandRow = {
+	renderer: (row) => (
+		<div>
+			<p>{`Expanded content goes here`}</p>
+		</div>
+	),
+};
+
 const App = () => {
 	const columns = [
-		{ dataField: "index", text: "Index", formatter: styleFormatter },
-		{ dataField: "id", text: "Data ID" },
-		{ dataField: "guid", text: "Global ID" },
-		{ dataField: "isActive", text: "Is Active" },
-		{ dataField: "balance", text: "Balance Amount" },
-		{ dataField: "picture", text: "Image", formatter: imageFormatter },
-		{ dataField: "age", text: "Age" },
-		{ dataField: "eyeColor", text: "Eye Color" },
-		{ dataField: "name", text: "Name" },
-		{ dataField: "gender", text: "Gender" },
-		{ dataField: "company", text: "Company" },
-		{ dataField: "email", text: "Email ID" },
-		{ dataField: "phone", text: "Phone Number" },
-		{ dataField: "address", text: "Address" },
-		{ dataField: "registered", text: "Registered Time" },
-		{ dataField: "latitude", text: "Latitude" },
-		{ dataField: "longitude", text: "Longitude" },
-		{ dataField: "tags", text: "Tags", formatter: arrayFormatter },
-		{ dataField: "friends", text: "Friends", formatter: objectFormatter },
-		{ dataField: "favoriteFruit", text: "Favorite Fruit" },
+		{ dataField: "flight", text: "Flight", formatter: flightFormatter },
+		{ dataField: "segment", text: "Segment", formatter: segmentFormatter },
+		{ dataField: "details", text: "Details", formatter: detailsFormatter },
+		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter },
+		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter },
+		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter },
+		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter },
+		{ dataField: "sr", text: "SR" },
+		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter },
 	];
 
 	const pagination = paginationFactory({
@@ -60,13 +115,19 @@ const App = () => {
 	console.log("JSON Length: " + sampleData.length);
 	return (
 		<div className='App'>
-			<ToolkitProvider keyField='id' data={sampleData} columns={columns} search>
+			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search>
 				{(props) => (
 					<div>
 						<h3>Input something at below input field:</h3>
 						<SearchBar {...props.searchProps} />
 						<hr />
-						<BootstrapTable {...props.baseProps} rowStyle={rowStyle} pagination={pagination} />
+						<BootstrapTable
+							{...props.baseProps}
+							expandRow={expandRow}
+							rowStyle={rowStyle}
+							filter={filterFactory()}
+							pagination={pagination}
+						/>
 					</div>
 				)}
 			</ToolkitProvider>
