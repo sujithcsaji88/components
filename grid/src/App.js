@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import sampleData from "./sample_data.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
-import filterFactory, { textFilter, selectFilter } from "react-bootstrap-table2-filter";
+import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
+import cellEditFactory from "react-bootstrap-table2-editor";
+import FlightEdit from "./FlightEdit";
 
 const { SearchBar } = Search;
+const $ = window.$;
 
 const flightFormatter = (cell) => {
 	return (
@@ -95,17 +98,38 @@ const expandRow = {
 	),
 };
 
+const customDataFilter = (filterVal, data) => {
+	if (filterVal) {
+		return data.filter(
+			(travel) =>
+				travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
+				travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
+};
+
 const App = () => {
 	const columns = [
-		{ dataField: "flight", text: "Flight", formatter: flightFormatter },
-		{ dataField: "segment", text: "Segment", formatter: segmentFormatter },
-		{ dataField: "details", text: "Details", formatter: detailsFormatter },
-		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter },
-		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter },
-		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter },
-		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter },
-		{ dataField: "sr", text: "SR" },
-		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter },
+		{
+			dataField: "flight",
+			text: "Flight",
+			formatter: flightFormatter,
+			filter: textFilter({
+				onFilter: customDataFilter,
+			}),
+			editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+				<FlightEdit {...editorProps} value={value} />
+			),
+		},
+		{ dataField: "segment", text: "Segment", formatter: segmentFormatter, filter: textFilter() },
+		{ dataField: "details", text: "Details", formatter: detailsFormatter, filter: textFilter() },
+		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter, filter: textFilter() },
+		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter, filter: textFilter() },
+		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter, filter: textFilter() },
+		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter, filter: textFilter() },
+		{ dataField: "sr", text: "SR", filter: textFilter() },
+		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter, filter: textFilter() },
 	];
 
 	const pagination = paginationFactory({
@@ -113,6 +137,11 @@ const App = () => {
 	});
 
 	console.log("JSON Length: " + sampleData.length);
+
+	useEffect(() => {
+		$(".react-bootstrap-table thead th").resizable();
+	});
+
 	return (
 		<div className='App'>
 			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search>
@@ -126,6 +155,7 @@ const App = () => {
 							expandRow={expandRow}
 							rowStyle={rowStyle}
 							filter={filterFactory()}
+							cellEdit={cellEditFactory({ mode: "dbclick", blurToSave: true })}
 							pagination={pagination}
 						/>
 					</div>
