@@ -1,6 +1,7 @@
 @import '~slickgrid-es6/dist/slick.grid.variables.scss';
 @import "~slickgrid-es6/dist/slick.grid.scss";
 @import "~slickgrid-es6/dist/slick-default-theme.scss";
+@import '~flatpickr/dist/flatpickr.min.css';
 
 #iCargoSpreadSheet {
   background: white;
@@ -182,5 +183,22 @@ input.editor-checkbox {
 
 .frozen {
   background: #eeeeee;
+}
+
+.slickgrid-container .slick-header-columns, .slickgrid-container .slick-header-column{
+  background:rgba(31, 86, 126, 0.0470588235294118);
+  height: 40px;
+}
+
+.slickgrid-container .slick-header-column.ui-state-default {
+  height: 40px;
+  color: #204D6F;
+  font-weight: bold;
+    padding: 10px 4px;
+}
+
+*{
+  font-family: 'Segoe UI Bold', 'Segoe UI Regular', 'Segoe UI';
+  font-size: 12px;
 }
 
