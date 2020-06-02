@@ -5,6 +5,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import cellEditFactory from "react-bootstrap-table2-editor";
+import FlightEdit from "./FlightEdit";
 
 const { SearchBar } = Search;
 const $ = window.$;
@@ -117,6 +118,9 @@ const App = () => {
 			filter: textFilter({
 				onFilter: customDataFilter,
 			}),
+			editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+				<FlightEdit {...editorProps} value={value} />
+			),
 		},
 		{ dataField: "segment", text: "Segment", formatter: segmentFormatter, filter: textFilter() },
 		{ dataField: "details", text: "Details", formatter: detailsFormatter, filter: textFilter() },
@@ -151,7 +155,7 @@ const App = () => {
 							expandRow={expandRow}
 							rowStyle={rowStyle}
 							filter={filterFactory()}
-							cellEdit={cellEditFactory({ mode: "dbclick" })}
+							cellEdit={cellEditFactory({ mode: "dbclick", blurToSave: true })}
 							pagination={pagination}
 						/>
 					</div>
