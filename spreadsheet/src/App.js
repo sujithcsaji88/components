@@ -1,16 +1,12 @@
-import React , { Component } from 'react';
-import spreadsheet from './components/slickgrid'
+import React , { useEffect } from 'react';
+import spreadsheet from './components/slickgrid'	
 
-class App extends Component {
-  componentDidMount() {
+const App = () => {
+  useEffect(() => {
     spreadsheet();
-  }
-  render () {
-    return (
-      <div>
-          <div id="iCargoSpreadSheet"  className="slickgrid-container"></div>
-      </div>
-    );
-  }
-}
+  }, []);
+  return <div id="iCargoSpreadSheet" className="slickgrid-container"></div>;
+};
+
 export default App;
+

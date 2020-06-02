@@ -1,9 +1,13 @@
-import { Grid, Formatters, Editors } from "slickgrid-es6";
+import { Grid, Editors, Plugins } from "slickgrid-es6";
 import data from "../stubs/data";
 import { CustomFormatter } from "../utilities/iCargo.formatters";
 
+const checkboxSelector = new Plugins.CheckboxSelectColumn({
+  cssClass: "slick-cell-checkboxsel"
+});
+
 const flatPickrOptions = {
-  dateFormat: "d/m/Y", // see https://chmln.github.io/flatpickr/#options,
+  dateFormat: "d/m/Y",
   parseDate: function (input) {
     var split = input.split("/");
     return new Date(split[1] + "-" + split[0] + "-" + split[2]);
@@ -11,12 +15,14 @@ const flatPickrOptions = {
 };
 
 const columns = [
+  checkboxSelector.getColumnDefinition(),
   {
-    id: "id",
-    width: 1,
-    field: "id",
-    formatter: Formatters.Checkmark,
-    editor: Editors.Checkbox
+    id: "flight",
+    name: "Flight No",
+    field: "flight",
+    minWidth: 90,
+    editor: Editors.Text,
+    formatter: CustomFormatter,
   },
   {
     id: "flight",
@@ -240,8 +246,17 @@ const options = {
   enableAddRow: true,
   asyncEditorLoading: false,
   autoEdit: false,
+  headerRowHeight: 20,
 };
 
-export default () => {
-  new Grid("#iCargoSpreadSheet", data, columns, options);
-};
+function SlickGrid(props) {
+  const grid = new Grid("#iCargoSpreadSheet", data, columns, options);
+  grid.setSelectionModel(
+    new Plugins.RowSelectionModel({ selectActiveRow: false })
+  );
+  grid.registerPlugin(checkboxSelector);
+  grid.setSelectionModel(new Plugins.CellSelectionModel());
+  return grid;
+}
+
+export default SlickGrid; 
