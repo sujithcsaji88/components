@@ -1,5 +1,6 @@
 html {
-    font-family: sans-serif;
+    /*font-family: sans-serif;*/
+    font-family: 'Segoe UI Bold', 'Segoe UI Regular', 'Segoe UI';
     font-size: 12px;
   }
   
@@ -27,5 +28,14 @@ html {
   
   .ListItemEven {
     background-color: #f8f8f0;
+  }
+
+  thead {
+    background: rgba(31, 86, 126, 0.0470588);
+    border-bottom: 1px solid #D6D7D6;
+    /*height: 40px;*/
+    color: #204D6F;
+    font-weight: bold;
+      padding: 10px 4px;
   }
   

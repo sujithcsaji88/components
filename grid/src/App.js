@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import sampleData from "./sample_data.json";
+import sampleData from "./sample_data1.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -99,7 +99,8 @@ const expandRow = {
 	),
 };
 
-const customDataFilter = (filterVal, data) => {
+/*const customDataFilter = (filterVal, data) => {
+	debugger
 	if (filterVal) {
 		return data.filter(
 			(travel) =>
@@ -108,14 +109,74 @@ const customDataFilter = (filterVal, data) => {
 		);
 	}
 	return data;
+};*/
+
+const customDataFilter = (filterVal, data) => {
+	debugger
+	if (filterVal) {
+		return data.filter((travel) =>
+			travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.flightModel.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.bodyType.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.type.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.startTime.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.endTime.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.status.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.additionalStatus.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.timeStatus.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.weight.percentage.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.weight.value.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.volume.percentage.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.volume.value.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.revenue.revenue.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.revenue.yeild.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.sr.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.queuedBooking.sr.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.queuedBooking.volume.toString().toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
 };
 
-function onColumnMatch({ searchText, value, column, row }) {
+const customDataUldFilter = (filterVal, data) => {
+	debugger
+	console.log(this.props)
+	if (filterVal) {
+		var uldvalues;
+		data.filter((travel) =>{
+				console.log(travel.uldPositions)
+				uldvalues = travel.uldPositions
+				return uldvalues.filter((values) => 
+					values.position.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+					values.value.toString().toLowerCase().includes(filterVal.toLowerCase())
+				)
+			}
+		);
+	}
+	return data;
+};
+
+/*function onColumnMatch({ searchText, value, column, row }) {
 	return true;
 	// implement your custom match logic on every cell value
-}
+}*/
 
-const App = () => {
+function onColumnMatch({
+	searchText,
+	value,
+	column,
+	row
+  }) {
+	if (typeof value !== 'undefined') {
+		debugger;
+	  //return value.startsWith(searchText);
+	  return true;
+	}
+	return false;
+  }
+
+const App = (props) => {
 	const columns = [
 		{
 			dataField: "flight",
@@ -129,13 +190,44 @@ const App = () => {
 			),
 		},
 		{ dataField: "segment", text: "Segment", formatter: segmentFormatter, filter: textFilter() },
-		{ dataField: "details", text: "Details", formatter: detailsFormatter, filter: textFilter() },
-		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter, filter: textFilter() },
-		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter, filter: textFilter() },
-		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter, filter: textFilter() },
-		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter, filter: textFilter() },
-		{ dataField: "sr", text: "SR", filter: textFilter() },
-		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter, filter: textFilter() },
+		{ 
+			dataField: "details", 
+			text: "Details", 
+			formatter: detailsFormatter, 
+			filter: textFilter({
+				onFilter: customDataFilter,
+			})
+		},
+		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter, 
+			filter: textFilter({
+				onFilter: customDataFilter,
+			})
+		},
+		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter, 
+			filter: textFilter({
+				onFilter: customDataFilter,
+			})
+		},
+		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter, 
+			filter: textFilter({
+				onFilter: customDataUldFilter,
+			}) 
+		},
+		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter, 
+			filter: textFilter({
+				onFilter: customDataFilter,
+			}) 
+		},
+		{ dataField: "sr", text: "SR", 
+			filter: textFilter({
+				onFilter: customDataFilter,
+			}) 
+		},
+		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter, 
+			filter: textFilter({
+				onFilter: customDataFilter,
+			})
+		},
 	];
 
 	const pagination = paginationFactory({
