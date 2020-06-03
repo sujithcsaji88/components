@@ -1,6 +1,6 @@
 import { Data,Grid, Editors, Plugins } from "slickgrid-es6";
-import data from "../stubs/data";
-import { CustomFormatter } from "../utilities/iCargo.formatters";
+import data from '../../stubs/data'
+import { CustomFormatter } from "../../utilities/iCargo.formatters";
 import React,{ useState, useEffect } from 'react';
 
 const checkboxSelector = new Plugins.CheckboxSelectColumn({
