@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import sampleData from "./sample_data1.json";
+import sampleData from "./sample_data.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
