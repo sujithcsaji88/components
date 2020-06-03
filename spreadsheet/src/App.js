@@ -1,10 +1,9 @@
-import React , { Component } from 'react';
-import spreadsheet from './components/slickgrid';
+import React , { Component,useEffect } from 'react';
+import spreadsheet from './components/slickgrid'	;
 import Header from './components/Header/Header';
 
-
-class App extends Component {
-  componentDidMount() {
+const App = () => {
+  useEffect(() => {
     spreadsheet();
   }
   render () {
@@ -16,4 +15,8 @@ class App extends Component {
     );
   }
 }
+export default App;
+  }, []);
+};
+
 export default App;
