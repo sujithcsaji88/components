@@ -1,16 +1,13 @@
-import React, { useEffect } from "react";
-import spreadsheet from "./components/slickgrid";
+import React from "react";
+import Spreadsheet from "./components/slickgrid";
 import Header from "./components/Header/Header";
 
 const App = () => {
-  useEffect(() => {
-    spreadsheet();
-  }, []);
   return (
     <div>
       <Header />
-      <div id="iCargoSpreadSheet" className="slickgrid-container"></div>
-    </div>
+      <Spreadsheet/>
+      </div>
   );
 };
 export default App;
