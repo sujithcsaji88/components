@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import sampleData from "./sample_data.json";
+import sampleData from "./sample_data1.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -112,7 +112,7 @@ const expandRow = {
 };*/
 
 const customDataFilter = (filterVal, data) => {
-	debugger
+	//debugger
 	if (filterVal) {
 		return data.filter((travel) =>
 			travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
@@ -140,8 +140,8 @@ const customDataFilter = (filterVal, data) => {
 };
 
 const customDataUldFilter = (filterVal, data) => {
-	debugger
-	console.log(this.props)
+	//debugger
+	//console.log(this.props)
 	if (filterVal) {
 		var uldvalues;
 		data.filter((travel) =>{
@@ -169,14 +169,14 @@ function onColumnMatch({
 	row
   }) {
 	if (typeof value !== 'undefined') {
-		debugger;
+		//debugger;
 	  //return value.startsWith(searchText);
 	  return true;
 	}
 	return false;
   }
 
-const App = (props) => {
+const App = () => {
 	const columns = [
 		{
 			dataField: "flight",
