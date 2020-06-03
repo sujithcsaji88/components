@@ -14,15 +14,18 @@ const flatPickrOptions = {
   },
 };
 
+// testHandle = () => {
+//   console.log('Clicked');
+// }
+
 const columns = [
   checkboxSelector.getColumnDefinition(),
   {
-    id: "flight",
-    name: "Flight No",
-    field: "flight",
-    minWidth: 90,
-    editor: Editors.Text,
+    id: "id",
+    width: 1,
+    field: "id",
     formatter: CustomFormatter,
+    editor: Editors.Checkbox
   },
   {
     id: "flight",
@@ -42,6 +45,7 @@ const columns = [
       date: flatPickrOptions,
     },
     formatter: CustomFormatter,
+    sortable: true
   },
   {
     id: "segment",
