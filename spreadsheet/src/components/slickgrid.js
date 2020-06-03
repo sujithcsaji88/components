@@ -1,6 +1,7 @@
-import { Grid, Editors, Plugins } from "slickgrid-es6";
+import { Data,Grid, Editors, Plugins } from "slickgrid-es6";
 import data from "../stubs/data";
 import { CustomFormatter } from "../utilities/iCargo.formatters";
+import React,{ useState, useEffect } from 'react';
 
 const checkboxSelector = new Plugins.CheckboxSelectColumn({
   cssClass: "slick-cell-checkboxsel"
@@ -14,14 +15,14 @@ const flatPickrOptions = {
   },
 };
 
-// testHandle = () => {
-//   console.log('Clicked');
-// }
-
+let dataView = new Data.DataView();
+dataView.setItems(data, "travelId");
+const sortable = true;
 const columns = [
   checkboxSelector.getColumnDefinition(),
   {
     id: "id",
+    sortable,
     width: 1,
     field: "id",
     formatter: CustomFormatter,
@@ -29,6 +30,7 @@ const columns = [
   },
   {
     id: "flight",
+    sortable,
     name: "Flight No",
     field: "flight",
     minWidth: 90,
@@ -37,6 +39,7 @@ const columns = [
   },
   {
     id: "flight",
+    sortable,
     name: "Flight Date",
     field: "flight",
     cssClass: "cell-title",
@@ -49,6 +52,7 @@ const columns = [
   },
   {
     id: "segment",
+    sortable,
     name: "Segment From",
     field: "segment",
     editor: Editors.Text,
@@ -56,6 +60,7 @@ const columns = [
   },
   {
     id: "segment",
+    sortable,
     name: "Segment To",
     field: "segment",
     minWidth: 90,
@@ -64,6 +69,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "Flight Model",
     field: "details",
     minWidth: 90,
@@ -72,6 +78,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "Body Type",
     field: "details",
     editor: Editors.Text,
@@ -79,6 +86,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "Type",
     field: "details",
     maxWidth: 100,
@@ -88,6 +96,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "Start Time",
     field: "details",
     editor: Editors.Text,
@@ -95,6 +104,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "End Time",
     field: "details",
     minWidth: 90,
@@ -103,6 +113,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "Status",
     field: "details",
     editor: Editors.Text,
@@ -110,6 +121,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "Additional Status",
     field: "details",
     editor: Editors.Text,
@@ -117,6 +129,7 @@ const columns = [
   },
   {
     id: "details",
+    sortable,
     name: "Time Status",
     field: "details",
     maxWidth: 100,
@@ -126,6 +139,7 @@ const columns = [
   },
   {
     id: "weight",
+    sortable,
     name: "Weight %",
     field: "weight",
     editor: Editors.Text,
@@ -133,6 +147,7 @@ const columns = [
   },
   {
     id: "weight",
+    sortable,
     name: "Weight Value",
     field: "weight",
     editor: Editors.Text,
@@ -140,6 +155,7 @@ const columns = [
   },
   {
     id: "volume",
+    sortable,
     name: "Volume %",
     field: "volume",
     minWidth: 90,
@@ -148,6 +164,7 @@ const columns = [
   },
   {
     id: "volume",
+    sortable,
     name: "Volume Value",
     field: "volume",
     editor: Editors.Text,
@@ -155,6 +172,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Position1",
     field: "uldPositions",
     editor: Editors.Text,
@@ -162,6 +180,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Value1",
     field: "uldPositions",
     editor: Editors.Text,
@@ -169,6 +188,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Position2",
     field: "uldPositions",
     editor: Editors.Text,
@@ -176,6 +196,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Value2",
     field: "uldPositions",
     editor: Editors.Text,
@@ -183,6 +204,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Position3",
     field: "uldPositions",
     editor: Editors.Text,
@@ -190,6 +212,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Value3",
     field: "uldPositions",
     editor: Editors.Text,
@@ -197,6 +220,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Position4",
     field: "uldPositions",
     editor: Editors.Text,
@@ -204,6 +228,7 @@ const columns = [
   },
   {
     id: "uldPositions",
+    sortable,
     name: "ULD Value4",
     field: "uldPositions",
     editor: Editors.Text,
@@ -211,6 +236,7 @@ const columns = [
   },
   {
     id: "revenue",
+    sortable,
     name: "Revenue",
     field: "revenue",
     editor: Editors.Text,
@@ -218,14 +244,16 @@ const columns = [
   },
   {
     id: "revenue",
+    sortable,
     name: "Yeild",
     field: "revenue",
     editor: Editors.Text,
     formatter: CustomFormatter,
   },
-  { id: "sr", name: "SR", field: "sr", editor: Editors.Text },
+  { id: "sr",sortable, name: "SR", field: "sr", editor: Editors.Text },
   {
     id: "queuedBooking",
+    sortable,
     name: "Booking SR",
     field: "queuedBooking",
     editor: Editors.Text,
@@ -233,6 +261,7 @@ const columns = [
   },
   {
     id: "queuedBooking",
+    sortable,
     name: "Booking Volume",
     field: "queuedBooking",
     editor: Editors.Text,
@@ -243,24 +272,36 @@ const columns = [
 const options = {
   enableCellNavigation: true,
   enableColumnReorder: true,
-  forceFitColumns: !true,
-  frozenColumn: 0,
-  frozenRow: 1,
   editable: true,
-  enableAddRow: true,
   asyncEditorLoading: false,
   autoEdit: false,
   headerRowHeight: 20,
 };
 
-function SlickGrid(props) {
-  const grid = new Grid("#iCargoSpreadSheet", data, columns, options);
-  grid.setSelectionModel(
-    new Plugins.RowSelectionModel({ selectActiveRow: false })
-  );
-  grid.registerPlugin(checkboxSelector);
-  grid.setSelectionModel(new Plugins.CellSelectionModel());
-  return grid;
+function SpreadSheet(props) {
+  
+  let grid;
+  useEffect(
+    () => {      
+      grid = new Grid('#iCargoSpreadSheet', dataView, columns, options);
+      grid.setSelectionModel(new Plugins.RowSelectionModel({ selectActiveRow: false})); 
+      grid.registerPlugin(checkboxSelector);
+      grid.setSelectionModel(new Plugins.CellSelectionModel());
+      grid.onSort.subscribe(function (e, args) {
+        var comparer = function (a, b) {
+          return (a[args.sortCol.field] > b[args.sortCol.field]) ? 1 : -1;
+        }
+        dataView.sort(comparer, args.sortAsc);
+      });
+      dataView.onRowsChanged.subscribe((e, { rows }) => {
+        grid.invalidateRows(rows);
+        grid.render();
+      });
+    }
+  ,[]);
+  return(
+    <div id="iCargoSpreadSheet" className="slickgrid-container"/>
+    );
 }
 
-export default SlickGrid; 
+export default SpreadSheet; 
