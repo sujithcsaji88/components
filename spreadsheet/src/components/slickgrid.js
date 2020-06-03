@@ -10,12 +10,16 @@ const flatPickrOptions = {
   },
 };
 
+// testHandle = () => {
+//   console.log('Clicked');
+// }
+
 const columns = [
   {
     id: "id",
     width: 1,
     field: "id",
-    formatter: Formatters.Checkmark,
+    formatter: CustomFormatter,
     editor: Editors.Checkbox
   },
   {
@@ -36,6 +40,7 @@ const columns = [
       date: flatPickrOptions,
     },
     formatter: CustomFormatter,
+    sortable: true
   },
   {
     id: "segment",
