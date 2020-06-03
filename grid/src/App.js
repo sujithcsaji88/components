@@ -6,6 +6,7 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import cellEditFactory from "react-bootstrap-table2-editor";
 import FlightEdit from "./FlightEdit";
+import "./styles.css";
 
 const { SearchBar } = Search;
 const $ = window.$;
