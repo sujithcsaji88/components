@@ -110,6 +110,11 @@ const customDataFilter = (filterVal, data) => {
 	return data;
 };
 
+function onColumnMatch({ searchText, value, column, row }) {
+	return true;
+	// implement your custom match logic on every cell value
+}
+
 const App = () => {
 	const columns = [
 		{
@@ -145,7 +150,7 @@ const App = () => {
 
 	return (
 		<div className='App'>
-			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search>
+			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search={{ onColumnMatch }}>
 				{(props) => (
 					<div>
 						<h3>Input something at below input field:</h3>
