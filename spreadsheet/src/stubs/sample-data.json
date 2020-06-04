@@ -1,0 +1,338 @@
+[
+    {
+      "travelId": 0,
+      "flight": {
+        "flightno": "XX4612",
+        "date": "24-APR-2020"
+      },
+      "segment": {
+        "from": "FRA",
+        "to": "DXB"
+      },
+      "details": {
+        "flightModel": 737,
+        "bodyType": "Narrow Body",
+        "type": "Truck",
+        "startTime": "23:40 (E)",
+        "endTime": "06:05 (E)",
+        "status": "Active",
+        "additionalStatus": "FBL Sent",
+        "timeStatus": "02:25 hrs to depart"
+      },
+      "weight": {
+        "percentage": "25%",
+        "value": "16561/20000 kg"
+      },
+      "volume": {
+        "percentage": "45%",
+        "value": "49/60 cbm"
+      },
+      "uldPositions": [
+        {
+          "position": "L3",
+          "value": "5/9"
+        },
+        {
+          "position": "Q6",
+          "value": "2/7"
+        },
+        {
+          "position": "L7",
+          "value": "2/9"
+        },
+        {
+          "position": "Q7",
+          "value": "4/8"
+        }
+      ],
+      "revenue": {
+        "revenue": "$57,572",
+        "yeild": "$2.25"
+      },
+      "sr": "12 AWBs",
+      "queuedBooking": {
+        "sr": "34 AWBs",
+        "volume": "4465 kg / 40 cbm"
+      }
+    },
+    {
+      "travelId": 1,
+      "flight": {
+        "flightno": "XX4613",
+        "date": "24-APR-2020"
+      },
+      "segment": {
+        "from": "FRA",
+        "to": "DXB"
+      },
+      "details": {
+        "flightModel": 737,
+        "bodyType": "Narrow Body",
+        "type": "Truck",
+        "startTime": "23:40 (E)",
+        "endTime": "06:05 (E)",
+        "status": "Active",
+        "additionalStatus": "FBL Sent",
+        "timeStatus": "02:25 hrs to depart"
+      },
+      "weight": {
+        "percentage": "25%",
+        "value": "16561/20000 kg"
+      },
+      "volume": {
+        "percentage": "45%",
+        "value": "49/60 cbm"
+      },
+      "uldPositions": [
+        {
+          "position": "L3",
+          "value": "5/9"
+        },
+        {
+          "position": "Q6",
+          "value": "2/7"
+        },
+        {
+          "position": "L7",
+          "value": "2/9"
+        },
+        {
+          "position": "Q7",
+          "value": "4/8"
+        }
+      ],
+      "revenue": {
+        "revenue": "$57,572",
+        "yeild": "$2.25"
+      },
+      "sr": "12 AWBs",
+      "queuedBooking": {
+        "sr": "34 AWBs",
+        "volume": "4465 kg / 40 cbm"
+      }
+    },
+    {
+      "travelId": 2,
+      "flight": {
+        "flightno": "XX4614",
+        "date": "24-APR-2020"
+      },
+      "segment": {
+        "from": "FRA",
+        "to": "DXB"
+      },
+      "details": {
+        "flightModel": 737,
+        "bodyType": "Narrow Body",
+        "type": "Truck",
+        "startTime": "23:40 (E)",
+        "endTime": "06:05 (E)",
+        "status": "Active",
+        "additionalStatus": "FBL Sent",
+        "timeStatus": "02:25 hrs to depart"
+      },
+      "weight": {
+        "percentage": "25%",
+        "value": "16561/20000 kg"
+      },
+      "volume": {
+        "percentage": "45%",
+        "value": "49/60 cbm"
+      },
+      "uldPositions": [
+        {
+          "position": "L3",
+          "value": "5/9"
+        },
+        {
+          "position": "Q6",
+          "value": "2/7"
+        },
+        {
+          "position": "L7",
+          "value": "2/9"
+        },
+        {
+          "position": "Q7",
+          "value": "4/8"
+        }
+      ],
+      "revenue": {
+        "revenue": "$57,572",
+        "yeild": "$2.25"
+      },
+      "sr": "12 AWBs",
+      "queuedBooking": {
+        "sr": "34 AWBs",
+        "volume": "4465 kg / 40 cbm"
+      }
+    },
+    {
+      "travelId": 3,
+      "flight": {
+        "flightno": "XX4612",
+        "date": "24-APR-2020"
+      },
+      "segment": {
+        "from": "FRA",
+        "to": "DXB"
+      },
+      "details": {
+        "flightModel": 737,
+        "bodyType": "Narrow Body",
+        "type": "Truck",
+        "startTime": "23:40 (E)",
+        "endTime": "06:05 (E)",
+        "status": "Active",
+        "additionalStatus": "FBL Sent",
+        "timeStatus": "02:25 hrs to depart"
+      },
+      "weight": {
+        "percentage": "25%",
+        "value": "16561/20000 kg"
+      },
+      "volume": {
+        "percentage": "45%",
+        "value": "49/60 cbm"
+      },
+      "uldPositions": [
+        {
+          "position": "L3",
+          "value": "5/9"
+        },
+        {
+          "position": "Q6",
+          "value": "2/7"
+        },
+        {
+          "position": "L7",
+          "value": "2/9"
+        },
+        {
+          "position": "Q7",
+          "value": "4/8"
+        }
+      ],
+      "revenue": {
+        "revenue": "$57,572",
+        "yeild": "$2.25"
+      },
+      "sr": "12 AWBs",
+      "queuedBooking": {
+        "sr": "34 AWBs",
+        "volume": "4465 kg / 40 cbm"
+      }
+    },
+    {
+      "travelId": 4,
+      "flight": {
+        "flightno": "XX4612",
+        "date": "24-APR-2020"
+      },
+      "segment": {
+        "from": "FRA",
+        "to": "DXB"
+      },
+      "details": {
+        "flightModel": 737,
+        "bodyType": "Narrow Body",
+        "type": "Truck",
+        "startTime": "23:40 (E)",
+        "endTime": "06:05 (E)",
+        "status": "Active",
+        "additionalStatus": "FBL Sent",
+        "timeStatus": "02:25 hrs to depart"
+      },
+      "weight": {
+        "percentage": "25%",
+        "value": "16561/20000 kg"
+      },
+      "volume": {
+        "percentage": "45%",
+        "value": "49/60 cbm"
+      },
+      "uldPositions": [
+        {
+          "position": "L3",
+          "value": "5/9"
+        },
+        {
+          "position": "Q6",
+          "value": "2/7"
+        },
+        {
+          "position": "L7",
+          "value": "2/9"
+        },
+        {
+          "position": "Q7",
+          "value": "4/8"
+        }
+      ],
+      "revenue": {
+        "revenue": "$57,572",
+        "yeild": "$2.25"
+      },
+      "sr": "12 AWBs",
+      "queuedBooking": {
+        "sr": "34 AWBs",
+        "volume": "4465 kg / 40 cbm"
+      }
+    },
+    {
+      "travelId": 5,
+      "flight": {
+        "flightno": "XX4615",
+        "date": "24-APR-2020"
+      },
+      "segment": {
+        "from": "FRA",
+        "to": "DXB"
+      },
+      "details": {
+        "flightModel": 737,
+        "bodyType": "Narrow Body",
+        "type": "Truck",
+        "startTime": "23:40 (E)",
+        "endTime": "06:05 (E)",
+        "status": "Active",
+        "additionalStatus": "FBL Sent",
+        "timeStatus": "02:25 hrs to depart"
+      },
+      "weight": {
+        "percentage": "25%",
+        "value": "16561/20000 kg"
+      },
+      "volume": {
+        "percentage": "45%",
+        "value": "49/60 cbm"
+      },
+      "uldPositions": [
+        {
+          "position": "L3",
+          "value": "5/9"
+        },
+        {
+          "position": "Q6",
+          "value": "2/7"
+        },
+        {
+          "position": "L7",
+          "value": "2/9"
+        },
+        {
+          "position": "Q7",
+          "value": "4/8"
+        }
+      ],
+      "revenue": {
+        "revenue": "$57,572",
+        "yeild": "$2.25"
+      },
+      "sr": "12 AWBs",
+      "queuedBooking": {
+        "sr": "34 AWBs",
+        "volume": "4465 kg / 40 cbm"
+      }
+    }
+]  
