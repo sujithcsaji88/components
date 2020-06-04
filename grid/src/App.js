@@ -7,6 +7,12 @@ import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import cellEditFactory from "react-bootstrap-table2-editor";
 import FlightEdit from "./FlightEdit";
 import SegmentEdit from "./SegmentEdit";
+import DetailsEdit from './DetailsEdit';
+import WeightEdit from './WeigthEdit'
+import VolumeEdit from './VolumeEdit';
+import RevenueEdit from './RevenueEdit';
+import QueuedBookingEdit from './QueuedBookingEdit';
+import UldPositionsEdit from './UldPositionsEdit';
 import "./styles.css";
 import Header from "./Header/Header";
 
@@ -279,46 +285,34 @@ const App = () => {
 				<SegmentEdit {...editorProps} value={value} airports={airports} />
 			),
 		},
-		{ 
-			dataField: "details", 
-			text: "Details", 
-			formatter: detailsFormatter, 
-			filter: textFilter({
-				onFilter: customDetailsFilter,
-			})
+		{ dataField: "details", text: "Details", formatter: detailsFormatter, filter: textFilter(),
+		 editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+				<DetailsEdit {...editorProps} value={value} />
+			),
 		},
-		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter, 
-			filter: textFilter({
-				onFilter: customWeightFilter,
-			})
-		},
-		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter, 
-			filter: textFilter({
-				onFilter: customVolumeFilter,
-			})
-		},
-		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter, 
-			filter: textFilter({
-				onFilter: customDataUldFilter,
-			}) 
-		},
-		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter, 
-			filter: textFilter({
-				onFilter: customRevenueFilter,
-			}) 
-		},
-		{ dataField: "sr", text: "SR", 
-			filter: textFilter({
-				onFilter: customSrFilter,
-			}) 
-		},
-		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter, 
-			filter: textFilter({
-				onFilter: customQueuedBookingFilter,
-			})
-		}
+		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter, filter: textFilter(),
+		editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+			<WeightEdit {...editorProps} value={value} />
+		) },
+		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter, filter: textFilter(),
+		editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+			<VolumeEdit {...editorProps} value={value} />
+		) },
+		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter, filter: textFilter(),
+		// editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+		// 	<UldPositionsEdit {...editorProps} value={value} />
+		// )
+	},
+		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter, filter: textFilter(),
+		editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+			<RevenueEdit {...editorProps} value={value} />
+		)},
+		{ dataField: "sr", text: "SR", filter: textFilter() },
+		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter, filter: textFilter(),
+		editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+			<QueuedBookingEdit {...editorProps} value={value} />
+		)},
 	];
-
 	const pagination = paginationFactory({
 		sizePerPage: 50,
 	});
