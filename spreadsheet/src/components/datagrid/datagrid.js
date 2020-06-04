@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
-// import data from "../../stubs/sample-data";
+import data from "../../stubs/sample-data";
 
 const defaultColumnProperties = {
   sortable: true,
@@ -9,8 +9,9 @@ const defaultColumnProperties = {
 };
 
 const columns = [
-  { key: "id", name: "Flight No", editable: true },
-  { key: "Flight", name: "Flight Date", editable: true },
+  { key: "id", name: "", editable: true },
+  { key: "Flight", name: "Flight No", editable: true },
+  { key: "FlightData", name: "Flight Date", editable: true },
   { key: "SegmentFrom", name: "Segment From", editable: true },
   { key: "SegmentTo", name: "Segment To", editable: true },
   { key: "FlightModel", name: "Flight Model", editable: true },
@@ -21,9 +22,9 @@ const columns = [
   { key: "Status", name: "Status", editable: true },
   { key: "AdditionalStatus", name: "Additional Status", editable: true },
   { key: "TimeStatus", name: "Time Status", editable: true },
-  { key: "Weight%", name: "Weight %", editable: true },
+  { key: "Weight", name: "Weight %", editable: true },
   { key: "WeightValue", name: "Weight Value", editable: true },
-  { key: "Volume%", name: "Volume %", editable: true },
+  { key: "Volume", name: "Volume %", editable: true },
   { key: "VolumeValue", name: "Volume Value", editable: true },
   { key: "ULDPosition1", name: "ULD Position 1", editable: true },
   { key: "ULDValue1", name: "ULD Value 1", editable: true },
@@ -40,12 +41,47 @@ const columns = [
   { key: "BookingVolume", name: "Booking Volume", editable: true },
 ].map((c) => ({ ...c, ...defaultColumnProperties }));
 
-const rows = [
-  { id: 0, Flight: "Task 1", SegmentFrom: "24-Apr-2020" },
-  { id: 1, Flight: "Task 2", SegmentFrom: "24-Apr-2020" },
-  { id: 2, Flight: "Task 3", SegmentFrom: "24-Apr-2020" },
-];
-console.log(rows);
+// const rows = [
+//   { id: 0, Flight: "Task 1", SegmentFrom: "24-Apr-2020" },
+//   { id: 1, Flight: "Task 2", SegmentFrom: "24-Apr-2020" },
+//   { id: 2, Flight: "Task 3", SegmentFrom: "24-Apr-2020" },
+// ];
+// console.log(rows);
+
+const rows = data.map( (data) => {
+  return ({
+    key: data.travelId,
+    Flight: data.flight.flightno,
+    FlightData: data.flight.date,
+    SegmentFrom: data.segment.from,
+    SegmentTo: data.segment.to,
+    FlightModel: data.details.flightModel,
+    BodyType: data.details.bodyType,
+    Type: data.details.type,
+    StartTime: data.details.startTime,
+    EndTime: data.details.endTime,
+    Status: data.details.status,
+    AdditionalStatus: data.details.additionalStatus,
+    TimeStatus: data.details.timeStatus,
+    Weight: data.weight.percentage,
+    WeightValue: data.weight.value,
+    Volume: data.volume.percentage,
+    VolumeValue: data.volume.value,
+    ULDPosition1: data.uldPositions[0].position,
+    ULDValue1: data.uldPositions[0].value,
+    ULDPosition2: data.uldPositions[1].position,
+    ULDValue2: data.uldPositions[1].value,
+    ULDPosition3: data.uldPositions[2].position,
+    ULDValue3: data.uldPositions[2].value,
+    ULDPosition4: data.uldPositions[3].position,
+    ULDValue4: data.uldPositions[3].value,
+    Revenue: data.revenue.revenue,
+    Yield: data.revenue.yeild,
+    SR: data.sr,
+    BookingSR: data.queuedBooking.sr,
+    BookingVolume: data.queuedBooking.volume
+  });
+}); 
 
 class Grid extends Component {
   state = { rows, selectedIndexes: [] };
