@@ -117,6 +117,7 @@ function onColumnMatch({ searchText, value, column, row }) {
 }
 
 const App = () => {
+	const airports = ["FRA", "DXB", "AAA", "BBB", "CCC", "DDD", "EEE", "FFF"];
 	const columns = [
 		{
 			dataField: "flight",
@@ -135,7 +136,7 @@ const App = () => {
 			formatter: segmentFormatter,
 			filter: textFilter(),
 			editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
-				<SegmentEdit {...editorProps} value={value} />
+				<SegmentEdit {...editorProps} value={value} airports={airports} />
 			),
 		},
 		{ dataField: "details", text: "Details", formatter: detailsFormatter, filter: textFilter() },

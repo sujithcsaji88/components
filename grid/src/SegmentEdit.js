@@ -17,33 +17,39 @@ class SegmentEdit extends Component {
 		}
 	}
 	render() {
-		const { value, onUpdate, ...rest } = this.props;
+		const { airports, value, onUpdate, ...rest } = this.props;
 		return [
 			<select
 				{...rest}
-				key={value.from}
+				key='from'
 				defaultValue={value.from}
 				ref={(node) => (this.from = node)}
 				type='text'
 				style={{ width: "100%", marginBottom: "10px" }}
 			>
-				<option value='FRA'>FRA</option>
-				<option value='AAA'>AAA</option>
-				<option value='BBB'>BBB</option>
-				<option value='CCC'>CCC</option>
+				{airports.map((airport, index) => {
+					return (
+						<option key={index} value={airport}>
+							{airport}
+						</option>
+					);
+				})}
 			</select>,
 			<select
 				{...rest}
-				key={value.to}
+				key='to'
 				defaultValue={value.to}
 				ref={(node) => (this.to = node)}
 				type='text'
 				style={{ width: "100%", marginBottom: "10px" }}
 			>
-				<option value='DXB'>DXB</option>
-				<option value='DDD'>DDD</option>
-				<option value='EEE'>EEE</option>
-				<option value='FFF'>FFF</option>
+				{airports.map((airport, index) => {
+					return (
+						<option key={index} value={airport}>
+							{airport}
+						</option>
+					);
+				})}
 			</select>,
 		];
 	}
