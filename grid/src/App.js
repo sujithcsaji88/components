@@ -6,6 +6,7 @@ import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import filterFactory, { textFilter } from "react-bootstrap-table2-filter";
 import cellEditFactory from "react-bootstrap-table2-editor";
 import FlightEdit from "./FlightEdit";
+import SegmentEdit from "./SegmentEdit";
 import "./styles.css";
 
 const { SearchBar } = Search;
@@ -177,6 +178,7 @@ function onColumnMatch({
   }
 
 const App = () => {
+	const airports = ["FRA", "DXB", "AAA", "BBB", "CCC", "DDD", "EEE", "FFF"];
 	const columns = [
 		{
 			dataField: "flight",
@@ -189,7 +191,15 @@ const App = () => {
 				<FlightEdit {...editorProps} value={value} />
 			),
 		},
-		{ dataField: "segment", text: "Segment", formatter: segmentFormatter, filter: textFilter() },
+		{
+			dataField: "segment",
+			text: "Segment",
+			formatter: segmentFormatter,
+			filter: textFilter(),
+			editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+				<SegmentEdit {...editorProps} value={value} airports={airports} />
+			),
+		},
 		{ 
 			dataField: "details", 
 			text: "Details", 
@@ -227,7 +237,7 @@ const App = () => {
 			filter: textFilter({
 				onFilter: customDataFilter,
 			})
-		},
+		}
 	];
 
 	const pagination = paginationFactory({
