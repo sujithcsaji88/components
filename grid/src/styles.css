@@ -36,6 +36,15 @@ html {
     /*height: 40px;*/
     color: #204D6F;
     font-weight: bold;
-      padding: 10px 4px;
+    padding: 10px 4px;
+    text-align: center;
+  }
+
+  .searchArea {
+    justify-content: center;
+    height: 25px;
+  }
+  .searchInput {
+    border-radius: 20px !important;
   }
   

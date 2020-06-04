@@ -8,6 +8,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import FlightEdit from "./FlightEdit";
 import SegmentEdit from "./SegmentEdit";
 import "./styles.css";
+import Header from "./Header/Header";
 
 const { SearchBar } = Search;
 const $ = window.$;
@@ -100,22 +101,120 @@ const expandRow = {
 	),
 };
 
-/*const customDataFilter = (filterVal, data) => {
-	debugger
+const customFlightFilter = (filterVal, data) => {
 	if (filterVal) {
-		return data.filter(
-			(travel) =>
-				travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
-				travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase())
+		return data.filter((travel) =>
+			travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase())
 		);
 	}
 	return data;
-};*/
+};
 
-const customDataFilter = (filterVal, data) => {
-	//debugger
+const customDetailsFilter = (filterVal, data) => {
 	if (filterVal) {
 		return data.filter((travel) =>
+			travel.details.flightModel.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.bodyType.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.type.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.startTime.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.endTime.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.status.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.additionalStatus.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.details.timeStatus.toString().toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
+};
+
+const customWeightFilter = (filterVal, data) => {
+	if (filterVal) {
+		return data.filter((travel) =>
+			travel.weight.percentage.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.weight.value.toString().toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
+};
+
+const customVolumeFilter = (filterVal, data) => {
+	if (filterVal) {
+		return data.filter((travel) =>
+			travel.volume.percentage.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.volume.value.toString().toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
+};
+
+const customRevenueFilter = (filterVal, data) => {
+	if (filterVal) {
+		return data.filter((travel) =>
+			travel.revenue.revenue.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.revenue.yeild.toString().toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
+};
+
+const customSrFilter = (filterVal, data) => {
+	if (filterVal) {
+		return data.filter((travel) =>
+			travel.sr.toString().toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
+};
+
+const customQueuedBookingFilter = (filterVal, data) => {
+	if (filterVal) {
+		return data.filter((travel) =>
+			travel.queuedBooking.sr.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+			travel.queuedBooking.volume.toString().toLowerCase().includes(filterVal.toLowerCase())
+		);
+	}
+	return data;
+};
+
+const customDataUldFilter = (filterVal, data) => {
+	//debugger
+	if (filterVal) {
+
+		var uldvalues;
+		data.filter(function(travel) {
+			uldvalues = travel.uldPositions
+			let index = -1;
+			uldvalues.filter(function(values) {
+				var searchVal = values.position.toString().toLowerCase() + ' '+ values.value.toString().toLowerCase();
+				if(searchVal.includes(filterVal.toLowerCase()))
+					index = 1;
+			  })
+			  if(index >-1)
+				return uldvalues;
+		  });
+
+		
+		/*data.filter((travel) =>{
+				console.log(travel.uldPositions)
+				uldvalues = travel.uldPositions
+				var index = uldvalues.findIndex(values => 
+						values.position.toString().toLowerCase() === (filterVal.toLowerCase()) ||
+						values.value.toString().toLowerCase() === (filterVal.toLowerCase())
+					);
+
+				console.log(index);
+				if(index >-1)
+					return uldvalues
+			}
+		);*/
+	}
+	return data;
+};
+
+/*function onColumnMatch({ filterVal, value, column, row }) {
+	debugger
+	if (filterVal) {
+		return value.filter((travel) =>
 			travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
 			travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase()) ||
 			travel.details.flightModel.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
@@ -137,42 +236,22 @@ const customDataFilter = (filterVal, data) => {
 			travel.queuedBooking.volume.toString().toLowerCase().includes(filterVal.toLowerCase())
 		);
 	}
-	return data;
-};
-
-const customDataUldFilter = (filterVal, data) => {
-	//debugger
-	//console.log(this.props)
-	if (filterVal) {
-		var uldvalues;
-		data.filter((travel) =>{
-				console.log(travel.uldPositions)
-				uldvalues = travel.uldPositions
-				return uldvalues.filter((values) => 
-					values.position.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-					values.value.toString().toLowerCase().includes(filterVal.toLowerCase())
-				)
-			}
-		);
-	}
-	return data;
-};
-
-/*function onColumnMatch({ searchText, value, column, row }) {
-	return true;
-	// implement your custom match logic on every cell value
+	return value;
 }*/
 
-function onColumnMatch({
-	searchText,
+function customMatchFunc({
+	filterVal,
 	value,
 	column,
 	row
   }) {
 	if (typeof value !== 'undefined') {
-		//debugger;
-	  //return value.startsWith(searchText);
-	  return true;
+		if (filterVal) {
+			return value.filter((travel) =>
+				travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
+				travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase())
+			);
+		}
 	}
 	return false;
   }
@@ -185,7 +264,7 @@ const App = () => {
 			text: "Flight",
 			formatter: flightFormatter,
 			filter: textFilter({
-				onFilter: customDataFilter,
+				onFilter: customFlightFilter,
 			}),
 			editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
 				<FlightEdit {...editorProps} value={value} />
@@ -205,17 +284,17 @@ const App = () => {
 			text: "Details", 
 			formatter: detailsFormatter, 
 			filter: textFilter({
-				onFilter: customDataFilter,
+				onFilter: customDetailsFilter,
 			})
 		},
 		{ dataField: "weight", text: "Weight", formatter: weightAndVolumeFormatter, 
 			filter: textFilter({
-				onFilter: customDataFilter,
+				onFilter: customWeightFilter,
 			})
 		},
 		{ dataField: "volume", text: "Volume", formatter: weightAndVolumeFormatter, 
 			filter: textFilter({
-				onFilter: customDataFilter,
+				onFilter: customVolumeFilter,
 			})
 		},
 		{ dataField: "uldPositions", text: "ULD Positions", formatter: positionFormatter, 
@@ -225,17 +304,17 @@ const App = () => {
 		},
 		{ dataField: "revenue", text: "Revenue/Yield", formatter: revenueFormatter, 
 			filter: textFilter({
-				onFilter: customDataFilter,
+				onFilter: customRevenueFilter,
 			}) 
 		},
 		{ dataField: "sr", text: "SR", 
 			filter: textFilter({
-				onFilter: customDataFilter,
+				onFilter: customSrFilter,
 			}) 
 		},
 		{ dataField: "queuedBooking", text: "Queued Booking", formatter: bookingFormatter, 
 			filter: textFilter({
-				onFilter: customDataFilter,
+				onFilter: customQueuedBookingFilter,
 			})
 		}
 	];
@@ -252,12 +331,13 @@ const App = () => {
 
 	return (
 		<div className='App'>
-			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search={{ onColumnMatch }}>
+			<Header />
+			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search={ { customMatchFunc } }>
 				{(props) => (
 					<div>
-						<h3>Input something at below input field:</h3>
-						<SearchBar {...props.searchProps} />
-						<hr />
+						<div className="row m-2 col-md-12 searchArea">
+							<div className="col-md-6"><SearchBar {...props.searchProps} className="searchInput" /></div>
+						</div>
 						<BootstrapTable
 							{...props.baseProps}
 							expandRow={expandRow}
