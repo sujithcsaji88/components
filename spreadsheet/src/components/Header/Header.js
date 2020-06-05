@@ -18,7 +18,7 @@ const header = (props) => {
       </Navbar.Brand>
       <Nav className="mr-auto"></Nav>
       <Form inline>
-        <FormControl type="text" placeholder="Search a screen" className="mr-sm-2" />
+        <FormControl type="text" placeholder="Search a screen" className="mr-sm-2" onChange={props.handleChange} />
         <FontAwesomeIcon style={{fontSize: '18px', color: '#fff', margin: '0px 30px'}} icon={faPlusCircle} />
         <FontAwesomeIcon style={{fontSize: '18px', color: '#fff', margin: '0px 30px'}} icon={faBell} />
         <FontAwesomeIcon style={{fontSize: '18px', color: '#fff', margin: '0px 30px'}} icon={faQuestionCircle} />

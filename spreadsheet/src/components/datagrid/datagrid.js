@@ -1,107 +1,100 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
-import data from "../../stubs/sample-data";
+import CargoData from "../../stubs/CargoData.json";
 
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
-  width: 120,
+  width: 100,
 };
 
 const columns = [
-  { key: "id", name: "", editable: true },
-  { key: "Flight", name: "Flight No", editable: true },
-  { key: "FlightData", name: "Flight Date", editable: true },
-  { key: "SegmentFrom", name: "Segment From", editable: true },
-  { key: "SegmentTo", name: "Segment To", editable: true },
-  { key: "FlightModel", name: "Flight Model", editable: true },
-  { key: "BodyType", name: "Body Type", editable: true },
-  { key: "Type", name: "Type", editable: true },
-  { key: "StartTime", name: "Start Time", editable: true },
-  { key: "EndTime", name: "End Time", editable: true },
-  { key: "Status", name: "Status", editable: true },
-  { key: "AdditionalStatus", name: "Additional Status", editable: true },
-  { key: "TimeStatus", name: "Time Status", editable: true },
-  { key: "Weight", name: "Weight %", editable: true },
-  { key: "WeightValue", name: "Weight Value", editable: true },
-  { key: "Volume", name: "Volume %", editable: true },
-  { key: "VolumeValue", name: "Volume Value", editable: true },
-  { key: "ULDPosition1", name: "ULD Position 1", editable: true },
-  { key: "ULDValue1", name: "ULD Value 1", editable: true },
-  { key: "ULDPosition2", name: "ULD Position 2", editable: true },
-  { key: "ULDValue2", name: "ULD Value 2", editable: true },
-  { key: "ULDPosition3", name: "ULD Position 3", editable: true },
-  { key: "ULDValue3", name: "ULD Value 3", editable: true },
-  { key: "ULDPosition4", name: "ULD Position 4", editable: true },
-  { key: "ULDValue4", name: "ULD Value 4", editable: true },
-  { key: "Revenue", name: "Revenue", editable: true },
-  { key: "Yield", name: "Yield", editable: true },
-  { key: "SR", name: "SR", editable: true },
-  { key: "BookingSR", name: "Booking SR", editable: true },
-  { key: "BookingVolume", name: "Booking Volume", editable: true },
+  { key: "travelId", name: "TravelId", editable: true },
+  { key: "flightno", name: "flightno", editable: true },
+  { key: "date", name: "date", editable: true },
+  { key: "segmentfrom", name: "segmentfrom", editable: true },
+  { key: "segmentto", name: "segmentto", editable: true },
+  { key: "flightModel", name: "flightModel", editable: true },
+  { key: "bodyType", name: "bodyType", editable: true },
+  { key: "type", name: "type", editable: true },
+  { key: "startTime", name: "startTime", editable: true },
+  { key: "endTime", name: "endTime", editable: true },
+  { key: "status", name: "status", editable: true },
+  { key: "additionalStatus", name: "additionalStatus", editable: true },
+  { key: "timeStatus", name: "timeStatus", editable: true },
+  { key: "weightpercentage", name: "weightpercentage", editable: true },
+  { key: "weightvalue", name: "weightvalue", editable: true },
+  { key: "volumepercentage", name: "volumepercentage", editable: true },
+  { key: "volumevalue", name: "volumevalue", editable: true },
+  { key: "uldposition1", name: "uldposition1", editable: true },
+  { key: "uldvalue1", name: "uldvalue1", editable: true },
+  { key: "uldposition2", name: "uldposition2", editable: true },
+  { key: "uldvalue2", name: "uldvalue2", editable: true },
+  { key: "uldposition3", name: "uldposition3", editable: true },
+  { key: "uldvalue3", name: "uldvalue3", editable: true },
+  { key: "uldposition4", name: "uldposition4", editable: true },
+  { key: "uldvalue4", name: "uldvalue4", editable: true },
+  { key: "revenue", name: "revenue", editable: true },
+  { key: "yeild", name: "yeild", editable: true },
+  { key: "sr", name: "sr", editable: true },
+  { key: "queuedBookingSR", name: "queuedBookingSR", editable: true },
+  { key: "queuedBookingvolume", name: "queuedBookingvolume", editable: true },
 ].map((c) => ({ ...c, ...defaultColumnProperties }));
 
-// const rows = [
-//   { id: 0, Flight: "Task 1", SegmentFrom: "24-Apr-2020" },
-//   { id: 1, Flight: "Task 2", SegmentFrom: "24-Apr-2020" },
-//   { id: 2, Flight: "Task 3", SegmentFrom: "24-Apr-2020" },
-// ];
-// console.log(rows);
 
-const rows = data.map( (data) => {
-  return ({
-    key: data.travelId,
-    Flight: data.flight.flightno,
-    FlightData: data.flight.date,
-    SegmentFrom: data.segment.from,
-    SegmentTo: data.segment.to,
-    FlightModel: data.details.flightModel,
-    BodyType: data.details.bodyType,
-    Type: data.details.type,
-    StartTime: data.details.startTime,
-    EndTime: data.details.endTime,
-    Status: data.details.status,
-    AdditionalStatus: data.details.additionalStatus,
-    TimeStatus: data.details.timeStatus,
-    Weight: data.weight.percentage,
-    WeightValue: data.weight.value,
-    Volume: data.volume.percentage,
-    VolumeValue: data.volume.value,
-    ULDPosition1: data.uldPositions[0].position,
-    ULDValue1: data.uldPositions[0].value,
-    ULDPosition2: data.uldPositions[1].position,
-    ULDValue2: data.uldPositions[1].value,
-    ULDPosition3: data.uldPositions[2].position,
-    ULDValue3: data.uldPositions[2].value,
-    ULDPosition4: data.uldPositions[3].position,
-    ULDValue4: data.uldPositions[3].value,
-    Revenue: data.revenue.revenue,
-    Yield: data.revenue.yeild,
-    SR: data.sr,
-    BookingSR: data.queuedBooking.sr,
-    BookingVolume: data.queuedBooking.volume
-  });
-}); 
+
+// let data= CargoData.map( (CargoData) => {
+//   return ({
+//     key: CargoData.travelId,
+//     travelId:CargoData.travelId,
+//     flightno: CargoData.flightno,
+//     date: CargoData.date,
+//     segmentfrom: CargoData.segmentfrom,
+//     segmentto: CargoData.segmentto,
+//     flightModel: CargoData.flightModel,
+//     bodyType: CargoData.bodyType,
+//     type: CargoData.type,
+//     startTime: CargoData.startTime,
+//     endTime: CargoData.endTime,
+//     status: CargoData.status,
+//     additionalStatus: CargoData.additionalStatus,
+//     timeStatus: CargoData.timeStatus,
+//     weightpercentage: CargoData.weightpercentage,
+//     weightvalue: CargoData.weightvalue,
+//     volumepercentage: CargoData.volumepercentage,
+//     volumevalue: CargoData.volumevalue,
+//     uldposition1: CargoData.uldposition1,
+//     uldvalue1: CargoData.uldvalue1,
+//     uldposition2: CargoData.uldposition2,
+//     uldvalue2: CargoData.uldvalue2,
+//     uldposition3: CargoData.uldposition3,
+//     uldvalue3: CargoData.uldvalue3,
+//     uldposition4: CargoData.uldposition4,
+//     uldvalue4: CargoData.uldvalue4,
+//     revenue: CargoData.revenue,
+//     yeild: CargoData.yeild,
+//     sr: CargoData.sr,
+//     queuedBookingSR: CargoData.queuedBookingSR,
+//     queuedBookingvolume: CargoData.queuedBookingvolume
+//   });
+// }); 
 
 class Grid extends Component {
-  state = { rows, selectedIndexes: [] };
-
-  onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    this.setState((state) => {
-      const rows = state.rows.slice();
-      for (let i = fromRow; i <= toRow; i++) {
-        rows[i] = { ...rows[i], ...updated };
-      }
-      return { rows };
-    });
-  };
-  render() {
+    state = {data:this.props.rows,selectedIndexes: [] };
+    
+  render(props) {
+    console.log(this.props.rows)
+    if (!this.props.rows) {
+      return <span>Loading...</span>;
+  }
+  else{
     return (
       <ReactDataGrid
+        minHeight={612}
         columns={columns}
-        rowGetter={(i) => this.state.rows[i]}
-        rowsCount={3}
-        onGridRowsUpdated={this.onGridRowsUpdated}
+        rowGetter={(i) =>this.props.rows[i]}
+        rowsCount={this.props.rows.length}
+        onGridRowsUpdated={this.props.handleBulkUpdate}
         enableCellSelect={true}
         onColumnResize={(idx, width) =>
           console.log(`Column ${idx} has been resized to ${width}`)
@@ -118,6 +111,7 @@ class Grid extends Component {
       />
     );
   }
+}
 }
 
 export default Grid;
