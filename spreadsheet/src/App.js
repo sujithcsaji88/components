@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect,useRef} from "react";
 import Spreadsheet from './components/slickgrid/slickgrid'
 import Header from './components/Header/Header';
 import Grid from './components/datagrid/datagrid';
@@ -14,7 +14,7 @@ export default function App() {
   const [searchWord,setSearchWord]=useState();
   const [data,setData]=useState();
   const [rowData,setRowData]=useState();
-  let rows = CargoData.map( (CargoData) => {
+  const rows = CargoData.map( (CargoData) => {
     return ({
       key: CargoData.travelId,
       travelId:CargoData.travelId,
@@ -51,8 +51,10 @@ export default function App() {
   }); 
 useEffect(()=>{
   setData(rows);
+  
 },[]);
   const getSearchWord=(e)=>{
+    
     const searchKey = String(e.target.value);
     let filteredRows= rows.filter(
       item =>
@@ -88,15 +90,15 @@ useEffect(()=>{
      )
      setData(filteredRows);
     }
-    const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-      setRowData(data => {
-        rows = data.slice();
+       const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+      setRowData(rows => {
+        rows = this.rows.slice();
         for (let i = fromRow; i <= toRow; i++) {
           rows[i] = { ...rows[i], ...updated };
         }
         return { rows };
       });
-      setData(rowData);
+      setData(rows);
     }
 
   return (
