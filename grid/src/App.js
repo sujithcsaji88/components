@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import sampleData from "./sample_data.json";
+import sampleData from "./sample_data1.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -177,81 +177,81 @@ const customQueuedBookingFilter = (filterVal, data) => {
 };
 
 const customDataUldFilter = (filterVal, data) => {
-	//debugger
+	debugger
 	if (filterVal) {
 
 		var uldvalues;
-		data.filter(function(travel) {
+		/*data.filter((travel) =>{
 			uldvalues = travel.uldPositions
 			let index = -1;
-			uldvalues.filter(function(values) {
+			uldvalues.filter((values) => {
 				var searchVal = values.position.toString().toLowerCase() + ' '+ values.value.toString().toLowerCase();
 				if(searchVal.includes(filterVal.toLowerCase()))
 					index = 1;
 			  })
 			  if(index >-1)
-				return uldvalues;
-		  });
+				return true;
+		  });*/
 
 		
-		/*data.filter((travel) =>{
-				console.log(travel.uldPositions)
-				uldvalues = travel.uldPositions
-				var index = uldvalues.findIndex(values => 
-						values.position.toString().toLowerCase() === (filterVal.toLowerCase()) ||
-						values.value.toString().toLowerCase() === (filterVal.toLowerCase())
-					);
-
-				console.log(index);
-				if(index >-1)
-					return uldvalues
+		return data.filter((travel) =>{
+				const {uldPositions} = travel;
+				const filteredData = uldPositions.filter(values => 
+					values.position.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
+					values.value.toString().toLowerCase().includes(filterVal.toLowerCase())
+				);
+				return filteredData.length>0
 			}
-		);*/
+		);
 	}
 	return data;
 };
 
-/*function onColumnMatch({ filterVal, value, column, row }) {
+function onColumnMatch({ searchText, value, column, row }) {
 	debugger
-	if (filterVal) {
+	if (searchText) {
 		return value.filter((travel) =>
-			travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.flightModel.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.bodyType.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.type.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.startTime.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.endTime.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.status.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.additionalStatus.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.details.timeStatus.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.weight.percentage.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.weight.value.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.volume.percentage.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.volume.value.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.revenue.revenue.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.revenue.yeild.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.sr.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.queuedBooking.sr.toString().toLowerCase().includes(filterVal.toLowerCase()) ||
-			travel.queuedBooking.volume.toString().toLowerCase().includes(filterVal.toLowerCase())
+			travel.flight.date.toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.flight.flightno.toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.flightModel.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.bodyType.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.type.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.startTime.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.endTime.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.status.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.additionalStatus.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.details.timeStatus.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.weight.percentage.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.weight.value.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.volume.percentage.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.volume.value.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.revenue.revenue.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.revenue.yeild.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.sr.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.queuedBooking.sr.toString().toLowerCase().includes(searchText.toLowerCase()) ||
+			travel.queuedBooking.volume.toString().toLowerCase().includes(searchText.toLowerCase())
 		);
 	}
 	return value;
-}*/
+}
 
-function customMatchFunc({
-	filterVal,
-	value,
-	column,
-	row
-  }) {
+/*function customMatchFunc({ searchText, value, column, row}) {
+	debugger
 	if (typeof value !== 'undefined') {
-		if (filterVal) {
+		if (searchText) {
 			return value.filter((travel) =>
-				travel.flight.date.toLowerCase().includes(filterVal.toLowerCase()) ||
-				travel.flight.flightno.toLowerCase().includes(filterVal.toLowerCase())
+				travel.flight.date.toLowerCase().includes(searchText.toLowerCase()) ||
+				travel.flight.flightno.toLowerCase().includes(searchText.toLowerCase())
 			);
 		}
+	}
+	return false;
+  }*/
+
+  function customMatchFunc({ searchText, value, column, row }) {
+	  debugger
+	if (typeof value !== 'undefined') {
+	  return value.includes(searchText);
 	}
 	return false;
   }
@@ -332,7 +332,7 @@ const App = () => {
 	return (
 		<div className='App'>
 			<Header />
-			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search={ { customMatchFunc } }>
+			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search={ { searchFormatted: true } }>
 				{(props) => (
 					<div>
 						<div className="row m-2 col-md-12 searchArea">
