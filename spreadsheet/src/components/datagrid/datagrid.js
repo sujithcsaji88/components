@@ -43,62 +43,58 @@ const columns = [
 
 
 
-let data= CargoData.map( (CargoData) => {
-  return ({
-    key: CargoData.travelId,
-    travelId:CargoData.travelId,
-    flightno: CargoData.flightno,
-    date: CargoData.date,
-    segmentfrom: CargoData.segmentfrom,
-    segmentto: CargoData.segmentto,
-    flightModel: CargoData.flightModel,
-    bodyType: CargoData.bodyType,
-    type: CargoData.type,
-    startTime: CargoData.startTime,
-    endTime: CargoData.endTime,
-    status: CargoData.status,
-    additionalStatus: CargoData.additionalStatus,
-    timeStatus: CargoData.timeStatus,
-    weightpercentage: CargoData.weightpercentage,
-    weightvalue: CargoData.weightvalue,
-    volumepercentage: CargoData.volumepercentage,
-    volumevalue: CargoData.volumevalue,
-    uldposition1: CargoData.uldposition1,
-    uldvalue1: CargoData.uldvalue1,
-    uldposition2: CargoData.uldposition2,
-    uldvalue2: CargoData.uldvalue2,
-    uldposition3: CargoData.uldposition3,
-    uldvalue3: CargoData.uldvalue3,
-    uldposition4: CargoData.uldposition4,
-    uldvalue4: CargoData.uldvalue4,
-    revenue: CargoData.revenue,
-    yeild: CargoData.yeild,
-    sr: CargoData.sr,
-    queuedBookingSR: CargoData.queuedBookingSR,
-    queuedBookingvolume: CargoData.queuedBookingvolume
-  });
-}); 
+// let data= CargoData.map( (CargoData) => {
+//   return ({
+//     key: CargoData.travelId,
+//     travelId:CargoData.travelId,
+//     flightno: CargoData.flightno,
+//     date: CargoData.date,
+//     segmentfrom: CargoData.segmentfrom,
+//     segmentto: CargoData.segmentto,
+//     flightModel: CargoData.flightModel,
+//     bodyType: CargoData.bodyType,
+//     type: CargoData.type,
+//     startTime: CargoData.startTime,
+//     endTime: CargoData.endTime,
+//     status: CargoData.status,
+//     additionalStatus: CargoData.additionalStatus,
+//     timeStatus: CargoData.timeStatus,
+//     weightpercentage: CargoData.weightpercentage,
+//     weightvalue: CargoData.weightvalue,
+//     volumepercentage: CargoData.volumepercentage,
+//     volumevalue: CargoData.volumevalue,
+//     uldposition1: CargoData.uldposition1,
+//     uldvalue1: CargoData.uldvalue1,
+//     uldposition2: CargoData.uldposition2,
+//     uldvalue2: CargoData.uldvalue2,
+//     uldposition3: CargoData.uldposition3,
+//     uldvalue3: CargoData.uldvalue3,
+//     uldposition4: CargoData.uldposition4,
+//     uldvalue4: CargoData.uldvalue4,
+//     revenue: CargoData.revenue,
+//     yeild: CargoData.yeild,
+//     sr: CargoData.sr,
+//     queuedBookingSR: CargoData.queuedBookingSR,
+//     queuedBookingvolume: CargoData.queuedBookingvolume
+//   });
+// }); 
 
 class Grid extends Component {
-    state = {data,selectedIndexes: [] };
-  onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    this.setState((state) => {
-      const data = state.data.slice();
-      for (let i = fromRow; i <= toRow; i++) {
-        data[i] = { ...data[i], ...updated };
-      }
-      return { data };
-    });
-  }
+    state = {data:this.props.rows,selectedIndexes: [] };
+    
   render(props) {
-    console.log(this.props.value)
-    //data=this.props.rows;
+    console.log(this.props.rows)
+    if (!this.props.rows) {
+      return <span>Loading...</span>;
+  }
+  else{
     return (
       <ReactDataGrid
+        minHeight={612}
         columns={columns}
-        rowGetter={(i) =>this.state.data[i]}
-        rowsCount={this.state.data.length}
-        onGridRowsUpdated={this.onGridRowsUpdated}
+        rowGetter={(i) =>this.props.rows[i]}
+        rowsCount={this.props.rows.length}
+        onGridRowsUpdated={this.props.handleBulkUpdate}
         enableCellSelect={true}
         onColumnResize={(idx, width) =>
           console.log(`Column ${idx} has been resized to ${width}`)
@@ -115,6 +111,7 @@ class Grid extends Component {
       />
     );
   }
+}
 }
 
 export default Grid;

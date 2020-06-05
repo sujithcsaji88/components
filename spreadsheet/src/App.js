@@ -13,7 +13,8 @@ import {
 export default function App() {
   const [searchWord,setSearchWord]=useState();
   const [data,setData]=useState();
-  const rows = CargoData.map( (CargoData) => {
+  const [rowData,setRowData]=useState();
+  let rows = CargoData.map( (CargoData) => {
     return ({
       key: CargoData.travelId,
       travelId:CargoData.travelId,
@@ -52,42 +53,51 @@ useEffect(()=>{
   setData(rows);
 },[]);
   const getSearchWord=(e)=>{
-    setSearchWord(e.target.value)
-    let searchKey=String(searchWord)
+    const searchKey = String(e.target.value);
     let filteredRows= rows.filter(
       item =>
-          (String(item.travelId).includes(searchKey)) ||
-         (item.flightno&&item.flightno.toLowerCase().includes(searchKey))||
-         (item.date&&item.date.includes(searchKey))||
-         (item.segmentfrom&&item.segmentfrom.toLowerCase().includes(searchKey))||
-         (item.segmentto&&item.segmentto.toLowerCase().includes(searchKey))||
-         (String(item.flightModel&&item.flightModel).includes(searchKey))||
-         (item.bodyType&&item.bodyType.toLowerCase().includes(searchKey))||
-         (item.type&&item.type.toLowerCase().includes(searchKey))||
-         (item.startTime&&item.startTime.toLowerCase().includes(searchKey))||
-         (item.endTime&&item.endTime.toLowerCase().includes(searchKey))||
-         (item.status&&item.status.toLowerCase().includes(searchKey))||
-         (item.additionalStatus&&item.additionalStatus.toLowerCase().includes(searchKey))||
-         (item.timeStatus&&item.timeStatus.toLowerCase().includes(searchKey))||
-         (item.weightpercentage&&item.weightpercentage.toLowerCase().includes(searchKey))||
-         (item.volumevalue&&item.volumevalue.toLowerCase().includes(searchKey))||
-         (item.uldposition1&&item.uldposition1.toLowerCase().includes(searchKey))||
-         (item.uldvalue1&&item.uldvalue1.toLowerCase().includes(searchKey))||
-         (item.uldposition2&&item.uldposition2.toLowerCase().includes(searchKey))||
-         (item.uldvalue2&&item.uldvalue2.toLowerCase().includes(searchKey))||
-         (item.uldposition3&&item.uldposition3.toLowerCase().includes(searchKey))||
-         (item.uldvalue3&&item.uldvalue3.toLowerCase().includes(searchKey))||
-         (item.uldposition4&&item.uldposition4.toLowerCase().includes(searchKey))||
-         (item.revenue&&item.revenue.toLowerCase().includes(searchKey))||
-         (item.yeild&&item.yeild.toLowerCase().includes(searchKey))||
-         (item.sr&&item.sr.toLowerCase().includes(searchKey))||
-         (item.queuedBookingSR&&item.queuedBookingSR.toLowerCase().includes(searchKey))||
-         (item.queuedBookingvolume&&item.queuedBookingvolume.toLowerCase().includes(searchKey))
+          {
+          return (String(item.travelId).includes(searchKey)) ||
+            (item.flightno && item.flightno.toLowerCase().includes(searchKey)) ||
+            (item.date && item.date.toLowerCase().includes(searchKey)) ||
+            (item.segmentfrom && item.segmentfrom.toLowerCase().includes(searchKey)) ||
+            (item.segmentto && item.segmentto.toLowerCase().includes(searchKey)) ||
+            (String(item.flightModel && item.flightModel).includes(searchKey)) ||
+            (item.bodyType && item.bodyType.toLowerCase().includes(searchKey)) ||
+            (item.type && item.type.toLowerCase().includes(searchKey)) ||
+            (item.startTime && item.startTime.toLowerCase().includes(searchKey)) ||
+            (item.endTime && item.endTime.toLowerCase().includes(searchKey)) ||
+            (item.status && item.status.toLowerCase().includes(searchKey)) ||
+            (item.additionalStatus && item.additionalStatus.toLowerCase().includes(searchKey)) ||
+            (item.timeStatus && item.timeStatus.toLowerCase().includes(searchKey)) ||
+            (item.weightpercentage && item.weightpercentage.toLowerCase().includes(searchKey)) ||
+            (item.volumevalue && item.volumevalue.toLowerCase().includes(searchKey)) ||
+            (item.uldposition1 && item.uldposition1.toLowerCase().includes(searchKey)) ||
+            (item.uldvalue1 && item.uldvalue1.toLowerCase().includes(searchKey)) ||
+            (item.uldposition2 && item.uldposition2.toLowerCase().includes(searchKey)) ||
+            (item.uldvalue2 && item.uldvalue2.toLowerCase().includes(searchKey)) ||
+            (item.uldposition3 && item.uldposition3.toLowerCase().includes(searchKey)) ||
+            (item.uldvalue3 && item.uldvalue3.toLowerCase().includes(searchKey)) ||
+            (item.uldposition4 && item.uldposition4.toLowerCase().includes(searchKey)) ||
+            (item.revenue && item.revenue.toLowerCase().includes(searchKey)) ||
+            (item.yeild && item.yeild.toLowerCase().includes(searchKey)) ||
+            (item.sr && item.sr.toLowerCase().includes(searchKey)) ||
+            (item.queuedBookingSR && item.queuedBookingSR.toLowerCase().includes(searchKey)) ||
+            (item.queuedBookingvolume && item.queuedBookingvolume.toLowerCase().includes(searchKey));
+        }
      )
      setData(filteredRows);
-     console.log(data);
     }
-
+    const onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+      setRowData(data => {
+        rows = data.slice();
+        for (let i = fromRow; i <= toRow; i++) {
+          rows[i] = { ...rows[i], ...updated };
+        }
+        return { rows };
+      });
+      setData(rowData);
+    }
 
   return (
     <Router>
@@ -96,7 +106,7 @@ useEffect(()=>{
         <Switch>
           <Redirect exact from="/" to="grid" />
           <Route exact path="/slick" component={Spreadsheet}></Route>
-          <Route  exact path="/grid" render={(props)=><Grid {...props} rows={data} value={"hai"} />} ></Route>
+          <Route  exact path="/grid" render={(props)=><Grid {...props}  handleBulkUpdate={onGridRowsUpdated} rows={data}  />} ></Route>
         </Switch>
       </div>
     </Router>
