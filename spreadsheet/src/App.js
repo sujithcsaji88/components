@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense} from "react";
 import Spreadsheet from "./components/slickgrid/slickgrid";
-import Header from "./components/header/Header";
+import Header from "./components/common/Header";
 import Grid from "./components/datagrid/datagrid";
 import CargoData from "./stubs/CargoData.json";
 import {
@@ -9,7 +9,9 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import LoadingSpinner from "./components/header/LoadingSpinner"
+import LoadingSpinner from "./components/common/LoadingSpinner"
+import ErrorMessage from "./components/common/ErrorMessage"
+import { SEARCH_NOT_FOUNT_ERROR } from './components/constants/ErrorConstants'
 
 export default function App() {
   const [searchWord, setSearchWord] = useState();
@@ -105,6 +107,7 @@ export default function App() {
         <Router>
           <div>
             <Header handleChange={getSearchWord} />
+            <Suspense fallback={<LoadingSpinner />}>
             <Switch>
               <Redirect exact from="/" to="grid" />
               <Route exact path="/slick" component={Spreadsheet}></Route>
@@ -119,11 +122,13 @@ export default function App() {
                 )}
               ></Route>
             </Switch>
+            </Suspense>
           </div>
         </Router>
       );
     }
     else{
-      return (<LoadingSpinner />); 
+      return <h4>Loading...</h4>
+      //TODO - show error message
     }
 }

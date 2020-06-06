@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
-import LoadingSpinner from "../header/LoadingSpinner";
+import LoadingSpinner from "../common/LoadingSpinner";
+import ErrorMessage from "../common/ErrorMessage";
+import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
 
 const defaultColumnProperties = {
   sortable: true,
@@ -216,7 +218,7 @@ const columns = [
 class Grid extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { rows: this.props.rows };
+    this.state = { rows: this.props.rows, selectedIndexes: [] };
   }
 
   componentWillReceiveProps(props) {
@@ -230,6 +232,23 @@ class Grid extends React.Component {
         rows[i] = { ...rows[i], ...updated };
       }
       return { rows };
+    });
+  };
+  
+  onRowsSelected = rows => {
+    this.setState({
+      selectedIndexes: this.state.selectedIndexes.concat(
+        rows.map(r => r.rowIdx)
+      )
+    });
+  };
+
+  onRowsDeselected = rows => {
+    let rowIndexes = rows.map(r => r.rowIdx);
+    this.setState({
+      selectedIndexes: this.state.selectedIndexes.filter(
+        i => rowIndexes.indexOf(i) === -1
+      )
     });
   };
 
