@@ -4,6 +4,14 @@ import { Toolbar, Data, Filters } from "react-data-grid-addons";
 import LoadingSpinner from "../common/LoadingSpinner";
 import ErrorMessage from "../common/ErrorMessage";
 import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
+import { basicCalculation } from "../../utilities/utils";
+import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
+import {
+  faBold,
+  faItalic,
+  faUnderline,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const defaultColumnProperties = {
   sortable: true,
@@ -226,6 +234,9 @@ class Grid extends React.Component {
   }
 
   onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+    debugger;
+    updated.yeild = basicCalculation("=sum", 1, 2);
+
     this.setState((state) => {
       const rows = state.rows.slice();
       for (let i = fromRow; i <= toRow; i++) {
@@ -234,52 +245,90 @@ class Grid extends React.Component {
       return { rows };
     });
   };
-  
-  onRowsSelected = rows => {
+
+  onRowsSelected = (rows) => {
     this.setState({
       selectedIndexes: this.state.selectedIndexes.concat(
-        rows.map(r => r.rowIdx)
-      )
+        rows.map((r) => r.rowIdx)
+      ),
     });
   };
 
-  onRowsDeselected = rows => {
-    let rowIndexes = rows.map(r => r.rowIdx);
+  onRowsDeselected = (rows) => {
+    let rowIndexes = rows.map((r) => r.rowIdx);
     this.setState({
       selectedIndexes: this.state.selectedIndexes.filter(
-        i => rowIndexes.indexOf(i) === -1
-      )
+        (i) => rowIndexes.indexOf(i) === -1
+      ),
     });
   };
+  onBoldClick = () => {
+    alert("TODO");
+  };
+  onUnderlineClick = () => {
+    alert("TODO");
+  };
+  onItalicsClick = () => {
+    alert("TODO");
+  };
 
+  getCellActions = (column, row) => {
+    const cellActions = {};
+    return row.id % 2 === 0 ? cellActions[column.key] : null;
+  };
   render() {
     return (
-      <ReactDataGrid
-        minHeight={650}
-        columns={columns}
-        rowGetter={(i) => this.state.rows[i]}
-        rowsCount={this.props.rows.length}
-        onGridRowsUpdated={this.onGridRowsUpdated}
-        enableCellSelect={true}
-        onColumnResize={(idx, width) =>
-          console.log(`Column ${idx} has been resized to ${width}`)
-        }
-        toolbar={<Toolbar enableFilter={true} />}
-        // onAddFilter={filter => setFilters(handleFilterChange(filter))}
-        // onClearFilters={() => setFilters({})}
-        getValidFilterValues={(columnKey) =>
-          getValidFilterValues(this.props.rows, columnKey)
-        }
-        rowSelection={{
-          showCheckbox: true,
-          enableShiftSelect: true,
-          onRowsSelected: this.onRowsSelected,
-          onRowsDeselected: this.onRowsDeselected,
-          selectBy: {
-            indexes: this.state.selectedIndexes,
-          },
-        }}
-      />
+      <div>
+        <div style={{ position: "absolute", margin: "15px 15px" }}>
+          <Nav className="mr-auto"></Nav>
+          <Form inline>
+            <FontAwesomeIcon
+              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
+              icon={faBold} onClick={this.onBoldClick}
+            />
+            <FontAwesomeIcon
+              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
+              icon={faItalic} onClick={this.onUnderlineClick}
+            />
+            <FontAwesomeIcon
+              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
+              icon={faUnderline} onClick={this.onItalicsClick}
+            />
+          </Form>
+        </div>
+        <ReactDataGrid
+          minHeight={650}
+          columns={columns}
+          rowGetter={(i) => this.state.rows[i]}
+          rowsCount={this.props.rows.length}
+          onGridRowsUpdated={this.onGridRowsUpdated}
+          enableCellSelect={true}
+          onColumnResize={(idx, width) =>
+            console.log(`Column ${idx} has been resized to ${width}`)
+          }
+          toolbar={<Toolbar enableFilter={true} />}
+          // onAddFilter={filter => setFilters(handleFilterChange(filter))}
+          // onClearFilters={() => setFilters({})}
+          getValidFilterValues={(columnKey) =>
+            getValidFilterValues(this.props.rows, columnKey)
+          }
+          rowSelection={{
+            showCheckbox: true,
+            enableShiftSelect: true,
+            onRowsSelected: this.onRowsSelected,
+            onRowsDeselected: this.onRowsDeselected,
+            selectBy: {
+              indexes: this.state.selectedIndexes,
+            },
+          }}
+          cellRangeSelection={{
+            onStart: (args) => console.log(this.state.rows),
+            onUpdate: (args) => console.log(this.state.rows),
+            onComplete: (args) => console.log(this.state.rows),
+          }}
+          getCellActions={this.getCellActions}
+        />
+      </div>
     );
   }
 }

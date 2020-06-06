@@ -12,6 +12,14 @@ import {
 import LoadingSpinner from "./components/common/LoadingSpinner"
 import ErrorMessage from "./components/common/ErrorMessage"
 import { SEARCH_NOT_FOUNT_ERROR } from './components/constants/ErrorConstants'
+import {
+  faBold,
+  faQuestionCircle,
+  faEllipsisV,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 
 export default function App() {
   const [searchWord, setSearchWord] = useState();
@@ -107,6 +115,7 @@ export default function App() {
         <Router>
           <div>
             <Header handleChange={getSearchWord} />
+            
             <Suspense fallback={<LoadingSpinner />}>
             <Switch>
               <Redirect exact from="/" to="grid" />
