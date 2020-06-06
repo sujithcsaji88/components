@@ -158,15 +158,18 @@ const customDetailsFilter = (filterVal, data) => {
 	if (filterVal) {
 		filterVal = filterVal.toLowerCase();
 		return data.filter(
-			(travel) =>
-				travel.details.flightModel.toString().toLowerCase().includes(filterVal) ||
-				travel.details.bodyType.toLowerCase().includes(filterVal) ||
-				travel.details.type.toLowerCase().includes(filterVal) ||
-				travel.details.startTime.toLowerCase().includes(filterVal) ||
-				travel.details.endTime.toLowerCase().includes(filterVal) ||
-				travel.details.status.toLowerCase().includes(filterVal) ||
-				travel.details.additionalStatus.toLowerCase().includes(filterVal) ||
-				travel.details.timeStatus.toLowerCase().includes(filterVal)
+			(travel) => {
+				const {details} = travel;
+				if(details.flightModel.toString().toLowerCase().includes(filterVal) ||
+				details.bodyType.toLowerCase().includes(filterVal) ||
+				details.type.toLowerCase().includes(filterVal) ||
+				details.startTime.toLowerCase().includes(filterVal) ||
+				details.endTime.toLowerCase().includes(filterVal) ||
+				details.status.toLowerCase().includes(filterVal) ||
+				details.additionalStatus.toLowerCase().includes(filterVal) ||
+				details.timeStatus.toLowerCase().includes(filterVal))
+				return true;
+			}
 		);
 	}
 	return data;
@@ -176,9 +179,13 @@ const customWeightFilter = (filterVal, data) => {
 	if (filterVal) {
 		filterVal = filterVal.toLowerCase();
 		return data.filter(
-			(travel) =>
-				travel.weight.percentage.toLowerCase().includes(filterVal) ||
-				travel.weight.value.toLowerCase().includes(filterVal)
+			(travel) => {
+				const {weight} = travel;
+				if(weight.percentage.toLowerCase().includes(filterVal) ||
+				weight.value.toLowerCase().includes(filterVal))
+				return true;
+			}
+				
 		);
 	}
 	return data;
@@ -188,9 +195,13 @@ const customVolumeFilter = (filterVal, data) => {
 	if (filterVal) {
 		filterVal = filterVal.toLowerCase();
 		return data.filter(
-			(travel) =>
-				travel.volume.percentage.toLowerCase().includes(filterVal) ||
-				travel.volume.value.toLowerCase().includes(filterVal)
+			(travel) =>{
+				const {volume} = travel;
+				if(volume.percentage.toLowerCase().includes(filterVal) ||
+				volume.value.toLowerCase().includes(filterVal))
+				return true;
+			}
+			
 		);
 	}
 	return data;
@@ -200,9 +211,13 @@ const customRevenueFilter = (filterVal, data) => {
 	if (filterVal) {
 		filterVal = filterVal.toLowerCase();
 		return data.filter(
-			(travel) =>
-				travel.revenue.revenue.toLowerCase().includes(filterVal) ||
-				travel.revenue.yeild.toLowerCase().includes(filterVal)
+			(travel) =>{
+				const {revenue} = travel;
+				if(revenue.revenue.toLowerCase().includes(filterVal) ||
+				revenue.yeild.toLowerCase().includes(filterVal))
+				return true;
+			}
+				
 		);
 	}
 	return data;
@@ -212,9 +227,13 @@ const customQueuedBookingFilter = (filterVal, data) => {
 	if (filterVal) {
 		filterVal = filterVal.toLowerCase();
 		return data.filter(
-			(travel) =>
-				travel.queuedBooking.sr.toLowerCase().includes(filterVal) ||
-				travel.queuedBooking.volume.toLowerCase().includes(filterVal)
+			(travel) => {
+				const {queuedBooking} = travel;
+				if(queuedBooking.sr.toLowerCase().includes(filterVal) ||
+				queuedBooking.volume.toLowerCase().includes(filterVal))
+				return true;
+			}
+				
 		);
 	}
 	return data;
@@ -240,28 +259,51 @@ const customUldFilter = (filterVal, data) => {
 function onColumnMatch({ searchText, value, column, row }) {
 	if (searchText) {
 		searchText = searchText.toLowerCase();
-		return value.filter((travel) =>
-			travel.flight.date.toLowerCase().includes(searchText) ||
-			travel.flight.flightno.toLowerCase().includes(searchText) ||
-			travel.details.flightModel.toString().toLowerCase().includes(searchText) ||
-			travel.details.bodyType.toLowerCase().includes(searchText) ||
-			travel.details.type.toLowerCase().includes(searchText) ||
-			travel.details.startTime.toLowerCase().includes(searchText) ||
-			travel.details.endTime.toLowerCase().includes(searchText) ||
-			travel.details.status.toLowerCase().includes(searchText) ||
-			travel.details.additionalStatus.toLowerCase().includes(searchText) ||
-			travel.details.timeStatus.toLowerCase().includes(searchText) ||
-			travel.weight.percentage.toLowerCase().includes(searchText) ||
-			travel.weight.value.toLowerCase().includes(searchText) ||
-			travel.volume.percentage.toLowerCase().includes(searchText) ||
-			travel.volume.value.toLowerCase().includes(searchText) ||
-			travel.revenue.revenue.toLowerCase().includes(searchText) ||
-			travel.revenue.yeild.toLowerCase().includes(searchText) ||
-			travel.queuedBooking.sr.toLowerCase().includes(searchText) ||
-			travel.queuedBooking.volume.toLowerCase().includes(searchText)
+		const {flight} = row;
+		const {segment} = row;
+		const {details} = row;
+		const {weight} = row;
+		const {volume} = row;
+		const {revenue} = row;
+		const {queuedBooking} = row;
+		const {uldPositions} = row;
+		return (
+			flight.date.toLowerCase().includes(searchText) ||
+			flight.flightno.toLowerCase().includes(searchText) ||
+			segment.from.toLowerCase().includes(searchText) ||
+			segment.to.toLowerCase().includes(searchText)||
+			details.flightModel.toString().toLowerCase().includes(searchText) ||
+			details.bodyType.toLowerCase().includes(searchText) ||
+			details.type.toLowerCase().includes(searchText) ||
+			details.startTime.toLowerCase().includes(searchText) ||
+			details.endTime.toLowerCase().includes(searchText) ||
+			details.status.toLowerCase().includes(searchText) ||
+			details.additionalStatus.toLowerCase().includes(searchText) ||
+			details.timeStatus.toLowerCase().includes(searchText) ||
+			weight.percentage.toLowerCase().includes(searchText) ||
+			weight.value.toLowerCase().includes(searchText) ||
+			volume.percentage.toLowerCase().includes(searchText) ||
+			volume.value.toLowerCase().includes(searchText) ||
+			revenue.revenue.toLowerCase().includes(searchText) ||
+			revenue.yeild.toLowerCase().includes(searchText) ||
+			row.sr.toLowerCase().includes(searchText) ||
+			queuedBooking.sr.toLowerCase().includes(searchText) ||
+			queuedBooking.volume.toLowerCase().includes(searchText)
+			//checkUldPossioning.bind(uldPositions, searchText)
 		);
 	}
 	return value;
+}
+
+const checkUldPossioning = (uldPositions, filterVal) =>{
+
+	return uldPositions.find(values => {
+			var searchVal = values.position + ' '+ values.value;
+			if(searchVal.toLowerCase().includes(filterVal))
+				return true
+		}
+	);
+	return uldPositions
 }
 
 const App = () => {
@@ -369,7 +411,7 @@ const App = () => {
 	return (
 		<div className='App'>
 			<Header />
-			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search={ { searchFormatted: true } }>
+			<ToolkitProvider keyField='travelId' data={sampleData} columns={columns} search={ { onColumnMatch } }>
 				{(props) => (
 					<div>
 						<div className='row m-0 p-3 col-md-12' style={{background: '#1f567e0c'}}>
