@@ -63,7 +63,7 @@ export default function App() {
 
   useEffect(() => {
     setData(rows);
-  }, []);
+  },[]);
   const getSearchWord = (e) => {
     const searchKey = String(e.target.value);
     let filteredRows = rows.filter((item) => {
@@ -110,12 +110,11 @@ export default function App() {
     });
     setData(filteredRows);
   };
-  if(data && data.length){
+  if(data&&data.length){
     return (
         <Router>
           <div>
             <Header handleChange={getSearchWord} />
-            
             <Suspense fallback={<LoadingSpinner />}>
             <Switch>
               <Redirect exact from="/" to="grid" />

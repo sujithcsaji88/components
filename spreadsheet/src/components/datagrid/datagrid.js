@@ -19,7 +19,6 @@ const defaultColumnProperties = {
   filterable: true,
   width: 100,
 };
-
 const selectors = Data.Selectors;
 const {
   NumericFilter,
@@ -223,16 +222,32 @@ const columns = [
   },
 ].map((c) => ({ ...c, ...defaultColumnProperties }));
 
+
+
+
+
 class Grid extends React.Component {
   constructor(props) {
     super(props);
     this.state = { rows: this.props.rows, selectedIndexes: [] };
+
   }
+  sortRows = (data, sortColumn, sortDirection) => {
+    const comparer = (a, b) => {
+      if (sortDirection === "ASC") {
+        return a[sortColumn] > b[sortColumn] ? 1 : -1;
+      } else if (sortDirection === "DESC") {
+        return a[sortColumn] < b[sortColumn] ? 1 : -1;
+      }
+    };
+    this.setState({rows:[...this.state.rows].sort(comparer)})
+    return sortDirection === "NONE" ? data :this.state.rows ;
+  };
+
 
   componentWillReceiveProps(props) {
     this.state = { rows: props.rows };
   }
-
   onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
     debugger;
     updated.yeild = basicCalculation("=sum", 1, 2);
@@ -321,11 +336,12 @@ class Grid extends React.Component {
               indexes: this.state.selectedIndexes,
             },
           }}
-          cellRangeSelection={{
-            onStart: (args) => console.log(this.state.rows),
-            onUpdate: (args) => console.log(this.state.rows),
-            onComplete: (args) => console.log(this.state.rows),
-          }}
+          onGridSort={(sortColumn, sortDirection) => this.sortRows(this.props.rows, sortColumn, sortDirection) }
+          // cellRangeSelection={{
+          //   onStart: (args) => console.log(this.state.rows),
+          //   onUpdate: (args) => console.log(this.state.rows),
+          //   onComplete: (args) => console.log(this.state.rows),
+          // }}
           getCellActions={this.getCellActions}
         />
       </div>
