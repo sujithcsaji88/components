@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import Logo from "../../assets/images/logo.png";
 import {
@@ -9,7 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const header = (props) => {
+const Header = (props) => { 
+  
   return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="#home">
@@ -27,4 +28,4 @@ const header = (props) => {
   );
 };
 
-export default header;
+export default Header;
