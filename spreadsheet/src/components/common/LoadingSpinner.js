@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from '../../assets/images/loading-spinner.gif'
+import Logo from '../../assets/images/loading-spinner.gif';
 
 const LoadingSpinner = (props) => {
     return (
