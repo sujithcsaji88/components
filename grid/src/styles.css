@@ -159,3 +159,7 @@ html {
   .table thead th {
     vertical-align: middle !important;
   }
+
+  .lineHeight {
+    line-height: 8px !important;
+  }
