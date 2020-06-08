@@ -31,10 +31,10 @@ const flightFormatter = (cell) => {
 const segmentFormatter = (cell) => {
 	return (
 		<div>
-			<p>
-				{cell.from} 
-					<img className="img" alt='' src="https://d1icd6shlvmxi6.cloudfront.net/gsc/OYDDTS/35/1e/62/351e623259f345efac57e1f95b7849f9/images/neo-list-5/u374.png?token=f5979504349fe3dc90a3076a078178c0306f3004b31e4e2956f3bdb677a59ec9" />
-				{cell.to}
+			<p className='d-flex'>
+				<p className='space'>{cell.from}</p> 
+				<p className='space'><img className="img" alt='' src="https://d1icd6shlvmxi6.cloudfront.net/gsc/OYDDTS/35/1e/62/351e623259f345efac57e1f95b7849f9/images/neo-list-5/u374.png?token=f5979504349fe3dc90a3076a078178c0306f3004b31e4e2956f3bdb677a59ec9" /></p>
+				<p>{cell.to}</p>
 			</p>
 		</div>
 	);
@@ -43,15 +43,17 @@ const segmentFormatter = (cell) => {
 const detailsFormatter = (cell) => {
 	return (
 		<div >
-			<p>
-				{cell.startTime} - {cell.endTime} | {cell.status} | {cell.additionalStatus}
+			<p className='d-flex'>
+				<p className='space'> {cell.startTime} - {cell.endTime}</p>
+				<p className='space'> | {cell.status} </p>
+				<p className='space'> | {cell.additionalStatus}</p>
 			</p>
-			<p>
-				<div className='d-flex'>
-					{cell.flightModel} | {cell.bodyType} | {cell.type} | 
-					<div className="detailsCol">{cell.timeStatus.split('to')[0]}</div>
-					<div> {' to depart'}</div>
-				</div>
+			<p className='d-flex'>
+				<p className='space'> {cell.flightModel}</p>
+				<p className='space'> | {cell.bodyType}</p>
+				<p className='space'> | {cell.type +' |'}</p>
+				<p className="detailsCol"> {cell.timeStatus.split('to')[0]}</p>
+				<p> {' to depart'}</p>
 			</p>
 		</div>
 	);
@@ -63,8 +65,8 @@ const weightAndVolumeFormatter = (cell) => {
 			<p className="weightCol">{cell.percentage}</p>
 			<div className='d-flex'>
 				<p className="weightValueCol">{cell.value.split('/')[0]}</p>
-				<p className="weightValueSecondCol">/{cell.value.split('/')[1].split(' ')[0]}</p>
-				<p>{' '+cell.value.split('/')[1].split(' ')[1]}</p>
+				<p className="weightValueSecondCol">{'/ '+cell.value.split('/')[1].split(' ')[0]}</p>
+				<p className='space'>{cell.value.split('/')[1].split(' ')[1]}</p>
 			</div>
 		</div>
 	);
@@ -75,7 +77,7 @@ const positionFormatter = (cell) => {
 		return (
 			<div key={index} style={{ width: "50%", float: "left", textAlign: "center" }}>
 				<div className='d-flex'>
-					<p> {positions.position} </p>
+					<p className='space'> {positions.position} </p>
 					<p className='uldCol'> {positions.value} </p>
 				</div>
 				
@@ -110,7 +112,7 @@ const bookingFormatter = (cell) => {
 			</div>
 			<div className='row'>
 				<p className='bookingCol'>{cell.volume.split('/')[0].split(' ')[0]}</p>
-				<p>{cell.volume.split('/')[0].split(' ')[1]}</p>
+				<p className='space'>{cell.volume.split('/')[0].split(' ')[1]}</p>
 				<p className='bookingCol'>{' / '+cell.volume.split('/')[1].split(' ')[1]}</p>
 				<p>{cell.volume.split('/')[1].split(' ')[2]}</p>
 			</div>
@@ -259,14 +261,7 @@ const customUldFilter = (filterVal, data) => {
 function onColumnMatch({ searchText, value, column, row }) {
 	if (searchText) {
 		searchText = searchText.toLowerCase();
-		const {flight} = row;
-		const {segment} = row;
-		const {details} = row;
-		const {weight} = row;
-		const {volume} = row;
-		const {revenue} = row;
-		const {queuedBooking} = row;
-		const {uldPositions} = row;
+		const {flight, segment, details, weight, volume, revenue, queuedBooking, uldPositions} = row;
 		return (
 			flight.date.toLowerCase().includes(searchText) ||
 			flight.flightno.toLowerCase().includes(searchText) ||
@@ -338,7 +333,7 @@ const App = () => {
 			filter: textFilter({
 				onFilter: customDetailsFilter,
 			}),
-			headerStyle: { width: "20%" },
+			headerStyle: { width: "25%" },
 			editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
 				<DetailsEdit {...editorProps} value={value} />
 			),
