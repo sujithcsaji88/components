@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import sampleData from "./sample_data.json";
+import sampleData from "./sample_data1.json";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -21,7 +21,7 @@ const $ = window.$;
 
 const flightFormatter = (cell) => {
 	return (
-		<div>
+		<div className='lineHeight'>
 			<p className="flightCol">{cell.flightno}</p>
 			<p>{cell.date}</p>
 		</div>
@@ -61,13 +61,13 @@ const detailsFormatter = (cell) => {
 
 const weightAndVolumeFormatter = (cell) => {
 	return (
-		<div>
+		<div className='lineHeight'>
 			<p className="weightCol">{cell.percentage}</p>
-			<div className='d-flex'>
+			<p className='d-flex'>
 				<p className="weightValueCol">{cell.value.split('/')[0]}</p>
 				<p className="weightValueSecondCol">{'/ '+cell.value.split('/')[1].split(' ')[0]}</p>
 				<p className='space'>{cell.value.split('/')[1].split(' ')[1]}</p>
-			</div>
+			</p>
 		</div>
 	);
 };
@@ -76,11 +76,10 @@ const positionFormatter = (cell) => {
 	return cell.map((positions, index) => {
 		return (
 			<div key={index} style={{ width: "50%", float: "left", textAlign: "center" }}>
-				<div className='d-flex'>
+				<div className='d-flex lineHeight'>
 					<p className='space'> {positions.position} </p>
 					<p className='uldCol'> {positions.value} </p>
 				</div>
-				
 			</div>
 		);
 	});
@@ -88,7 +87,7 @@ const positionFormatter = (cell) => {
 
 const revenueFormatter = (cell) => {
 	return (
-		<div className='revenueCol'>
+		<div className='revenueCol lineHeight'>
 			<p>{cell.revenue}</p>
 			<p>{cell.yeild}</p>
 		</div>
@@ -105,7 +104,7 @@ const srFormatter = (cell) => {
 
 const bookingFormatter = (cell) => {
 	return (
-		<div>
+		<div className='lineHeight'>
 			<div className='row'>
 				<p className='bookingCol'>{cell.sr.split(' ')[0]}</p>
 				<p>{cell.sr.split(' ')[1]}</p>
@@ -283,22 +282,13 @@ function onColumnMatch({ searchText, value, column, row }) {
 			revenue.yeild.toLowerCase().includes(searchText) ||
 			row.sr.toLowerCase().includes(searchText) ||
 			queuedBooking.sr.toLowerCase().includes(searchText) ||
-			queuedBooking.volume.toLowerCase().includes(searchText)
-			//checkUldPossioning.bind(uldPositions, searchText)
+			queuedBooking.volume.toLowerCase().includes(searchText) ||
+			uldPositions.findIndex((item) => {
+                return (item.position + " " + item.value).toLowerCase().includes(searchText);
+            }) >= 0
 		);
 	}
 	return value;
-}
-
-const checkUldPossioning = (uldPositions, filterVal) =>{
-
-	return uldPositions.find(values => {
-			var searchVal = values.position + ' '+ values.value;
-			if(searchVal.toLowerCase().includes(filterVal))
-				return true
-		}
-	);
-	return uldPositions
 }
 
 const App = () => {
@@ -307,6 +297,14 @@ const App = () => {
 		{
 			dataField: "flight",
 			text: "Flight",
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				const str1 = a.flightno+a.date
+				const str2 = b.flightno+b.date
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
 			formatter: flightFormatter,
 			filter: textFilter({
 				onFilter: customFlightFilter,
@@ -319,6 +317,14 @@ const App = () => {
 			dataField: "segment",
 			text: "Segment",
 			formatter: segmentFormatter,
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				const str1 = a.from+a.to
+				const str2 = b.from+b.to
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
 			filter: textFilter({
 				onFilter: customSegmentFilter,
 			}),
@@ -329,6 +335,14 @@ const App = () => {
 		{
 			dataField: "details",
 			text: "Details",
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				const str1 = a.flightModel+a.bodyType+a.type+a.startTime+a.endTime+a.status+a.additionalStatus+a.timeStatus
+				const str2 = b.flightModel+b.bodyType+a.type+a.startTime+a.endTime+a.status+a.additionalStatus+a.timeStatus
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
 			formatter: detailsFormatter,
 			filter: textFilter({
 				onFilter: customDetailsFilter,
@@ -341,6 +355,15 @@ const App = () => {
 		{
 			dataField: "weight",
 			text: "Weight",
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				const str1 = a.percentage+a.value
+				const str2 = b.percentage+b.value
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
+			headerStyle: { width: "10%" },
 			formatter: weightAndVolumeFormatter,
 			filter: textFilter({
 				onFilter: customWeightFilter,
@@ -352,6 +375,15 @@ const App = () => {
 		{
 			dataField: "volume",
 			text: "Volume",
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				const str1 = a.percentage+a.value
+				const str2 = b.percentage+b.value
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
+			headerStyle: { width: "10%" },
 			formatter: weightAndVolumeFormatter,
 			filter: textFilter({
 				onFilter: customVolumeFilter,
@@ -363,6 +395,22 @@ const App = () => {
 		{
 			dataField: "uldPositions",
 			text: "ULD Positions",
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				debugger
+				var str1;
+				var str2;
+				a.find((item) => {
+					str1 = str1+ (item.position + item.value);
+				})
+				b.find((item) => {
+					str2 = str2+ (item.position + item.value);
+				})
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
+			headerStyle: { width: "15%" },
 			formatter: positionFormatter,
 			filter: textFilter({
 				onFilter: customUldFilter,
@@ -374,6 +422,14 @@ const App = () => {
 		{
 			dataField: "revenue",
 			text: "Revenue/Yield",
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				const str1 = a.revenue+a.yeild
+				const str2 = b.revenue+b.yeild
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
 			formatter: revenueFormatter,
 			filter: textFilter({
 				onFilter: customRevenueFilter,
@@ -382,10 +438,18 @@ const App = () => {
 				<RevenueEdit {...editorProps} value={value} />
 			),
 		},
-		{ dataField: "sr", text: "SR", formatter: srFormatter, filter: textFilter() },
+		{ dataField: "sr", text: "SR",sort: true , formatter: srFormatter, filter: textFilter() },
 		{
 			dataField: "queuedBooking",
 			text: "Queued Booking",
+			sort: true,
+			sortFunc: (a, b, order, dataField) => {
+				const str1 = a.sr+a.volume
+				const str2 = b.sr+b.volume
+				if (order === 'asc')
+					return (str2) < (str1) ? 1 : -1;
+				return (str1) > (str2)  ? -1 : 1;
+			},
 			formatter: bookingFormatter,
 			filter: textFilter({
 				onFilter: customQueuedBookingFilter,
