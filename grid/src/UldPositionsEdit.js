@@ -24,24 +24,32 @@ class UldPositionsEdit extends Component{
   
     getValue() {
 		if (this) {
-            console.log("THIS ", this)
-			const { position, value } = this;
-			if (position && value) {
-				return { position: position.value, value: value.value };
-			}
+      const { position, value } = this.props;
+      var returnMap={};
+      var returnList=[];
+			if (value) {
+        value.map((item,index)=>{
+          returnMap={
+            "position" :  item.position.value,
+            "value": item.value.value
+          };
+          returnList.push(returnMap);
+        })
+      }
+      console.log(returnList)
+      return returnList;
 		}
     }
     
     render(){
         const { value, ...rest } = this.props;
-        console.log("value ", value)
        return value.map((val, index)=>{
             return [
                 <input
                     {...rest}
                     key={val.position}
                     defaultValue={val.position}
-                    ref={(node) => (val.position = node)}
+                    ref={(node) => (value[index].position= node)}
                     type='text'
                     style={{ width: "100%", marginBottom: "10px" }}
                 />,
@@ -49,7 +57,7 @@ class UldPositionsEdit extends Component{
                     {...rest}
                     key={val.value}
                     defaultValue={val.value}
-                    ref={(node) => (val.value= node)}
+                    ref={(node) => (value[index].value= node)}
                     type='text'
                     style={{ width: "100%", marginBottom: "10px" }}
                 />,

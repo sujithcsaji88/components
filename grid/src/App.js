@@ -414,9 +414,9 @@ const App = () => {
 			filter: textFilter({
 				onFilter: customUldFilter,
 			}),
-			// editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
-			// 	<UldPositionsEdit {...editorProps} value={value} />
-			// )
+			editorRenderer: (editorProps, value, row, column, rowIndex, columnIndex) => (
+				<UldPositionsEdit {...editorProps} value={value} />
+			)
 		},
 		{
 			dataField: "revenue",
