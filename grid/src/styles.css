@@ -6,6 +6,7 @@ html {
   
   body {
     margin: 0;
+    line-height: 3;
   }
   
   html,
@@ -33,18 +34,128 @@ html {
   thead {
     background: rgba(31, 86, 126, 0.0470588);
     border-bottom: 1px solid #D6D7D6;
-    /*height: 40px;*/
-    color: #204D6F;
-    font-weight: bold;
-    padding: 10px 4px;
-    text-align: center;
+    font-family: "Segoe UI Bold", "Segoe UI Regular", "Segoe UI";
+    font-weight: 700 !important;
+    font-style: normal;
+    font-size: 12px;
+    color: rgb(32, 77, 111) !important;
+    text-align: center !important;
+    /* line-height: 3px; */
+  }
+
+  th {
+    text-align: center  !important;
+    height: 5px !important;
+  }
+  .table-bordered td, .table-bordered th {
+    border: 0px !important;
+    border-top: 1px solid #dee2e6  !important;
+    border-bottom: 1px solid #dee2e6  !important;
+  }
+
+  tbody {
+    line-height: 0px;
+    font-family: 'Segoe UI';
+    font-size: 12px;
+    color: rgba(105, 115, 126, 0.749019607843137);
+    text-align: left;
+    border: 0px;
+  }
+
+  .cell-breakWord {
+    word-wrap: break-word;
+    max-width: 1px;
+ }
+
+  td {
+    border-top: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+    height: 5px !important;
+  }
+
+  .img {
+    width: 8px;
+    height: 8px;
   }
 
   .searchArea {
-    justify-content: center;
+    justify-content: flex-end;
     height: 25px;
   }
-  .searchInput {
-    border-radius: 20px !important;
+  .searchAreaElement {
+    left: 0px;
+    top: 0px;
+    width: 13px;
+    height: 15px;
+    border-width: 0px;
+  }
+
+  .flightCol {
+    font-family: 'Segoe UI Bold', 'Segoe UI Regular', 'Segoe UI';
+    font-weight: 700;
+    font-style: normal;
+    font-size: 12px;
+    color: #3171B2;
+  }
+
+  .detailsCol {
+    font-weight: 700;
+    color: #FF6666;
+    margin-right: 5px;
+  }
+
+  .weightCol {
+    font-family: 'Segoe UI Bold', 'Segoe UI Regular', 'Segoe UI';
+    font-weight: 700;
+    font-size: 15px;
+    color: #40BF5C;
+    margin-right: 5px;
+  }
+
+  .weightValueCol {
+    font-family: 'Segoe UI Bold', 'Segoe UI Regular', 'Segoe UI';
+    font-weight: 700;
+    color: #566A81;
+    margin-right: 5px;
+  }
+
+  .weightValueSecondCol {
+    font-family: 'Segoe UI';
+    font-weight: 400;
+    color: #566A81;
+    margin-right: 5px;
+  }
+
+  .revenueCol {
+    font-family: 'Segoe UI';
+    font-weight: 400;
+    font-size: 15px;
+    color: rgb(86, 106, 129);
+  }
+
+  .uldCol {
+    font-size: 12px;
+    color: rgb(86, 106, 129);
+  }
+
+  .space {
+    margin-right: 5px;
+  }
+
+  .srCol {
+    font-size: 12px;
+    color: rgb(49, 113, 178);
   }
   
+  .bookingCol {
+    color: #566A81;
+    font-family: "Segoe UI";
+    font-weight: 400;
+    font-size: 12px;
+    font-style: normal;
+    margin-right: 5px;
+  }
+
+  .table thead th {
+    vertical-align: middle !important;
+  }
