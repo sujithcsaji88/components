@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, useFilters, useGlobalFilter } from "react-table";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 import IndeterminateCheckbox from "./Functions/IndeterminateCheckbox";
@@ -132,7 +132,7 @@ const Grid = (props) => {
                                     className="table-list"
                                     height={height - 50}
                                     itemCount={rows.length}
-                                    itemSize={50}
+                                    itemSize={() => 50}
                                     overscanCount={20}
                                 >
                                     {RenderRow}
