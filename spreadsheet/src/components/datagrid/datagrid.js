@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import reactDOM from 'react-dom';
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
 import LoadingSpinner from "../common/LoadingSpinner";
@@ -12,13 +13,13 @@ import {
   faUnderline,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
   filterable: true,
   width: 100,
 };
+let newFilters = {};
 const selectors = Data.Selectors;
 const {
   NumericFilter,
@@ -26,29 +27,6 @@ const {
   MultiSelectFilter,
   SingleSelectFilter,
 } = Filters;
-
-const handleFilterChange = (filter) => (filters) => {
-  const newFilters = { ...filters };
-  if (filter.filterTerm) {
-    newFilters[filter.column.key] = filter;
-  } else {
-    delete newFilters[filter.column.key];
-  }
-  return newFilters;
-};
-
-function getValidFilterValues(rows, columnId) {
-  return rows
-    .map((r) => r[columnId])
-    .filter((item, i, a) => {
-      return i === a.indexOf(item);
-    });
-}
-
-function getRows(rows, filters) {
-  return selectors.getRows({ rows, filters });
-}
-
 const columns = [
   {
     key: "flightno",
@@ -60,7 +38,7 @@ const columns = [
     key: "date",
     name: "Date",
     editable: true,
-    filterRenderer: AutoCompleteFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "segmentfrom",
@@ -72,13 +50,13 @@ const columns = [
     key: "revenue",
     name: "Revenue",
     editable: true,
-    filterRenderer: NumericFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "yeild",
     name: "Yeild",
     editable: true,
-    filterRenderer: NumericFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "segmentto",
@@ -90,7 +68,7 @@ const columns = [
     key: "flightModel",
     name: "Flight Model",
     editable: true,
-    filterRenderer: AutoCompleteFilter,
+    filterRenderer:NumericFilter ,
   },
   {
     key: "bodyType",
@@ -221,35 +199,16 @@ const columns = [
     filterRenderer: AutoCompleteFilter,
   },
 ].map((c) => ({ ...c, ...defaultColumnProperties }));
-
-
-
-
-
 class Grid extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { rows: this.props.rows, selectedIndexes: [] };
+    this.state = { filter:{},rows: this.props.rows, selectedIndexes: [], junk:{} };
 
   }
-  sortRows = (data, sortColumn, sortDirection) => {
-    const comparer = (a, b) => {
-      if (sortDirection === "ASC") {
-        return a[sortColumn] > b[sortColumn] ? 1 : -1;
-      } else if (sortDirection === "DESC") {
-        return a[sortColumn] < b[sortColumn] ? 1 : -1;
-      }
-    };
-    this.setState({rows:[...this.state.rows].sort(comparer)})
-    return sortDirection === "NONE" ? data :this.state.rows ;
-  };
-
-
-  componentWillReceiveProps(props) {
-    this.state = { rows: props.rows };
+  componentWillReceiveProps(props) {debugger;
+    this.setState({rows:props.rows})
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    debugger;
     updated.yeild = basicCalculation("=sum", 1, 2);
 
     this.setState((state) => {
@@ -286,10 +245,51 @@ class Grid extends React.Component {
   onItalicsClick = () => {
     alert("TODO");
   };
+  
+  handleFilterChange =(value)=>{
+    let values={...value};
+    newFilters = { ...values };
+    let {junk} = this.state
+    if (!(value.filterTerm==null)&& !(value.filterTerm.length<=0)) {
+      if(Object.keys(value.rawValue).length==0){
 
-  getCellActions = (column, row) => {
-    const cellActions = {};
-    return row.id % 2 === 0 ? cellActions[column.key] : null;
+      }
+      newFilters[value.column.key] = value;
+      junk[value.column.key]=value
+    } else if(value.filterTerm==null||value.filterTerm.length<=0) {
+      delete newFilters[value.column.key];
+      delete junk[value.column.key]
+    }
+    this.setState({filter:newFilters, junk});
+    const data=this.getrows(this.props.rows,junk);
+    this.setState({rows:data})
+  };
+  getrows=(rows, junk)=>{
+    if(Object.keys(junk).length<=0){
+      junk={}
+    }
+    const data= selectors.getRows({
+      rows: rows,
+      filters: junk
+    });
+    return data;
+  }
+  getValidFilterValues(rows, columnId) {
+    return rows.map(r => r[columnId])
+      .filter((item, i, a) => {
+        return i === a.indexOf(item);
+      });
+  }
+  sortRows = (data, sortColumn, sortDirection) => {
+    const comparer = (a, b) => {
+      if (sortDirection === "ASC") {
+        return a[sortColumn] > b[sortColumn] ? 1 : -1;
+      } else if (sortDirection === "DESC") {
+        return a[sortColumn] < b[sortColumn] ? 1 : -1;
+      }
+    };
+    this.setState({ rows: [...data].sort(comparer) })
+    return sortDirection === "NONE" ? data : this.state.rows;
   };
   render() {
     return (
@@ -312,21 +312,20 @@ class Grid extends React.Component {
           </Form>
         </div>
         <ReactDataGrid
+          style={{fontWeight:"bold"}}
           minHeight={650}
           columns={columns}
-          rowGetter={(i) => this.state.rows[i]}
-          rowsCount={this.props.rows.length}
+          rowGetter={i=>this.state.rows[i]}
+          rowsCount={this.state.rows.length}
           onGridRowsUpdated={this.onGridRowsUpdated}
           enableCellSelect={true}
           onColumnResize={(idx, width) =>
             console.log(`Column ${idx} has been resized to ${width}`)
           }
-          toolbar={<Toolbar enableFilter={true} />}
-          // onAddFilter={filter => setFilters(handleFilterChange(filter))}
-          // onClearFilters={() => setFilters({})}
-          getValidFilterValues={(columnKey) =>
-            getValidFilterValues(this.props.rows, columnKey)
-          }
+          toolbar={<Toolbar enableFilter={true}/>}
+          onAddFilter={filter => this.handleFilterChange(filter)}
+          //onClearFilters={() => this.handleClear()}
+          getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
           rowSelection={{
             showCheckbox: true,
             enableShiftSelect: true,
@@ -336,13 +335,12 @@ class Grid extends React.Component {
               indexes: this.state.selectedIndexes,
             },
           }}
-          onGridSort={(sortColumn, sortDirection) => this.sortRows(this.props.rows, sortColumn, sortDirection) }
+          onGridSort={(sortColumn, sortDirection) => this.sortRows(this.props.rows, sortColumn, sortDirection)}
           // cellRangeSelection={{
           //   onStart: (args) => console.log(this.state.rows),
           //   onUpdate: (args) => console.log(this.state.rows),
           //   onComplete: (args) => console.log(this.state.rows),
           // }}
-          getCellActions={this.getCellActions}
         />
       </div>
     );
