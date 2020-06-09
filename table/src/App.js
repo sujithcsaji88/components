@@ -70,8 +70,6 @@ const App = () => {
                                 <span>{row.value.status}</span>
                             </li>
                             <li>{row.value.additionalStatus}</li>
-                        </ul>
-                        <ul>
                             <li>{row.value.flightModel}</li>
                             <li>{row.value.bodyType}</li>
                             <li>

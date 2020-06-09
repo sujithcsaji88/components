@@ -223,11 +223,12 @@ select:-webkit-autofill:focus {
 }
 .table-outer .table .details-wrap ul {
     display: flex;
-    margin-bottom: 7px;
+    flex-wrap: wrap;
 }
 .table-outer .table .details-wrap ul li {
     padding-left: 5px;
     margin-left: 5px;
+    margin-bottom: 5px;
     position: relative;
 }
 .table-outer .table .details-wrap ul li:first-child {
