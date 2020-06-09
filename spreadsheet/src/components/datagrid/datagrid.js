@@ -68,7 +68,7 @@ const columns = [
     key: "flightModel",
     name: "Flight Model",
     editable: true,
-    filterRenderer:NumericFilter ,
+    filterRenderer:SingleSelectFilter ,
   },
   {
     key: "bodyType",
@@ -247,20 +247,17 @@ class Grid extends React.Component {
   };
   
   handleFilterChange =(value)=>{
-    let values={...value};
-    newFilters = { ...values };
+    //let values={...value};
+    newFilters = { ...value };
     let {junk} = this.state
     if (!(value.filterTerm==null)&& !(value.filterTerm.length<=0)) {
-      if(Object.keys(value.rawValue).length==0){
-
-      }
       newFilters[value.column.key] = value;
       junk[value.column.key]=value
     } else if(value.filterTerm==null||value.filterTerm.length<=0) {
       delete newFilters[value.column.key];
-      delete junk[value.column.key]
+      delete junk[value.column.key];
     }
-    this.setState({filter:newFilters, junk});
+    this.setState({filter:newFilters,junk});
     const data=this.getrows(this.props.rows,junk);
     this.setState({rows:data})
   };
