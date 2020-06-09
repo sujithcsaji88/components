@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
+import { range } from 'lodash';
 import LoadingSpinner from "../common/LoadingSpinner";
 import ErrorMessage from "../common/ErrorMessage";
 import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
@@ -10,6 +11,7 @@ import {
   faBold,
   faItalic,
   faUnderline,
+  faCross,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -19,6 +21,12 @@ const defaultColumnProperties = {
   filterable: true,
   width: 100,
 };
+
+const defaultParsePaste = str => (
+  str.split(/\r\n|\n|\r/)
+    .map(row => row.split('\t'))
+);
+
 const selectors = Data.Selectors;
 const {
   NumericFilter,
@@ -54,7 +62,7 @@ const columns = [
     key: "flightno",
     name: "Flight #",
     editable: true,
-    filterRenderer: SingleSelectFilter,
+    filterRenderer: NumericFilter,
   },
   {
     key: "date",
@@ -222,16 +230,109 @@ const columns = [
   },
 ].map((c) => ({ ...c, ...defaultColumnProperties }));
 
-
-
-
-
 class Grid extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { rows: this.props.rows, selectedIndexes: [] };
-
+    this.state = {
+      rows: this.props.rows,
+      selectedIndexes: [],
+      topLeft: {},
+      botRight: {},
+    };
+    document.addEventListener("copy", this.handleCopy);
+    document.addEventListener("paste", this.handlePaste);
   }
+
+  componentWillUnmount() {
+    this.removeAllListeners();
+  }
+
+  removeAllListeners = () => {
+    document.removeEventListener("copy", this.handleCopy);
+    document.removeEventListener("paste", this.handlePaste);
+  };
+
+  updateRows = (startIdx, newRows) => {
+    this.setState((state) => {
+      const rows = state.rows.slice();
+      for (let i = 0; i < newRows.length; i++) {
+        if (startIdx + i < rows.length) {
+          rows[startIdx + i] = { ...rows[startIdx + i], ...newRows[i] };
+        }
+      }
+      return { rows };
+    });
+  }
+
+  rowGetter = (i) => {
+    const { rows } = this.state;
+    return rows[i];
+  };
+
+  handleCopy = (e) => { debugger ;
+    console.debug("handleCopy Called");
+    e.preventDefault();
+    const { topLeft, botRight } = this.state;
+
+    // Loop through each row
+    const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
+      .map(
+        // Loop through each column
+        (rowIdx) =>
+          columns
+            .slice(topLeft.colIdx, botRight.colIdx + 1)
+            .map(
+              // Grab the row values and make a text string
+              (col) => this.rowGetter(rowIdx)[col.key]
+            )
+            .join("\t")
+      )
+      .join("\n");
+    console.debug("text", text);
+    e.clipboardData.setData("text/plain", text);
+  };
+
+  handlePaste = (e) => {
+    console.debug("handlePaste Called");
+    e.preventDefault();
+    const { topLeft } = this.state;
+
+    const newRows = [];
+    const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
+
+    console.debug("pasteData", pasteData);
+
+    pasteData.forEach((row) => {
+      const rowData = {};
+      // Merge the values from pasting and the keys from the columns
+      columns
+        .slice(topLeft.colIdx, topLeft.colIdx + row.length)
+        .forEach((col, j) => {
+          // Create the key-value pair for the row
+          rowData[col.key] = row[j];
+        });
+      // Push the new row to the changes
+      newRows.push(rowData);
+    });
+
+    console.debug("newRows", newRows);
+
+    this.updateRows(topLeft.rowIdx, newRows);
+  };
+
+  setSelection = (args) => { 
+    this.setState({
+      topLeft: {
+        rowIdx: args.topLeft.rowIdx,
+        colIdx: args.topLeft.idx,
+      },
+      botRight: {
+        rowIdx: args.bottomRight.rowIdx,
+        colIdx: args.bottomRight.idx,
+      },
+    });
+  };
+
   sortRows = (data, sortColumn, sortDirection) => {
     const comparer = (a, b) => {
       if (sortDirection === "ASC") {
@@ -240,25 +341,27 @@ class Grid extends React.Component {
         return a[sortColumn] < b[sortColumn] ? 1 : -1;
       }
     };
-    this.setState({rows:[...this.state.rows].sort(comparer)})
-    return sortDirection === "NONE" ? data :this.state.rows ;
+    this.setState({ rows: [...this.state.rows].sort(comparer) });
+    return sortDirection === "NONE" ? data : this.state.rows;
   };
-
 
   componentWillReceiveProps(props) {
     this.state = { rows: props.rows };
   }
-  onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    debugger;
-    updated.yeild = basicCalculation("=sum", 1, 2);
 
-    this.setState((state) => {
-      const rows = state.rows.slice();
-      for (let i = fromRow; i <= toRow; i++) {
-        rows[i] = { ...rows[i], ...updated };
-      }
-      return { rows };
-    });
+  onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
+    updated.yeild = basicCalculation("=sum", 1, 2);
+    console.debug('onGridRowsUpdated!', action);
+    console.debug('updated', updated);
+    if (action !== "COPY_PASTE") {
+      this.setState((state) => {
+        const rows = state.rows.slice();
+        for (let i = fromRow; i <= toRow; i++) {
+          rows[i] = { ...rows[i], ...updated };
+        }
+        return { rows };
+      });
+    }
   };
 
   onRowsSelected = (rows) => {
@@ -277,44 +380,40 @@ class Grid extends React.Component {
       ),
     });
   };
-  onBoldClick = () => {
-    alert("TODO");
-  };
-  onUnderlineClick = () => {
-    alert("TODO");
-  };
-  onItalicsClick = () => {
-    alert("TODO");
+
+  onCellSelected = ({ rowIdx, idx }) => {
+    console.log({ rowIdx, idx });
   };
 
-  getCellActions = (column, row) => {
-    const cellActions = {};
-    return row.id % 2 === 0 ? cellActions[column.key] : null;
+  onCellDeSelected = ({ rowIdx, idx }) => {
+    if (idx === 2) {
+      alert(
+        "the editor for cell (" +
+          rowIdx +
+          "," +
+          idx +
+          ") should have just closed"
+      );
+    }
   };
+
+  RowRenderer = ({ renderBaseRow, ...props }) => {
+    console.log({ renderBaseRow, ...props });
+    const fontWeight = props.idx % 2 ? "bold" : "normal";
+    return <div style={{ fontWeight }}> {renderBaseRow(props)}</div>;
+  };
+
   render() {
+    const { rows } = this.state;
     return (
       <div>
         <div style={{ position: "absolute", margin: "15px 15px" }}>
-          <Nav className="mr-auto"></Nav>
-          <Form inline>
-            <FontAwesomeIcon
-              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
-              icon={faBold} onClick={this.onBoldClick}
-            />
-            <FontAwesomeIcon
-              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
-              icon={faItalic} onClick={this.onUnderlineClick}
-            />
-            <FontAwesomeIcon
-              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
-              icon={faUnderline} onClick={this.onItalicsClick}
-            />
-          </Form>
+          
         </div>
         <ReactDataGrid
           minHeight={650}
           columns={columns}
-          rowGetter={(i) => this.state.rows[i]}
+          rowGetter={(i) => rows[i]}
           rowsCount={this.props.rows.length}
           onGridRowsUpdated={this.onGridRowsUpdated}
           enableCellSelect={true}
@@ -336,13 +435,15 @@ class Grid extends React.Component {
               indexes: this.state.selectedIndexes,
             },
           }}
-          onGridSort={(sortColumn, sortDirection) => this.sortRows(this.props.rows, sortColumn, sortDirection) }
-          // cellRangeSelection={{
-          //   onStart: (args) => console.log(this.state.rows),
-          //   onUpdate: (args) => console.log(this.state.rows),
-          //   onComplete: (args) => console.log(this.state.rows),
-          // }}
-          getCellActions={this.getCellActions}
+          onGridSort={(sortColumn, sortDirection) =>
+            this.sortRows(this.props.rows, sortColumn, sortDirection)
+          }
+          cellRangeSelection={{
+            onComplete: this.setSelection,
+          }}
+          onCellSelected={this.onCellSelected}
+          onCellDeSelected={this.onCellDeSelected}
+          rowRenderer={this.RowRenderer}
         />
       </div>
     );
