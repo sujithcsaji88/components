@@ -415,9 +415,7 @@ class Grid extends React.Component {
           }
           toolbar={<Toolbar enableFilter={true} />}
           onAddFilter={filter => this.handleFilterChange(filter)}
-          getValidFilterValues={(columnKey) =>
-            getValidFilterValues(this.props.rows, columnKey)
-          }
+          getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
           rowSelection={{
             showCheckbox: true,
             enableShiftSelect: true,
@@ -430,9 +428,9 @@ class Grid extends React.Component {
           onGridSort={(sortColumn, sortDirection) =>
             this.sortRows(this.props.rows, sortColumn, sortDirection)
           }
-          cellRangeSelection={{
-            onComplete: this.setSelection,
-          }}
+          // cellRangeSelection={{
+          //   onComplete: this.setSelection,
+          // }}
         />
       </div>
     );
