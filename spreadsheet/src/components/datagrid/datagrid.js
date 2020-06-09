@@ -42,7 +42,7 @@ const columns = [
     key: "flightno",
     name: "Flight #",
     editable: true,
-    filterRenderer: NumericFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "date",
@@ -410,8 +410,6 @@ class Grid extends React.Component {
           rowsCount={this.state.rows.length}
           onGridRowsUpdated={this.onGridRowsUpdated}
           enableCellSelect={true}
-          onColumnResize={(idx, width) =>
-          }
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={filter => this.handleFilterChange(filter)}
           getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
