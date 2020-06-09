@@ -2,33 +2,22 @@ import React, { Component } from "react";
 import reactDOM from 'react-dom';
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
-import { range } from 'lodash';
-import LoadingSpinner from "../common/LoadingSpinner";
-import ErrorMessage from "../common/ErrorMessage";
-import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
+import { range } from "lodash";
 import { basicCalculation } from "../../utilities/utils";
 import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
-import {
-  faBold,
-  faItalic,
-  faUnderline,
-  faCross,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
   filterable: true,
-  width: 100,
+  width: 120,
 };
 
+const defaultParsePaste = (str) =>
+  str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
+
 let newFilters = {};
-
-
-const defaultParsePaste = str => (
-  str.split(/\r\n|\n|\r/)
-    .map(row => row.split('\t'))
-);
 
 const selectors = Data.Selectors;
 const {
@@ -233,29 +222,22 @@ class Grid extends React.Component {
       }
       return { rows };
     });
-  }
+  };
 
   rowGetter = (i) => {
     const { rows } = this.state;
     return rows[i];
   };
 
-  handleCopy = (e) => { debugger ;
+  handleCopy = (e) => {
     e.preventDefault();
     const { topLeft, botRight } = this.state;
-
-    // Loop through each row
     const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
-      .map(
-        // Loop through each column
-        (rowIdx) =>
-          columns
-            .slice(topLeft.colIdx, botRight.colIdx + 1)
-            .map(
-              // Grab the row values and make a text string
-              (col) => this.rowGetter(rowIdx)[col.key]
-            )
-            .join("\t")
+      .map((rowIdx) =>
+        columns
+          .slice(topLeft.colIdx, botRight.colIdx + 1)
+          .map((col) => this.rowGetter(rowIdx)[col.key])
+          .join("\t")
       )
       .join("\n");
     e.clipboardData.setData("text/plain", text);
@@ -281,7 +263,7 @@ class Grid extends React.Component {
     this.updateRows(topLeft.rowIdx, newRows);
   };
 
-  setSelection = (args) => { 
+  setSelection = (args) => {
     this.setState({
       topLeft: {
         rowIdx: args.topLeft.rowIdx,
@@ -339,21 +321,6 @@ class Grid extends React.Component {
     });
   };
 
-  onCellSelected = ({ rowIdx, idx }) => {
-  };
-
-  onCellDeSelected = ({ rowIdx, idx }) => {
-    if (idx === 2) {
-      alert(
-        "the editor for cell (" +
-          rowIdx +
-          "," +
-          idx +
-          ") should have just closed"
-      );
-    }
-  };
-
   handleFilterChange =(value)=>{
     newFilters = { ...value };
     let {junk} = this.state
@@ -400,7 +367,40 @@ class Grid extends React.Component {
     const { rows } = this.state;
     return (
       <div>
-        <div style={{ position: "absolute", margin: "15px 15px" }}>
+        <div
+          style={{
+            display: "flex",
+            margin: "15px 135px 15px 15px",
+            alignItems: "center",
+            float: "right",
+          }}
+        >
+          <FormControl
+            type="text"
+            placeholder="Search a screen"
+            className="mr-sm-2"
+            onChange={this.props.handleChange}
+          />
+          <FontAwesomeIcon
+            style={{
+              fontSize: "28px",
+              margin: "0px 10px",
+              border: "1px solid #ddd",
+              padding: "0px 4px",
+              color: "#566a81",
+            }}
+            icon={faFilter}
+          />
+          <FontAwesomeIcon
+            style={{
+              fontSize: "28px",
+              margin: "0px 10px",
+              border: "1px solid #ddd",
+              padding: "0px 4px",
+              color: "#566a81",
+            }}
+            icon={faSortAmountDown}
+          />
         </div>
         <ReactDataGrid
           style={{fontWeight:"bold"}}
@@ -410,9 +410,14 @@ class Grid extends React.Component {
           rowsCount={this.state.rows.length}
           onGridRowsUpdated={this.onGridRowsUpdated}
           enableCellSelect={true}
-          toolbar={<Toolbar enableFilter={true}/>}
+          onColumnResize={(idx, width) =>
+            console.log(`Column ${idx} has been resized to ${width}`)
+          }
+          toolbar={<Toolbar enableFilter={true} />}
           onAddFilter={filter => this.handleFilterChange(filter)}
-          getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
+          getValidFilterValues={(columnKey) =>
+            getValidFilterValues(this.props.rows, columnKey)
+          }
           rowSelection={{
             showCheckbox: true,
             enableShiftSelect: true,
@@ -425,8 +430,9 @@ class Grid extends React.Component {
           onGridSort={(sortColumn, sortDirection) =>
             this.sortRows(this.props.rows, sortColumn, sortDirection)
           }
-          onCellSelected={this.onCellSelected}
-          onCellDeSelected={this.onCellDeSelected}
+          cellRangeSelection={{
+            onComplete: this.setSelection,
+          }}
         />
       </div>
     );

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense } from "react";
 import Spreadsheet from "./components/slickgrid/slickgrid";
-import Header from "./components/common/Header";
 import Grid from "./components/datagrid/datagrid";
 import CargoData from "./stubs/CargoData.json";
 import {
@@ -92,7 +91,6 @@ export default function App() {
     return (
       <Router>
         <div>
-          <Header handleChange={getSearchWord} />
           <Suspense fallback={<LoadingSpinner />}>
             <Switch>
               <Redirect exact from="/" to="grid" />
@@ -100,7 +98,7 @@ export default function App() {
               <Route
                 exact
                 path="/grid"
-                render={(props) => <Grid {...props} rows={data} />}
+                render={(props) => <Grid {...props} rows={data} handleChange={getSearchWord}/>}
               ></Route>
             </Switch>
           </Suspense>
@@ -109,6 +107,5 @@ export default function App() {
     );
   } else {
     return <h4>Loading...</h4>;
-    //TODO - show error message
   }
 }
