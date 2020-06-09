@@ -3,7 +3,7 @@ import reactDOM from 'react-dom';
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
 import { range } from "lodash";
-import { basicCalculation } from "../../utilities/utils";
+import { applyFormula } from "../../utilities/utils";
 import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -292,7 +292,9 @@ class Grid extends React.Component {
     this.state = { rows: props.rows };
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
-    updated.yeild = basicCalculation("=sum", 1, 2);
+    if(updated.yeild!= null || updated.yeild != undefined){
+      updated = applyFormula(updated);
+    }
     if (action !== "COPY_PASTE") {
       this.setState((state) => {
         const rows = state.rows.slice();
@@ -404,7 +406,7 @@ class Grid extends React.Component {
         </div>
         <ReactDataGrid
           style={{fontWeight:"bold"}}
-          minHeight={650}
+          minHeight={680}
           columns={columns}
           rowGetter={i=>this.state.rows[i]}
           rowsCount={this.state.rows.length}
