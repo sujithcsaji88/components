@@ -30,6 +30,7 @@ body::-webkit-scrollbar {
 }
 .table-cell.column-heading.th:hover {
     border-right: #ccc solid 1px;
+    border-left: #ccc solid 1px;
 }
 .tableContainer .table .th .resizer,
 .tableContainer .table .td .resizer {
@@ -45,4 +46,7 @@ body::-webkit-scrollbar {
     -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
     -webkit-user-select: none; /* Chrome, Safari, and Opera */
     -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+i.fa {
+    margin-left: 5px;
 }
