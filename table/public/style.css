@@ -1,0 +1,48 @@
+html,
+body,
+#root {
+    height: 88vh;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+.tableContainer,
+.wrapper {
+    height: 100%;
+}
+.tableContainer .table .tbody {
+    height: 100%;
+    overflow: visible;
+}
+.content .content-edit {
+    z-index: 9;
+    position: absolute;
+    width: 420px;
+    background: #fff;
+    padding: 7px 10px;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.35);
+}
+.content .close {
+    display: none;
+}
+.content .open {
+    display: block;
+}
+.table-cell.column-heading.th:hover {
+    border-right: #ccc solid 1px;
+}
+.tableContainer .table .th .resizer,
+.tableContainer .table .td .resizer {
+    right: -5px;
+    width: 10px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    touch-action: none;
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer */
+    -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+    -webkit-user-select: none; /* Chrome, Safari, and Opera */
+    -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
