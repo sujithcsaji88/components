@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import reactDOM from 'react-dom';
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
+import { range } from 'lodash';
 import LoadingSpinner from "../common/LoadingSpinner";
 import ErrorMessage from "../common/ErrorMessage";
 import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
@@ -11,6 +12,7 @@ import {
   faBold,
   faItalic,
   faUnderline,
+  faCross,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const defaultColumnProperties = {
@@ -19,7 +21,15 @@ const defaultColumnProperties = {
   filterable: true,
   width: 100,
 };
+
 let newFilters = {};
+
+
+const defaultParsePaste = str => (
+  str.split(/\r\n|\n|\r/)
+    .map(row => row.split('\t'))
+);
+
 const selectors = Data.Selectors;
 const {
   NumericFilter,
@@ -32,7 +42,7 @@ const columns = [
     key: "flightno",
     name: "Flight #",
     editable: true,
-    filterRenderer: SingleSelectFilter,
+    filterRenderer: NumericFilter,
   },
   {
     key: "date",
@@ -199,25 +209,117 @@ const columns = [
     filterRenderer: AutoCompleteFilter,
   },
 ].map((c) => ({ ...c, ...defaultColumnProperties }));
+
 class Grid extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { filter:{},rows: this.props.rows, selectedIndexes: [], junk:{} };
-
+    this.state = { filter:{},rows: this.props.rows, selectedIndexes: [], junk:{},  topLeft: {},
+      botRight: {} };
+    document.addEventListener("copy", this.handleCopy);
+    document.addEventListener("paste", this.handlePaste);
   }
-  componentWillReceiveProps(props) {debugger;
-    this.setState({rows:props.rows})
-  }
-  onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-    updated.yeild = basicCalculation("=sum", 1, 2);
 
+  componentWillUnmount() {
+    this.removeAllListeners();
+  }
+
+  updateRows = (startIdx, newRows) => {
     this.setState((state) => {
       const rows = state.rows.slice();
-      for (let i = fromRow; i <= toRow; i++) {
-        rows[i] = { ...rows[i], ...updated };
+      for (let i = 0; i < newRows.length; i++) {
+        if (startIdx + i < rows.length) {
+          rows[startIdx + i] = { ...rows[startIdx + i], ...newRows[i] };
+        }
       }
       return { rows };
     });
+  }
+
+  rowGetter = (i) => {
+    const { rows } = this.state;
+    return rows[i];
+  };
+
+  handleCopy = (e) => { debugger ;
+    e.preventDefault();
+    const { topLeft, botRight } = this.state;
+
+    // Loop through each row
+    const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
+      .map(
+        // Loop through each column
+        (rowIdx) =>
+          columns
+            .slice(topLeft.colIdx, botRight.colIdx + 1)
+            .map(
+              // Grab the row values and make a text string
+              (col) => this.rowGetter(rowIdx)[col.key]
+            )
+            .join("\t")
+      )
+      .join("\n");
+    e.clipboardData.setData("text/plain", text);
+  };
+
+  handlePaste = (e) => {
+    e.preventDefault();
+    const { topLeft } = this.state;
+    const newRows = [];
+    const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
+    pasteData.forEach((row) => {
+      const rowData = {};
+      // Merge the values from pasting and the keys from the columns
+      columns
+        .slice(topLeft.colIdx, topLeft.colIdx + row.length)
+        .forEach((col, j) => {
+          // Create the key-value pair for the row
+          rowData[col.key] = row[j];
+        });
+      // Push the new row to the changes
+      newRows.push(rowData);
+    });
+    this.updateRows(topLeft.rowIdx, newRows);
+  };
+
+  setSelection = (args) => { 
+    this.setState({
+      topLeft: {
+        rowIdx: args.topLeft.rowIdx,
+        colIdx: args.topLeft.idx,
+      },
+      botRight: {
+        rowIdx: args.bottomRight.rowIdx,
+        colIdx: args.bottomRight.idx,
+      },
+    });
+  };
+
+  sortRows = (data, sortColumn, sortDirection) => {
+    const comparer = (a, b) => {
+      if (sortDirection === "ASC") {
+        return a[sortColumn] > b[sortColumn] ? 1 : -1;
+      } else if (sortDirection === "DESC") {
+        return a[sortColumn] < b[sortColumn] ? 1 : -1;
+      }
+    };
+    this.setState({ rows: [...this.state.rows].sort(comparer) });
+    return sortDirection === "NONE" ? data : this.state.rows;
+  };
+
+  componentWillReceiveProps(props) {
+    this.state = { rows: props.rows };
+  }
+  onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
+    updated.yeild = basicCalculation("=sum", 1, 2);
+    if (action !== "COPY_PASTE") {
+      this.setState((state) => {
+        const rows = state.rows.slice();
+        for (let i = fromRow; i <= toRow; i++) {
+          rows[i] = { ...rows[i], ...updated };
+        }
+        return { rows };
+      });
+    }
   };
 
   onRowsSelected = (rows) => {
@@ -236,18 +338,23 @@ class Grid extends React.Component {
       ),
     });
   };
-  onBoldClick = () => {
-    alert("TODO");
+
+  onCellSelected = ({ rowIdx, idx }) => {
   };
-  onUnderlineClick = () => {
-    alert("TODO");
+
+  onCellDeSelected = ({ rowIdx, idx }) => {
+    if (idx === 2) {
+      alert(
+        "the editor for cell (" +
+          rowIdx +
+          "," +
+          idx +
+          ") should have just closed"
+      );
+    }
   };
-  onItalicsClick = () => {
-    alert("TODO");
-  };
-  
+
   handleFilterChange =(value)=>{
-    //let values={...value};
     newFilters = { ...value };
     let {junk} = this.state
     if (!(value.filterTerm==null)&& !(value.filterTerm.length<=0)) {
@@ -288,25 +395,12 @@ class Grid extends React.Component {
     this.setState({ rows: [...data].sort(comparer) })
     return sortDirection === "NONE" ? data : this.state.rows;
   };
+
   render() {
+    const { rows } = this.state;
     return (
       <div>
         <div style={{ position: "absolute", margin: "15px 15px" }}>
-          <Nav className="mr-auto"></Nav>
-          <Form inline>
-            <FontAwesomeIcon
-              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
-              icon={faBold} onClick={this.onBoldClick}
-            />
-            <FontAwesomeIcon
-              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
-              icon={faItalic} onClick={this.onUnderlineClick}
-            />
-            <FontAwesomeIcon
-              style={{ fontSize: "18px", color: "#000", margin: "0px 5px" }}
-              icon={faUnderline} onClick={this.onItalicsClick}
-            />
-          </Form>
         </div>
         <ReactDataGrid
           style={{fontWeight:"bold"}}
@@ -317,11 +411,9 @@ class Grid extends React.Component {
           onGridRowsUpdated={this.onGridRowsUpdated}
           enableCellSelect={true}
           onColumnResize={(idx, width) =>
-            console.log(`Column ${idx} has been resized to ${width}`)
           }
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={filter => this.handleFilterChange(filter)}
-          //onClearFilters={() => this.handleClear()}
           getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
           rowSelection={{
             showCheckbox: true,
@@ -332,12 +424,11 @@ class Grid extends React.Component {
               indexes: this.state.selectedIndexes,
             },
           }}
-          onGridSort={(sortColumn, sortDirection) => this.sortRows(this.props.rows, sortColumn, sortDirection)}
-          // cellRangeSelection={{
-          //   onStart: (args) => console.log(this.state.rows),
-          //   onUpdate: (args) => console.log(this.state.rows),
-          //   onComplete: (args) => console.log(this.state.rows),
-          // }}
+          onGridSort={(sortColumn, sortDirection) =>
+            this.sortRows(this.props.rows, sortColumn, sortDirection)
+          }
+          onCellSelected={this.onCellSelected}
+          onCellDeSelected={this.onCellDeSelected}
         />
       </div>
     );
