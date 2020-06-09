@@ -1,31 +1,21 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
-import { range } from 'lodash';
-import LoadingSpinner from "../common/LoadingSpinner";
-import ErrorMessage from "../common/ErrorMessage";
-import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
+import { range } from "lodash";
 import { basicCalculation } from "../../utilities/utils";
 import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
-import {
-  faBold,
-  faItalic,
-  faUnderline,
-  faCross,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
   filterable: true,
-  width: 100,
+  width: 120,
 };
 
-const defaultParsePaste = str => (
-  str.split(/\r\n|\n|\r/)
-    .map(row => row.split('\t'))
-);
+const defaultParsePaste = (str) =>
+  str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
 
 const selectors = Data.Selectors;
 const {
@@ -262,33 +252,24 @@ class Grid extends React.Component {
       }
       return { rows };
     });
-  }
+  };
 
   rowGetter = (i) => {
     const { rows } = this.state;
     return rows[i];
   };
 
-  handleCopy = (e) => { debugger ;
-    console.debug("handleCopy Called");
+  handleCopy = (e) => {
     e.preventDefault();
     const { topLeft, botRight } = this.state;
-
-    // Loop through each row
     const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
-      .map(
-        // Loop through each column
-        (rowIdx) =>
-          columns
-            .slice(topLeft.colIdx, botRight.colIdx + 1)
-            .map(
-              // Grab the row values and make a text string
-              (col) => this.rowGetter(rowIdx)[col.key]
-            )
-            .join("\t")
+      .map((rowIdx) =>
+        columns
+          .slice(topLeft.colIdx, botRight.colIdx + 1)
+          .map((col) => this.rowGetter(rowIdx)[col.key])
+          .join("\t")
       )
       .join("\n");
-    console.debug("text", text);
     e.clipboardData.setData("text/plain", text);
   };
 
@@ -320,7 +301,7 @@ class Grid extends React.Component {
     this.updateRows(topLeft.rowIdx, newRows);
   };
 
-  setSelection = (args) => { 
+  setSelection = (args) => {
     this.setState({
       topLeft: {
         rowIdx: args.topLeft.rowIdx,
@@ -351,8 +332,6 @@ class Grid extends React.Component {
 
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     updated.yeild = basicCalculation("=sum", 1, 2);
-    console.debug('onGridRowsUpdated!', action);
-    console.debug('updated', updated);
     if (action !== "COPY_PASTE") {
       this.setState((state) => {
         const rows = state.rows.slice();
@@ -381,34 +360,44 @@ class Grid extends React.Component {
     });
   };
 
-  onCellSelected = ({ rowIdx, idx }) => {
-    console.log({ rowIdx, idx });
-  };
-
-  onCellDeSelected = ({ rowIdx, idx }) => {
-    if (idx === 2) {
-      alert(
-        "the editor for cell (" +
-          rowIdx +
-          "," +
-          idx +
-          ") should have just closed"
-      );
-    }
-  };
-
-  RowRenderer = ({ renderBaseRow, ...props }) => {
-    console.log({ renderBaseRow, ...props });
-    const fontWeight = props.idx % 2 ? "bold" : "normal";
-    return <div style={{ fontWeight }}> {renderBaseRow(props)}</div>;
-  };
-
   render() {
     const { rows } = this.state;
     return (
       <div>
-        <div style={{ position: "absolute", margin: "15px 15px" }}>
-          
+        <div
+          style={{
+            display: "flex",
+            margin: "15px 135px 15px 15px",
+            alignItems: "center",
+            float: "right",
+          }}
+        >
+          <FormControl
+            type="text"
+            placeholder="Search a screen"
+            className="mr-sm-2"
+            onChange={this.props.handleChange}
+          />
+          <FontAwesomeIcon
+            style={{
+              fontSize: "28px",
+              margin: "0px 10px",
+              border: "1px solid #ddd",
+              padding: "0px 4px",
+              color: "#566a81",
+            }}
+            icon={faFilter}
+          />
+          <FontAwesomeIcon
+            style={{
+              fontSize: "28px",
+              margin: "0px 10px",
+              border: "1px solid #ddd",
+              padding: "0px 4px",
+              color: "#566a81",
+            }}
+            icon={faSortAmountDown}
+          />
         </div>
         <ReactDataGrid
           minHeight={650}
@@ -421,8 +410,6 @@ class Grid extends React.Component {
             console.log(`Column ${idx} has been resized to ${width}`)
           }
           toolbar={<Toolbar enableFilter={true} />}
-          // onAddFilter={filter => setFilters(handleFilterChange(filter))}
-          // onClearFilters={() => setFilters({})}
           getValidFilterValues={(columnKey) =>
             getValidFilterValues(this.props.rows, columnKey)
           }
@@ -441,9 +428,6 @@ class Grid extends React.Component {
           cellRangeSelection={{
             onComplete: this.setSelection,
           }}
-          onCellSelected={this.onCellSelected}
-          onCellDeSelected={this.onCellDeSelected}
-          rowRenderer={this.RowRenderer}
         />
       </div>
     );

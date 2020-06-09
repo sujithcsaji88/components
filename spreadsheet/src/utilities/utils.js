@@ -27,6 +27,13 @@ export const basicCalculation = (cal, val1, val2) => {
     case "=avg":
       val = Number(val1) + Number(val2) / 2;
       break;
+    case "=Min":
+    case "=MIN":
+      val = Math.min(...Number(val1, val2));
+      break;
+    case "=Max":
+    case "=MAX":
+      val = Math.min(...Number(val1, val2));
   }
   return val;
 };
