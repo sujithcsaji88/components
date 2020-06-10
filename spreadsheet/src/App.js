@@ -9,9 +9,11 @@ import {
   Redirect,
 } from "react-router-dom";
 import LoadingSpinner from "./components/common/LoadingSpinner";
-
+let searchKey;
 export default function App() {
   const [data, setData] = useState();
+  const [load,setLoad]=useState("true");
+  const [status,setStatus]=useState("")
   const rows = CargoData.map((CargoData) => {
     return {
       key: CargoData.travelId,
@@ -53,15 +55,19 @@ export default function App() {
   }, []);
   
   const getSearchWord = (e) => {
-    const searchKey = String(e.target.value);
+    if(!e.target.value.match("^[a-zA-Z ]*$")){
+      setLoad("false");
+      console.log(load)
+    }
+    searchKey = String(e.target.value).toLowerCase();
+    console.log(searchKey);
     let filteredRows = rows.filter((item) => {
       return (
-        String(item.travelId).includes(searchKey) ||
         (item.flightno && item.flightno.toLowerCase().includes(searchKey)) ||
         (item.date && item.date.toLowerCase().includes(searchKey)) ||
         (item.segmentfrom && item.segmentfrom.toLowerCase().includes(searchKey)) ||
         (item.segmentto && item.segmentto.toLowerCase().includes(searchKey)) ||
-        String(item.flightModel && item.flightModel).includes(searchKey) ||
+        String(item.flightModel).includes(searchKey) ||
         (item.bodyType && item.bodyType.toLowerCase().includes(searchKey)) ||
         (item.type && item.type.toLowerCase().includes(searchKey)) ||
         (item.startTime && item.startTime.toLowerCase().includes(searchKey)) ||
@@ -86,6 +92,7 @@ export default function App() {
       );
     });
     setData(filteredRows);
+    setStatus("")
   };
   if (data && data.length) {
     return (
@@ -98,14 +105,17 @@ export default function App() {
               <Route
                 exact
                 path="/grid"
-                render={(props) => <Grid {...props} rows={data} handleChange={getSearchWord}/>}
+                render={(props) => <Grid {...props} rows={data} handleChange={getSearchWord} status={status}/>}
               ></Route>
             </Switch>
           </Suspense>
         </div>
       </Router>
     );
-  } else {
-    return <h4>Loading...</h4>;
+  } else if(load=="false"){
+    setStatus("please enter a valid entry")
+    setData(rows);
   }
+  else 
+  return<LoadingSpinner/>
 }

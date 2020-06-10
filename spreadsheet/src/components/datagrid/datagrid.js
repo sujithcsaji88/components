@@ -208,9 +208,7 @@ class Grid extends React.Component {
     document.addEventListener("paste", this.handlePaste);
   }
 
-  componentWillUnmount() {
-    this.removeAllListeners();
-  }
+
 
   updateRows = (startIdx, newRows) => {
     this.setState((state) => {
@@ -289,7 +287,7 @@ class Grid extends React.Component {
   };
 
   componentWillReceiveProps(props) {
-    this.state = { rows: props.rows };
+    this.setState({rows:props.rows})
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     if(updated.yeild!= null || updated.yeild != undefined){
@@ -376,7 +374,7 @@ class Grid extends React.Component {
             alignItems: "center",
             float: "right",
           }}
-        >
+        > <p>{this.props.status}</p>
           <FormControl
             type="text"
             placeholder="Search a screen"
