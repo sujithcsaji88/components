@@ -3,26 +3,25 @@
 @import "~slickgrid-es6/dist/slick-default-theme.scss";
 @import "~flatpickr/dist/flatpickr.min.css";
 
-
-.gridDiv{
+.gridDiv {
   overflow: hidden;
   outline: 0px;
   position: relative;
   min-height: 680px;
   margin-top: 50px;
 }
-.errorDiv{
-    position: fixed;
-    top: 7%;
-    left: 50%;
-    transform: translate(-50%, 5px);
+.errorDiv {
+  position: fixed;
+  top: 7%;
+  left: 50%;
+  transform: translate(-50%, 5px);
 }
 .parentDiv {
   display: flex;
-            margin:15px 135px 15px 15px ;
-            align-items: center;
+  margin: 15px 135px 15px 15px;
+  align-items: center;
 }
-.countDiv{
+.countDiv {
   width: 250px;
   display: flex;
   align-items: center;
