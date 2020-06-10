@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ClickAwayListener from "react-click-away-listener";
 
 const FlightEdit = ({ value: initialValue, row: { index }, column: { id }, updateMyData }) => {
     const [value, setValue] = useState(initialValue);
@@ -50,18 +51,20 @@ const FlightEdit = ({ value: initialValue, row: { index }, column: { id }, updat
     }, [initialValue]);
 
     return (
-        <div className="flight-details content">
-            <div className={`content-display ${isEdit ? "close" : "open"}`} onClick={openEdit}>
-                <strong>{value.flightno}</strong>
-                <span>{value.date}</span>
+        <ClickAwayListener onClickAway={clearEdit}>
+            <div className="flight-details content">
+                <div className={`content-display ${isEdit ? "close" : "open"}`} onClick={openEdit}>
+                    <strong>{value.flightno}</strong>
+                    <span>{value.date}</span>
+                </div>
+                <div className={`content-edit ${isEdit ? "open" : "close"}`}>
+                    <input type="text" value={value.flightno} onChange={onFlightChange} />
+                    <input type="date" value={getDateValue(value.date, "calendar")} onChange={onDateChange} />
+                    <button onClick={saveEdit}>OK</button>
+                    <button onClick={clearEdit}>Cancel</button>
+                </div>
             </div>
-            <div className={`content-edit ${isEdit ? "open" : "close"}`}>
-                <input type="text" value={value.flightno} onChange={onFlightChange} />
-                <input type="date" value={getDateValue(value.date, "calendar")} onChange={onDateChange} />
-                <button onClick={saveEdit}>OK</button>
-                <button onClick={clearEdit}>Cancel</button>
-            </div>
-        </div>
+        </ClickAwayListener>
     );
 };
 
