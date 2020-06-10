@@ -62,7 +62,7 @@ const App = () => {
             {
                 Header: "Details",
                 accessor: "details",
-                width: 250,
+                width: 300,
                 disableSortBy: true,
                 Cell: (row) => {
                     const { startTime, endTime, status, additionalStatus, flightModel, bodyType, type, timeStatus } = row.value;
