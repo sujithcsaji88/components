@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from "react";
 import sampleData from "./data.json";
 import Grid from "./components/Grid";
-import SREdit from "./cells/SREdit";
-import FlightEdit from "./cells/FlightEdit";
+import SREdit from "./components/Cells/SREdit";
+import FlightEdit from "./components/Cells/FlightEdit";
 import FlightIcon from "./images/FlightIcon.png";
 
 const App = () => {

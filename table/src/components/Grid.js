@@ -3,7 +3,7 @@ import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, use
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-import IndeterminateCheckbox from "./Functions/IndeterminateCheckbox";
+import IndeterminateCheckbox from "./Cells/IndeterminateCheckbox";
 import DefaultColumnFilter from "./Functions/DefaultColumnFilter";
 import GlobalFilter from "./Functions/GlobalFilter";
 
