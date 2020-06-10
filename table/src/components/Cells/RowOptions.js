@@ -51,7 +51,7 @@ const RowOptions = () => {
                         </li>
                     </ul>
                     <span className="close" onClick={closeOverlay}>
-                        <i class="fa fa-close"></i>
+                        <i className="fa fa-close"></i>
                     </span>
                 </div>
             </div>
