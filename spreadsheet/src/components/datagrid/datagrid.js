@@ -433,13 +433,16 @@ class Grid extends React.Component {
             alignItems: "center",
             float: "right",
           }}
-        > <p>{this.props.status}</p>
+          
+        >
+          <p>{this.props.count}</p>
           <FormControl
             type="text"
             placeholder="Search a screen"
             className="mr-sm-2"
             onChange={this.props.handleChange}
           />
+          <p>{this.props.status}</p>
           <FontAwesomeIcon
             style={{
               fontSize: "28px",

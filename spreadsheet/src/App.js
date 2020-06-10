@@ -12,7 +12,7 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 let searchKey;
 export default function App() {
   const [data, setData] = useState();
-  const [load,setLoad]=useState("true");
+  // const [load,setLoad]=useState("true");
   const [status,setStatus]=useState("")
 //   console.log(CargoData)
 //   for(let i = 0; i < CargoData.length; i++){
@@ -60,9 +60,9 @@ export default function App() {
   }, []);
   
   const getSearchWord = (e) => {
-    if(!e.target.value.match("^[a-zA-Z ]*$")){
-      setLoad("false");
-    }
+    // if(!e.target.value.match("^[a-zA-Z ]*$")){
+
+    // }
     searchKey = String(e.target.value).toLowerCase();
     console.log(searchKey);
     let filteredRows = rows.filter((item) => {
@@ -96,7 +96,6 @@ export default function App() {
       );
     });
     if(!filteredRows.length){
-      setLoad("false");
       setStatus("please enter a valid entry");
       setData(rows);
     }
@@ -116,7 +115,7 @@ export default function App() {
               <Route
                 exact
                 path="/grid"
-                render={(props) => <Grid {...props} rows={data} handleChange={getSearchWord} status={status}/>}
+                render={(props) => <Grid {...props} rows={data} handleChange={getSearchWord} status={status} count={data.length}/>}
               ></Route>
             </Switch>
           </Suspense>
