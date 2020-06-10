@@ -55,7 +55,6 @@ export default function App() {
   
   const getSearchWord = (e) => {
     searchKey = String(e.target.value).toLowerCase();
-    console.log(searchKey);
     let filteredRows = rows.filter((item) => {
       return (
         (item.flightno && item.flightno.toLowerCase().includes(searchKey)) ||

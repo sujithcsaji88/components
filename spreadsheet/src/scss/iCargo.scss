@@ -239,20 +239,16 @@ input.editor-checkbox {
   vertical-align: top;
   font-weight: bold;
 }
-
+ 
 .react-grid-HeaderCell {
-  border-right: none;
+  border: 1px solid #ddd;
   background: #f4f7f9;
 }
-
-.react-grid-HeaderCell:hover {
-  border-right: 1px solid #dddddd;
-}
-
+ 
 .react-grid-Cell {
-  border-right: none;
+  border: 1px solid #ddd;
 }
-
+ 
 .react-grid-Toolbar {
   background-color: #f9fafb;
   position: absolute;
@@ -260,4 +256,12 @@ input.editor-checkbox {
   right: 0px;
   border: none;
   padding: 18px 15px 7px;
+}
+
+.notification-close {
+  position: relative;
+  float: right;
+  margin-top: -38px;
+  margin-right: 13px;
+  cursor: pointer;
 }
