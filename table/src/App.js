@@ -17,7 +17,7 @@ const App = () => {
             {
                 Header: "Flight",
                 accessor: "flight",
-                width: 120,
+                width: 100,
                 Cell: FlightEdit,
                 sortType: (rowA, rowB) => {
                     return rowA.original.flight.flightno > rowB.original.flight.flightno ? -1 : 1;
@@ -34,7 +34,7 @@ const App = () => {
             {
                 Header: "Segment",
                 accessor: "segment",
-                width: 120,
+                width: 100,
                 disableSortBy: true,
                 Cell: (row) => {
                     const { from, to } = row.value;
