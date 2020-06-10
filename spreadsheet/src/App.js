@@ -12,7 +12,7 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 let searchKey;
 export default function App() {
   const [data, setData] = useState();
-  // const [load,setLoad]=useState("true");
+  const [load,setLoad]=useState("true");
   const [status,setStatus]=useState("")
 //   console.log(CargoData)
 //   for(let i = 0; i < CargoData.length; i++){
@@ -96,7 +96,7 @@ export default function App() {
       );
     });
     if(!filteredRows.length){
-      setStatus("please enter a valid entry");
+      setStatus("invalid");
       setData(rows);
     }
     else{

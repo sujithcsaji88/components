@@ -7,6 +7,7 @@ import { applyFormula } from "../../utilities/utils";
 import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ErrorMessage from "../common/ErrorMessage";
 const {
   DraggableHeader: { DraggableContainer }
 } = require("react-data-grid-addons");
@@ -424,11 +425,12 @@ class Grid extends React.Component {
   };
   render() {
     const { rows } = this.state;
+    const status=this.props.status;
     return (
       <div>
         <div className="parentDiv">
           <div className="countDiv"> Showing {this.props.count} records</div>
-          <div className="validationDiv">{this.props.status}</div>
+          <ErrorMessage status={this.props.status}/>
           <FormControl
             type="text"
             placeholder="Search a screen"
