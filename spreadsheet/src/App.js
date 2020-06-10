@@ -14,6 +14,11 @@ export default function App() {
   const [data, setData] = useState();
   const [load,setLoad]=useState("true");
   const [status,setStatus]=useState("")
+//   console.log(CargoData)
+//   for(let i = 0; i < CargoData.length; i++){
+//     CargoData.flightModel = String(CargoData.flightModel);
+//  }
+//  console.log(CargoData)
   const rows = CargoData.map((CargoData) => {
     return {
       key: CargoData.travelId,
@@ -91,8 +96,15 @@ export default function App() {
         (item.queuedBookingvolume && item.queuedBookingvolume.toLowerCase().includes(searchKey))
       );
     });
+    if(!filteredRows.length){
+      setLoad("false");
+      setStatus("please enter a valid entry");
+      setData(rows);
+    }
+    else{
     setData(filteredRows);
     setStatus("")
+    }
   };
   if (data && data.length) {
     return (
@@ -112,10 +124,7 @@ export default function App() {
         </div>
       </Router>
     );
-  } else if(load=="false"){
-    setStatus("please enter a valid entry")
-    setData(rows);
-  }
+  } 
   else 
   return<LoadingSpinner/>
 }

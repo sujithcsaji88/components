@@ -67,7 +67,7 @@ const columns = [
     key: "flightModel",
     name: "Flight Model",
     editable: true,
-    filterRenderer:SingleSelectFilter ,
+    filterRenderer:AutoCompleteFilter,
   },
   {
     key: "bodyType",
