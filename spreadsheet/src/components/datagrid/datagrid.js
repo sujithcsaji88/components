@@ -426,23 +426,15 @@ class Grid extends React.Component {
     const { rows } = this.state;
     return (
       <div>
-        <div
-          style={{
-            display: "flex",
-            margin: "15px 135px 15px 15px",
-            alignItems: "center",
-            float: "right",
-          }}
-          
-        >
-          <p>{this.props.count}</p>
+        <div className="parentDiv">
+          <div className="countDiv"> Showing {this.props.count} records</div>
+          <div className="validationDiv">{this.props.status}</div>
           <FormControl
             type="text"
             placeholder="Search a screen"
-            className="mr-sm-2"
+            className="globalSearchDiv"
             onChange={this.props.handleChange}
           />
-          <p>{this.props.status}</p>
           <FontAwesomeIcon
             style={{
               fontSize: "28px",
@@ -466,6 +458,7 @@ class Grid extends React.Component {
         </div>
         <DraggableContainer onHeaderDrop={this.onHeaderDrop}>
           <ReactDataGrid
+            
             style={{ fontWeight: "bold" }}
             minHeight={680}
             columns={this.state.columns}
@@ -477,8 +470,8 @@ class Grid extends React.Component {
               console.log(`Column ${idx} has been resized to ${width}`)
             }
             toolbar={<Toolbar enableFilter={true} />}
-            onAddFilter={filter => this.handleFilterChange(filter)}
             getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
+            onAddFilter={filter => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,
               enableShiftSelect: true,

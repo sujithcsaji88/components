@@ -3,6 +3,26 @@
 @import "~slickgrid-es6/dist/slick-default-theme.scss";
 @import "~flatpickr/dist/flatpickr.min.css";
 
+
+.parentDiv {
+  display: flex;
+            margin:15px 135px 15px 15px ;
+            align-items: center;
+}
+.countDiv{
+  width: 250px;
+  display: flex;
+  align-items: center;
+}
+.globalSearchDiv{
+  width:200px;
+
+}
+.validationDiv{
+  width: 350px;
+  display: flex;
+  align-items: center;
+}
 #iCargoSpreadSheet {
   background: white;
   outline: 0;
