@@ -62,7 +62,6 @@ export default function App() {
   const getSearchWord = (e) => {
     if(!e.target.value.match("^[a-zA-Z ]*$")){
       setLoad("false");
-      console.log(load)
     }
     searchKey = String(e.target.value).toLowerCase();
     console.log(searchKey);
