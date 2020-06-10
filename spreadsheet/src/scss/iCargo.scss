@@ -217,16 +217,12 @@ input.editor-checkbox {
 }
 
 .react-grid-HeaderCell {
-  border-right: none;
+  border: 1px solid #ddd;
   background: #f4f7f9;
 }
 
-.react-grid-HeaderCell:hover {
-  border-right: 1px solid #dddddd;
-}
-
 .react-grid-Cell {
-  border-right: none;
+  border: 1px solid #ddd;
 }
 
 .react-grid-Toolbar {

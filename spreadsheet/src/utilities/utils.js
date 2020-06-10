@@ -18,11 +18,11 @@ export const applyFormula = (obj) => {
     "queuedBookingvolume",
   ];
 
-  if (obj != null || obj != undefined) {
+  if (obj != null || obj != undefined) { 
     var item = obj.yeild.toString();
     if ( item && item.charAt(0) === "=") {
       var operation = obj.yeild.split("(");
-      var value = operation[1].substring(0, operation[1].length - 1).split(/[,:]/);
+      var value = operation[1].substring(0, operation[1].length - 1).split(/[,:+]/);
       switch (operation[0]) {
         case "=SUM":
         case "=ADD":

@@ -8,6 +8,10 @@ import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const {
+  DraggableHeader: { DraggableContainer }
+} = require("react-data-grid-addons");
+
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
