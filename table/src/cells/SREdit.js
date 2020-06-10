@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import ClickAwayListener from "react-click-away-listener";
 
 const SREdit = ({ value: initialValue, row: { index }, column: { id }, updateMyData }) => {
     const [value, setValue] = useState(initialValue);
@@ -28,16 +29,18 @@ const SREdit = ({ value: initialValue, row: { index }, column: { id }, updateMyD
     }, [initialValue]);
 
     return (
-        <div className="sr-details content">
-            <div className={`content-display ${isEdit ? "close" : "open"}`} onClick={openEdit}>
-                {value}
+        <ClickAwayListener onClickAway={clearEdit}>
+            <div className="sr-details content">
+                <div className={`content-display ${isEdit ? "close" : "open"}`} onClick={openEdit}>
+                    {value}
+                </div>
+                <div className={`content-edit ${isEdit ? "open" : "close"}`}>
+                    <input type="text" value={value} onChange={onChange} />
+                    <button onClick={saveEdit}>OK</button>
+                    <button onClick={clearEdit}>Cancel</button>
+                </div>
             </div>
-            <div className={`content-edit ${isEdit ? "open" : "close"}`}>
-                <input type="text" value={value} onChange={onChange} />
-                <button onClick={saveEdit}>OK</button>
-                <button onClick={clearEdit}>Cancel</button>
-            </div>
-        </div>
+        </ClickAwayListener>
     );
 };
 
