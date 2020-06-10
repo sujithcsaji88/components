@@ -7,6 +7,7 @@ import { applyFormula } from "../../utilities/utils";
 import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
@@ -20,12 +21,14 @@ const defaultParsePaste = (str) =>
 let newFilters = {};
 
 const selectors = Data.Selectors;
+
 const {
   NumericFilter,
   AutoCompleteFilter,
   MultiSelectFilter,
   SingleSelectFilter,
 } = Filters;
+
 const columns = [
   {
     key: "flightno",
@@ -250,14 +253,11 @@ class Grid extends React.Component {
     const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
     pasteData.forEach((row) => {
       const rowData = {};
-      // Merge the values from pasting and the keys from the columns
       columns
         .slice(topLeft.colIdx, topLeft.colIdx + row.length)
         .forEach((col, j) => {
-          // Create the key-value pair for the row
           rowData[col.key] = row[j];
         });
-      // Push the new row to the changes
       newRows.push(rowData);
     });
     this.updateRows(topLeft.rowIdx, newRows);
@@ -347,6 +347,7 @@ class Grid extends React.Component {
     });
     return data;
   }
+
   getValidFilterValues(rows, columnId) {
     return rows.map(r => r[columnId])
       .filter((item, i, a) => {
