@@ -1,15 +1,17 @@
-import React from "react";
-import { GLOBAL_ERROR } from '../constants/ErrorConstants'
+import React,{useState} from "react";
+import { SEARCH_NOT_FOUNT_ERROR } from '../constants/ErrorConstants';
 
 const ErrorMessage = (props) => {
-    let { errorText } = props;
-    errorText = errorText ? errorText : GLOBAL_ERROR;
-
+    const[error,setError]=useState("")
+    console.log(error)
+    if(props.status=="invalid"){
     return (
         <div className="alert alert-danger" role="alert">
-            {errorText}
+            {SEARCH_NOT_FOUNT_ERROR}
         </div>
     );
+    }
+    else return <div></div>
 };
 
 export default ErrorMessage;
