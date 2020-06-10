@@ -36,16 +36,19 @@ const App = () => {
                 accessor: "segment",
                 width: 120,
                 disableSortBy: true,
-                Cell: (row) => (
-                    <div className="segment-details content">
-                        <span>{row.value.from}</span>
-                        <i>
-                            {" "}
-                            <img src={FlightIcon} alt="segment" />{" "}
-                        </i>
-                        <span>{row.value.to}</span>
-                    </div>
-                ),
+                Cell: (row) => {
+                    const { from, to } = row.value;
+                    return (
+                        <div className="segment-details content">
+                            <span>{from}</span>
+                            <i>
+                                {" "}
+                                <img src={FlightIcon} alt="segment" />{" "}
+                            </i>
+                            <span>{to}</span>
+                        </div>
+                    );
+                },
                 filter: (rows, id, filterValue) => {
                     const filterText = filterValue ? filterValue.toLowerCase() : "";
                     return rows.filter((row) => {
@@ -61,8 +64,7 @@ const App = () => {
                 width: 350,
                 disableSortBy: true,
                 Cell: (row) => {
-                    const { value } = row;
-                    const { startTime, endTime, status, additionalStatus, flightModel, bodyType, type, timeStatus } = value;
+                    const { startTime, endTime, status, additionalStatus, flightModel, bodyType, type, timeStatus } = row.value;
                     let timeStatusArray = timeStatus.split(" ");
                     const timeValue = timeStatusArray.shift();
                     const timeText = timeStatusArray.join(" ");
@@ -119,15 +121,18 @@ const App = () => {
             {
                 Header: "Weight",
                 accessor: "weight",
-                Cell: (row) => (
-                    <div className="weight-details content">
-                        <strong className="per">{row.value.percentage}</strong>
-                        <span>
-                            <strong>{row.value.value.split("/")[0]}/</strong>
-                            {row.value.value.split("/")[1]}
-                        </span>
-                    </div>
-                ),
+                Cell: (row) => {
+                    const { percentage, value } = row.value;
+                    return (
+                        <div className="weight-details content">
+                            <strong className="per">{percentage}</strong>
+                            <span>
+                                <strong>{value.split("/")[0]}/</strong>
+                                {value.split("/")[1]}
+                            </span>
+                        </div>
+                    );
+                },
                 sortType: (rowA, rowB) => {
                     return rowA.original.weight.percentage > rowB.original.weight.percentage ? -1 : 1;
                 },
@@ -144,15 +149,18 @@ const App = () => {
                 Header: "Volume",
                 accessor: "volume",
                 width: 120,
-                Cell: (row) => (
-                    <div className="weight-details content">
-                        <strong className="per">{row.value.percentage}</strong>
-                        <span>
-                            <strong>{row.value.value.split("/")[0]}/</strong>
-                            {row.value.value.split("/")[1]}
-                        </span>
-                    </div>
-                ),
+                Cell: (row) => {
+                    const { percentage, value } = row.value;
+                    return (
+                        <div className="weight-details content">
+                            <strong className="per">{percentage}</strong>
+                            <span>
+                                <strong>{value.split("/")[0]}/</strong>
+                                {value.split("/")[1]}
+                            </span>
+                        </div>
+                    );
+                },
                 sortType: (rowA, rowB) => {
                     return rowA.original.volume.percentage > rowB.original.volume.percentage ? -1 : 1;
                 },
@@ -198,12 +206,15 @@ const App = () => {
             {
                 Header: "Revenue/Yield",
                 accessor: "revenue",
-                Cell: (row) => (
-                    <div className="revenue-details content">
-                        <span className="large">{row.value.revenue}</span>
-                        <span>{row.value.yeild}</span>
-                    </div>
-                ),
+                Cell: (row) => {
+                    const { revenue, yeild } = row.value;
+                    return (
+                        <div className="revenue-details content">
+                            <span className="large">{revenue}</span>
+                            <span>{yeild}</span>
+                        </div>
+                    );
+                },
                 sortType: (rowA, rowB) => {
                     return rowA.original.revenue.revenue > rowB.original.revenue.revenue ? -1 : 1;
                 },
@@ -226,17 +237,20 @@ const App = () => {
                 Header: "Queued Booking",
                 accessor: "queuedBooking",
                 disableSortBy: true,
-                Cell: (row) => (
-                    <div className="queued-details content">
-                        <span>
-                            <strong></strong>
-                            {row.value.sr}
-                        </span>
-                        <span>
-                            <strong></strong> {row.value.volume}
-                        </span>
-                    </div>
-                ),
+                Cell: (row) => {
+                    const { sr, volume } = row.value;
+                    return (
+                        <div className="queued-details content">
+                            <span>
+                                <strong></strong>
+                                {sr}
+                            </span>
+                            <span>
+                                <strong></strong> {volume}
+                            </span>
+                        </div>
+                    );
+                },
                 filter: (rows, id, filterValue) => {
                     const filterText = filterValue ? filterValue.toLowerCase() : "";
                     return rows.filter((row) => {
