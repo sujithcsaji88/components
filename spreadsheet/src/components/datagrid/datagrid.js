@@ -329,7 +329,9 @@ class Grid extends React.Component {
     this.setState({ rows: props.rows })
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
-    if (updated.yeild != null || updated.yeild != undefined) {
+    if (updated.yeild != null || updated.yeild != undefined || updated.revenue != null || updated.revenue != undefined
+      || updated.weightpercentage != null || updated.weightpercentage != undefined
+      || updated.weightvalue != null || updated.weightvalue != undefined) {
       updated = applyFormula(updated);
     }
     if (action !== "COPY_PASTE") {
@@ -430,7 +432,7 @@ class Grid extends React.Component {
     return (
       <div>
         <div className="parentDiv">
-          <div className="countDiv"> Showing {this.props.count} records</div>
+          <div className="countDiv">Showing &nbsp;<b> {this.props.count} </b> &nbsp; records</div>
           <FormControl
             type="text"
             placeholder="Search a screen"
