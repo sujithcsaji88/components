@@ -1,7 +1,6 @@
 import { Data,Grid, Editors, Plugins } from "slickgrid-es6";
 import CargoData from '../../stubs/CargoData.json'
-import { CustomFormatter } from "../../utilities/iCargo.formatters";
-import React,{ useState, useEffect } from 'react';
+import React,{ useEffect } from 'react';
 
 const checkboxSelector = new Plugins.CheckboxSelectColumn({
   cssClass: "slick-cell-checkboxsel"
@@ -37,8 +36,7 @@ const columns = [
     editor: Editors.Date,
     options: {
       date: flatPickrOptions,
-    },
-    sortable: true
+    }
   },
   {
     id: "segmentfrom",

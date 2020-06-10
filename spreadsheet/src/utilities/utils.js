@@ -17,17 +17,17 @@ const col = [
 ];
 
 export const applyFormula = (obj) => {
-  if (obj != null || obj != undefined) {
-    if(obj.yeild!=null){
+  if (obj !== null || obj !== undefined) {
+    if(obj.yeild !== null){
       obj.yeild = getResult(obj.yeild.toString());
     }
-    else if(obj.revenue!=null){
+    else if(obj.revenue !== null){
       obj.revenue = getResult(obj.revenue.toString());
     }
-    else if(obj.weightpercentage!=null){
+    else if(obj.weightpercentage !== null){
       obj.weightpercentage = getResult(obj.weightpercentage.toString());
     }
-    else if(obj.weightvalue!=null){
+    else if(obj.weightvalue !== null){
       obj.weightvalue = getResult(obj.weightvalue.toString());
     }
   }

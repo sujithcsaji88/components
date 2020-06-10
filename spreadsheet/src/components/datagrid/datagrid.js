@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import reactDOM from 'react-dom';
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../../utilities/utils";
-import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
+import { FormControl } from "react-bootstrap";
 import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "../common/ErrorMessage";
@@ -26,14 +25,12 @@ let newFilters = {};
 
 const selectors = Data.Selectors;
 const {
-  NumericFilter,
   AutoCompleteFilter,
-  MultiSelectFilter,
   SingleSelectFilter,
 } = Filters;
  
 
-class Grid extends React.Component {
+class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -329,9 +326,9 @@ class Grid extends React.Component {
     this.setState({ rows: props.rows })
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
-    if (updated.yeild != null || updated.yeild != undefined || updated.revenue != null || updated.revenue != undefined
-      || updated.weightpercentage != null || updated.weightpercentage != undefined
-      || updated.weightvalue != null || updated.weightvalue != undefined) {
+    if (updated.yeild !== null || updated.yeild !== undefined || updated.revenue !== null || updated.revenue !== undefined
+      || updated.weightpercentage !== null || updated.weightpercentage !== undefined
+      || updated.weightvalue !== null || updated.weightvalue !== undefined) {
       updated = applyFormula(updated);
     }
     if (action !== "COPY_PASTE") {
@@ -427,8 +424,6 @@ class Grid extends React.Component {
     this.setState(reorderedColumns);
   };
   render() {
-    const { rows } = this.state;
-    const status=this.props.status;
     return (
       <div>
         <div className="parentDiv">
