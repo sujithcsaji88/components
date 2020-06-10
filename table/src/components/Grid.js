@@ -4,6 +4,7 @@ import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 import IndeterminateCheckbox from "./Cells/IndeterminateCheckbox";
+import RowOptions from "./Cells/RowOptions";
 import DefaultColumnFilter from "./Functions/DefaultColumnFilter";
 import GlobalFilter from "./Functions/GlobalFilter";
 
@@ -49,7 +50,13 @@ const Grid = (props) => {
                     Header: ({ getToggleAllRowsSelectedProps }) => <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />,
                     Cell: ({ row }) => <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
                 },
-                ...columns
+                ...columns,
+                {
+                    id: "custom",
+                    disableResizing: true,
+                    width: 50,
+                    Cell: ({ row }) => <RowOptions />
+                }
             ]);
         }
     );

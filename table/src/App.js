@@ -121,6 +121,7 @@ const App = () => {
             {
                 Header: "Weight",
                 accessor: "weight",
+                width: 130,
                 Cell: (row) => {
                     const { percentage, value } = row.value;
                     return (
@@ -148,7 +149,7 @@ const App = () => {
             {
                 Header: "Volume",
                 accessor: "volume",
-                width: 120,
+                width: 100,
                 Cell: (row) => {
                     const { percentage, value } = row.value;
                     return (
@@ -206,6 +207,7 @@ const App = () => {
             {
                 Header: "Revenue/Yield",
                 accessor: "revenue",
+                width: 120,
                 Cell: (row) => {
                     const { revenue, yeild } = row.value;
                     return (
@@ -230,12 +232,13 @@ const App = () => {
             {
                 Header: "SR",
                 accessor: "sr",
-                width: 100,
+                width: 90,
                 Cell: SREdit
             },
             {
                 Header: "Queued Booking",
                 accessor: "queuedBooking",
+                width: 130,
                 disableSortBy: true,
                 Cell: (row) => {
                     const { sr, volume } = row.value;
