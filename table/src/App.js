@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import sampleData from "./data.json";
+import RowOptions from "./components/Cells/RowOptions";
 import Grid from "./components/Grid";
 import SREdit from "./components/Cells/SREdit";
 import FlightEdit from "./components/Cells/FlightEdit";
@@ -262,6 +263,12 @@ const App = () => {
                         return sr.toLowerCase().includes(filterText) || volume.toLowerCase().includes(filterText);
                     });
                 }
+            },
+            {
+                id: "custom",
+                disableResizing: true,
+                width: 50,
+                Cell: ({ row }) => <RowOptions row={row} />
             }
         ],
         []

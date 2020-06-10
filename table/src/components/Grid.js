@@ -2,12 +2,9 @@ import React, { useCallback, useState } from "react";
 import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, useFilters, useGlobalFilter } from "react-table";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-
 import IndeterminateCheckbox from "./Cells/IndeterminateCheckbox";
-import RowOptions from "./Cells/RowOptions";
 import DefaultColumnFilter from "./Functions/DefaultColumnFilter";
 import GlobalFilter from "./Functions/GlobalFilter";
-
 import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
@@ -50,13 +47,7 @@ const Grid = (props) => {
                     Header: ({ getToggleAllRowsSelectedProps }) => <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />,
                     Cell: ({ row }) => <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
                 },
-                ...columns,
-                {
-                    id: "custom",
-                    disableResizing: true,
-                    width: 50,
-                    Cell: ({ row }) => <RowOptions />
-                }
+                ...columns
             ]);
         }
     );

@@ -4,10 +4,11 @@ import RowDelete from "../../images/RowDelete.svg";
 import RowEdit from "../../images/RowEdit.svg";
 import RowPin from "../../images/RowPin.png";
 
-const RowOptions = () => {
+const RowOptions = (props) => {
     const [isOpen, setOpen] = useState(false);
 
     const openOverlay = () => {
+        console.log(props.row.original);
         setOpen(true);
     };
 
