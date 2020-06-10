@@ -162,11 +162,6 @@ select:-webkit-autofill:focus {
 
 /*  General Styles
  *  ------------------------------------------------------ */
-.table-outer {
-    display: block;
-    overflow: hidden;
-    height: 100%;
-}
 .table-outer .table {
     border-top: 1px solid #d2d5de;
 }
@@ -425,6 +420,7 @@ select:-webkit-autofill:focus {
     right: 0;
     top: 0;
     padding: 15px 10px;
+    margin-bottom: 40px;
     z-index: 9;
 }
 .table-outer .table .row-options-edit-wrap .row-options-edit.open {
