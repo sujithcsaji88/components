@@ -9,7 +9,6 @@ const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
     return (
         <div className="check-wrap">
             <input type="checkbox" ref={resolvedRef} {...rest} />
-            <label className="checkbox-custom-label"></label>
         </div>
     );
 });
