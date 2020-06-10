@@ -3,7 +3,6 @@ import { SEARCH_NOT_FOUNT_ERROR } from '../constants/ErrorConstants';
 
 const ErrorMessage = (props) => {
     const[error,setError]=useState("")
-    //setError(props.status)
     console.log(error)
     if(props.status=="invalid"){
     return (

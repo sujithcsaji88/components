@@ -8,6 +8,7 @@ import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
 import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "../common/ErrorMessage";
+
 const {
   DraggableHeader: { DraggableContainer }
 } = require("react-data-grid-addons");
@@ -430,7 +431,6 @@ class Grid extends React.Component {
       <div>
         <div className="parentDiv">
           <div className="countDiv"> Showing {this.props.count} records</div>
-          <ErrorMessage status={this.props.status}/>
           <FormControl
             type="text"
             placeholder="Search a screen"
@@ -457,11 +457,10 @@ class Grid extends React.Component {
             }}
             icon={faSortAmountDown}
           />
+          <ErrorMessage className="errorDiv" status={this.props.status}/>
         </div>
-        <DraggableContainer onHeaderDrop={this.onHeaderDrop}>
+        <DraggableContainer className="gridDiv" onHeaderDrop={this.onHeaderDrop}>
           <ReactDataGrid
-            
-            style={{ fontWeight: "bold" }}
             minHeight={680}
             columns={this.state.columns}
             rowGetter={i => this.state.rows[i]}

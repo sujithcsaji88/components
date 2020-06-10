@@ -4,6 +4,19 @@
 @import "~flatpickr/dist/flatpickr.min.css";
 
 
+.gridDiv{
+  overflow: hidden;
+  outline: 0px;
+  position: relative;
+  min-height: 680px;
+  margin-top: 50px;
+}
+.errorDiv{
+    position: fixed;
+    top: 7%;
+    left: 50%;
+    transform: translate(-50%, 5px);
+}
 .parentDiv {
   display: flex;
             margin:15px 135px 15px 15px ;
@@ -11,15 +24,6 @@
 }
 .countDiv{
   width: 250px;
-  display: flex;
-  align-items: center;
-}
-.globalSearchDiv{
-  width:200px;
-
-}
-.validationDiv{
-  width: 350px;
   display: flex;
   align-items: center;
 }

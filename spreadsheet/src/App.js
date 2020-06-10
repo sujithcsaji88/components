@@ -12,13 +12,7 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 let searchKey;
 export default function App() {
   const [data, setData] = useState();
-  const [load,setLoad]=useState("true");
   const [status,setStatus]=useState("")
-//   console.log(CargoData)
-//   for(let i = 0; i < CargoData.length; i++){
-//     CargoData.flightModel = String(CargoData.flightModel);
-//  }
-//  console.log(CargoData)
   const rows = CargoData.map((CargoData) => {
     return {
       key: CargoData.travelId,
@@ -60,9 +54,6 @@ export default function App() {
   }, []);
   
   const getSearchWord = (e) => {
-    // if(!e.target.value.match("^[a-zA-Z ]*$")){
-
-    // }
     searchKey = String(e.target.value).toLowerCase();
     console.log(searchKey);
     let filteredRows = rows.filter((item) => {
