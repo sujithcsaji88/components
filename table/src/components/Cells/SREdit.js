@@ -36,8 +36,8 @@ const SREdit = ({ value: initialValue, row: { index }, column: { id }, updateMyD
                 </div>
                 <div className={`content-edit ${isEdit ? "open" : "close"}`}>
                     <input type="text" value={value} onChange={onChange} />
-                    <button onClick={saveEdit}>OK</button>
-                    <button onClick={clearEdit}>Cancel</button>
+                    <button className="ok" onClick={saveEdit} />
+                    <button className="cancel" onClick={clearEdit} />
                 </div>
             </div>
         </ClickAwayListener>

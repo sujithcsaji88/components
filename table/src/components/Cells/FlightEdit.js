@@ -53,15 +53,15 @@ const FlightEdit = ({ value: initialValue, row: { index }, column: { id }, updat
     return (
         <ClickAwayListener onClickAway={clearEdit}>
             <div className="flight-details content">
-                <div className={`content-display ${isEdit ? "close" : "open"}`} onClick={openEdit}>
+                <div onClick={openEdit}>
                     <strong>{value.flightno}</strong>
                     <span>{value.date}</span>
                 </div>
                 <div className={`content-edit ${isEdit ? "open" : "close"}`}>
                     <input type="text" value={value.flightno} onChange={onFlightChange} />
                     <input type="date" value={getDateValue(value.date, "calendar")} onChange={onDateChange} />
-                    <button onClick={saveEdit}>OK</button>
-                    <button onClick={clearEdit}>Cancel</button>
+                    <button className="ok" onClick={saveEdit} />
+                    <button className="cancel" onClick={clearEdit} />
                 </div>
             </div>
         </ClickAwayListener>
