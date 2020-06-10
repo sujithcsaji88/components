@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, useFilters, useGlobalFilter } from "react-table";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 import IndeterminateCheckbox from "./Functions/IndeterminateCheckbox";
@@ -11,7 +11,7 @@ import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
 const Grid = (props) => {
-    const { columns, data, updateMyData } = props;
+    const { columns, data, globalSearchLogic, updateMyData } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -29,7 +29,8 @@ const Grid = (props) => {
             columns,
             data,
             defaultColumn,
-            updateMyData
+            updateMyData,
+            globalFilter: (rows, columns, filterValue) => globalSearchLogic(rows, columns, filterValue)
         },
         useFilters,
         useGlobalFilter,
@@ -96,9 +97,9 @@ const Grid = (props) => {
                 </div>
             </div>
             <div className="tableContainer table-outer">
-                <AutoSizer>
-                    {({ height, width }) => (
-                        <div {...getTableProps()} className="table" style={{ width: width }}>
+                <AutoSizer disableWidth disableResizing>
+                    {({ height }) => (
+                        <div {...getTableProps()} className="table">
                             <div className="thead table-row table-row--head">
                                 {headerGroups.map((headerGroup) => (
                                     <div {...headerGroup.getHeaderGroupProps()} className="tr">
@@ -128,7 +129,13 @@ const Grid = (props) => {
                                 ))}
                             </div>
                             <div {...getTableBodyProps()} className="tbody">
-                                <List height={height - 50} width={width} itemCount={rows.length} itemSize={50} overscanCount={20}>
+                                <List
+                                    className="table-list"
+                                    height={height - 50}
+                                    itemCount={rows.length}
+                                    itemSize={() => 50}
+                                    overscanCount={20}
+                                >
                                     {RenderRow}
                                 </List>
                             </div>

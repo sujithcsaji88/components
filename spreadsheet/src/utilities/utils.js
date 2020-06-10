@@ -6,27 +6,51 @@ export const requiredFieldValidator = (value) => {
   }
 };
 
-export const basicCalculation = (cal, val1, val2) => {
-  let val;
-  switch (cal) {
-    case "=SUM":
-    case "=ADD":
-    case "=sum":
-    case "=add":
-      val = Number(val1) + Number(val2);
-      break;
-    case "=MUL":
-    case "=mul":
-      val = Number(val1) * Number(val2);
-      break;
-    case "=SUB":
-    case "=sub":
-      val = Number(val1) - Number(val2);
-      break;
-    case "=AVG":
-    case "=avg":
-      val = Number(val1) + Number(val2) / 2;
-      break;
+export const applyFormula = (obj) => {
+  let result;
+  const col = [
+    "yield",
+    "revenue",
+    "weightpercentage",
+    "weightvalue",
+    "volumepercentage",
+    "volumevalue",
+    "queuedBookingvolume",
+  ];
+
+  if (obj != null || obj != undefined) {
+    var item = obj.yeild.toString();
+    if ( item && item.charAt(0) === "=") {
+      var operation = obj.yeild.split("(");
+      var value = operation[1].substring(0, operation[1].length - 1).split(/[,:]/);
+      switch (operation[0]) {
+        case "=SUM":
+        case "=ADD":
+        case "=sum":
+        case "=add":
+          result = value.reduce(function(a, b){ return Number(a) + Number(b); });
+          break;
+        case "=MUL":
+        case "=mul":
+          result = value.reduce(function(a, b){ return Number(a) * Number(b); });
+          break;
+        case "=SUB":
+        case "=sub":
+        case "=DIFF":
+        case "=diff":
+          result = value.reduce(function(a, b){ return Number(a) - Number(b); });
+          break;
+        case "=min":
+        case "=MIN":
+          result = Math.min.apply( Math, value );
+          break;
+        case "=max":
+        case "=MAX":
+          result = Math.max.apply( Math, value );
+          break;
+      }
+      obj.yeild = result;
+    }
   }
-  return val;
+  return obj;
 };

@@ -1,31 +1,23 @@
 import React, { Component } from "react";
+import reactDOM from 'react-dom';
 import ReactDataGrid from "react-data-grid";
 import { Toolbar, Data, Filters } from "react-data-grid-addons";
-import { range } from 'lodash';
-import LoadingSpinner from "../common/LoadingSpinner";
-import ErrorMessage from "../common/ErrorMessage";
-import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
-import { basicCalculation } from "../../utilities/utils";
+import { range } from "lodash";
+import { applyFormula } from "../../utilities/utils";
 import { Navbar, Nav, Form, FormControl } from "react-bootstrap";
-import {
-  faBold,
-  faItalic,
-  faUnderline,
-  faCross,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
   filterable: true,
-  width: 100,
+  width: 120,
 };
 
-const defaultParsePaste = str => (
-  str.split(/\r\n|\n|\r/)
-    .map(row => row.split('\t'))
-);
+const defaultParsePaste = (str) =>
+  str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
+
+let newFilters = {};
 
 const selectors = Data.Selectors;
 const {
@@ -34,41 +26,18 @@ const {
   MultiSelectFilter,
   SingleSelectFilter,
 } = Filters;
-
-const handleFilterChange = (filter) => (filters) => {
-  const newFilters = { ...filters };
-  if (filter.filterTerm) {
-    newFilters[filter.column.key] = filter;
-  } else {
-    delete newFilters[filter.column.key];
-  }
-  return newFilters;
-};
-
-function getValidFilterValues(rows, columnId) {
-  return rows
-    .map((r) => r[columnId])
-    .filter((item, i, a) => {
-      return i === a.indexOf(item);
-    });
-}
-
-function getRows(rows, filters) {
-  return selectors.getRows({ rows, filters });
-}
-
 const columns = [
   {
     key: "flightno",
     name: "Flight #",
     editable: true,
-    filterRenderer: NumericFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "date",
     name: "Date",
     editable: true,
-    filterRenderer: AutoCompleteFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "segmentfrom",
@@ -80,13 +49,13 @@ const columns = [
     key: "revenue",
     name: "Revenue",
     editable: true,
-    filterRenderer: NumericFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "yeild",
     name: "Yeild",
     editable: true,
-    filterRenderer: NumericFilter,
+    filterRenderer: SingleSelectFilter,
   },
   {
     key: "segmentto",
@@ -98,7 +67,7 @@ const columns = [
     key: "flightModel",
     name: "Flight Model",
     editable: true,
-    filterRenderer: AutoCompleteFilter,
+    filterRenderer:SingleSelectFilter ,
   },
   {
     key: "bodyType",
@@ -233,12 +202,8 @@ const columns = [
 class Grid extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      rows: this.props.rows,
-      selectedIndexes: [],
-      topLeft: {},
-      botRight: {},
-    };
+    this.state = { filter:{},rows: this.props.rows, selectedIndexes: [], junk:{},  topLeft: {},
+      botRight: {} };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
   }
@@ -246,11 +211,6 @@ class Grid extends React.Component {
   componentWillUnmount() {
     this.removeAllListeners();
   }
-
-  removeAllListeners = () => {
-    document.removeEventListener("copy", this.handleCopy);
-    document.removeEventListener("paste", this.handlePaste);
-  };
 
   updateRows = (startIdx, newRows) => {
     this.setState((state) => {
@@ -262,46 +222,32 @@ class Grid extends React.Component {
       }
       return { rows };
     });
-  }
+  };
 
   rowGetter = (i) => {
     const { rows } = this.state;
     return rows[i];
   };
 
-  handleCopy = (e) => { debugger ;
-    console.debug("handleCopy Called");
+  handleCopy = (e) => {
     e.preventDefault();
     const { topLeft, botRight } = this.state;
-
-    // Loop through each row
     const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
-      .map(
-        // Loop through each column
-        (rowIdx) =>
-          columns
-            .slice(topLeft.colIdx, botRight.colIdx + 1)
-            .map(
-              // Grab the row values and make a text string
-              (col) => this.rowGetter(rowIdx)[col.key]
-            )
-            .join("\t")
+      .map((rowIdx) =>
+        columns
+          .slice(topLeft.colIdx, botRight.colIdx + 1)
+          .map((col) => this.rowGetter(rowIdx)[col.key])
+          .join("\t")
       )
       .join("\n");
-    console.debug("text", text);
     e.clipboardData.setData("text/plain", text);
   };
 
   handlePaste = (e) => {
-    console.debug("handlePaste Called");
     e.preventDefault();
     const { topLeft } = this.state;
-
     const newRows = [];
     const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
-
-    console.debug("pasteData", pasteData);
-
     pasteData.forEach((row) => {
       const rowData = {};
       // Merge the values from pasting and the keys from the columns
@@ -314,13 +260,10 @@ class Grid extends React.Component {
       // Push the new row to the changes
       newRows.push(rowData);
     });
-
-    console.debug("newRows", newRows);
-
     this.updateRows(topLeft.rowIdx, newRows);
   };
 
-  setSelection = (args) => { 
+  setSelection = (args) => {
     this.setState({
       topLeft: {
         rowIdx: args.topLeft.rowIdx,
@@ -348,11 +291,10 @@ class Grid extends React.Component {
   componentWillReceiveProps(props) {
     this.state = { rows: props.rows };
   }
-
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
-    updated.yeild = basicCalculation("=sum", 1, 2);
-    console.debug('onGridRowsUpdated!', action);
-    console.debug('updated', updated);
+    if(updated.yeild!= null || updated.yeild != undefined){
+      updated = applyFormula(updated);
+    }
     if (action !== "COPY_PASTE") {
       this.setState((state) => {
         const rows = state.rows.slice();
@@ -381,51 +323,101 @@ class Grid extends React.Component {
     });
   };
 
-  onCellSelected = ({ rowIdx, idx }) => {
-    console.log({ rowIdx, idx });
-  };
-
-  onCellDeSelected = ({ rowIdx, idx }) => {
-    if (idx === 2) {
-      alert(
-        "the editor for cell (" +
-          rowIdx +
-          "," +
-          idx +
-          ") should have just closed"
-      );
+  handleFilterChange =(value)=>{
+    newFilters = { ...value };
+    let {junk} = this.state
+    if (!(value.filterTerm==null)&& !(value.filterTerm.length<=0)) {
+      newFilters[value.column.key] = value;
+      junk[value.column.key]=value
+    } else if(value.filterTerm==null||value.filterTerm.length<=0) {
+      delete newFilters[value.column.key];
+      delete junk[value.column.key];
     }
+    this.setState({filter:newFilters,junk});
+    const data=this.getrows(this.props.rows,junk);
+    this.setState({rows:data})
   };
-
-  RowRenderer = ({ renderBaseRow, ...props }) => {
-    console.log({ renderBaseRow, ...props });
-    const fontWeight = props.idx % 2 ? "bold" : "normal";
-    return <div style={{ fontWeight }}> {renderBaseRow(props)}</div>;
+  getrows=(rows, junk)=>{
+    if(Object.keys(junk).length<=0){
+      junk={}
+    }
+    const data= selectors.getRows({
+      rows: rows,
+      filters: junk
+    });
+    return data;
+  }
+  getValidFilterValues(rows, columnId) {
+    return rows.map(r => r[columnId])
+      .filter((item, i, a) => {
+        return i === a.indexOf(item);
+      });
+  }
+  sortRows = (data, sortColumn, sortDirection) => {
+    const comparer = (a, b) => {
+      if (sortDirection === "ASC") {
+        return a[sortColumn] > b[sortColumn] ? 1 : -1;
+      } else if (sortDirection === "DESC") {
+        return a[sortColumn] < b[sortColumn] ? 1 : -1;
+      }
+    };
+    this.setState({ rows: [...data].sort(comparer) })
+    return sortDirection === "NONE" ? data : this.state.rows;
   };
 
   render() {
     const { rows } = this.state;
     return (
       <div>
-        <div style={{ position: "absolute", margin: "15px 15px" }}>
-          
+        <div
+          style={{
+            display: "flex",
+            margin: "15px 135px 15px 15px",
+            alignItems: "center",
+            float: "right",
+          }}
+        >
+          <FormControl
+            type="text"
+            placeholder="Search a screen"
+            className="mr-sm-2"
+            onChange={this.props.handleChange}
+          />
+          <FontAwesomeIcon
+            style={{
+              fontSize: "28px",
+              margin: "0px 10px",
+              border: "1px solid #ddd",
+              padding: "0px 4px",
+              color: "#566a81",
+            }}
+            icon={faFilter}
+          />
+          <FontAwesomeIcon
+            style={{
+              fontSize: "28px",
+              margin: "0px 10px",
+              border: "1px solid #ddd",
+              padding: "0px 4px",
+              color: "#566a81",
+            }}
+            icon={faSortAmountDown}
+          />
         </div>
         <ReactDataGrid
-          minHeight={650}
+          style={{fontWeight:"bold"}}
+          minHeight={680}
           columns={columns}
-          rowGetter={(i) => rows[i]}
-          rowsCount={this.props.rows.length}
+          rowGetter={i=>this.state.rows[i]}
+          rowsCount={this.state.rows.length}
           onGridRowsUpdated={this.onGridRowsUpdated}
           enableCellSelect={true}
           onColumnResize={(idx, width) =>
             console.log(`Column ${idx} has been resized to ${width}`)
           }
           toolbar={<Toolbar enableFilter={true} />}
-          // onAddFilter={filter => setFilters(handleFilterChange(filter))}
-          // onClearFilters={() => setFilters({})}
-          getValidFilterValues={(columnKey) =>
-            getValidFilterValues(this.props.rows, columnKey)
-          }
+          onAddFilter={filter => this.handleFilterChange(filter)}
+          getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
           rowSelection={{
             showCheckbox: true,
             enableShiftSelect: true,
@@ -438,12 +430,9 @@ class Grid extends React.Component {
           onGridSort={(sortColumn, sortDirection) =>
             this.sortRows(this.props.rows, sortColumn, sortDirection)
           }
-          cellRangeSelection={{
-            onComplete: this.setSelection,
-          }}
-          onCellSelected={this.onCellSelected}
-          onCellDeSelected={this.onCellDeSelected}
-          rowRenderer={this.RowRenderer}
+          // cellRangeSelection={{
+          //   onComplete: this.setSelection,
+          // }}
         />
       </div>
     );
