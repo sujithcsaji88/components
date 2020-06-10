@@ -60,28 +60,35 @@ const App = () => {
                 accessor: "details",
                 width: 350,
                 disableSortBy: true,
-                Cell: (row) => (
-                    <div className="details-wrap content">
-                        <ul>
-                            <li>
-                                {row.value.startTime} – {row.value.endTime}
-                            </li>
-                            <li>
-                                <span>{row.value.status}</span>
-                            </li>
-                            <li>{row.value.additionalStatus}</li>
-                            <li>{row.value.flightModel}</li>
-                            <li>{row.value.bodyType}</li>
-                            <li>
-                                <span>{row.value.type}</span>
-                            </li>
-                            <li>
-                                <strong>{row.value.timeStatus.split("|")[0]} </strong>
-                                <span>{row.value.timeStatus.split("|")[1]}</span>
-                            </li>
-                        </ul>
-                    </div>
-                ),
+                Cell: (row) => {
+                    const { value } = row;
+                    const { startTime, endTime, status, additionalStatus, flightModel, bodyType, type, timeStatus } = value;
+                    let timeStatusArray = timeStatus.split(" ");
+                    const timeValue = timeStatusArray.shift();
+                    const timeText = timeStatusArray.join(" ");
+                    return (
+                        <div className="details-wrap content">
+                            <ul>
+                                <li>
+                                    {startTime} – {endTime}
+                                </li>
+                                <li>
+                                    <span>{status}</span>
+                                </li>
+                                <li>{additionalStatus}</li>
+                                <li>{flightModel}</li>
+                                <li>{bodyType}</li>
+                                <li>
+                                    <span>{type}</span>
+                                </li>
+                                <li>
+                                    <strong>{timeValue} </strong>
+                                    <span>{timeText}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    );
+                },
                 filter: (rows, id, filterValue) => {
                     const filterText = filterValue ? filterValue.toLowerCase() : "";
                     return rows.filter((row) => {
@@ -244,6 +251,45 @@ const App = () => {
     );
     const [data, setData] = useState(sampleData);
 
+    const globalSearchLogic = (rows, columns, filterValue) => {
+        if (filterValue) {
+            const searchText = filterValue.toLowerCase();
+            return rows.filter((row) => {
+                const { flight, segment, details, weight, volume, revenue, queuedBooking, uldPositions, sr } = row.original;
+                const { date, flightno } = flight;
+                const { from, to } = segment;
+                const { flightModel, bodyType, type, startTime, endTime, status, additionalStatus, timeStatus } = details;
+                return (
+                    date.toLowerCase().includes(searchText) ||
+                    flightno.toLowerCase().includes(searchText) ||
+                    from.toLowerCase().includes(searchText) ||
+                    to.toLowerCase().includes(searchText) ||
+                    flightModel.toString().toLowerCase().includes(searchText) ||
+                    bodyType.toLowerCase().includes(searchText) ||
+                    type.toLowerCase().includes(searchText) ||
+                    startTime.toLowerCase().includes(searchText) ||
+                    endTime.toLowerCase().includes(searchText) ||
+                    status.toLowerCase().includes(searchText) ||
+                    additionalStatus.toLowerCase().includes(searchText) ||
+                    timeStatus.toLowerCase().includes(searchText) ||
+                    weight.percentage.toLowerCase().includes(searchText) ||
+                    weight.value.toLowerCase().includes(searchText) ||
+                    volume.percentage.toLowerCase().includes(searchText) ||
+                    volume.value.toLowerCase().includes(searchText) ||
+                    revenue.revenue.toLowerCase().includes(searchText) ||
+                    revenue.yeild.toLowerCase().includes(searchText) ||
+                    sr.toLowerCase().includes(searchText) ||
+                    queuedBooking.sr.toLowerCase().includes(searchText) ||
+                    queuedBooking.volume.toLowerCase().includes(searchText) ||
+                    uldPositions.findIndex((item) => {
+                        return (item.position + " " + item.value).toLowerCase().includes(searchText);
+                    }) >= 0
+                );
+            });
+        }
+        return rows;
+    };
+
     //Gets called when there is a cell edit
     const updateMyData = (rowIndex, columnId, value) => {
         console.log(rowIndex + " " + columnId + " " + value);
@@ -259,7 +305,7 @@ const App = () => {
             })
         );
     };
-    return <Grid columns={columns} data={data} updateMyData={updateMyData} />;
+    return <Grid columns={columns} data={data} globalSearchLogic={globalSearchLogic} updateMyData={updateMyData} />;
 };
 
 export default App;

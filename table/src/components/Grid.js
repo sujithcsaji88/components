@@ -11,7 +11,7 @@ import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
 const Grid = (props) => {
-    const { columns, data, updateMyData } = props;
+    const { columns, data, globalSearchLogic, updateMyData } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -29,7 +29,8 @@ const Grid = (props) => {
             columns,
             data,
             defaultColumn,
-            updateMyData
+            updateMyData,
+            globalFilter: (rows, columns, filterValue) => globalSearchLogic(rows, columns, filterValue)
         },
         useFilters,
         useGlobalFilter,
