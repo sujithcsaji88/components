@@ -30,7 +30,7 @@ const {
 } = Filters;
  
 
-class Grid extends Component {
+class Grid extends Component  {
   constructor(props) {
     super(props);
     this.state = {
@@ -433,6 +433,7 @@ class Grid extends Component {
     this.setState({textValue:''})
     this.setState({status:''})
   }
+
   render() {
     return (
       <div>
@@ -494,7 +495,7 @@ class Grid extends Component {
               this.sortRows(this.props.rows, sortColumn, sortDirection)
             }
           // cellRangeSelection={{
-          //   onComplete: this.setSelection,
+          //   onComplete: this.setSelection
           // }}
           />
         </DraggableContainer>
