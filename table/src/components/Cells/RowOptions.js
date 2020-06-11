@@ -5,11 +5,9 @@ import RowEdit from "../../images/RowEdit.svg";
 import RowPin from "../../images/RowPin.png";
 
 const RowOptions = memo((props) => {
-    console.log("row options");
     const [isOpen, setOpen] = useState(false);
 
     const openOverlay = () => {
-        console.log(props.row.original);
         setOpen(true);
     };
 

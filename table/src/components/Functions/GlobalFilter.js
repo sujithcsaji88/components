@@ -2,7 +2,6 @@ import React, { memo, useState } from "react";
 import { useAsyncDebounce } from "react-table";
 
 const GlobalFilter = memo(({ globalFilter, setGlobalFilter }) => {
-    console.log("global filter");
     const [value, setValue] = useState(globalFilter);
 
     const onChange = useAsyncDebounce((value) => {

@@ -2,7 +2,6 @@ import React, { forwardRef, useRef, useEffect, useState, memo } from "react";
 
 const RowSelector = memo(
     forwardRef(({ indeterminate, ...rest }, ref) => {
-        console.log("row selector");
         const [checkValue, setCheckValue] = useState(indeterminate);
         const defaultRef = useRef();
         const resolvedRef = ref || defaultRef;

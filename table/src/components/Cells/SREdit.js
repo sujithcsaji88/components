@@ -2,7 +2,6 @@ import React, { useState, useEffect, memo } from "react";
 import ClickAwayListener from "react-click-away-listener";
 
 const SREdit = memo(({ value: initialValue, row: { index }, column: { id }, updateMyData }) => {
-    console.log("sr edit");
     const [value, setValue] = useState(initialValue);
     const [oldValue] = useState(initialValue);
     const [isEdit, setEdit] = useState(false);

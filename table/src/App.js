@@ -7,7 +7,6 @@ import FlightEdit from "./components/Cells/FlightEdit";
 import FlightIcon from "./images/FlightIcon.png";
 
 const App = memo(() => {
-    console.log("App");
     const columns = useMemo(
         () => [
             {
