@@ -41,8 +41,8 @@ class Grid extends Component {
       selectedIndexes: [],
       junk: {},
       topLeft: {},
-      botRight: {},
-      value: {},
+      status:'',
+      textValue:'',
       columns: [
         {
           key: "flightno",
@@ -252,6 +252,7 @@ class Grid extends Component {
     };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
+    this.handletextValue=this.handletextValue.bind(this);
   }
 
   updateRows = (startIdx, newRows) => {
@@ -329,7 +330,9 @@ class Grid extends Component {
   };
 
   componentWillReceiveProps(props) {
-    this.setState({ rows: props.rows });
+    this.setState({ rows: props.rows })
+    this.setState({status:props.status})
+    this.setState({textValue:props.textValue})
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     if (
@@ -439,11 +442,10 @@ class Grid extends Component {
     this.setState(reorderedColumns);
   };
 
-  onClose = () => { 
-    this.setState({value: ''});
-    console.log('clicked');
+  handletextValue(){
+    this.setState({textValue:''})
+    this.setState({status:''})
   }
-
   render() {
     return (
       <div>
@@ -471,6 +473,8 @@ class Grid extends Component {
           onHeaderDrop={this.onHeaderDrop}
         >
           <ReactDataGrid
+            toolbar={<Toolbar enableFilter={true} />}
+            getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
             minHeight={680}
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
@@ -497,9 +501,6 @@ class Grid extends Component {
             onGridSort={(sortColumn, sortDirection) =>
               this.sortRows(this.props.rows, sortColumn, sortDirection)
             }
-            // cellRangeSelection={{
-            //   onComplete: this.setSelection,
-            // }}
           />
         </DraggableContainer>
       </div>
