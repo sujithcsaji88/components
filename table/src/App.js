@@ -268,6 +268,8 @@ const App = memo(() => {
             {
                 id: "custom",
                 disableResizing: true,
+                disableFilters: true,
+                disableSortBy: true,
                 width: 50,
                 Cell: ({ row }) => <RowOptions row={row} />
             }
@@ -317,7 +319,7 @@ const App = memo(() => {
 
     //Gets called when there is a cell edit
     const updateMyData = (rowIndex, columnId, value) => {
-        console.log(rowIndex + " " + columnId + " " + value);
+        console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
         setData((old) =>
             old.map((row, index) => {
                 if (index === rowIndex) {
