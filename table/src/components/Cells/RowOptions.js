@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import ClickAwayListener from "react-click-away-listener";
 import RowDelete from "../../images/RowDelete.svg";
 import RowEdit from "../../images/RowEdit.svg";
 import RowPin from "../../images/RowPin.png";
 
-const RowOptions = (props) => {
+const RowOptions = memo((props) => {
+    console.log("row options");
     const [isOpen, setOpen] = useState(false);
 
     const openOverlay = () => {
@@ -58,6 +59,6 @@ const RowOptions = (props) => {
             </div>
         </ClickAwayListener>
     );
-};
+});
 
 export default RowOptions;

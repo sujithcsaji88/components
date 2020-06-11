@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, memo } from "react";
 import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, useFilters, useGlobalFilter } from "react-table";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -8,7 +8,8 @@ import GlobalFilter from "./Functions/GlobalFilter";
 import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
-const Grid = (props) => {
+const Grid = memo((props) => {
+    console.log("Grid");
     const { columns, data, globalSearchLogic, updateMyData } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
@@ -143,6 +144,6 @@ const Grid = (props) => {
             </div>
         </div>
     );
-};
+});
 
 export default Grid;

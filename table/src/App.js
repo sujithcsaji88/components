@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, memo } from "react";
 import sampleData from "./data.json";
 import RowOptions from "./components/Cells/RowOptions";
 import Grid from "./components/Grid";
@@ -6,7 +6,8 @@ import SREdit from "./components/Cells/SREdit";
 import FlightEdit from "./components/Cells/FlightEdit";
 import FlightIcon from "./images/FlightIcon.png";
 
-const App = () => {
+const App = memo(() => {
+    console.log("App");
     const columns = useMemo(
         () => [
             {
@@ -267,6 +268,8 @@ const App = () => {
             {
                 id: "custom",
                 disableResizing: true,
+                disableFilters: true,
+                disableSortBy: true,
                 width: 50,
                 Cell: ({ row }) => <RowOptions row={row} />
             }
@@ -316,7 +319,7 @@ const App = () => {
 
     //Gets called when there is a cell edit
     const updateMyData = (rowIndex, columnId, value) => {
-        console.log(rowIndex + " " + columnId + " " + value);
+        console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
         setData((old) =>
             old.map((row, index) => {
                 if (index === rowIndex) {
@@ -330,6 +333,6 @@ const App = () => {
         );
     };
     return <Grid columns={columns} data={data} globalSearchLogic={globalSearchLogic} updateMyData={updateMyData} />;
-};
+});
 
 export default App;
