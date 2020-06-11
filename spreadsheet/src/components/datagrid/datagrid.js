@@ -455,7 +455,7 @@ class Grid extends Component {
             icon={faSortAmountDown}
           />
         </div>
-        <ErrorMessage className="errorDiv" status={this.props.status}/>
+        <ErrorMessage className="errorDiv" status={this.props.status} />
         <DraggableContainer className="gridDiv" onHeaderDrop={this.onHeaderDrop}>
           <ReactDataGrid
             minHeight={680}
