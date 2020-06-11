@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { memo, useState, useEffect } from "react";
 import ClickAwayListener from "react-click-away-listener";
 
-const FlightEdit = ({ value: initialValue, row: { index }, column: { id }, updateMyData }) => {
+const FlightEdit = memo(({ value: initialValue, row: { index }, column: { id }, updateMyData }) => {
+    console.log("flight edit");
     const [value, setValue] = useState(initialValue);
     const [oldValue] = useState(initialValue);
     const [isEdit, setEdit] = useState(false);
@@ -66,6 +67,6 @@ const FlightEdit = ({ value: initialValue, row: { index }, column: { id }, updat
             </div>
         </ClickAwayListener>
     );
-};
+});
 
 export default FlightEdit;
