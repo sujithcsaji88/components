@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
 import sampleData from "./data.json";
+import RowOptions from "./components/Cells/RowOptions";
 import Grid from "./components/Grid";
-import SREdit from "./cells/SREdit";
-import FlightEdit from "./cells/FlightEdit";
+import SREdit from "./components/Cells/SREdit";
+import FlightEdit from "./components/Cells/FlightEdit";
 import FlightIcon from "./images/FlightIcon.png";
 
 const App = () => {
@@ -17,7 +18,7 @@ const App = () => {
             {
                 Header: "Flight",
                 accessor: "flight",
-                width: 120,
+                width: 100,
                 Cell: FlightEdit,
                 sortType: (rowA, rowB) => {
                     return rowA.original.flight.flightno > rowB.original.flight.flightno ? -1 : 1;
@@ -34,7 +35,7 @@ const App = () => {
             {
                 Header: "Segment",
                 accessor: "segment",
-                width: 120,
+                width: 100,
                 disableSortBy: true,
                 Cell: (row) => {
                     const { from, to } = row.value;
@@ -61,7 +62,7 @@ const App = () => {
             {
                 Header: "Details",
                 accessor: "details",
-                width: 350,
+                width: 300,
                 disableSortBy: true,
                 Cell: (row) => {
                     const { startTime, endTime, status, additionalStatus, flightModel, bodyType, type, timeStatus } = row.value;
@@ -121,6 +122,7 @@ const App = () => {
             {
                 Header: "Weight",
                 accessor: "weight",
+                width: 130,
                 Cell: (row) => {
                     const { percentage, value } = row.value;
                     return (
@@ -148,7 +150,7 @@ const App = () => {
             {
                 Header: "Volume",
                 accessor: "volume",
-                width: 120,
+                width: 100,
                 Cell: (row) => {
                     const { percentage, value } = row.value;
                     return (
@@ -206,6 +208,7 @@ const App = () => {
             {
                 Header: "Revenue/Yield",
                 accessor: "revenue",
+                width: 120,
                 Cell: (row) => {
                     const { revenue, yeild } = row.value;
                     return (
@@ -230,12 +233,13 @@ const App = () => {
             {
                 Header: "SR",
                 accessor: "sr",
-                width: 100,
+                width: 90,
                 Cell: SREdit
             },
             {
                 Header: "Queued Booking",
                 accessor: "queuedBooking",
+                width: 130,
                 disableSortBy: true,
                 Cell: (row) => {
                     const { sr, volume } = row.value;
@@ -259,6 +263,12 @@ const App = () => {
                         return sr.toLowerCase().includes(filterText) || volume.toLowerCase().includes(filterText);
                     });
                 }
+            },
+            {
+                id: "custom",
+                disableResizing: true,
+                width: 50,
+                Cell: ({ row }) => <RowOptions row={row} />
             }
         ],
         []

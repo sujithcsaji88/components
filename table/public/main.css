@@ -1,3 +1,11 @@
+/*  Fonts
+*  ------------------------------------------------------ */
+@font-face {
+    font-family: "Montserrat Regular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WRhyzbi.woff2") format("woff");
+}
 /*  Global Styles
 *  ------------------------------------------------------ */
 htm,
@@ -170,9 +178,9 @@ select:-webkit-autofill:focus {
     vertical-align: top;
     font-weight: bold;
 }
-.table-cell.column-heading.th:hover {
-    border-right: #ccc solid 1px;
-    border-left: #ccc solid 1px;
+.table-outer .table .table-row .table-cell.column-heading:hover {
+    border-left: 1px solid #d2d5de;
+    border-right: 1px solid #d2d5de;
 }
 .tableContainer .table .th .resizer,
 .tableContainer .table .td .resizer {
@@ -212,6 +220,70 @@ select:-webkit-autofill:focus {
 .table-outer .table .table-row .table-cell .table-cell--content .webinar-date {
     font-weight: 700;
 }
+.table-outer .table .table-row .table-cell .content .content-edit {
+    display: none;
+    position: absolute;
+    z-index: 9;
+    background: #fff;
+    border: #eee solid 1px;
+    top: 5px;
+    padding: 5px;
+    border-radius: 4px;
+    width: auto;
+    white-space: nowrap;
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.35);
+}
+.table-outer .table .table-row .table-cell .content .content-edit.open {
+    display: flex;
+}
+.table-outer .table .table-row .table-cell .content .content-edit input {
+    display: inline-block;
+    height: 23px;
+    width: 120px;
+    border-radius: 3px;
+    border: #ccc solid 1px;
+    padding: 2px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+.table-outer .table .table-row .table-cell .content .content-edit .ok {
+    width: 27px;
+    height: 27px;
+    background: #169bd5;
+    border: #169bd5 solid 1px;
+    border-radius: 4px;
+    margin: 0 5px;
+    position: relative;
+    cursor: pointer;
+}
+.table-outer .table .table-row .table-cell .content .content-edit .ok:before {
+    font-family: FontAwesome;
+    position: absolute;
+    content: "\f00c";
+    font-size: 18px;
+    left: 3px;
+    top: 3px;
+    color: #fff;
+}
+.table-outer .table .table-row .table-cell .content .content-edit .cancel {
+    width: 27px;
+    height: 27px;
+    background: #fff;
+    border: #d3d3d3 solid 1px;
+    border-radius: 4px;
+    margin: 0 5px;
+    position: relative;
+    cursor: pointer;
+}
+.table-outer .table .table-row .table-cell .content .content-edit .cancel:before {
+    font-family: FontAwesome;
+    position: absolute;
+    content: "\f00d";
+    font-size: 18px;
+    left: 5px;
+    top: 3px;
+    color: #e9e9e9;
+}
 .table-outer .table .flight-details strong {
     display: block;
     color: #3171b2;
@@ -248,24 +320,24 @@ select:-webkit-autofill:focus {
     flex-wrap: wrap;
 }
 .table-outer .table .details-wrap ul li {
-    padding-left: 5px;
-    margin-left: 5px;
+    padding-right: 5px;
+    margin-right: 5px;
     margin-bottom: 5px;
     position: relative;
 }
-.table-outer .table .details-wrap ul li:first-child {
-    padding-left: 0;
-    margin-left: 0;
+.table-outer .table .details-wrap ul li:last-child {
+    padding-right: 0;
+    margin-right: 0;
 }
-.table-outer .table .details-wrap ul li:first-child:before {
+.table-outer .table .details-wrap ul li:last-child::after {
     display: none;
 }
-.table-outer .table .details-wrap ul li:before {
+.table-outer .table .details-wrap ul li::after {
     content: "";
     background: #dadfe9;
     height: 10px;
     width: 1px;
-    left: 0;
+    right: -1px;
     top: 2px;
     position: absolute;
 }
@@ -323,22 +395,59 @@ select:-webkit-autofill:focus {
     font-weight: normal;
     color: #566a81;
 }
-.table-outer .table .edit-wrap {
+.table-outer .table .row-options-edit-wrap {
     margin-right: 15px;
     position: relative;
 }
-.table-outer .table .edit-wrap .icon-edit {
+.table-outer .table .row-options-edit-wrap .icon-edit {
     position: relative;
+    cursor: pointer;
 }
-.table-outer .table .edit-wrap .icon-edit i {
-    background: #ccc;
+.table-outer .table .row-options-edit-wrap .icon-edit i {
+    background: #999999;
     width: 4px;
     height: 4px;
-    border-radius: 50%;
     display: block;
     margin-bottom: 2px;
 }
-
+.table-outer .table .row-options-edit-wrap .row-options-edit {
+    display: none;
+    position: absolute;
+    background: #fff;
+    border-radius: 4px;
+    border: #dadada solid 1px;
+    width: 125px;
+    right: 0;
+    top: 0;
+    padding: 15px 10px;
+    margin-bottom: 40px;
+    z-index: 9;
+}
+.table-outer .table .row-options-edit-wrap .row-options-edit.open {
+    display: block;
+}
+.table-outer .table .row-options-edit-wrap .row-options-edit li {
+    margin-bottom: 13px;
+    cursor: pointer;
+}
+.table-outer .table .row-options-edit-wrap .row-options-edit li:last-child {
+    margin: 0;
+}
+.table-outer .table .row-options-edit-wrap .row-options-edit li i {
+    width: 14px;
+    display: inline-block;
+}
+.table-outer .table .row-options-edit-wrap .row-options-edit li span {
+    margin-left: 8px;
+}
+.table-outer .table .row-options-edit-wrap .row-options-edit .close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 15px;
+    color: #ccc;
+    cursor: pointer;
+}
 .table-filter {
     background: #f9fafb;
     display: flex;
@@ -372,9 +481,13 @@ select:-webkit-autofill:focus {
 .table-filter .filter-utilities .filter-icon {
     margin-left: 10px;
     border: #d8d8d8 solid 1px;
-    padding: 2px 8px;
+    padding: 0 8px;
     border-radius: 3px;
     cursor: pointer;
+    line-height: 1px;
+    height: 25px;
+    display: flex;
+    align-items: center;
 }
 .table-filter .filter-utilities .txt-wrap {
     position: relative;
@@ -386,19 +499,4 @@ select:-webkit-autofill:focus {
     position: absolute;
     left: 7px;
     top: 7px;
-}
-/*below stlyes are edittable*/
-.content .content-edit {
-    z-index: 9;
-    position: absolute;
-    width: 420px;
-    background: #fff;
-    padding: 7px 10px;
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.35);
-}
-.content .close {
-    display: none;
-}
-.content .open {
-    display: block;
 }
