@@ -34,6 +34,8 @@ class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      status:'',
+      textValue:'',
       filter: {}, rows: this.props.rows, selectedIndexes: [], junk: {}, topLeft: {},
       botRight: {},
       columns : [
@@ -242,6 +244,7 @@ class Grid extends Component {
     };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
+    this.handletextValue=this.handletextValue.bind(this);
   }
 
 
@@ -324,6 +327,9 @@ class Grid extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({ rows: props.rows })
+    this.setState({status:props.status})
+    this.setState({textValue:props.textValue})
+    
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     if (updated.yeild !== null || updated.yeild !== undefined || updated.revenue !== null || updated.revenue !== undefined
@@ -423,6 +429,10 @@ class Grid extends Component {
     });
     this.setState(reorderedColumns);
   };
+  handletextValue(){
+    this.setState({textValue:''})
+    this.setState({status:''})
+  }
   render() {
     return (
       <div>
@@ -430,6 +440,7 @@ class Grid extends Component {
           <div className="countDiv">Showing &nbsp;<b> {this.props.count} </b> &nbsp; records</div>
           <FormControl
             type="text"
+            value={this.state.textValue}
             placeholder="Search a screen"
             className="globalSearchDiv"
             onChange={this.props.handleChange}
@@ -455,9 +466,11 @@ class Grid extends Component {
             icon={faSortAmountDown}
           />
         </div>
-        <ErrorMessage className="errorDiv" status={this.props.status} />
+        <ErrorMessage className="errorDiv" status={this.state.status} func={this.handletextValue}/>
         <DraggableContainer className="gridDiv" onHeaderDrop={this.onHeaderDrop}>
           <ReactDataGrid
+            toolbar={<Toolbar enableFilter={true} />}
+            getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
             minHeight={680}
             columns={this.state.columns}
             rowGetter={i => this.state.rows[i]}
@@ -467,8 +480,6 @@ class Grid extends Component {
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)
             }
-            toolbar={<Toolbar enableFilter={true} />}
-            getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
             onAddFilter={filter => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,

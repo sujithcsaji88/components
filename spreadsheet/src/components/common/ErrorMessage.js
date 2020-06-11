@@ -5,15 +5,15 @@ import { SEARCH_NOT_FOUNT_ERROR } from '../constants/ErrorConstants'
 
 const ErrorMessage = (props) => {
   //let status=props.status;
-  const [status,setStatus] =useState(props.status);
+  const [status,setStatus] = useState(props.status);
   useEffect(
     ()=>{
       setStatus(props.status)
     }
   ,[props.status]);
-  function hideErrorMessage(props) {
-    setStatus("");
-  }
+  // function hideErrorMessage(props) {
+  //   setStatus("");
+  // }
   if (status === "invalid") {
     return (
       <div id="errorMsg">
@@ -21,7 +21,7 @@ const ErrorMessage = (props) => {
           {SEARCH_NOT_FOUNT_ERROR}
         </div>
         <div className="notification-close" >
-          <FontAwesomeIcon icon={faTimes} onClick={hideErrorMessage}/>
+          <FontAwesomeIcon icon={faTimes} onClick={props.func} />
         </div>
       </div>
     );

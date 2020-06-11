@@ -105,7 +105,7 @@ export default function App() {
               <Route
                 exact
                 path="/grid"
-                render={(props) => <Grid {...props} rows={data} handleChange={getSearchWord} status={status} count={data.length}/>}
+                render={(props) => <Grid {...props} rows={data} textValue={searchKey} handleChange={getSearchWord} status={status} count={data.length}/>}
               ></Route>
             </Switch>
           </Suspense>
