@@ -337,6 +337,11 @@ const App = memo(() => {
         console.log(row);
     };
 
+    //Gets called when row bulk edit is done
+    const selectBulkData = (selectedRows) => {
+        console.log(selectedRows);
+    };
+
     return (
         <Grid
             columns={columns}
@@ -344,6 +349,7 @@ const App = memo(() => {
             globalSearchLogic={globalSearchLogic}
             updateCellData={updateCellData}
             updateRowData={updateRowData}
+            selectBulkData={selectBulkData}
         />
     );
 });
