@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo } from "react";
 import ClickAwayListener from "react-click-away-listener";
 
-const SREdit = memo(({ value: initialValue, row: { index }, column: { id }, updateMyData }) => {
+const SREdit = memo(({ value: initialValue, row: { index }, column: { id }, updateCellData }) => {
     const [value, setValue] = useState(initialValue);
     const [oldValue] = useState(initialValue);
     const [isEdit, setEdit] = useState(false);
@@ -16,7 +16,7 @@ const SREdit = memo(({ value: initialValue, row: { index }, column: { id }, upda
 
     const saveEdit = () => {
         setEdit(false);
-        updateMyData(index, id, value);
+        updateCellData(index, id, value);
     };
 
     const clearEdit = () => {
