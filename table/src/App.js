@@ -270,7 +270,7 @@ const App = memo(() => {
                 disableFilters: true,
                 disableSortBy: true,
                 width: 50,
-                Cell: RowOptions
+                Cell: (row) => <RowOptions row={row} updateRowData={updateRowData} />
             }
         ],
         []
@@ -333,8 +333,8 @@ const App = memo(() => {
     };
 
     //Gets called when Row option is selected
-    const updateRowData = (rowIndex, columnId, value) => {
-        console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
+    const updateRowData = (row) => {
+        console.log(row);
     };
 
     return (

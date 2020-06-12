@@ -4,11 +4,12 @@ import RowDelete from "../../images/RowDelete.svg";
 import RowEdit from "../../images/RowEdit.svg";
 import RowPin from "../../images/RowPin.png";
 
-const RowOptions = memo(({ value: initialValue, row: { index }, column: { id }, updateRowData }) => {
+const RowOptions = memo((props) => {
+    const { row, updateRowData } = props;
     const [isOpen, setOpen] = useState(false);
     const openOverlay = () => {
         setOpen(true);
-        updateRowData(index, id, initialValue);
+        updateRowData(row.row);
     };
 
     const closeOverlay = () => {
