@@ -1,0 +1,181 @@
+{
+  "filter": [
+    {
+      "name": "Departure Port",
+      "enabled": true,
+      "types": [
+        {
+          "name": "Airport",
+          "dataType": "Text"
+        },
+        {
+          "name": "Airport Group",
+          "dataType": "Text"
+        },
+        {
+          "name": "City",
+          "dataType": "Text"
+        },
+        {
+          "name": "City Group",
+          "dataType": "Text"
+        },
+        {
+          "name": "Country",
+          "dataType": "Text"
+        }
+      ]
+    },
+    {
+      "name": "Arrival Port",
+      "enabled": false,
+      "types": [
+        {
+          "name": "Airport",
+          "dataType": "Text"
+        },
+        {
+          "name": "Airport Group",
+          "dataType": "Text"
+        },
+        {
+          "name": "City",
+          "dataType": "Text"
+        },
+        {
+          "name": "City Group",
+          "dataType": "Text"
+        },
+        {
+          "name": "Country",
+          "dataType": "Text"
+        }
+      ]
+    },
+    {
+      "name": "Date",
+      "dataType": "DateTime",
+      "enabled": true,
+      "field": [
+        {
+          "name": "From Date & Time"
+        },
+        {
+          "name": "To Date & Time"
+        }
+      ]
+    },
+    {
+      "name": "Booking Profile",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Flight Group",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Flight No",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Departure Port",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Revenue",
+      "dataType": "Numeric",
+      "enabled": true,
+      "condition": [
+        {
+          "value": "equals"
+        },
+        {
+          "value": "not equals to"
+        },
+        {
+          "value": "less than"
+        },
+        {
+          "value": "greater than"
+        },
+        {
+          "value": "less or equal"
+        },
+        {
+          "value": "greater or equal"
+        },
+        {
+          "value": "contains"
+        },
+        {
+          "value": "does not match"
+        },
+        {
+          "value": "starts with"
+        },
+        {
+          "value": "in between"
+        }
+      ]
+    },
+    {
+      "name": "Yeild",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Service Recovery",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Queued Bookings",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Weight",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Volume",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Aircraft",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Aircraft Classification",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Flight Type",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Flight Status",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Segment Status",
+      "enabled": false,
+      "dataType": "Text"
+    },
+    {
+      "name": "Milestone Status",
+      "enabled": false,
+      "dataType": "Text"
+    }
+  ]
+}
