@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
+const DefaultColumnFilter = memo(({ column: { filterValue, setFilter } }) => {
     return (
         <input
             className="txt"
@@ -11,6 +11,6 @@ const DefaultColumnFilter = ({ column: { filterValue, setFilter } }) => {
             placeholder="Search"
         />
     );
-};
+});
 
 export default DefaultColumnFilter;

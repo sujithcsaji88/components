@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { useAsyncDebounce } from "react-table";
 
-const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
+const GlobalFilter = memo(({ globalFilter, setGlobalFilter }) => {
     const [value, setValue] = useState(globalFilter);
 
     const onChange = useAsyncDebounce((value) => {
@@ -23,6 +23,6 @@ const GlobalFilter = ({ globalFilter, setGlobalFilter }) => {
             <i className="fa fa-search fa-6" aria-hidden="true"></i>
         </div>
     );
-};
+});
 
 export default GlobalFilter;

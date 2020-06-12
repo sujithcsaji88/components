@@ -3,30 +3,56 @@
 @import "~slickgrid-es6/dist/slick-default-theme.scss";
 @import "~flatpickr/dist/flatpickr.min.css";
 
-
-.gridDiv{
+.gridDiv {
   overflow: hidden;
   outline: 0px;
   position: relative;
   min-height: 680px;
   margin-top: 50px;
 }
-.errorDiv{
-    position: fixed;
-    top: 7%;
-    left: 50%;
-    transform: translate(-50%, 5px);
+
+.errorDiv {
+  position: fixed;
+  top: 7%;
+  left: 50%;
+  transform: translate(-50%, 5px);
 }
+
 .parentDiv {
   display: flex;
-            margin:15px 135px 15px 15px ;
-            align-items: center;
-}
-.countDiv{
-  width: 250px;
-  display: flex;
+  margin: 15px;
   align-items: center;
+  width: 91%;
 }
+
+.totalCount {
+  width: 20%;
+}
+
+.filterIcons {
+  font-size: 28px;
+  margin: 0px 10px;
+  border: 1px solid #ddd;
+  padding: 0px 4px;
+  color: #566a81;
+}
+
+.crossSearchIcon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  border: 1px solid #ddd;
+  padding: 0px 5px;
+  box-sizing: border-box;
+  color: red;
+}
+
+.globalSearch {
+  width: 20% !important;
+  margin-left: auto;
+  position: relative;
+}
+
 #iCargoSpreadSheet {
   background: white;
   outline: 0;
@@ -239,16 +265,16 @@ input.editor-checkbox {
   vertical-align: top;
   font-weight: bold;
 }
- 
+
 .react-grid-HeaderCell {
   border: 1px solid #ddd;
   background: #f4f7f9;
 }
- 
+
 .react-grid-Cell {
   border: 1px solid #ddd;
 }
- 
+
 .react-grid-Toolbar {
   background-color: #f9fafb;
   position: absolute;

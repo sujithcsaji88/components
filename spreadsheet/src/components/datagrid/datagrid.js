@@ -4,13 +4,18 @@ import { Toolbar, Data, Filters } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../../utilities/utils";
 import { FormControl } from "react-bootstrap";
-import { faFilter, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFilter,
+  faSortAmountDown,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "../common/ErrorMessage";
 
 const {
-  DraggableHeader: { DraggableContainer }
+  DraggableHeader: { DraggableContainer },
 } = require("react-data-grid-addons");
+
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
@@ -24,227 +29,231 @@ const defaultParsePaste = (str) =>
 let newFilters = {};
 
 const selectors = Data.Selectors;
-const {
-  AutoCompleteFilter,
-  SingleSelectFilter,
-} = Filters;
- 
+
+const { AutoCompleteFilter, SingleSelectFilter } = Filters;
 
 class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filter: {}, rows: this.props.rows, selectedIndexes: [], junk: {}, topLeft: {},
-      botRight: {},
-      columns : [
+      filter: {},
+      rows: this.props.rows,
+      selectedIndexes: [],
+      junk: {},
+      topLeft: {},
+      status:'',
+      textValue:'',
+      columns: [
         {
           key: "flightno",
           name: "Flight #",
           editable: true,
           filterRenderer: SingleSelectFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "date",
           name: "Date",
           editable: true,
           filterRenderer: SingleSelectFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "segmentfrom",
           name: "Segment From",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "revenue",
           name: "Revenue",
           editable: true,
           filterRenderer: SingleSelectFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "yeild",
           name: "Yeild",
           editable: true,
           filterRenderer: SingleSelectFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "segmentto",
           name: "Segment To",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "flightModel",
           name: "Flight Model",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "bodyType",
           name: "Body Type",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "type",
           name: "Type",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "startTime",
           name: "Start Time",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "endTime",
           name: "End Time",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "status",
           name: "Status",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "additionalStatus",
           name: "Additional Status",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "timeStatus",
           name: "Time Status",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "weightpercentage",
           name: "Weight Percentage",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "weightvalue",
           name: "Weight Value",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "volumepercentage",
           name: "Volume Percentage",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "volumevalue",
           name: "Volume Value",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldposition1",
           name: "uldposition1",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldvalue1",
           name: "uldvalue1",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldposition2",
           name: "uldposition2",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldvalue2",
           name: "uldvalue2",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldposition3",
           name: "uldposition3",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldvalue3",
           name: "uldvalue3",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldposition4",
           name: "uldposition4",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "uldvalue4",
           name: "uldvalue4",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
-      
+
         {
-          key: "sr", name: "SR", editable: true, filterRenderer: AutoCompleteFilter,
-          draggable: true
+          key: "sr",
+          name: "SR",
+          editable: true,
+          filterRenderer: AutoCompleteFilter,
+          draggable: true,
         },
         {
           key: "queuedBookingSR",
           name: "Queued Booking SR",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
         {
           key: "queuedBookingvolume",
           name: "Queued Booking Volume",
           editable: true,
           filterRenderer: AutoCompleteFilter,
-          draggable: true
+          draggable: true,
         },
-      ].map((c) => ({ ...c, ...defaultColumnProperties }))
+      ].map((c) => ({ ...c, ...defaultColumnProperties })),
     };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
+    this.handletextValue=this.handletextValue.bind(this);
   }
-
-
 
   updateRows = (startIdx, newRows) => {
     this.setState((state) => {
@@ -288,10 +297,8 @@ class Grid extends Component {
       this.state.columns
         .slice(topLeft.colIdx, topLeft.colIdx + row.length)
         .forEach((col, j) => {
-          // Create the key-value pair for the row
           rowData[col.key] = row[j];
         });
-      // Push the new row to the changes
       newRows.push(rowData);
     });
     this.updateRows(topLeft.rowIdx, newRows);
@@ -324,11 +331,20 @@ class Grid extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({ rows: props.rows })
+    this.setState({status:props.status})
+    this.setState({textValue:props.textValue})
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
-    if (updated.yeild !== null || updated.yeild !== undefined || updated.revenue !== null || updated.revenue !== undefined
-      || updated.weightpercentage !== null || updated.weightpercentage !== undefined
-      || updated.weightvalue !== null || updated.weightvalue !== undefined) {
+    if (
+      updated.yeild !== null ||
+      updated.yeild !== undefined ||
+      updated.revenue !== null ||
+      updated.revenue !== undefined ||
+      updated.weightpercentage !== null ||
+      updated.weightpercentage !== undefined ||
+      updated.weightvalue !== null ||
+      updated.weightvalue !== undefined
+    ) {
       updated = applyFormula(updated);
     }
     if (action !== "COPY_PASTE") {
@@ -361,30 +377,32 @@ class Grid extends Component {
 
   handleFilterChange = (value) => {
     newFilters = { ...value };
-    let { junk } = this.state
+    let { junk } = this.state;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
       newFilters[value.column.key] = value;
-      junk[value.column.key] = value
+      junk[value.column.key] = value;
     } else if (value.filterTerm == null || value.filterTerm.length <= 0) {
       delete newFilters[value.column.key];
       delete junk[value.column.key];
     }
     this.setState({ filter: newFilters, junk });
     const data = this.getrows(this.props.rows, junk);
-    this.setState({ rows: data })
+    this.setState({ rows: data });
   };
   getrows = (rows, junk) => {
     if (Object.keys(junk).length <= 0) {
-      junk = {}
+      junk = {};
     }
     const data = selectors.getRows({
       rows: rows,
-      filters: junk
+      filters: junk,
     });
     return data;
-  }
+  };
+
   getValidFilterValues(rows, columnId) {
-    return rows.map(r => r[columnId])
+    return rows
+      .map((r) => r[columnId])
       .filter((item, i, a) => {
         return i === a.indexOf(item);
       });
@@ -397,16 +415,16 @@ class Grid extends Component {
         return a[sortColumn] < b[sortColumn] ? 1 : -1;
       }
     };
-    this.setState({ rows: [...data].sort(comparer) })
+    this.setState({ rows: [...data].sort(comparer) });
     return sortDirection === "NONE" ? data : this.state.rows;
   };
   onHeaderDrop = (source, target) => {
     const stateCopy = Object.assign({}, this.state);
     const columnSourceIndex = this.state.columns.findIndex(
-      i => i.key === source
+      (i) => i.key === source
     );
     const columnTargetIndex = this.state.columns.findIndex(
-      i => i.key === target
+      (i) => i.key === target
     );
 
     stateCopy.columns.splice(
@@ -419,48 +437,47 @@ class Grid extends Component {
     this.setState(emptyColumns);
 
     const reorderedColumns = Object.assign({}, this.state, {
-      columns: stateCopy.columns
+      columns: stateCopy.columns,
     });
     this.setState(reorderedColumns);
   };
+
+  handletextValue(){
+    this.setState({textValue:''})
+    this.setState({status:''})
+  }
   render() {
     return (
       <div>
         <div className="parentDiv">
-          <div className="countDiv">Showing &nbsp;<b> {this.props.count} </b> &nbsp; records</div>
-          <FormControl
-            type="text"
-            placeholder="Search a screen"
-            className="globalSearchDiv"
-            onChange={this.props.handleChange}
-          />
-          <FontAwesomeIcon
-            style={{
-              fontSize: "28px",
-              margin: "0px 10px",
-              border: "1px solid #ddd",
-              padding: "0px 4px",
-              color: "#566a81",
-            }}
-            icon={faFilter}
-          />
-          <FontAwesomeIcon
-            style={{
-              fontSize: "28px",
-              margin: "0px 10px",
-              border: "1px solid #ddd",
-              padding: "0px 4px",
-              color: "#566a81",
-            }}
-            icon={faSortAmountDown}
-          />
+          <div className="totalCount">
+            Showing <strong> {this.props.count} </strong> records
+          </div>
+          <div className="globalSearch">
+            <FormControl
+              type="text"
+              placeholder="Search a screen"
+              onChange={this.props.handleChange}
+              value={this.props.value}
+            />
+            <span className="crossSearchIcon">
+              <FontAwesomeIcon icon={faTimes} onClick={this.onClose}/>
+            </span>
+          </div>
+          <FontAwesomeIcon className="filterIcons" icon={faFilter} />
+          <FontAwesomeIcon className="filterIcons" icon={faSortAmountDown} />
         </div>
-        <ErrorMessage className="errorDiv" status={this.props.status}/>
-        <DraggableContainer className="gridDiv" onHeaderDrop={this.onHeaderDrop}>
+        <ErrorMessage className="errorDiv" status={this.props.status} />
+        <DraggableContainer
+          className="gridDiv"
+          onHeaderDrop={this.onHeaderDrop}
+        >
           <ReactDataGrid
+            toolbar={<Toolbar enableFilter={true} />}
+            getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
             minHeight={680}
             columns={this.state.columns}
-            rowGetter={i => this.state.rows[i]}
+            rowGetter={(i) => this.state.rows[i]}
             rowsCount={this.state.rows.length}
             onGridRowsUpdated={this.onGridRowsUpdated}
             enableCellSelect={true}
@@ -468,8 +485,10 @@ class Grid extends Component {
               console.log(`Column ${idx} has been resized to ${width}`)
             }
             toolbar={<Toolbar enableFilter={true} />}
-            getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
-            onAddFilter={filter => this.handleFilterChange(filter)}
+            getValidFilterValues={(columnKey) =>
+              this.getValidFilterValues(this.props.rows, columnKey)
+            }
+            onAddFilter={(filter) => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,
               enableShiftSelect: true,
@@ -482,9 +501,6 @@ class Grid extends Component {
             onGridSort={(sortColumn, sortDirection) =>
               this.sortRows(this.props.rows, sortColumn, sortDirection)
             }
-          // cellRangeSelection={{
-          //   onComplete: this.setSelection,
-          // }}
           />
         </DraggableContainer>
       </div>
