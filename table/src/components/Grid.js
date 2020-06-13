@@ -9,8 +9,7 @@ import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
 const Grid = memo((props) => {
-    console.log("Grid");
-    const { columns, data, globalSearchLogic, updateMyData } = props;
+    const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -23,12 +22,22 @@ const Grid = memo((props) => {
         }),
         []
     );
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, setGlobalFilter } = useTable(
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        selectedFlatRows,
+        state,
+        setGlobalFilter
+    } = useTable(
         {
             columns,
             data,
             defaultColumn,
-            updateMyData,
+            updateCellData,
+            updateRowData,
             globalFilter: (rows, columns, filterValue) => globalSearchLogic(rows, columns, filterValue)
         },
         useFilters,
@@ -42,6 +51,8 @@ const Grid = memo((props) => {
                 {
                     id: "selection",
                     disableResizing: true,
+                    disableFilters: true,
+                    disableSortBy: true,
                     minWidth: 35,
                     width: 35,
                     maxWidth: 35,
@@ -72,6 +83,10 @@ const Grid = memo((props) => {
         [prepareRow, rows]
     );
 
+    const bulkSelector = () => {
+        selectBulkData(selectedFlatRows);
+    };
+
     return (
         <div className="wrapper">
             <div className="table-filter">
@@ -92,6 +107,9 @@ const Grid = memo((props) => {
                         <i>
                             <img src={TableViewIcon} alt="cargo" />
                         </i>
+                    </div>
+                    <div className="filter-icon bulk-select" onClick={bulkSelector}>
+                        <i className="fa fa-pencil-square-o"></i>
                     </div>
                 </div>
             </div>

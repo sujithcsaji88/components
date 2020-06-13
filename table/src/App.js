@@ -270,7 +270,7 @@ const App = memo(() => {
                 disableFilters: true,
                 disableSortBy: true,
                 width: 50,
-                Cell: ({ row }) => <RowOptions row={row} />
+                Cell: (row) => <RowOptions row={row} updateRowData={updateRowData} />
             }
         ],
         []
@@ -317,7 +317,7 @@ const App = memo(() => {
     };
 
     //Gets called when there is a cell edit
-    const updateMyData = (rowIndex, columnId, value) => {
+    const updateCellData = (rowIndex, columnId, value) => {
         console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
         setData((old) =>
             old.map((row, index) => {
@@ -331,7 +331,27 @@ const App = memo(() => {
             })
         );
     };
-    return <Grid columns={columns} data={data} globalSearchLogic={globalSearchLogic} updateMyData={updateMyData} />;
+
+    //Gets called when Row option is selected
+    const updateRowData = (row) => {
+        console.log(row);
+    };
+
+    //Gets called when row bulk edit is done
+    const selectBulkData = (selectedRows) => {
+        console.log(selectedRows);
+    };
+
+    return (
+        <Grid
+            columns={columns}
+            data={data}
+            globalSearchLogic={globalSearchLogic}
+            updateCellData={updateCellData}
+            updateRowData={updateRowData}
+            selectBulkData={selectBulkData}
+        />
+    );
 });
 
 export default App;
