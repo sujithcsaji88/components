@@ -1,4 +1,4 @@
-import React, { useCallback, useState, memo } from "react";
+import React, { useCallback, useState, memo, useEffect } from "react";
 import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, useFilters, useGlobalFilter } from "react-table";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -8,8 +8,10 @@ import GlobalFilter from "./Functions/GlobalFilter";
 import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
+const listRef = React.createRef();
+
 const Grid = memo((props) => {
-    const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData } = props;
+    const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData, calculateRowHeight } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -87,6 +89,12 @@ const Grid = memo((props) => {
         selectBulkData(selectedFlatRows);
     };
 
+    useEffect(() => {
+        if (listRef && listRef.current) {
+            listRef.current.resetAfterIndex(0, true);
+        }
+    });
+
     return (
         <div className="wrapper">
             <div className="table-filter">
@@ -147,10 +155,11 @@ const Grid = memo((props) => {
                             </div>
                             <div {...getTableBodyProps()} className="tbody">
                                 <List
+                                    ref={listRef}
                                     className="table-list"
                                     height={height - 50}
                                     itemCount={rows.length}
-                                    itemSize={() => 50}
+                                    itemSize={(index) => calculateRowHeight(rows, index, headerGroups)}
                                     overscanCount={20}
                                 >
                                     {RenderRow}

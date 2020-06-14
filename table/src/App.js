@@ -316,6 +316,36 @@ const App = memo(() => {
         return rows;
     };
 
+    const calculateRowHeight = (rows, index, headerCells) => {
+        let rowHeight = 50;
+        if (headerCells && headerCells.length && rows && rows.length && index >= 0) {
+            const { headers } = headerCells[0];
+            const { original } = rows[index];
+            headers.forEach((header) => {
+                const { id, totalFlexWidth } = header;
+                if (id === "details") {
+                    const details = original.details;
+                    if (details) {
+                        const text =
+                            details.additionalStatus +
+                            details.bodyType +
+                            details.endTime +
+                            details.flightModel +
+                            details.startTime +
+                            details.status +
+                            details.timeStatus +
+                            details.type;
+                        const a = Math.ceil(text.length / (totalFlexWidth / 5));
+                        if (a > 2) {
+                            rowHeight = 50 + 14 * a;
+                        }
+                    }
+                }
+            });
+        }
+        return rowHeight;
+    };
+
     //Gets called when there is a cell edit
     const updateCellData = (rowIndex, columnId, value) => {
         console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
@@ -350,6 +380,7 @@ const App = memo(() => {
             updateCellData={updateCellData}
             updateRowData={updateRowData}
             selectBulkData={selectBulkData}
+            calculateRowHeight={calculateRowHeight}
         />
     );
 });
