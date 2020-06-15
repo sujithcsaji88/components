@@ -1,5 +1,5 @@
 import React from "react";
-// import FilterData from './stubs/FilterData.json';
+import FilterData from './stubs/FilterData.json';
 import Card from "react-bootstrap/Card";
 import { classes } from "./scss/filter.scss";
 import { Container, Accordion, Form, Button } from "react-bootstrap";
@@ -30,55 +30,26 @@ function App() {
           <div className="row">
             <div className="col-md-5 col-lg-5">
               <ul className="leftSideDrawer">
-                <li>
+                {FilterData.filter.map((filterData,index)=>{
+                return (<li>
                   <Accordion>
                     <Card>
                       <Accordion.Toggle as={Card.Header} eventKey="0">
-                        <strong> Departure Port </strong>
+                        <strong> {filterData.name} </strong>
                       </Accordion.Toggle>
                       <Accordion.Collapse eventKey="0">
                         <Card.Body>
                           <ul className="firstAccordion">
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
-                          </ul>
-                        </Card.Body>
-                      </Accordion.Collapse>
-                    </Card>
-                    <Card>
-                      <Accordion.Toggle as={Card.Header} eventKey="1">
-                        <strong>Arrival Port</strong>
-                      </Accordion.Toggle>
-                      <Accordion.Collapse eventKey="1">
-                        <Card.Body>
-                          <ul className="firstAccordion">
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
-                            <li>Airport Group</li>
+                            {filterData.types && filterData.types.map((type,index)=>{
+                           return <li>{type.name}</li>
+                          })}
                           </ul>
                         </Card.Body>
                       </Accordion.Collapse>
                     </Card>
                   </Accordion>
-                </li>
-                <li>Booking Profile</li>
-                <li>Flight Group</li>
-                <li>Flight No</li>
-                <li>Revenue</li>
-                <li>Service Recovery</li>
-                <li>Queued Booking</li>
-                <li>Weight</li>
-                <li>Volume</li>
-                <li>Aircraft</li>
-                <li>Aircraft Classification</li>
-                <li>Flight Type</li>
-                <li>Segment Status</li>
-                <li>Milestone Status</li>
+                </li>)
+                })}
               </ul>
             </div>
             <div className="col-md-7 col-lg-7">
