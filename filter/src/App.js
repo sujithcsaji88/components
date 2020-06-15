@@ -1,12 +1,15 @@
 import React from "react";
 import FilterData from './stubs/FilterData.json';
 import Card from "react-bootstrap/Card";
-import { classes } from "./scss/filter.scss";
+import "./scss/filter.scss";
 import { Container, Accordion, Form, Button } from "react-bootstrap";
 import { faTimes, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function App() {
+  const handleClick=(e)=>{
+    console.log("clicked")
+  }
   return (
     <div className="App">
       <Container className="container">
@@ -31,11 +34,12 @@ function App() {
             <div className="col-md-5 col-lg-5">
               <ul className="leftSideDrawer">
                 {FilterData.filter.map((filterData,index)=>{
+                  if(filterData.name==="Departure Port"||filterData.name==="Arrival Port"){
                 return (<li>
                   <Accordion>
                     <Card>
                       <Accordion.Toggle as={Card.Header} eventKey="0">
-                        <strong> {filterData.name} </strong>
+                        <strong>{filterData.name}</strong>
                       </Accordion.Toggle>
                       <Accordion.Collapse eventKey="0">
                         <Card.Body>
@@ -49,6 +53,11 @@ function App() {
                     </Card>
                   </Accordion>
                 </li>)
+                }
+                else
+                {
+                return <p>{filterData.name}</p>
+                }
                 })}
               </ul>
             </div>
@@ -176,8 +185,17 @@ function App() {
           </div>
         </div>
       </Container>
+      <div className="right">
+       <SecondPanel/>
+    </div>
     </div>
   );
 }
 
 export default App;
+
+function SecondPanel(){
+  return (
+    <div>Hai</div>
+  )
+}
