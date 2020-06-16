@@ -39,10 +39,15 @@ const leftSideDrawer = (props) => {
         </li>
       );
     } else {
-      return <li
-      onClick={(e) => {
-        props.handleDate(filterData.name);
-      }}>{filterData.name}</li>;
+      return (
+        <li
+          onClick={(e) => {
+            props.handleDate(filterData.name);
+          }}
+        >
+          {filterData.name}
+        </li>
+      );
     }
   });
 
