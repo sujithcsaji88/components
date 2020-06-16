@@ -64,7 +64,6 @@ function ArrivalPort(props){
   if(labelName==='Arrival Port'){
     return(
       <div>
-        <div className="displayFlex">
           <div className="displayFlex">
             <p>{labelName}</p>
             <span>&gt;</span>
@@ -103,13 +102,13 @@ function Date(props){
     if(labelName==='Date'){
   return( <div>
     <div className="displayFlex">
-          <div className="displayFlex">
+          <div className="alignLeft">
             <Form.Label>
               <strong>Date</strong>
             </Form.Label>
           </div>
           <div className="marginLeft">
-            <Form.Check type="switch" id="custom-switch" label="" />
+            <Form.Check type="switch" id="date" label="" />
             <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon className="fontIcons" icon={faTimes} onClick={closeDate} />
           </div>
@@ -134,7 +133,7 @@ function Date(props){
           />
         </div>
         <div className="displayFlex">
-          <Form.Text className="text-muted">Date from and Time</Form.Text>
+          <Form.Text className="text-muted">To Date and Time</Form.Text>
         </div>
         <div className="displayFlex">
           <Form.Control
@@ -229,6 +228,41 @@ const rightSideDrawer = (props) => {
         <ArrivalPort name={props.name} type={props.type}/>
         <Date name={props.name}/>
         <Revenue name={props.name}/>
+        <div className="displayFlex">
+          <div className="alignLeft">
+            <Form.Label>
+              <strong>Revenue</strong>
+            </Form.Label>
+          </div>
+          <div className="marginLeft">
+            <Form.Check type="switch" id="revenue" label="" />
+            <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
+            <FontAwesomeIcon className="fontIcons" icon={faTimes} />
+          </div>
+        </div>
+        <div className="displayFlex">
+          <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Text className="text-muted">Condition</Form.Text>
+            <Form.Control as="select">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </Form.Control>
+          </Form.Group>
+        </div>
+        <div className="displayFlex">
+          <Form.Group>
+            <Form.Text className="text-muted">Amount</Form.Text>
+            <Form.Control
+              required
+              type="text"
+              placeholder="Amount"
+              defaultValue=""
+            />
+          </Form.Group>
+        </div>
       </div>
       <div className="">
         <Button variant="primary">Save</Button>{" "}

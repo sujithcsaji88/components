@@ -1,7 +1,7 @@
 import React from "react";
 import FilterData from "../stubs/FilterData.json";
 import Card from "react-bootstrap/Card";
-import { Container, Accordion, Form } from "react-bootstrap";
+import { Accordion, Form } from "react-bootstrap";
 
 const leftSideDrawer = (props) => {
   const loadedData = FilterData.filter.map((filterData) => {
@@ -47,32 +47,21 @@ const leftSideDrawer = (props) => {
   });
 
   return (
-    <div className="App">
-      <Container className="container">
-        <div className="sideDrawer">
-          <Form.Row>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Filter"
-              defaultValue=""
-              className="customControl col-md-5 col-lg-5"
-            />
-            <Form.Control
-              required
-              type="text"
-              placeholder="Filter"
-              defaultValue=""
-              className="customControl col-md-7 col-lg-7"
-            />
-          </Form.Row>
-          <div className="row">
-            <div className="col-md-5 col-lg-5">
-              <ul className="leftSideDrawer">{loadedData}</ul>
-            </div>
-          </div>
+    <div className="sideDrawer">
+      <Form.Row>
+        <Form.Control
+          required
+          type="text"
+          placeholder="Filter"
+          defaultValue=""
+          className="customControl col-md-5 col-lg-5"
+        />
+      </Form.Row>
+      <div className="row">
+        <div className="col-md-5 col-lg-5">
+          <ul className="leftSideDrawer">{loadedData}</ul>
         </div>
-      </Container>
+      </div>
     </div>
   );
 };
