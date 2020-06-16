@@ -43,7 +43,13 @@ function App() {
   const passDate = (filterName) => {
     setLabelName(filterName);
   };
-
+   const clearState=()=>{
+     setLabelType('');
+     setLabelName('');
+   }
+   const clearName=()=>{
+    setLabelName('');
+   }
   const { ref, showSideDrawer, setShowSideDrawer } = useComponentVisible(true);
 
   return (
@@ -55,7 +61,7 @@ function App() {
               <LeftSideDrawer handleDate={passDate} handleValue={passValues} />
             </div>
             <div className="col-md-7 col-lg-7">
-              <RightSideDrawer name={labelName} type={labelType} />
+              <RightSideDrawer name={labelName} type={labelType} clearValues={clearState} clearValue={clearName} />
             </div>
           </div>
         </div>

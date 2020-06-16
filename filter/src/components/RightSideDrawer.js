@@ -26,7 +26,10 @@ function DeparturePort(props) {
             <p>{labelType}</p>
           </div>
           <div className="marginLeft">
-            <FontAwesomeIcon icon={faTimes} onClick={closeDeparture} />
+            <FontAwesomeIcon icon={faTimes} onClick={()=>{
+              closeDeparture();
+              props.clearValues();
+              }} />
           </div>
         </div>
         <div className="displayFlex">
@@ -64,7 +67,11 @@ function ArrivalPort(props) {
           <p>{labelType}</p>
         </div>
         <div className="marginLeft">
-          <FontAwesomeIcon icon={faTimes} onClick={closeArrival} />
+          <FontAwesomeIcon icon={faTimes} onClick={()=>{
+              closeArrival();
+              props.clearValues();
+              }}
+          />
         </div>
         <div className="displayFlex">
           <input
@@ -103,7 +110,11 @@ function Date(props) {
             <FontAwesomeIcon
               className="fontIcons"
               icon={faTimes}
-              onClick={closeDate}
+              onClick={
+                ()=>{
+                  closeDate();
+                props.clearValue();
+              }}
             />
           </div>
         </div>
@@ -176,7 +187,11 @@ function Revenue(props) {
             <FontAwesomeIcon
               className="fontIcons"
               icon={faTimes}
-              onClick={closeRevenue}
+              onClick={
+                ()=>{
+                  closeRevenue();
+                props.clearValue();
+              }}
             />
           </div>
         </div>
@@ -217,10 +232,10 @@ const rightSideDrawer = (props) => {
   return (
     <React.Fragment>
       <div className="rightSideDrawer">
-        <DeparturePort name={props.name} type={props.type} />
-        <ArrivalPort name={props.name} type={props.type} />
-        <Date name={props.name} />
-        <Revenue name={props.name} />
+        <DeparturePort name={props.name} type={props.type} clearValues={props.clearValues} />
+        <ArrivalPort name={props.name} type={props.type} clearValues={props.clearValues}/>
+        <Date name={props.name} clearValue={props.clearValue}/>
+        <Revenue name={props.name} clearValue={props.clearValue}/>
       </div>
       <div className="">
         <Button variant="primary">Save</Button>{" "}
