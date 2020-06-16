@@ -18,6 +18,10 @@
   background: #ccc;
 }
 
+.rightSideDrawer::-webkit-scrollbar {
+  width: 3px;
+}
+
 //sideDrawer scss
 
 .sideDrawer {
@@ -38,7 +42,7 @@
       margin-left: auto;
       width: 20%;
       .fontIcons {
-          margin-left: 10px;
+        margin-left: 10px;
       }
     }
   }
@@ -78,13 +82,9 @@
 // Overwriting form scss
 
 label {
-    margin-bottom: 0rem !important;
+  margin-bottom: 0rem !important;
 }
 
 .form-group {
-    width: 100% !important;
-}
-.right{
-  position: relative;
-  left:75%;
+  width: 100% !important;
 }
