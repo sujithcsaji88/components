@@ -11,7 +11,6 @@ function App() {
   const passValues = (filterName, filterType) => {
     setLabelName(filterName);
     setLabelType(filterType);
-
   };
 const passDate=(filterName)=>{
   setLabelName(filterName)
