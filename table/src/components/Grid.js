@@ -1,4 +1,4 @@
-import React, { useCallback, useState, memo } from "react";
+import React, { useCallback, useState, memo, useEffect } from "react";
 import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, useFilters, useGlobalFilter } from "react-table";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -8,9 +8,10 @@ import GlobalFilter from "./Functions/GlobalFilter";
 import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
+const listRef = React.createRef();
+
 const Grid = memo((props) => {
-    console.log("Grid");
-    const { columns, data, globalSearchLogic, updateMyData } = props;
+    const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData, calculateRowHeight } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -23,12 +24,22 @@ const Grid = memo((props) => {
         }),
         []
     );
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, setGlobalFilter } = useTable(
+    const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow,
+        selectedFlatRows,
+        state,
+        setGlobalFilter
+    } = useTable(
         {
             columns,
             data,
             defaultColumn,
-            updateMyData,
+            updateCellData,
+            updateRowData,
             globalFilter: (rows, columns, filterValue) => globalSearchLogic(rows, columns, filterValue)
         },
         useFilters,
@@ -42,6 +53,8 @@ const Grid = memo((props) => {
                 {
                     id: "selection",
                     disableResizing: true,
+                    disableFilters: true,
+                    disableSortBy: true,
                     minWidth: 35,
                     width: 35,
                     maxWidth: 35,
@@ -72,6 +85,16 @@ const Grid = memo((props) => {
         [prepareRow, rows]
     );
 
+    const bulkSelector = () => {
+        selectBulkData(selectedFlatRows);
+    };
+
+    useEffect(() => {
+        if (listRef && listRef.current) {
+            listRef.current.resetAfterIndex(0, true);
+        }
+    });
+
     return (
         <div className="wrapper">
             <div className="table-filter">
@@ -92,6 +115,9 @@ const Grid = memo((props) => {
                         <i>
                             <img src={TableViewIcon} alt="cargo" />
                         </i>
+                    </div>
+                    <div className="filter-icon bulk-select" onClick={bulkSelector}>
+                        <i className="fa fa-pencil-square-o"></i>
                     </div>
                 </div>
             </div>
@@ -129,10 +155,11 @@ const Grid = memo((props) => {
                             </div>
                             <div {...getTableBodyProps()} className="tbody">
                                 <List
+                                    ref={listRef}
                                     className="table-list"
                                     height={height - 50}
                                     itemCount={rows.length}
-                                    itemSize={() => 50}
+                                    itemSize={(index) => calculateRowHeight(rows, index, headerGroups)}
                                     overscanCount={20}
                                 >
                                     {RenderRow}

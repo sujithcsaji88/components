@@ -270,7 +270,7 @@ const App = memo(() => {
                 disableFilters: true,
                 disableSortBy: true,
                 width: 50,
-                Cell: ({ row }) => <RowOptions row={row} />
+                Cell: (row) => <RowOptions row={row} updateRowData={updateRowData} />
             }
         ],
         []
@@ -316,8 +316,38 @@ const App = memo(() => {
         return rows;
     };
 
+    const calculateRowHeight = (rows, index, headerCells) => {
+        let rowHeight = 50;
+        if (headerCells && headerCells.length && rows && rows.length && index >= 0) {
+            const { headers } = headerCells[0];
+            const { original } = rows[index];
+            headers.forEach((header) => {
+                const { id, totalFlexWidth } = header;
+                if (id === "details") {
+                    const details = original.details;
+                    if (details) {
+                        const text =
+                            details.additionalStatus +
+                            details.bodyType +
+                            details.endTime +
+                            details.flightModel +
+                            details.startTime +
+                            details.status +
+                            details.timeStatus +
+                            details.type;
+                        const a = Math.ceil(text.length / (totalFlexWidth / 5));
+                        if (a > 2) {
+                            rowHeight = 50 + 14 * a;
+                        }
+                    }
+                }
+            });
+        }
+        return rowHeight;
+    };
+
     //Gets called when there is a cell edit
-    const updateMyData = (rowIndex, columnId, value) => {
+    const updateCellData = (rowIndex, columnId, value) => {
         console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
         setData((old) =>
             old.map((row, index) => {
@@ -331,7 +361,28 @@ const App = memo(() => {
             })
         );
     };
-    return <Grid columns={columns} data={data} globalSearchLogic={globalSearchLogic} updateMyData={updateMyData} />;
+
+    //Gets called when Row option is selected
+    const updateRowData = (row) => {
+        console.log(row);
+    };
+
+    //Gets called when row bulk edit is done
+    const selectBulkData = (selectedRows) => {
+        console.log(selectedRows);
+    };
+
+    return (
+        <Grid
+            columns={columns}
+            data={data}
+            globalSearchLogic={globalSearchLogic}
+            updateCellData={updateCellData}
+            updateRowData={updateRowData}
+            selectBulkData={selectBulkData}
+            calculateRowHeight={calculateRowHeight}
+        />
+    );
 });
 
 export default App;

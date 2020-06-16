@@ -81,11 +81,6 @@
       "dataType": "Text"
     },
     {
-      "name": "Departure Port",
-      "enabled": false,
-      "dataType": "Text"
-    },
-    {
       "name": "Revenue",
       "dataType": "Numeric",
       "enabled": true,
