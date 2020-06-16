@@ -6,9 +6,10 @@ import { Form, Button } from "react-bootstrap";
 const rightSideDrawer = (props) => {
   return (
     <React.Fragment>
+      <Form.Label className="downBorder">Searched Filter</Form.Label>
       <div className="rightSideDrawer">
         <div className="displayFlex">
-          <div className="displayFlex">
+          <div className="alignLeft">
             <p>{props.name}</p>
             <span>&gt;</span>
             <p>{props.type}</p>
@@ -25,13 +26,13 @@ const rightSideDrawer = (props) => {
           ></input>
         </div>
         <div className="displayFlex">
-          <div className="displayFlex">
+          <div className="alignLeft">
             <Form.Label>
               <strong>Date</strong>
             </Form.Label>
           </div>
           <div className="marginLeft">
-            <Form.Check type="switch" id="custom-switch" label="" />
+            <Form.Check type="switch" id="date" label="" />
             <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon className="fontIcons" icon={faTimes} />
           </div>
@@ -56,7 +57,7 @@ const rightSideDrawer = (props) => {
           />
         </div>
         <div className="displayFlex">
-          <Form.Text className="text-muted">Date from and Time</Form.Text>
+          <Form.Text className="text-muted">To Date and Time</Form.Text>
         </div>
         <div className="displayFlex">
           <Form.Control
@@ -75,13 +76,13 @@ const rightSideDrawer = (props) => {
           />
         </div>
         <div className="displayFlex">
-          <div className="displayFlex">
+          <div className="alignLeft">
             <Form.Label>
               <strong>Revenue</strong>
             </Form.Label>
           </div>
           <div className="marginLeft">
-            {/* <Form.Check type="switch" id="custom-switch" label="" /> */}
+            <Form.Check type="switch" id="revenue" label="" />
             <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon className="fontIcons" icon={faTimes} />
           </div>

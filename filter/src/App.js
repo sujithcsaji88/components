@@ -1,8 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
-import { Container, Form } from "react-bootstrap";
 import RightSideDrawer from "./components/RightSideDrawer";
 import LeftSideDrawer from "./components/LeftSideDrawer";
+
+function useComponentVisible(initialIsVisible) {
+  const [showSideDrawer, setShowSideDrawer] = useState(false);
+  const ref = useRef(null);
+
+  const handleHideDropdown = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setShowSideDrawer(false);
+    }
+  };
+
+  const handleClickOutside = (event) => {
+    if (ref.current && !ref.current.contains(event.target)) {
+      setShowSideDrawer(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleHideDropdown, true);
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("keydown", handleHideDropdown, true);
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  });
+
+  return { ref, showSideDrawer, setShowSideDrawer };
+}
 
 function App() {
   const [labelName, setLabelName] = useState();
@@ -13,26 +40,12 @@ function App() {
     setLabelType(filterType);
   };
 
+  const { ref, showSideDrawer, setShowSideDrawer } = useComponentVisible(true);
+
   return (
-    <div className="App">
-      <Container className="container">
-        <div className="sideDrawer">
-          <Form.Row>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Filter"
-              defaultValue=""
-              className="customControl col-md-5 col-lg-5"
-            />
-            <Form.Control
-              required
-              type="text"
-              placeholder="Filter"
-              defaultValue=""
-              className="customControl col-md-7 col-lg-7"
-            />
-          </Form.Row>
+    <div ref={ref}>
+      {showSideDrawer && (
+        <div className="sideDrawer" ref={ref}>
           <div className="row">
             <div className="col-md-5 col-lg-5">
               <LeftSideDrawer handleValue={passValues} />
@@ -42,7 +55,15 @@ function App() {
             </div>
           </div>
         </div>
-      </Container>
+      )}
+      <div>
+        <input
+          type="submit"
+          value="+ add filter"
+          className="dummy"
+          onClick={() => setShowSideDrawer(true)}
+        ></input>
+      </div>
     </div>
   );
 }
