@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { faTimes, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
+import { REVENUE } from "../../constants/filtertypeconstants";
 
 const Revenue = (props) => {
   const [labelName, setLabelName] = useState();
 
   useEffect(() => {
-    if (props.name === "Revenue") {
+    if (props.name === REVENUE) {
       setLabelName(props.name);
     }
   }, [props]);
@@ -16,7 +17,7 @@ const Revenue = (props) => {
     setLabelName("");
   };
 
-  if (labelName === "Revenue") {
+  if (labelName === REVENUE) {
     return (
       <div>
         <div className="displayFlex">

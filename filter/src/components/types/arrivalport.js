@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ARRIVAL_PORT } from "../../constants/filtertypeconstants";
 
 const ArrivalPort = (props) => {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
 
   useEffect(() => {
-    if (props.name === "Arrival Port") {
+    if (props.name === ARRIVAL_PORT) {
       setLabelName(props.name);
       setLabelType(props.type);
     }
@@ -18,7 +19,7 @@ const ArrivalPort = (props) => {
     setLabelType("");
   };
 
-  if (labelName === "Arrival Port") {
+  if (labelName === ARRIVAL_PORT) {
     return (
       <div>
         <div className="displayFlex">
