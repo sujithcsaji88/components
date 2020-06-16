@@ -18,7 +18,7 @@
   background: #ccc;
 }
 
-.rightSideDrawer::-webkit-scrollbar {
+.rightDrawer::-webkit-scrollbar {
   width: 3px;
   scroll-behavior: smooth;
 }
@@ -51,14 +51,14 @@
       }
     }
   }
-  .leftSideDrawer {
+  .leftDrawer {
     list-style: none;
     padding: 0px;
     overflow-y: scroll;
     height: 450px;
     width: 195px;
   }
-  .rightSideDrawer {
+  .rightDrawer {
     height: 410px;
     overflow-y: scroll;
     overflow-x: hidden;

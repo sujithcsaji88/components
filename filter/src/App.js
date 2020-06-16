@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
-import RightSideDrawer from "./components/RightSideDrawer";
-import LeftSideDrawer from "./components/LeftSideDrawer";
+import RightDrawer from "./components/drawer/rightdrawer";
+import LeftDrawer from "./components/drawer/leftdrawer";
 
 function useComponentVisible() {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
@@ -58,10 +58,10 @@ function App() {
         <div className="sideDrawer" ref={ref}>
           <div className="row">
             <div className="col-md-5 col-lg-5">
-              <LeftSideDrawer handleDate={passDate} handleValue={passValues} />
+              <LeftDrawer handleDate={passDate} handleValue={passValues} />
             </div>
             <div className="col-md-7 col-lg-7">
-              <RightSideDrawer name={labelName} type={labelType} clearValues={clearState} clearValue={clearName} />
+              <RightDrawer name={labelName} type={labelType} clearValues={clearState} clearValue={clearName} />
             </div>
           </div>
         </div>
