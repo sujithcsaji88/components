@@ -4,7 +4,6 @@
 
 ::-webkit-scrollbar {
   width: 6px;
-  
 }
 
 ::-webkit-scrollbar-track {
@@ -42,8 +41,7 @@
     display: flex;
     width: 95%;
     justify-content: space-between;
-    margin-bottom: 1px solid #ccc;
-    .alignLeft{
+    .alignLeft {
       display: flex;
     }
     .marginLeft {
@@ -110,7 +108,8 @@ label {
   display: inline-block !important;
   line-height: 1.5rem;
 }
+
 .fa-times {
   font-size: 12px;
-  color: #BCBDD1;
+  color: #bcbdd1;
 }
