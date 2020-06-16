@@ -6,21 +6,24 @@ import { Form, Button } from "react-bootstrap";
 function DeparturePort(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
+
   useEffect(() => {
     if (props.name === "Departure Port") {
       setLabelName(props.name);
       setLabelType(props.type);
     }
   }, [props]);
+
   const closeDeparture = () => {
     setLabelName("");
     setLabelType("");
   };
+
   if (labelName === "Departure Port") {
     return (
       <div>
         <div className="displayFlex">
-          <div className="displayFlex">
+          <div className="alignLeft">
             <p>{labelName}</p>
             <span>&gt;</span>
             <p>{labelType}</p>
@@ -45,33 +48,35 @@ function DeparturePort(props) {
     return <div></div>;
   }
 }
+
 function ArrivalPort(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
+
   useEffect(() => {
     if (props.name === "Arrival Port") {
       setLabelName(props.name);
       setLabelType(props.type);
     }
   }, [props]);
+
   const closeArrival = () => {
     setLabelName("");
     setLabelType("");
   };
+
   if (labelName === "Arrival Port") {
     return (
       <div>
         <div className="displayFlex">
-          <p>{labelName}</p>
-          <span>&gt;</span>
-          <p>{labelType}</p>
-        </div>
-        <div className="marginLeft">
-          <FontAwesomeIcon icon={faTimes} onClick={()=>{
-              closeArrival();
-              props.clearValues();
-              }}
-          />
+          <div className="alignLeft">
+            <p>{labelName}</p>
+            <span>&gt;</span>
+            <p>{labelType}</p>
+          </div>
+          <div className="marginLeft">
+            <FontAwesomeIcon icon={faTimes} onClick={closeArrival} />
+          </div>
         </div>
         <div className="displayFlex">
           <input
@@ -87,14 +92,17 @@ function ArrivalPort(props) {
 
 function Date(props) {
   const [labelName, setLabelName] = useState();
+
   useEffect(() => {
     if (props.name === "Date") {
       setLabelName(props.name);
     }
   }, [props]);
+
   const closeDate = () => {
     setLabelName("");
   };
+
   if (labelName === "Date") {
     return (
       <div>
@@ -162,27 +170,31 @@ function Date(props) {
     return <div></div>;
   }
 }
+
 function Revenue(props) {
   const [labelName, setLabelName] = useState();
+
   useEffect(() => {
     if (props.name === "Revenue") {
       setLabelName(props.name);
     }
   }, [props]);
+
   const closeRevenue = () => {
     setLabelName("");
   };
+
   if (labelName === "Revenue") {
     return (
       <div>
         <div className="displayFlex">
-          <div className="displayFlex">
+          <div className="alignLeft">
             <Form.Label>
               <strong>Revenue</strong>
             </Form.Label>
           </div>
           <div className="marginLeft">
-            {/* <Form.Check type="switch" id="custom-switch" label="" /> */}
+            <Form.Check type="switch" id="revenue" label="" />
             <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon
               className="fontIcons"

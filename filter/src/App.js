@@ -3,7 +3,7 @@ import "./scss/filter.scss";
 import RightSideDrawer from "./components/RightSideDrawer";
 import LeftSideDrawer from "./components/LeftSideDrawer";
 
-function useComponentVisible(initialIsVisible) {
+function useComponentVisible() {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
   const ref = useRef(null);
 
