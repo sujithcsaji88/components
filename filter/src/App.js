@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
+import { Container, Form } from "react-bootstrap";
 import RightSideDrawer from "./components/RightSideDrawer";
 import LeftSideDrawer from "./components/LeftSideDrawer";
 
@@ -40,6 +41,10 @@ function App() {
     setLabelType(filterType);
   };
 
+const passDate=(filterName)=>{
+  setLabelName(filterName)
+}
+
   const { ref, showSideDrawer, setShowSideDrawer } = useComponentVisible(true);
 
   return (
@@ -48,7 +53,7 @@ function App() {
         <div className="sideDrawer" ref={ref}>
           <div className="row">
             <div className="col-md-5 col-lg-5">
-              <LeftSideDrawer handleValue={passValues} />
+              <LeftSideDrawer handleDate={passDate} handleValue={passValues} />
             </div>
             <div className="col-md-7 col-lg-7">
               <RightSideDrawer name={labelName} type={labelType} />
