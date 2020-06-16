@@ -12,7 +12,6 @@ const SegmentEdit = memo(({ value: initialValue, index, id, airportCodeList, upd
     };
 
     const onChangeFrom = (e) => {
-        console.log(e.target.value)
         setValue({
             ...value,
             from: e.target.value
@@ -24,11 +23,11 @@ const SegmentEdit = memo(({ value: initialValue, index, id, airportCodeList, upd
             ...value,
             to: e.target.value
         });
-    }
+    };
 
     const saveEdit = () => {
         setEdit(false);
-        updateCellData(parseInt(index), id, value);
+        updateCellData(index, id, value);
     };
 
     const clearEdit = () => {
@@ -46,22 +45,27 @@ const SegmentEdit = memo(({ value: initialValue, index, id, airportCodeList, upd
                 <div className={`segment-details content ${isEdit ? "close" : "open"}`} onClick={openEdit}>
                     <span>{value.from}</span>
                     <i>
-                      {" "}
-                        <img src={FlightIcon} alt="segment" />{" "}
+                        <img src={FlightIcon} alt="segment" />
                     </i>
                     <span>{value.to}</span>
                 </div>
                 <div className={`content-edit ${isEdit ? "open" : "close"}`}>
                     <select onChange={onChangeFrom} key={value.from} value={value.from}>
-                        {airportCodeList.map((item,index) => {
-                           return <option key={index}
-                            value={item}>{item}</option>
+                        {airportCodeList.map((item, index) => {
+                            return (
+                                <option key={index} value={item}>
+                                    {item}
+                                </option>
+                            );
                         })}
                     </select>
                     <select onChange={onChangeTo} key={value.to} value={value.to}>
-                        {airportCodeList.map((item,index) => {
-                        return <option  key={index}
-                        value={item}>{item}</option>
+                        {airportCodeList.map((item, index) => {
+                            return (
+                                <option key={index} value={item}>
+                                    {item}
+                                </option>
+                            );
                         })}
                     </select>
                     <button className="ok" onClick={saveEdit} />
