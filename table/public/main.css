@@ -190,7 +190,7 @@ select:-webkit-autofill:focus {
     align-items: center;
     height: 100%;
 }
-.table-outer .table .table-row .table-cell .action .fa {
+.table-outer .table .table-row .table-cell .action .expander .fa {
     font-size: 22px;
     color: #999999;
 }

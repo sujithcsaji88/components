@@ -326,7 +326,7 @@ const App = memo(() => {
                     return (
                         <div className="action">
                             <RowOptions row={row} updateRowData={updateRowData} />
-                            <span {...row.getToggleRowExpandedProps()}>
+                            <span className="expander" {...row.getToggleRowExpandedProps()}>
                                 {row.isExpanded ? (
                                     <i className="fa fa-angle-up" aria-hidden="true"></i>
                                 ) : (
