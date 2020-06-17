@@ -169,6 +169,9 @@ select:-webkit-autofill:focus {
     border-bottom: 1px solid #d2d5de;
     flex-wrap: wrap;
 }
+.table-outer .table .table-row:last-child {
+    margin-bottom: 50px;
+}
 .table-outer .table .table-row .table-row-wrap {
     width: 100%;
     display: flex;
