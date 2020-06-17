@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
-import RightSideDrawer from "./components/RightSideDrawer";
-import LeftSideDrawer from "./components/LeftSideDrawer";
+import RightDrawer from "./components/drawer/rightdrawer";
+import LeftDrawer from "./components/drawer/leftdrawer";
 
-function useComponentVisible(initialIsVisible) {
+function useComponentVisible() {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
   const ref = useRef(null);
 
-  const handleHideDropdown = (event: KeyboardEvent) => {
+  const handleHideDropdown = (event) => {
     if (event.key === "Escape") {
       setShowSideDrawer(false);
     }
@@ -40,6 +40,16 @@ function App() {
     setLabelType(filterType);
   };
 
+  const passDate = (filterName) => {
+    setLabelName(filterName);
+  };
+   const clearState=()=>{
+     setLabelType('');
+     setLabelName('');
+   }
+   const clearName=()=>{
+    setLabelName('');
+   }
   const { ref, showSideDrawer, setShowSideDrawer } = useComponentVisible(true);
 
   return (
@@ -48,10 +58,10 @@ function App() {
         <div className="sideDrawer" ref={ref}>
           <div className="row">
             <div className="col-md-5 col-lg-5">
-              <LeftSideDrawer handleValue={passValues} />
+              <LeftDrawer handleDate={passDate} handleValue={passValues} />
             </div>
             <div className="col-md-7 col-lg-7">
-              <RightSideDrawer name={labelName} type={labelType} />
+              <RightDrawer name={labelName} type={labelType} clearValues={clearState} clearValue={clearName} />
             </div>
           </div>
         </div>

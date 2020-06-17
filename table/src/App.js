@@ -4,8 +4,64 @@ import RowOptions from "./components/Cells/RowOptions";
 import Grid from "./components/Grid";
 import SREdit from "./components/Cells/SREdit";
 import FlightEdit from "./components/Cells/FlightEdit";
-import FlightIcon from "./images/FlightIcon.png";
+import SegmentEdit from "./components/Cells/SegmentEdit";
 
+const airportCodeList = [
+    "AAA",
+    "AAB",
+    "AAC",
+    "ABA",
+    "ABB",
+    "ABC",
+    "ACA",
+    "ACB",
+    "ACC",
+    "BAA",
+    "BAB",
+    "BAC",
+    "BBA",
+    "BBB",
+    "BBC",
+    "BCA",
+    "BCB",
+    "BCC",
+    "CAA",
+    "CAB",
+    "CAC",
+    "CBA",
+    "CBB",
+    "CBC",
+    "CCA",
+    "CCB",
+    "CCC",
+    "XXX",
+    "XXY",
+    "XXZ",
+    "XYX",
+    "XYY",
+    "XYZ",
+    "XZX",
+    "XZY",
+    "XZZ",
+    "YXX",
+    "YXY",
+    "YXZ",
+    "YYX",
+    "YYY",
+    "YYZ",
+    "YZX",
+    "YZY",
+    "YZZ",
+    "ZXX",
+    "ZXY",
+    "ZXZ",
+    "ZYX",
+    "ZYY",
+    "ZYZ",
+    "ZZX",
+    "ZZY",
+    "ZZZ"
+];
 const App = memo(() => {
     const columns = useMemo(
         () => [
@@ -37,19 +93,15 @@ const App = memo(() => {
                 accessor: "segment",
                 width: 100,
                 disableSortBy: true,
-                Cell: (row) => {
-                    const { from, to } = row.value;
-                    return (
-                        <div className="segment-details content">
-                            <span>{from}</span>
-                            <i>
-                                {" "}
-                                <img src={FlightIcon} alt="segment" />{" "}
-                            </i>
-                            <span>{to}</span>
-                        </div>
-                    );
-                },
+                Cell: (row) => (
+                    <SegmentEdit
+                        airportCodeList={airportCodeList}
+                        index={row.row.index}
+                        id="segment"
+                        updateCellData={updateCellData}
+                        value={row.value}
+                    />
+                ),
                 filter: (rows, id, filterValue) => {
                     const filterText = filterValue ? filterValue.toLowerCase() : "";
                     return rows.filter((row) => {
@@ -335,9 +387,12 @@ const App = memo(() => {
                             details.status +
                             details.timeStatus +
                             details.type;
-                        const a = Math.ceil(text.length / (totalFlexWidth / 5));
-                        if (a > 2) {
-                            rowHeight = 50 + 14 * a;
+                        rowHeight = rowHeight + Math.ceil((100 * text.length) / totalFlexWidth);
+                        if (totalFlexWidth > 300) {
+                            rowHeight = rowHeight + 0.01 * (totalFlexWidth - 300);
+                        }
+                        if (totalFlexWidth < 300) {
+                            rowHeight = rowHeight + ((300 - totalFlexWidth) / 2 + 20);
                         }
                     }
                 }

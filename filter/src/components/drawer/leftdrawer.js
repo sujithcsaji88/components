@@ -1,9 +1,9 @@
 import React from "react";
-import FilterData from "../stubs/FilterData.json";
+import FilterData from "../../stubs/FilterData.json";
 import Card from "react-bootstrap/Card";
 import { Accordion, Form } from "react-bootstrap";
 
-const leftSideDrawer = (props) => {
+const leftDrawer = (props) => {
   const loadedData = FilterData.filter.map((filterData) => {
     if (
       filterData.name === "Departure Port" ||
@@ -39,7 +39,15 @@ const leftSideDrawer = (props) => {
         </li>
       );
     } else {
-      return <li>{filterData.name}</li>;
+      return (
+        <li
+          onClick={(e) => {
+            props.handleDate(filterData.name);
+          }}
+        >
+           <strong>{filterData.name}</strong>
+        </li>
+      );
     }
   });
 
@@ -56,11 +64,11 @@ const leftSideDrawer = (props) => {
       </Form.Row>
       <div className="row">
         <div className="col-md-5 col-lg-5">
-          <ul className="leftSideDrawer">{loadedData}</ul>
+          <ul className="leftDrawer">{loadedData}</ul>
         </div>
       </div>
     </div>
   );
 };
 
-export default leftSideDrawer;
+export default leftDrawer;
