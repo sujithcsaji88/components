@@ -155,7 +155,7 @@ const Grid = memo((props) => {
                                                         )}
                                                     </span>
                                                 </div>
-                                                <div className={`txt-wrap column-filter ${isFilterOpen ? "open" : ""}`}>
+                                                <div className={`txt-wrap column-filter ${isFilterOpen && column.id !== "selection" && column.id !== "travelId" && column.id !== "custom" ? "open" : ""}`}>
                                                     {column.canFilter ? column.render("Filter") : null}
                                                 </div>
                                                 {column.canResize && <div {...column.getResizerProps()} className="resizer" />}
