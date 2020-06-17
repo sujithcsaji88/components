@@ -257,7 +257,8 @@ select:-webkit-autofill:focus {
 .table-outer .table .table-row .table-cell .content .content-edit.open {
     display: flex;
 }
-.table-outer .table .table-row .table-cell .content .content-edit input {
+.table-outer .table .table-row .table-cell .content .content-edit input,
+.table-outer .table .table-row .table-cell .content .content-edit select {
     display: inline-block;
     height: 23px;
     width: 120px;
