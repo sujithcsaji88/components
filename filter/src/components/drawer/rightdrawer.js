@@ -17,53 +17,62 @@ import {
 } from "../../constants/filtertypeconstants";
 
 const RightDrawer = (props) => {
-  const [jsonObj, setjsonObj] = useState({
-    filter: [
-      {
-        name: "Departure Port",
-        enabled: true,
-        types: [
-          {
-            name: "Airport",
-            value: "",
-          },
-        ],
-      },
-      {
-        name: "Arrival Port",
-        enabled: true,
-        types: [
-          {
-            name: "City",
-            value: "",
-          },
-        ],
-      },
-      {
-        name: "Date",
-        enabled: true,
-        field: [
-          {
-            name: "From Date & Time",
-            value: "",
-          },
-          {
-            name: "To Date & Time",
-            value: "",
-          },
-        ],
-      },
-      {
-        name: "Revenue",
-        dataType: "Numeric",
-        enabled: true,
-        condition: {
-          value: "equals",
+  const saveFilters=()=>{
+    const obj={
+      filter: [
+        {
+          name: "Departure Port",
+          enabled: true,
+          types: [
+            {
+              name: "Airport",
+              value: departureAirport,
+            },
+          ],
         },
-        value: "",
-      },
-    ],
-  });
+        {
+          name: "Arrival Port",
+          enabled: true,
+          types: [
+            {
+              name: "City",
+              value: arrivalCity,
+            },
+          ],
+        },
+        {
+          name: "Date",
+          enabled: true,
+          field: [
+            {
+              name: "From Date & Time",
+              value: fromDateTime,
+            },
+            {
+              name: "To Date & Time",
+              value: toDateTime,
+            },
+          ],
+        },
+        {
+          name: "Revenue",
+          dataType: "Numeric",
+          enabled: true,
+          condition: {
+            value: "equals",
+          },
+          value: revenueAmount,
+        },
+      ]
+    }
+ console.log(obj)
+ debugger;
+ let existing = localStorage.getItem("filters");
+	existing = existing ? JSON.parse(existing) : [];
+	existing.push(obj);
+	localStorage.setItem("filters", JSON.stringify(existing));
+ 
+  }
   const [departureAirport, setDepartureAirport] = useState();
   const [departureAirportGroup, setDepartureAirportGroup] = useState();
   const [departureCity, setDepartureCity] = useState();
@@ -148,7 +157,7 @@ const RightDrawer = (props) => {
         />
       </div>
       <div className="">
-        <Button variant="primary">Save</Button>{" "}
+        <Button variant="primary" onClick={saveFilters}>Save</Button>{" "}
         <Button variant="primary">Reset</Button>{" "}
         <Button variant="primary">Apply Filter</Button>{" "}
       </div>
