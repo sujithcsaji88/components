@@ -417,7 +417,7 @@ const App = memo(() => {
                 }
             });
             if (isExpanded) {
-                rowHeight = rowHeight + 70;
+                rowHeight = rowHeight + 20;
             }
         }
         return rowHeight;
