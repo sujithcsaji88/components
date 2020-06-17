@@ -1,49 +1,35 @@
 {
-    "filter": [
-        {
-            "name": "Departure Port",
-            "enabled": true,
-            "types": [
-                {
-                    "name": "Airport",
-                    "value":""
-                }
-            ]
-        },
-        {
-            "name": "Arrival Port",
-            "enabled": true,
-            "types": [
-                {
-                    "name": "City",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "name": "Date",
-            "enabled": true,
-            "field": [
-              {
-                "name": "From Date & Time",
-                "value":""
-              },
-              {
-                "name": "To Date & Time",
-                "value":""
-              }
-            ]
-        },
-        {
-            "name": "Revenue",
-      "dataType": "Numeric",
-      "enabled": true,
-      "condition": 
-        {
-          "value": "equals"
-        },
-        "value":""
-                  
-        }
+    "savefilter": [
+      {
+        "column": "Airport",
+        "enabled": true,
+        "value": ""
+      },
+      {
+        "column": "Airport Group",
+        "enabled": true,
+        "value": ""
+      },
+      {
+        "column": "City",
+        "enabled": true,
+        "value": ""
+      },
+      {
+        "column": "Revenue",
+        "enabled": true,
+        "value": ""
+      },
+      {
+        "column": "FromDate",
+        "enabled": true,
+        "value": ""
+      },
+      {
+        "column": "ToDate",
+        "enabled": true,
+        "value": ""
+      }
     ]
-}
+  }
+  
