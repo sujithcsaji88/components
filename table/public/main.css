@@ -167,6 +167,7 @@ select:-webkit-autofill:focus {
 }
 .table-outer .table .table-row {
     border-bottom: 1px solid #d2d5de;
+    flex-wrap: wrap;
 }
 .table-outer .table .table-row .table-cell {
     padding: 0.8em 1.2em;
@@ -181,6 +182,20 @@ select:-webkit-autofill:focus {
 .table-outer .table .table-row .table-cell.column-heading:hover {
     border-left: 1px solid #d2d5de;
     border-right: 1px solid #d2d5de;
+}
+.table-outer .table .table-row .table-cell .action {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+.table-outer .table .table-row .table-cell .action .fa {
+    font-size: 22px;
+    color: #999999;
+}
+.table-outer .table .table-row .expand {
+    width: 100%;
 }
 .tableContainer .table .th .resizer,
 .tableContainer .table .td .resizer {
@@ -396,7 +411,6 @@ select:-webkit-autofill:focus {
     color: #566a81;
 }
 .table-outer .table .row-options-edit-wrap {
-    margin-right: 15px;
     position: relative;
 }
 .table-outer .table .row-options-edit-wrap .icon-edit {

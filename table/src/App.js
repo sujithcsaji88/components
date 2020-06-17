@@ -322,7 +322,20 @@ const App = memo(() => {
                 disableFilters: true,
                 disableSortBy: true,
                 width: 50,
-                Cell: (row) => <RowOptions row={row} updateRowData={updateRowData} />
+                Cell: ({ row }) => {
+                    return (
+                        <div className="action">
+                            <RowOptions row={row} updateRowData={updateRowData} />
+                            <span {...row.getToggleRowExpandedProps()}>
+                                {row.isExpanded ? (
+                                    <i className="fa fa-angle-up" aria-hidden="true"></i>
+                                ) : (
+                                    <i className="fa fa-angle-down" aria-hidden="true"></i>
+                                )}
+                            </span>
+                        </div>
+                    );
+                }
             }
         ],
         []
@@ -372,7 +385,7 @@ const App = memo(() => {
         let rowHeight = 50;
         if (headerCells && headerCells.length && rows && rows.length && index >= 0) {
             const { headers } = headerCells[0];
-            const { original } = rows[index];
+            const { original, isExpanded } = rows[index];
             headers.forEach((header) => {
                 const { id, totalFlexWidth } = header;
                 if (id === "details") {
@@ -397,6 +410,9 @@ const App = memo(() => {
                     }
                 }
             });
+            if (isExpanded) {
+                rowHeight = rowHeight + 70;
+            }
         }
         return rowHeight;
     };

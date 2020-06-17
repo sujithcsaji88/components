@@ -1,47 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ARRIVAL_PORT } from "../../constants/filtertypeconstants";
+import Airport from "./PortTypes/airport.js"
+import AirportGroup from "./PortTypes/airportGroup.js"
+import City from "./PortTypes/city.js";
+import CityGroup from "./PortTypes/cityGroup.js";
+import Country from "./PortTypes/country.js";
 
 const ArrivalPort = (props) => {
-  const [labelName, setLabelName] = useState();
-  const [labelType, setLabelType] = useState();
-
-  useEffect(() => {
-    if (props.name === ARRIVAL_PORT) {
-      setLabelName(props.name);
-      setLabelType(props.type);
+  const[name,setName]=useState();
+const[type,setType]=useState();
+useEffect(
+  ()=>{
+    if(props.name===ARRIVAL_PORT){
+    setName(props.name)
+    setType(props.type)
     }
-  }, [props]);
-
-  const closeArrival = () => {
-    setLabelName("");
-    setLabelType("");
-  };
-
-  if (labelName === ARRIVAL_PORT) {
+  }
+,[props]);
+  if (name === ARRIVAL_PORT) {
     return (
       <div>
-        <div className="displayFlex">
-          <div className="alignLeft">
-            <p>{labelName}</p>
-            <span>&nbsp;&gt;&nbsp;</span>
-            <p>{labelType}</p>
-          </div>
-          <div className="marginLeft">
-            <FontAwesomeIcon icon={faTimes} onClick={closeArrival} />
-          </div>
-        </div>
-        <div className="displayFlex">
-          <input
-            type="text"
-            placeholder="filter"
-            className="form-control"
-          ></input>
-        </div>
-      </div>
+     <Airport name={name} type={type} clearValues={props.clearValues}  valueToSave={props.PortvalueToSave}/>
+     <AirportGroup name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
+     <City name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
+     <CityGroup name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
+     <Country name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
+     </div>
     );
-  } else return <div></div>;
+  } else {
+    return <div></div>;
+  }
 };
-
 export default ArrivalPort;

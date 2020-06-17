@@ -6,10 +6,11 @@ import { DATE } from "../../constants/filtertypeconstants";
 
 const Date = (props) => {
   const [labelName, setLabelName] = useState();
-
+  const [field,setField]=useState();
   useEffect(() => {
     if (props.name === DATE) {
       setLabelName(props.name);
+      setField(props.field)
     }
   }, [props]);
 
@@ -39,44 +40,24 @@ const Date = (props) => {
             />
           </div>
         </div>
-        <div className="displayFlex">
-          <Form.Text className="text-muted">Date from and Time</Form.Text>
-        </div>
-        <div className="displayFlex">
-          <Form.Control
-            required
-            type="text"
-            placeholder="Filter"
-            defaultValue=""
-            className="col-lg-7 mr-3"
-          />
-          <Form.Control
-            required
-            type="text"
-            placeholder="Filter"
-            defaultValue=""
-            className="col-lg-4"
-          />
-        </div>
-        <div className="displayFlex">
-          <Form.Text className="text-muted">To Date and Time</Form.Text>
-        </div>
-        <div className="displayFlex">
-          <Form.Control
-            required
-            type="text"
-            placeholder="Filter"
-            defaultValue=""
-            className="col-lg-7 mr-3"
-          />
-          <Form.Control
-            required
-            type="text"
-            placeholder="Filter"
-            defaultValue=""
-            className="col-lg-4"
-          />
-        </div>
+        {field.map((field,index)=>{
+           return(
+           <div>
+             <div className="displayFlex">
+           <Form.Text className="text-muted">{field.name}</Form.Text>
+         </div>
+         <div className="displayFlex" >
+           <Form.Control
+             required
+             type="text"
+             placeholder="Filter"
+             defaultValue=""
+             className="col-lg-7 mr-3"
+             onChange={(e)=>{props.dateSave(e,field.name,"date")}}
+           />
+         </div>
+         </div>);
+        })}
       </div>
     );
   } else {
