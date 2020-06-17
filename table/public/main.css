@@ -169,6 +169,10 @@ select:-webkit-autofill:focus {
     border-bottom: 1px solid #d2d5de;
     flex-wrap: wrap;
 }
+.table-outer .table .table-row .table-row-wrap {
+    width: 100%;
+    display: flex;
+}
 .table-outer .table .table-row .table-cell {
     padding: 0.8em 1.2em;
     position: relative;
@@ -189,6 +193,7 @@ select:-webkit-autofill:focus {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    margin-right: 5px;
 }
 .table-outer .table .table-row .table-cell .action .expander .fa {
     font-size: 22px;

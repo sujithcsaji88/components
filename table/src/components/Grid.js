@@ -82,13 +82,15 @@ const Grid = memo((props) => {
             prepareRow(row);
             return (
                 <div {...row.getRowProps({ style })} className="table-row tr">
-                    {row.cells.map((cell) => {
-                        return (
-                            <div {...cell.getCellProps()} className="table-cell td">
-                                {cell.render("Cell")}
-                            </div>
-                        );
-                    })}
+                    <div className="table-row-wrap">
+                        {row.cells.map((cell) => {
+                            return (
+                                <div {...cell.getCellProps()} className="table-cell td">
+                                    {cell.render("Cell")}
+                                </div>
+                            );
+                        })}
+                    </div>
                     {row.isExpanded ? <div className="expand">Expanded content goes here</div> : null}
                 </div>
             );
@@ -155,7 +157,16 @@ const Grid = memo((props) => {
                                                         )}
                                                     </span>
                                                 </div>
-                                                <div className={`txt-wrap column-filter ${isFilterOpen && column.id !== "selection" && column.id !== "travelId" && column.id !== "custom" ? "open" : ""}`}>
+                                                <div
+                                                    className={`txt-wrap column-filter ${
+                                                        isFilterOpen &&
+                                                        column.id !== "selection" &&
+                                                        column.id !== "travelId" &&
+                                                        column.id !== "custom"
+                                                            ? "open"
+                                                            : ""
+                                                    }`}
+                                                >
                                                     {column.canFilter ? column.render("Filter") : null}
                                                 </div>
                                                 {column.canResize && <div {...column.getResizerProps()} className="resizer" />}
