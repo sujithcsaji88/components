@@ -406,12 +406,12 @@ const App = memo(() => {
                             details.status +
                             details.timeStatus +
                             details.type;
-                        rowHeight = rowHeight + Math.ceil((100 * text.length) / totalFlexWidth);
+                        rowHeight = rowHeight + Math.ceil((65 * text.length) / totalFlexWidth);
                         if (totalFlexWidth > 300) {
-                            rowHeight = rowHeight + 0.01 * (totalFlexWidth - 300);
+                            rowHeight = rowHeight + 0.001 * (totalFlexWidth - 300);
                         }
                         if (totalFlexWidth < 300) {
-                            rowHeight = rowHeight + ((300 - totalFlexWidth) / 2 + 20);
+                            rowHeight = rowHeight + (300 - totalFlexWidth) / 4;
                         }
                     }
                 }
