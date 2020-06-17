@@ -2,12 +2,16 @@ import React from "react";
 import FilterData from "../../stubs/FilterData.json";
 import Card from "react-bootstrap/Card";
 import { Accordion, Form } from "react-bootstrap";
+import {
+  DEPARTURE_PORT,
+  ARRIVAL_PORT
+} from "../../constants/filtertypeconstants";
 
 const leftDrawer = (props) => {
   const loadedData = FilterData.filter.map((filterData) => {
     if (
-      filterData.name === "Departure Port" ||
-      filterData.name === "Arrival Port"
+      filterData.name === DEPARTURE_PORT ||
+      filterData.name === ARRIVAL_PORT
     ) {
       return (
         <li>
@@ -18,7 +22,7 @@ const leftDrawer = (props) => {
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
-                  <ul className="firstAccordion" >
+                  <ul className="firstAccordion">
                     {filterData.types &&
                       filterData.types.map((type) => {
                         return (
@@ -42,25 +46,23 @@ const leftDrawer = (props) => {
       return (
         <li
           onClick={(e) => {
-            props.handleDate(filterData.name,filterData.field);
+            props.handleDate(filterData.name, filterData.field);
           }}
         >
           <strong>{filterData.name}</strong>
         </li>
       );
-    }
-    else if (filterData.condition) {
+    } else if (filterData.condition) {
       return (
         <li
           onClick={(e) => {
-            props.handleRevenue(filterData.name,filterData.condition);
+            props.handleRevenue(filterData.name, filterData.condition);
           }}
         >
           <strong>{filterData.name}</strong>
         </li>
       );
-    }
-    else {
+    } else {
       return (
         <li>
           <strong>{filterData.name}</strong>
