@@ -18,7 +18,7 @@ const leftDrawer = (props) => {
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0">
                 <Card.Body>
-                  <ul className="firstAccordion">
+                  <ul className="firstAccordion" >
                     {filterData.types &&
                       filterData.types.map((type) => {
                         return (
@@ -38,14 +38,32 @@ const leftDrawer = (props) => {
           </Accordion>
         </li>
       );
-    } else {
+    } else if (filterData.field) {
       return (
         <li
           onClick={(e) => {
-            props.handleDate(filterData.name);
+            props.handleDate(filterData.name,filterData.field);
           }}
         >
-           <strong>{filterData.name}</strong>
+          <strong>{filterData.name}</strong>
+        </li>
+      );
+    }
+    else if (filterData.condition) {
+      return (
+        <li
+          onClick={(e) => {
+            props.handleRevenue(filterData.name,filterData.condition);
+          }}
+        >
+          <strong>{filterData.name}</strong>
+        </li>
+      );
+    }
+    else {
+      return (
+        <li>
+          <strong>{filterData.name}</strong>
         </li>
       );
     }

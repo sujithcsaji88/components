@@ -6,10 +6,12 @@ import { REVENUE } from "../../constants/filtertypeconstants";
 
 const Revenue = (props) => {
   const [labelName, setLabelName] = useState();
-
+  const[condition,setCondition]=useState();
   useEffect(() => {
     if (props.name === REVENUE) {
       setLabelName(props.name);
+      setCondition(props.condition)
+     
     }
   }, [props]);
 
@@ -23,7 +25,7 @@ const Revenue = (props) => {
         <div className="displayFlex">
           <div className="alignLeft">
             <Form.Label>
-              <strong>Revenue</strong>
+              <strong>{labelName}</strong>
             </Form.Label>
           </div>
           <div className="marginLeft">
@@ -42,17 +44,8 @@ const Revenue = (props) => {
         <div className="displayFlex">
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Text className="text-muted">Condition</Form.Text>
-            <Form.Control as="select">
-              <option>equals</option>
-              <option>not equals to</option>
-              <option>less than</option>
-              <option>greater than</option>
-              <option>less or equal</option>
-              <option>greater or equal</option>
-              <option>contains</option>
-              <option>does not match</option>
-              <option>starts with</option>
-              <option>in between</option>
+            <Form.Control as="select" onChange={(e)=>{props.revenueConditionSave(e)}}>
+            {condition.map((condition,index)=>{return <option>{condition.value}</option>})}
             </Form.Control>
           </Form.Group>
         </div>
@@ -64,6 +57,7 @@ const Revenue = (props) => {
               type="text"
               placeholder="Amount"
               defaultValue=""
+              onChange={(e)=>{props.revenueAmountSave(e)}}
             />
           </Form.Group>
         </div>

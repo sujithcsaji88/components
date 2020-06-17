@@ -19,6 +19,31 @@
                     "value": ""
                 }
             ]
+        },
+        {
+            "name": "Date",
+            "enabled": true,
+            "field": [
+              {
+                "name": "From Date & Time",
+                "value":""
+              },
+              {
+                "name": "To Date & Time",
+                "value":""
+              }
+            ]
+        },
+        {
+            "name": "Revenue",
+      "dataType": "Numeric",
+      "enabled": true,
+      "condition": 
+        {
+          "value": "equals"
+        },
+        "value":""
+                  
         }
     ]
 }

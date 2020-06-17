@@ -34,18 +34,24 @@ function useComponentVisible() {
 function App() {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
+  const [field,setField]=useState();
+  const[condition,setCondition]=useState();
 
   const passValues = (filterName, filterType) => {
     setLabelName(filterName);
     setLabelType(filterType);
   };
 
-  const passDate = (filterName) => {
+  const passDate = (filterName,field) => {
     setLabelName(filterName);
+    setField(field);
   };
-   const clearState=()=>{
+  const passRevenue=(filterName,condition)=>{
+    setLabelName(filterName)
+    setCondition(condition)
+  }
+   const clearType=()=>{
      setLabelType('');
-     setLabelName('');
    }
    const clearName=()=>{
     setLabelName('');
@@ -58,10 +64,10 @@ function App() {
         <div className="sideDrawer" ref={ref}>
           <div className="row">
             <div className="col-md-5 col-lg-5">
-              <LeftDrawer handleDate={passDate} handleValue={passValues} />
+              <LeftDrawer  handleDate={passDate} handleValue={passValues} handleRevenue={passRevenue}/>
             </div>
             <div className="col-md-7 col-lg-7">
-              <RightDrawer name={labelName} type={labelType} clearValues={clearState} clearValue={clearName} />
+              <RightDrawer field={field} condition={condition} name={labelName} type={labelType} clearValues={clearType} clearValue={clearName} />
             </div>
           </div>
         </div>
