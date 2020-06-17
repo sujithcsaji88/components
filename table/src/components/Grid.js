@@ -1,5 +1,14 @@
 import React, { useCallback, useState, memo, useEffect } from "react";
-import { useTable, useResizeColumns, useFlexLayout, useRowSelect, useSortBy, useFilters, useGlobalFilter } from "react-table";
+import {
+    useTable,
+    useResizeColumns,
+    useFlexLayout,
+    useRowSelect,
+    useSortBy,
+    useFilters,
+    useGlobalFilter,
+    useExpanded
+} from "react-table";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import RowSelector from "./Cells/RowSelector";
@@ -48,6 +57,7 @@ const Grid = memo((props) => {
         useRowSelect,
         useFlexLayout,
         useResizeColumns,
+        useExpanded,
         (hooks) => {
             hooks.allColumns.push((columns) => [
                 {
@@ -79,6 +89,7 @@ const Grid = memo((props) => {
                             </div>
                         );
                     })}
+                    {row.isExpanded ? <div className="expand">Expanded content goes here</div> : null}
                 </div>
             );
         },
