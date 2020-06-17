@@ -1,0 +1,52 @@
+{
+    "filter": [
+        {
+            "name": "Departure Port",
+            "enabled": false,
+            "types": [
+                {
+                    "name": "Airport",
+                    "value":""
+                },
+                {
+                    "name": "Airport Group",
+                    "value":""
+                }
+            ]
+        },
+        {
+            "name": "Arrival Port",
+            "enabled": false,
+            "types": [
+                {
+                    "name": "City",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "name": "Revenue",
+            "enabled": false,
+            "types": [
+                {
+                    "name": "Equals",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "name": "Date",
+            "enabled": false,
+            "types": [
+                {
+                    "name": "FromDate",
+                    "value":""
+                },
+                {
+                    "name": "ToDate",
+                    "value":""
+                }
+            ]
+        }
+    ]
+}
