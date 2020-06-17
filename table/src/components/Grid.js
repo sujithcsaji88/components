@@ -1,4 +1,4 @@
-import React, { useCallback, useState, memo, useEffect } from "react";
+import React, { useCallback, useState, memo, useEffect, createRef, useMemo } from "react";
 import {
     useTable,
     useResizeColumns,
@@ -17,7 +17,7 @@ import GlobalFilter from "./Functions/GlobalFilter";
 import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
-const listRef = React.createRef();
+const listRef = createRef();
 
 const Grid = memo((props) => {
     const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData, calculateRowHeight } = props;
@@ -27,7 +27,7 @@ const Grid = memo((props) => {
         setFilterOpen(!isFilterOpen);
     };
 
-    const defaultColumn = React.useMemo(
+    const defaultColumn = useMemo(
         () => ({
             Filter: DefaultColumnFilter
         }),
