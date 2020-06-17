@@ -127,15 +127,21 @@ const App = memo(() => {
                                 <li>
                                     {startTime} – {endTime}
                                 </li>
+                                <li className="divider">|</li>
                                 <li>
                                     <span>{status}</span>
                                 </li>
+                                <li className="divider">|</li>
                                 <li>{additionalStatus}</li>
+                                <li className="divider">|</li>
                                 <li>{flightModel}</li>
+                                <li className="divider">|</li>
                                 <li>{bodyType}</li>
+                                <li className="divider">|</li>
                                 <li>
                                     <span>{type}</span>
                                 </li>
+                                <li className="divider">|</li>
                                 <li>
                                     <strong>{timeValue} </strong>
                                     <span>{timeText}</span>
