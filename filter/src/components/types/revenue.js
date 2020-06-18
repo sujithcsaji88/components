@@ -7,11 +7,13 @@ import { REVENUE } from "../../constants/filtertypeconstants";
 const Revenue = (props) => {
   const [labelName, setLabelName] = useState();
   const [condition, setCondition] = useState();
-  
+  const [enabled, setEnabled] = useState();
+  const [textStatus, setTextStatus] = useState(false);
   useEffect(() => {
     if (props.name === REVENUE) {
       setLabelName(props.name);
       setCondition(props.condition);
+      setEnabled(props.enabled);
     }
   }, [props]);
 
@@ -22,12 +24,11 @@ const Revenue = (props) => {
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
     if (!enabled) {
-      setTextStatus(false)
+      setTextStatus(false);
+    } else {
+      setTextStatus(true);
     }
-    else {
-      setTextStatus(true)
-    }
-  }
+  };
 
   if (labelName === REVENUE) {
     return (
@@ -39,11 +40,16 @@ const Revenue = (props) => {
             </Form.Label>
           </div>
           <div className="marginLeft">
-            <Form.Check type="switch" id="revenue" label="" checked={enabled} onClick={
-              (e) => {
+            <Form.Check
+              type="switch"
+              id="revenue"
+              label=""
+              checked={enabled}
+              onClick={(e) => {
                 enableSwitchChange(e);
                 props.revenueEnabledSave(e.target.checked);
-              }} />
+              }}
+            />
             <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon
               className="fontIcons"
@@ -59,6 +65,7 @@ const Revenue = (props) => {
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Text className="text-muted">Condition</Form.Text>
             <Form.Control
+              disabled={textStatus}
               as="select"
               onChange={(e) => {
                 props.revenueConditionSave(e);

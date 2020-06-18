@@ -4,7 +4,7 @@ import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
 import Date from "../types/date";
 import Revenue from "../types/revenue";
-import Modal from 'react-bootstrap/Modal'
+import Modal from "react-bootstrap/Modal";
 import {
   DEPARTURE_PORT,
   ARRIVAL_PORT,
@@ -21,7 +21,7 @@ import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const RightDrawer = (props) => {
   const saveFilters = () => {
-    console.log('hooi')
+    console.log("hooi");
     const obj = {
       savedfilter: [
         {
@@ -29,93 +29,96 @@ const RightDrawer = (props) => {
           types: [
             {
               column: "Airport",
-              value:departureAirport,
-              enabled:departureAirportEnabled
+              value: departureAirport,
+              enabled: departureAirportEnabled,
             },
             {
               column: "Airport Group",
-              value:departureAirportGroup
+              value: departureAirportGroup,
             },
             {
               column: "City",
-              value:departureCity
+              value: departureCity,
             },
             {
               column: "City Group",
-              value:departureCityGroup
+              value: departureCityGroup,
             },
             {
               column: "Country",
-              value:departureCountry
-            }
-          ]
+              value: departureCountry,
+            },
+          ],
         },
         {
           column: "Arrival Port",
           types: [
             {
               column: "Airport",
-              value:arrivalAirport
+              value: arrivalAirport,
             },
             {
               column: "Airport Group",
-              value:arrivalAirportGroup
+              value: arrivalAirportGroup,
             },
             {
               column: "City",
-              value:arrivalCity
+              value: arrivalCity,
             },
             {
               column: "City Group",
-              value:arrivalCityGroup
+              value: arrivalCityGroup,
             },
             {
               column: "Country",
-              value:arrivalCountry
-            }
-          ]
+              value: arrivalCountry,
+            },
+          ],
         },
         {
           column: "Revenue",
           enabled: revenueEnabled,
           condition: revenueCondition,
-          value:revenueAmount
+          value: revenueAmount,
         },
         {
           column: "FromDate",
           enabled: dateEnabled,
-          value: fromDateTime
+          value: fromDateTime,
         },
         {
           column: "ToDate",
           enabled: dateEnabled,
-          value: toDateTime
-        }
-      ]
-    }
-    
+          value: toDateTime,
+        },
+      ],
+    };
+
     // let existing = localStorage.getItem("filters");
     // existing = existing ? JSON.parse(existing) : [];
     // existing.push(obj);
     // localStorage.setItem("filters", JSON.stringify(existing));
-    
+
     const myData = obj; // I am assuming that "this.state.myData"
     // is an object and I wrote it to file as
     // json
     const json = JSON.stringify(myData);
-    const blob = new Blob([json],{type:'application/json'});
+    const blob = new Blob([json], { type: "application/json" });
     const href = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = href;
     link.download = fileName + ".json";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }
+  };
   const [departureAirport, setDepartureAirport] = useState();
   const [departureAirportEnabled, setDepartureAirportEnabled] = useState();
   const [departureAirportGroup, setDepartureAirportGroup] = useState();
-  const [departureAirportGroupEnabled, setDepartureAirportGroupEnabled] = useState();
+  const [
+    departureAirportGroupEnabled,
+    setDepartureAirportGroupEnabled,
+  ] = useState();
   const [departureCity, setDepartureCity] = useState();
   const [departureCityEnabled, setDepartureCityEnabled] = useState();
   const [departureCityGroup, setDepartureCityGroup] = useState();
@@ -125,7 +128,10 @@ const RightDrawer = (props) => {
   const [arrivalAirport, setArrivalAirport] = useState();
   const [arrivalAirportEnabled, setArrivalAirportEnabled] = useState();
   const [arrivalAirportGroup, setArrivalAirportGroup] = useState();
-  const [arrivalAirportGroupEnabled, setArrivalAirportGroupEnabled] = useState();
+  const [
+    arrivalAirportGroupEnabled,
+    setArrivalAirportGroupEnabled,
+  ] = useState();
   const [arrivalCity, setArrivalCity] = useState();
   const [arrivalCityEnabled, setArrivalCityEnabled] = useState();
   const [arrivalCityGroup, setArrivalCityGroup] = useState();
@@ -138,8 +144,8 @@ const RightDrawer = (props) => {
   const [toDateTime, setToDateTime] = useState();
   const [dateEnabled, setDateEnabled] = useState(true);
   const [revenueEnabled, setRevenueEnabled] = useState(true);
-  const [popupStatus,setPopupStatus]=useState(false);
-  const [fileName,setFileName]=useState();
+  const [popupStatus, setPopupStatus] = useState(false);
+  const [fileName, setFileName] = useState();
   const PortvalueToSave = (e, name, type) => {
     if (name === DEPARTURE_PORT) {
       if (type === AIRPORT) {
@@ -167,63 +173,43 @@ const RightDrawer = (props) => {
       }
     }
   };
-<<<<<<< Updated upstream
-  const DepartureAirportEnabledSave=(enabled)=>{
-    setDepartureAirportEnabled(enabled)
-    if(!dateEnabledSave){
-      setFromDateTime('')
-      setToDateTime('')
+  const DepartureAirportEnabledSave = (enabled) => {
+    setDepartureAirportEnabled(enabled);
+    if (!dateEnabledSave) {
+      setFromDateTime("");
+      setToDateTime("");
     }
-  }
-
-
-
-  const revenueConditionSave = (e) => {
-      setRevenueCondition(e.target.value);
-  }
-  const revenueAmountSave = (e) => {
-      setRevenueAmount(e.target.value);
-  }
-=======
+  };
 
   const revenueConditionSave = (e) => {
     setRevenueCondition(e.target.value);
   };
-
   const revenueAmountSave = (e) => {
     setRevenueAmount(e.target.value);
   };
-
->>>>>>> Stashed changes
   const dateSave = (e, name) => {
-      if (name === FROM_DATE) {
-        setFromDateTime(e.target.value);
-
-      } else if (name === TO_DATE) {
-        setToDateTime(e.target.value);
-      }
-  }
-  const dateEnabledSave=(enabled)=>{
-    setDateEnabled(enabled);
-    if(!dateEnabledSave){
-      setFromDateTime('')
-      setToDateTime('')
+    if (name === FROM_DATE) {
+      setFromDateTime(e.target.value);
+    } else if (name === TO_DATE) {
+      setToDateTime(e.target.value);
     }
-<<<<<<< Updated upstream
-  }
-  const revenueEnabledSave=(enabled)=>{
-    setRevenueEnabled(enabled);
-  }
-  const showModal=()=>{
-    setPopupStatus(!popupStatus)
-  }
-  const setFileNameFunc=(e)=>{
-    setFileName(e.target.value)
-  }
-=======
   };
-
->>>>>>> Stashed changes
+  const dateEnabledSave = (enabled) => {
+    setDateEnabled(enabled);
+    if (!dateEnabledSave) {
+      setFromDateTime("");
+      setToDateTime("");
+    }
+  };
+  const revenueEnabledSave = (enabled) => {
+    setRevenueEnabled(enabled);
+  };
+  const showModal = () => {
+    setPopupStatus(!popupStatus);
+  };
+  const setFileNameFunc = (e) => {
+    setFileName(e.target.value);
+  };
   return (
     <React.Fragment>
       <div className="rightDrawer">
@@ -261,21 +247,20 @@ const RightDrawer = (props) => {
           revenueEnabledSave={revenueEnabledSave}
         />
       </div>
-<<<<<<< Updated upstream
-      <div className="">
-        <Button variant="primary" onClick={showModal}>Save</Button>{" "}
-        <Button variant="primary">Reset</Button>{" "}
-        <Button variant="primary">Apply Filter</Button>{" "}
-=======
       <div className="rdisplayFlex">
         <div className="ralignLeft">
-          <Button variant=""><FontAwesomeIcon icon={faSave}></FontAwesomeIcon></Button>
+          <Button variant="">
+            <FontAwesomeIcon icon={faSave}></FontAwesomeIcon>
+          </Button>
         </div>
         <div className="rmarginLeft">
-          <Button variant="" className="reset">Reset</Button>
-          <Button variant="" className="applyFilter">Apply Filter</Button>
+          <Button variant="" className="reset">
+            Reset
+          </Button>
+          <Button variant="" className="applyFilter">
+            Apply Filter
+          </Button>
         </div>
->>>>>>> Stashed changes
       </div>
       <Modal size="sm" show={popupStatus} onHide={showModal}>
         <Modal.Header closeButton>

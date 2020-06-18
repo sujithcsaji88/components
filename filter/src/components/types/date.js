@@ -7,6 +7,8 @@ import { DATE } from "../../constants/filtertypeconstants";
 const Date = (props) => {
   const [labelName, setLabelName] = useState();
   const [field, setField] = useState();
+  const [enabled, setEnabled] = useState();
+  const [textStatus, setTextStatus] = useState(false);
   
   useEffect(() => {
     if (props.name === DATE) {
@@ -17,19 +19,18 @@ const Date = (props) => {
 
   const closeDate = () => {
     setLabelName("");
-    setField('');
+    setField("");
     setEnabled(false);
   };
 
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
     if (!enabled) {
-      setTextStatus(false)
+      setTextStatus(false);
+    } else {
+      setTextStatus(true);
     }
-    else{
-      setTextStatus(true)
-    }
-  }
+  };
 
   if (labelName === DATE) {
     return (
@@ -41,10 +42,16 @@ const Date = (props) => {
             </Form.Label>
           </div>
           <div className="marginLeft">
-            <Form.Check type="switch" id="date" label="" checked={enabled} onClick={(e) => {
-              enableSwitchChange(e); 
-              props.dateEnabledSave(e.target.checked);
-            }} />
+            <Form.Check
+              type="switch"
+              id="date"
+              label=""
+              checked={enabled}
+              onClick={(e) => {
+                enableSwitchChange(e);
+                props.dateEnabledSave(e.target.checked);
+              }}
+            />
             <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon
               className="fontIcons"
