@@ -179,7 +179,7 @@ const Grid = memo((props) => {
                                 <List
                                     ref={listRef}
                                     className="table-list"
-                                    height={height - 50}
+                                    height={height}
                                     itemCount={rows.length}
                                     itemSize={(index) => calculateRowHeight(rows, index, headerGroups)}
                                     overscanCount={20}
