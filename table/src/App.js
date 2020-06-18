@@ -351,6 +351,10 @@ const App = memo(() => {
     );
     const [data, setData] = useState(sampleData);
 
+    const renderExpandedContent = (row) => {
+        return row.original.remarks;
+    };
+
     const globalSearchLogic = (rows, columns, filterValue) => {
         if (filterValue) {
             const searchText = filterValue.toLowerCase();
@@ -461,6 +465,7 @@ const App = memo(() => {
             updateRowData={updateRowData}
             selectBulkData={selectBulkData}
             calculateRowHeight={calculateRowHeight}
+            renderExpandedContent={renderExpandedContent}
         />
     );
 });
