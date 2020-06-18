@@ -7,13 +7,11 @@ import { REVENUE } from "../../constants/filtertypeconstants";
 const Revenue = (props) => {
   const [labelName, setLabelName] = useState();
   const [condition, setCondition] = useState();
-  const [enabled, setEnabled] = useState();
-  const [textStatus, setTextStatus] = useState(false)
+  
   useEffect(() => {
     if (props.name === REVENUE) {
       setLabelName(props.name);
-      setCondition(props.condition)
-      setEnabled(props.enabled);
+      setCondition(props.condition);
     }
   }, [props]);
 
@@ -60,8 +58,15 @@ const Revenue = (props) => {
         <div className="displayFlex">
           <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Text className="text-muted">Condition</Form.Text>
-            <Form.Control disabled={textStatus} as="select" onChange={(e) => { props.revenueConditionSave(e) }}>
-              {condition.map((condition, index) => { return <option>{condition.value}</option> })}
+            <Form.Control
+              as="select"
+              onChange={(e) => {
+                props.revenueConditionSave(e);
+              }}
+            >
+              {condition.map((condition, index) => {
+                return <option>{condition.value}</option>;
+              })}
             </Form.Control>
           </Form.Group>
         </div>
@@ -74,7 +79,9 @@ const Revenue = (props) => {
               type="text"
               placeholder="Amount"
               defaultValue=""
-              onChange={(e) => { props.revenueAmountSave(e) }}
+              onChange={(e) => {
+                props.revenueAmountSave(e);
+              }}
             />
           </Form.Group>
         </div>

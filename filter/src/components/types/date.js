@@ -7,13 +7,11 @@ import { DATE } from "../../constants/filtertypeconstants";
 const Date = (props) => {
   const [labelName, setLabelName] = useState();
   const [field, setField] = useState();
-  const [enabled, setEnabled] = useState();
-  const [textStatus, setTextStatus] = useState(false)
+  
   useEffect(() => {
     if (props.name === DATE) {
       setLabelName(props.name);
       setField(props.field);
-      setEnabled(props.enabled);
     }
   }, [props]);
 
@@ -35,7 +33,7 @@ const Date = (props) => {
 
   if (labelName === DATE) {
     return (
-      <div>
+      <React.Fragment>
         <div className="displayFlex">
           <div className="alignLeft">
             <Form.Label>
@@ -64,22 +62,22 @@ const Date = (props) => {
               <div className="displayFlex">
                 <Form.Text className="text-muted">{field.name}</Form.Text>
               </div>
-              <div className="displayFlex" >
+              <div className="displayFlex">
                 <Form.Control
-                  disabled={textStatus}
                   required
                   type="text"
                   placeholder="Filter"
                   defaultValue=""
                   className="col-lg-7 mr-3"
-                  onChange={(e) => { props.dateSave(e,field.name);
-                                   
-                   }}
+                  onChange={(e) => {
+                    props.dateSave(e, field.name, "date");
+                  }}
                 />
               </div>
-            </div>);
+            </div>
+          );
         })}
-      </div>
+      </React.Fragment>
     );
   } else {
     return <div></div>;

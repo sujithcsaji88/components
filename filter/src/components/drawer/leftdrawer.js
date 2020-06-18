@@ -77,7 +77,7 @@ const leftDrawer = (props) => {
         <Form.Control
           required
           type="text"
-          placeholder="Filter"
+          placeholder="Search a Filter"
           defaultValue=""
           className="customControl col-md-5 col-lg-5"
         />

@@ -4,24 +4,23 @@ import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
 
 const list = (props) => {
   return (
-    <div
-      style={{ boxShadow: "0px 0px 4px rgba(18, 43, 60, 0.298039215686275)" }}>
-      <div style={{ display: "flex", width: "100%" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <FontAwesomeIcon icon={faAlignLeft} />
-          <h6>All flights</h6>
+    <div className="list">
+      <div className="displayFlex">
+        <div className="alignLeft">
+          <FontAwesomeIcon icon={faAlignLeft} onClick={props.click}/>
+          <div className="leftSpace">All flights</div>
         </div>
-        <div style={{ marginLeft: "auto", display: "flex" }}>
+        {/* <div className="marginLeft">
           <div>Close Segment</div>
           <div>Open Segment</div>
           <div>...</div>
-        </div>
+        </div> */}
       </div>
-      <div style={{ display: "flex", width: "100%" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <h6 className="listContent">Origin: FRA</h6>
-          <h6 className="listContent">Date: between 24 Apr - 9 May</h6>
-          <h6>+ Add Filter</h6>
+      <div className="secondList">
+        <div className="displayFlex">
+          <div className="listContent" onClick={props.clicked}><span>Origin:</span> FRA</div>
+          <div className="listContent" onClick={props.clicked}><span>Date:</span> between 24 Apr - 9 May</div>
+          <div onClick={props.clicked}>+ Add Filter</div>
         </div>
       </div>
     </div>

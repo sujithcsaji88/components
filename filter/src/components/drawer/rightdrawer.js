@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
 import Date from "../types/date";
@@ -16,6 +16,8 @@ import {
   FROM_DATE,
   TO_DATE,
 } from "../../constants/filtertypeconstants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const RightDrawer = (props) => {
   const saveFilters = () => {
@@ -165,6 +167,7 @@ const RightDrawer = (props) => {
       }
     }
   };
+<<<<<<< Updated upstream
   const DepartureAirportEnabledSave=(enabled)=>{
     setDepartureAirportEnabled(enabled)
     if(!dateEnabledSave){
@@ -181,6 +184,17 @@ const RightDrawer = (props) => {
   const revenueAmountSave = (e) => {
       setRevenueAmount(e.target.value);
   }
+=======
+
+  const revenueConditionSave = (e) => {
+    setRevenueCondition(e.target.value);
+  };
+
+  const revenueAmountSave = (e) => {
+    setRevenueAmount(e.target.value);
+  };
+
+>>>>>>> Stashed changes
   const dateSave = (e, name) => {
       if (name === FROM_DATE) {
         setFromDateTime(e.target.value);
@@ -195,6 +209,7 @@ const RightDrawer = (props) => {
       setFromDateTime('')
       setToDateTime('')
     }
+<<<<<<< Updated upstream
   }
   const revenueEnabledSave=(enabled)=>{
     setRevenueEnabled(enabled);
@@ -205,9 +220,14 @@ const RightDrawer = (props) => {
   const setFileNameFunc=(e)=>{
     setFileName(e.target.value)
   }
+=======
+  };
+
+>>>>>>> Stashed changes
   return (
     <React.Fragment>
       <div className="rightDrawer">
+        <div>Searched Filters</div>
         <DeparturePort
           name={props.name}
           type={props.type}
@@ -241,10 +261,21 @@ const RightDrawer = (props) => {
           revenueEnabledSave={revenueEnabledSave}
         />
       </div>
+<<<<<<< Updated upstream
       <div className="">
         <Button variant="primary" onClick={showModal}>Save</Button>{" "}
         <Button variant="primary">Reset</Button>{" "}
         <Button variant="primary">Apply Filter</Button>{" "}
+=======
+      <div className="rdisplayFlex">
+        <div className="ralignLeft">
+          <Button variant=""><FontAwesomeIcon icon={faSave}></FontAwesomeIcon></Button>
+        </div>
+        <div className="rmarginLeft">
+          <Button variant="" className="reset">Reset</Button>
+          <Button variant="" className="applyFilter">Apply Filter</Button>
+        </div>
+>>>>>>> Stashed changes
       </div>
       <Modal size="sm" show={popupStatus} onHide={showModal}>
         <Modal.Header closeButton>
