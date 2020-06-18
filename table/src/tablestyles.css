@@ -7,7 +7,6 @@ Do not modify below styles. These are required by the table to work properly
 }
 .table .tbody {
     height: 100%;
-    overflow: visible;
 }
 .table .tbody .table-list {
     overflow-x: hidden !important;
