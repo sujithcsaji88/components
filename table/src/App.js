@@ -6,63 +6,66 @@ import SREdit from "./components/Cells/SREdit";
 import FlightEdit from "./components/Cells/FlightEdit";
 import SegmentEdit from "./components/Cells/SegmentEdit";
 
-const airportCodeList = [
-    "AAA",
-    "AAB",
-    "AAC",
-    "ABA",
-    "ABB",
-    "ABC",
-    "ACA",
-    "ACB",
-    "ACC",
-    "BAA",
-    "BAB",
-    "BAC",
-    "BBA",
-    "BBB",
-    "BBC",
-    "BCA",
-    "BCB",
-    "BCC",
-    "CAA",
-    "CAB",
-    "CAC",
-    "CBA",
-    "CBB",
-    "CBC",
-    "CCA",
-    "CCB",
-    "CCC",
-    "XXX",
-    "XXY",
-    "XXZ",
-    "XYX",
-    "XYY",
-    "XYZ",
-    "XZX",
-    "XZY",
-    "XZZ",
-    "YXX",
-    "YXY",
-    "YXZ",
-    "YYX",
-    "YYY",
-    "YYZ",
-    "YZX",
-    "YZY",
-    "YZZ",
-    "ZXX",
-    "ZXY",
-    "ZXZ",
-    "ZYX",
-    "ZYY",
-    "ZYZ",
-    "ZZX",
-    "ZZY",
-    "ZZZ"
-];
 const App = memo(() => {
+    const airportCodeList = useMemo(
+        () => [
+            "AAA",
+            "AAB",
+            "AAC",
+            "ABA",
+            "ABB",
+            "ABC",
+            "ACA",
+            "ACB",
+            "ACC",
+            "BAA",
+            "BAB",
+            "BAC",
+            "BBA",
+            "BBB",
+            "BBC",
+            "BCA",
+            "BCB",
+            "BCC",
+            "CAA",
+            "CAB",
+            "CAC",
+            "CBA",
+            "CBB",
+            "CBC",
+            "CCA",
+            "CCB",
+            "CCC",
+            "XXX",
+            "XXY",
+            "XXZ",
+            "XYX",
+            "XYY",
+            "XYZ",
+            "XZX",
+            "XZY",
+            "XZZ",
+            "YXX",
+            "YXY",
+            "YXZ",
+            "YYX",
+            "YYY",
+            "YYZ",
+            "YZX",
+            "YZY",
+            "YZZ",
+            "ZXX",
+            "ZXY",
+            "ZXZ",
+            "ZYX",
+            "ZYY",
+            "ZYZ",
+            "ZZX",
+            "ZZY",
+            "ZZZ"
+        ],
+        []
+    );
     const columns = useMemo(
         () => [
             {
@@ -127,15 +130,21 @@ const App = memo(() => {
                                 <li>
                                     {startTime} – {endTime}
                                 </li>
+                                <li className="divider">|</li>
                                 <li>
                                     <span>{status}</span>
                                 </li>
+                                <li className="divider">|</li>
                                 <li>{additionalStatus}</li>
+                                <li className="divider">|</li>
                                 <li>{flightModel}</li>
+                                <li className="divider">|</li>
                                 <li>{bodyType}</li>
+                                <li className="divider">|</li>
                                 <li>
                                     <span>{type}</span>
                                 </li>
+                                <li className="divider">|</li>
                                 <li>
                                     <strong>{timeValue} </strong>
                                     <span>{timeText}</span>
@@ -322,10 +331,23 @@ const App = memo(() => {
                 disableFilters: true,
                 disableSortBy: true,
                 width: 50,
-                Cell: (row) => <RowOptions row={row} updateRowData={updateRowData} />
+                Cell: ({ row }) => {
+                    return (
+                        <div className="action">
+                            <RowOptions row={row} updateRowData={updateRowData} />
+                            <span className="expander" {...row.getToggleRowExpandedProps()}>
+                                {row.isExpanded ? (
+                                    <i className="fa fa-angle-up" aria-hidden="true"></i>
+                                ) : (
+                                    <i className="fa fa-angle-down" aria-hidden="true"></i>
+                                )}
+                            </span>
+                        </div>
+                    );
+                }
             }
         ],
-        []
+        [airportCodeList]
     );
     const [data, setData] = useState(sampleData);
 
@@ -372,7 +394,7 @@ const App = memo(() => {
         let rowHeight = 50;
         if (headerCells && headerCells.length && rows && rows.length && index >= 0) {
             const { headers } = headerCells[0];
-            const { original } = rows[index];
+            const { original, isExpanded } = rows[index];
             headers.forEach((header) => {
                 const { id, totalFlexWidth } = header;
                 if (id === "details") {
@@ -387,16 +409,19 @@ const App = memo(() => {
                             details.status +
                             details.timeStatus +
                             details.type;
-                        rowHeight = rowHeight + Math.ceil((100 * text.length) / totalFlexWidth);
+                        rowHeight = rowHeight + Math.ceil((65 * text.length) / totalFlexWidth);
                         if (totalFlexWidth > 300) {
-                            rowHeight = rowHeight + 0.01 * (totalFlexWidth - 300);
+                            rowHeight = rowHeight + 0.001 * (totalFlexWidth - 300);
                         }
                         if (totalFlexWidth < 300) {
-                            rowHeight = rowHeight + ((300 - totalFlexWidth) / 2 + 20);
+                            rowHeight = rowHeight + (300 - totalFlexWidth) / 4;
                         }
                     }
                 }
             });
+            if (isExpanded) {
+                rowHeight = rowHeight + 30;
+            }
         }
         return rowHeight;
     };

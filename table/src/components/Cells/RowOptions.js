@@ -9,7 +9,7 @@ const RowOptions = memo((props) => {
     const [isOpen, setOpen] = useState(false);
     const openOverlay = () => {
         setOpen(true);
-        updateRowData(row.row);
+        updateRowData(row);
     };
 
     const closeOverlay = () => {
