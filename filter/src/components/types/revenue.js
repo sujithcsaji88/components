@@ -74,7 +74,7 @@ const Revenue = (props) => {
               type="text"
               placeholder="Amount"
               defaultValue=""
-              onChange={(e) => { props.revenueAmountSave(e) }}
+              onChange={(e) => { props.revenueAmountSave(e,labelName) }}
             />
           </Form.Group>
         </div>

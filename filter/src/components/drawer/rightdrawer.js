@@ -23,71 +23,75 @@ const RightDrawer = (props) => {
     const obj = {
       savedfilter: [
         {
-          column: "Departure Port",
+          column: departurePortName,
           types: [
             {
-              column: "Airport",
+              column: departureAirportName,
               value:departureAirport,
               enabled:departureAirportEnabled
             },
             {
-              column: "Airport Group",
+              column: departureAirportGroupName,
               value:departureAirportGroup
             },
             {
-              column: "City",
+              column: departureCityName,
               value:departureCity
             },
             {
-              column: "City Group",
+              column: departureCityGroupName,
               value:departureCityGroup
             },
             {
-              column: "Country",
+              column: departureCountryName,
               value:departureCountry
             }
           ]
         },
         {
-          column: "Arrival Port",
+          column:arrivalPortName,
           types: [
             {
-              column: "Airport",
+              column: arrivalAirportName,
               value:arrivalAirport
             },
             {
-              column: "Airport Group",
+              column:arrivalAirportGroupName,
               value:arrivalAirportGroup
             },
             {
-              column: "City",
+              column:arrivalCityName,
               value:arrivalCity
             },
             {
-              column: "City Group",
+              column: arrivalCityGroupName,
               value:arrivalCityGroup
             },
             {
-              column: "Country",
+              column:arrivalCountryName,
               value:arrivalCountry
             }
           ]
         },
         {
-          column: "Revenue",
+          column: revenueName,
           enabled: revenueEnabled,
           condition: revenueCondition,
           value:revenueAmount
         },
         {
-          column: "FromDate",
+          column: dateName,
           enabled: dateEnabled,
-          value: fromDateTime
-        },
-        {
-          column: "ToDate",
-          enabled: dateEnabled,
-          value: toDateTime
+          field: [
+            {
+              column: fromDateTimeName,
+              value:fromDateTime
+            },
+            {
+              column: toDateTimeName,
+              value:toDateTime
+            }
+          ]
         }
       ]
     }
@@ -110,29 +114,45 @@ const RightDrawer = (props) => {
     link.click();
     document.body.removeChild(link);
   }
+  const [departurePortName,setDeparturePortName]=useState();
+  const [departureAirportName, setDepartureAirportName] = useState();
   const [departureAirport, setDepartureAirport] = useState();
   const [departureAirportEnabled, setDepartureAirportEnabled] = useState();
+  const [departureAirportGroupName, setDepartureAirportGroupName] = useState();
   const [departureAirportGroup, setDepartureAirportGroup] = useState();
   const [departureAirportGroupEnabled, setDepartureAirportGroupEnabled] = useState();
+  const [departureCityName, setDepartureCityName] = useState();
   const [departureCity, setDepartureCity] = useState();
   const [departureCityEnabled, setDepartureCityEnabled] = useState();
+  const [departureCityGroupName, setDepartureCityGroupName] = useState();
   const [departureCityGroup, setDepartureCityGroup] = useState();
   const [departureCityGroupEnabled, setDepartureCityGroupEnabled] = useState();
+  const [departureCountryName, setDepartureCountryName] = useState();
   const [departureCountry, setDepartureCountry] = useState();
   const [departureCountryEnabled, setDepartureCountryEnabled] = useState();
+  const [arrivalPortName,setArrivalPortName]=useState();
+  const [arrivalAirportName, setArrivalAirportName] = useState();
   const [arrivalAirport, setArrivalAirport] = useState();
   const [arrivalAirportEnabled, setArrivalAirportEnabled] = useState();
+  const [arrivalAirportGroupName, setArrivalAirportGroupName] = useState();
   const [arrivalAirportGroup, setArrivalAirportGroup] = useState();
   const [arrivalAirportGroupEnabled, setArrivalAirportGroupEnabled] = useState();
+  const [arrivalCityName, setArrivalCityName] = useState();
   const [arrivalCity, setArrivalCity] = useState();
   const [arrivalCityEnabled, setArrivalCityEnabled] = useState();
+  const [arrivalCityGroupName, setArrivalCityGroupName] = useState();
   const [arrivalCityGroup, setArrivalCityGroup] = useState();
   const [arrivalCityGroupEnabled, setArrivalCityGroupEnabled] = useState();
+  const [arrivalCountryName, setArrivalCountryName] = useState();
   const [arrivalCountry, setArrivalCountry] = useState();
   const [arrivalCountryEnabled, setArrivalCountryEnabled] = useState();
+  const [revenueName,setRevenueName]=useState();
   const [revenueCondition, setRevenueCondition] = useState();
   const [revenueAmount, setRevenueAmount] = useState();
+  const [dateName,setDateName]=useState();
+  const [fromDateTimeName,setFromDateTimeName]=useState();
   const [fromDateTime, setFromDateTime] = useState();
+  const [toDateTimeName,setToDateTimeName]=useState();
   const [toDateTime, setToDateTime] = useState();
   const [dateEnabled, setDateEnabled] = useState(true);
   const [revenueEnabled, setRevenueEnabled] = useState(true);
@@ -140,27 +160,39 @@ const RightDrawer = (props) => {
   const [fileName,setFileName]=useState();
   const PortvalueToSave = (e, name, type) => {
     if (name === DEPARTURE_PORT) {
+      setDeparturePortName(name);
       if (type === AIRPORT) {
+        setDepartureAirportName(type);
         setDepartureAirport(e.target.value);
       } else if (type === AIRPORT_GROUP) {
+        setDepartureAirportGroupName(type);
         setDepartureAirportGroup(e.target.value);
       } else if (type === CITY) {
+        setDepartureCityName(type)
         setDepartureCity(e.target.value);
       } else if (type === CITY_GROUP) {
+        setDepartureCityGroupName(type)
         setDepartureCityGroup(e.target.value);
       } else if (type === COUNTRY) {
+        setDepartureCountryName(type);
         setDepartureCountry(e.target.value);
       }
     } else if (name === ARRIVAL_PORT) {
+       setArrivalPortName(name)
       if (type === AIRPORT) {
+        setArrivalAirportName(type);
         setArrivalAirport(e.target.value);
       } else if (type === AIRPORT_GROUP) {
+        setArrivalAirportGroupName(type);
         setArrivalAirportGroup(e.target.value);
       } else if (type === CITY) {
+        setArrivalCityName(type);
         setArrivalCity(e.target.value);
       } else if (type === CITY_GROUP) {
+        setArrivalCityGroupName(type);
         setArrivalCityGroup(e.target.value);
       } else if (type === COUNTRY) {
+        setArrivalCountryName(type);
         setArrivalCountry(e.target.value);
       }
     }
@@ -178,14 +210,18 @@ const RightDrawer = (props) => {
   const revenueConditionSave = (e) => {
       setRevenueCondition(e.target.value);
   }
-  const revenueAmountSave = (e) => {
+  const revenueAmountSave = (e,name) => {
+      setRevenueName(name);
       setRevenueAmount(e.target.value);
   }
   const dateSave = (e, name) => {
+    setDateName(name);
       if (name === FROM_DATE) {
+        setFromDateTimeName(name)
         setFromDateTime(e.target.value);
 
       } else if (name === TO_DATE) {
+        setToDateTimeName(name);
         setToDateTime(e.target.value);
       }
   }

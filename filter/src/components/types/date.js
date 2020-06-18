@@ -39,7 +39,7 @@ const Date = (props) => {
         <div className="displayFlex">
           <div className="alignLeft">
             <Form.Label>
-              <strong>Date</strong>
+              <strong>{labelName}</strong>
             </Form.Label>
           </div>
           <div className="marginLeft">
@@ -72,7 +72,7 @@ const Date = (props) => {
                   placeholder="Filter"
                   defaultValue=""
                   className="col-lg-7 mr-3"
-                  onChange={(e) => { props.dateSave(e,field.name);
+                  onChange={(e) => { props.dateSave(e,field.name,labelName);
                                    
                    }}
                 />
