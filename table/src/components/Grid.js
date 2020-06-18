@@ -1,4 +1,4 @@
-import React, { useCallback, useState, memo, useEffect } from "react";
+import React, { useCallback, useState, memo, useEffect, createRef, useMemo } from "react";
 import {
     useTable,
     useResizeColumns,
@@ -17,7 +17,7 @@ import GlobalFilter from "./Functions/GlobalFilter";
 import FilterIcon from "../images/FilterIcon.svg";
 import TableViewIcon from "../images/TableViewIcon.png";
 
-const listRef = React.createRef();
+const listRef = createRef();
 
 const Grid = memo((props) => {
     const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData, calculateRowHeight } = props;
@@ -27,7 +27,7 @@ const Grid = memo((props) => {
         setFilterOpen(!isFilterOpen);
     };
 
-    const defaultColumn = React.useMemo(
+    const defaultColumn = useMemo(
         () => ({
             Filter: DefaultColumnFilter
         }),
@@ -82,14 +82,16 @@ const Grid = memo((props) => {
             prepareRow(row);
             return (
                 <div {...row.getRowProps({ style })} className="table-row tr">
-                    {row.cells.map((cell) => {
-                        return (
-                            <div {...cell.getCellProps()} className="table-cell td">
-                                {cell.render("Cell")}
-                            </div>
-                        );
-                    })}
-                    {row.isExpanded ? <div className="expand">Expanded content goes here</div> : null}
+                    <div className="table-row-wrap">
+                        {row.cells.map((cell) => {
+                            return (
+                                <div {...cell.getCellProps()} className="table-cell td">
+                                    {cell.render("Cell")}
+                                </div>
+                            );
+                        })}
+                    </div>
+                    {row.isExpanded ? <div className="expand">Remarks: {row.original.remarks}</div> : null}
                 </div>
             );
         },
@@ -156,7 +158,7 @@ const Grid = memo((props) => {
                                                     </span>
                                                 </div>
                                                 <div className={`txt-wrap column-filter ${isFilterOpen ? "open" : ""}`}>
-                                                    {column.canFilter ? column.render("Filter") : null}
+                                                    {!column.disableFilters ? column.render("Filter") : null}
                                                 </div>
                                                 {column.canResize && <div {...column.getResizerProps()} className="resizer" />}
                                             </div>
