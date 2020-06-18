@@ -380,6 +380,8 @@ const App = memo(() => {
                     <ul>
                         <li>{remarks}</li>
                         <li className="divider">|</li>
+                    </ul>
+                    <ul>
                         <li>
                             {startTime} – {endTime}
                         </li>
@@ -479,7 +481,7 @@ const App = memo(() => {
                 }
             });
             if (isExpanded) {
-                rowHeight = rowHeight + (isDesktop ? 30 : 60);
+                rowHeight = rowHeight + (isDesktop ? 30 : 80);
             }
         }
         return rowHeight;
