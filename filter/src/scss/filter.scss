@@ -37,9 +37,10 @@
   top: 0px;
   left: 0px;
   transition: 0.5s;
+  background: #fff;
   .displayFlex {
     display: flex;
-    width: 95%;
+    margin: 0px 15px 0px 0px;
     justify-content: space-between;
     .alignLeft {
       display: flex;
@@ -59,28 +60,68 @@
     width: 195px;
   }
   .rightDrawer {
-    height: 410px;
+    height: 430px;
     overflow-y: scroll;
     overflow-x: hidden;
     width: 276px;
+    margin-bottom: 20px;
+  }
+  .rdisplayFlex {
+    display: flex;
+    margin: 0px;
+    justify-content: space-between;
+    .ralignLeft {
+      display: flex;
+    }
+    .rmarginLeft {
+      margin-left: auto;
+      .applyFilter {
+        background: #00b4b4;
+        color: #fff;
+      }
+      .reset {
+        color: #47c9c9;
+      }
+    }
   }
 }
 
 // card scss
 
-.card {
-  border: none !important;
-  padding: 0rem !important;
-  .card-header {
-    background-color: #fff !important;
-    border-bottom: none !important;
+.accordion {
+  .card {
+    border: none !important;
     padding: 0rem !important;
-  }
-  .card-body {
-    padding: 0rem !important;
-    .firstAccordion {
-      padding: 0px;
-      list-style: none;
+    .card-header {
+      background-color: #fff !important;
+      border-bottom: none !important;
+      padding: 0rem !important;
+      position: relative;
+    }
+    .card-header::after {
+      content: "\f107";
+      color: #1f567e;
+      top: 0px;
+      right: 10px;
+      position: absolute;
+      font-family: FontAwesome;
+      font-weight: bold;
+    }
+    .card-header .collapse .show::after {
+      content: "\f106";
+      color: #1f567e;
+      top: 0px;
+      right: 10px;
+      position: absolute;
+      font-family: FontAwesome;
+    }
+    
+    .card-body {
+      padding: 0rem !important;
+      .firstAccordion {
+        padding: 0px;
+        list-style: none;
+      }
     }
   }
 }
@@ -112,4 +153,91 @@ label {
 .fa-times {
   font-size: 12px;
   color: #bcbdd1;
+}
+
+// List
+.list {
+  box-shadow: 0px 0px 4px rgba(18, 43, 60, 0.298039215686275);
+  padding: 15px 20px;
+  font-size: 14px;
+  .displayFlex {
+    display: flex;
+    justify-content: space-between;
+    .alignLeft {
+      display: flex;
+      align-items: center;
+      .leftSpace {
+        margin-left: 15px;
+        color: #20577f;
+        font-weight: bold;
+      }
+    }
+    .marginLeft {
+      margin-left: auto;
+      display: flex;
+    }
+  }
+  .listContent {
+    background: #f3fdfa;
+    border: 1px solid #97ead5;
+    border-radius: 20px;
+    padding: 0px 10px;
+    margin: 0.2rem;
+    color: #1b496a;
+    span {
+      color: #94889c;
+    }
+  }
+  .secondList {
+    .displayFlex {
+      display: flex;
+      align-items: center;
+      justify-content: normal;
+      margin-left: 20px;
+    }
+  }
+}
+
+.lists {
+  box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
+  position: fixed;
+  height: 480px;
+  width: 350px;
+  font-size: 14px;
+  color: #1f567e;
+  line-height: 32px;
+  top: 0px;
+  left: 0px;
+  transition: 0.5s;
+  background: #fff;
+  .listsView {
+    border-bottom: 1px solid #bcbdd1;
+    padding: 15px;
+  }
+  .alignLeft {
+    display: flex;
+    align-items: center;
+    .marginLeft {
+      margin-left: auto;
+    }
+    .leftSpace {
+      margin-left: 15px;
+    }
+    .selected {
+      color: #15aacc;
+    }
+  }
+  .savedFilters {
+    padding: 15px;
+    .alignLeft {
+      display: flex;
+      align-items: center;
+      .marginLeft {
+        margin-left: auto;
+      }
+      .leftSpace {
+        margin-left: 15px;
+      }
+    }
+  }
 }

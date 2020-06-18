@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
+import List from "./components/List/List";
+import Lists from "./components/List/Lists";
 
 function useComponentVisible() {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
@@ -36,30 +38,33 @@ function App() {
   const [labelType, setLabelType] = useState();
   const [field, setField] = useState();
   const [condition, setCondition] = useState();
-  const[enabled,setEnabled]=useState();
+  const [enabled, setEnabled] = useState();
 
-  const passValues = (filterName, filterType,enabled) => {
+  const passValues = (filterName, filterType, enabled) => {
     setLabelName(filterName);
     setLabelType(filterType);
     setEnabled(enabled);
   };
 
-  const passDate = (filterName, field,enabled) => {
+  const passDate = (filterName, field, enabled) => {
     setLabelName(filterName);
     setField(field);
     setEnabled(enabled);
   };
-  const passRevenue = (filterName, condition,enabled) => {
+  const passRevenue = (filterName, condition, enabled) => {
     setLabelName(filterName);
     setCondition(condition);
     setEnabled(enabled);
   };
+
   const clearType = () => {
     setLabelType("");
   };
+
   const clearName = () => {
     setLabelName("");
   };
+
   const { ref, showSideDrawer, setShowSideDrawer } = useComponentVisible(true);
 
   return (
@@ -88,14 +93,8 @@ function App() {
           </div>
         </div>
       )}
-      <div>
-        <input
-          type="submit"
-          value="+ add filter"
-          className="dummy"
-          onClick={() => setShowSideDrawer(true)}
-        ></input>
-      </div>
+      <List clicked={() => setShowSideDrawer(true)} />
+      {/* <Lists click={() => setShowList(false)}/> */}
     </div>
   );
 }
