@@ -27,7 +27,8 @@ const RightDrawer = (props) => {
           types: [
             {
               column: "Airport",
-              value:departureAirport
+              value:departureAirport,
+              enabled:departureAirportEnabled
             },
             {
               column: "Airport Group",
@@ -244,7 +245,8 @@ const RightDrawer = (props) => {
         <Button variant="primary" onClick={showModal}>Save</Button>{" "}
         <Button variant="primary">Reset</Button>{" "}
         <Button variant="primary">Apply Filter</Button>{" "}
-        <Modal show={popupStatus} onHide={showModal}>
+      </div>
+      <Modal size="sm" show={popupStatus} onHide={showModal}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
@@ -261,7 +263,6 @@ const RightDrawer = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      </div>
     </React.Fragment>
   );
 };
