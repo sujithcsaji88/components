@@ -31,9 +31,10 @@ const SREdit = memo(({ value: initialValue, row: { index }, column: { id }, upda
     return (
         <ClickAwayListener onClickAway={clearEdit}>
             <div className="sr-details content">
-                <div className={`content-display ${isEdit ? "close" : "open"}`} onClick={openEdit}>
-                    {value}
+                <div className="cell-edit" onClick={openEdit}>
+                    <i className="fa fa-pencil" aria-hidden="true"></i>
                 </div>
+                <div className={`content-display ${isEdit ? "close" : "open"}`}>{value}</div>
                 <div className={`content-edit ${isEdit ? "open" : "close"}`}>
                     <input type="text" value={value} onChange={onChange} />
                     <button className="ok" onClick={saveEdit} />
