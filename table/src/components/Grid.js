@@ -20,7 +20,16 @@ import TableViewIcon from "../images/TableViewIcon.png";
 const listRef = createRef();
 
 const Grid = memo((props) => {
-    const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData, calculateRowHeight } = props;
+    const {
+        columns,
+        data,
+        globalSearchLogic,
+        updateCellData,
+        updateRowData,
+        selectBulkData,
+        calculateRowHeight,
+        renderExpandedContent
+    } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -91,11 +100,11 @@ const Grid = memo((props) => {
                             );
                         })}
                     </div>
-                    {row.isExpanded ? <div className="expand">Remarks: {row.original.remarks}</div> : null}
+                    {row.isExpanded ? <div className="expand">{renderExpandedContent(row)}</div> : null}
                 </div>
             );
         },
-        [prepareRow, rows]
+        [prepareRow, rows, renderExpandedContent]
     );
 
     const bulkSelector = () => {

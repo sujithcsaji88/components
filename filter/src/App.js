@@ -38,19 +38,23 @@ function App() {
   const [labelType, setLabelType] = useState();
   const [field, setField] = useState();
   const [condition, setCondition] = useState();
+  const[enabled,setEnabled]=useState();
 
-  const passValues = (filterName, filterType) => {
+  const passValues = (filterName, filterType,enabled) => {
     setLabelName(filterName);
     setLabelType(filterType);
+    setEnabled(enabled);
   };
 
-  const passDate = (filterName, field) => {
+  const passDate = (filterName, field,enabled) => {
     setLabelName(filterName);
     setField(field);
+    setEnabled(enabled);
   };
-  const passRevenue = (filterName, condition) => {
+  const passRevenue = (filterName, condition,enabled) => {
     setLabelName(filterName);
     setCondition(condition);
+    setEnabled(enabled);
   };
   const clearType = () => {
     setLabelType("");
@@ -76,6 +80,7 @@ function App() {
               <RightDrawer
                 field={field}
                 condition={condition}
+                enabled={enabled}
                 name={labelName}
                 type={labelType}
                 clearValues={clearType}

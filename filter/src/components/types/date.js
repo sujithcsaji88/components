@@ -6,17 +6,32 @@ import { DATE } from "../../constants/filtertypeconstants";
 
 const Date = (props) => {
   const [labelName, setLabelName] = useState();
-  const [field,setField]=useState();
+  const [field, setField] = useState();
+  const [enabled, setEnabled] = useState();
+  const [textStatus, setTextStatus] = useState(false)
   useEffect(() => {
     if (props.name === DATE) {
       setLabelName(props.name);
-      setField(props.field)
+      setField(props.field);
+      setEnabled(props.enabled);
     }
   }, [props]);
 
   const closeDate = () => {
     setLabelName("");
+    setField('');
+    setEnabled(false);
   };
+
+  const enableSwitchChange = (e) => {
+    setEnabled(e.target.checked);
+    if (!enabled) {
+      setTextStatus(false)
+    }
+    else{
+      setTextStatus(true)
+    }
+  }
 
   if (labelName === DATE) {
     return (
@@ -28,7 +43,10 @@ const Date = (props) => {
             </Form.Label>
           </div>
           <div className="marginLeft">
-            <Form.Check type="switch" id="date" label="" />
+            <Form.Check type="switch" id="date" label="" checked={enabled} onClick={(e) => {
+              enableSwitchChange(e); 
+              props.dateEnabledSave(e.target.checked);
+            }} />
             <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon
               className="fontIcons"
@@ -40,23 +58,26 @@ const Date = (props) => {
             />
           </div>
         </div>
-        {field.map((field,index)=>{
-           return(
-           <div>
-             <div className="displayFlex">
-           <Form.Text className="text-muted">{field.name}</Form.Text>
-         </div>
-         <div className="displayFlex" >
-           <Form.Control
-             required
-             type="text"
-             placeholder="Filter"
-             defaultValue=""
-             className="col-lg-7 mr-3"
-             onChange={(e)=>{props.dateSave(e,field.name,"date")}}
-           />
-         </div>
-         </div>);
+        {field.map((field, index) => {
+          return (
+            <div>
+              <div className="displayFlex">
+                <Form.Text className="text-muted">{field.name}</Form.Text>
+              </div>
+              <div className="displayFlex" >
+                <Form.Control
+                  disabled={textStatus}
+                  required
+                  type="text"
+                  placeholder="Filter"
+                  defaultValue=""
+                  className="col-lg-7 mr-3"
+                  onChange={(e) => { props.dateSave(e,field.name);
+                                   
+                   }}
+                />
+              </div>
+            </div>);
         })}
       </div>
     );
