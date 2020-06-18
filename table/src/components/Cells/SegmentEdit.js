@@ -27,7 +27,9 @@ const SegmentEdit = memo(({ value: initialValue, index, id, airportCodeList, upd
 
     const saveEdit = () => {
         setEdit(false);
-        updateCellData(index, id, value);
+        if (updateCellData) {
+            updateCellData(index, id, value);
+        }
     };
 
     const clearEdit = () => {

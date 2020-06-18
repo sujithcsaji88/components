@@ -26,7 +26,9 @@ const FlightEdit = memo(({ value: initialValue, row: { index }, column: { id }, 
 
     const saveEdit = () => {
         setEdit(false);
-        updateCellData(index, id, value);
+        if (updateCellData) {
+            updateCellData(index, id, value);
+        }
     };
     const clearEdit = () => {
         setValue(oldValue);

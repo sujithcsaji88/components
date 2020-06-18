@@ -16,7 +16,9 @@ const SREdit = memo(({ value: initialValue, row: { index }, column: { id }, upda
 
     const saveEdit = () => {
         setEdit(false);
-        updateCellData(index, id, value);
+        if (updateCellData) {
+            updateCellData(index, id, value);
+        }
     };
 
     const clearEdit = () => {
