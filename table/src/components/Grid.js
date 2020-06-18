@@ -100,7 +100,7 @@ const Grid = memo((props) => {
                             );
                         })}
                     </div>
-                    {row.isExpanded ? <div className="expand">Remarks: {renderExpandedContent(row)}</div> : null}
+                    {row.isExpanded ? <div className="expand">{renderExpandedContent(row)}</div> : null}
                 </div>
             );
         },

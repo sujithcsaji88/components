@@ -7,6 +7,7 @@ import FlightEdit from "./components/Cells/FlightEdit";
 import SegmentEdit from "./components/Cells/SegmentEdit";
 
 const App = memo(() => {
+    //Create an array of airports
     const airportCodeList = useMemo(
         () => [
             "AAA",
@@ -66,6 +67,8 @@ const App = memo(() => {
         ],
         []
     );
+
+    //Configure columns and its related functions
     const columns = useMemo(
         () => [
             {
@@ -349,12 +352,16 @@ const App = memo(() => {
         ],
         [airportCodeList]
     );
+
+    //Store input JSON data, to handle cell edits
     const [data, setData] = useState(sampleData);
 
+    //Return data that has to be shown in the row expanded region
     const renderExpandedContent = (row) => {
         return row.original.remarks;
     };
 
+    //Add logic for doing global search in the table
     const globalSearchLogic = (rows, columns, filterValue) => {
         if (filterValue) {
             const searchText = filterValue.toLowerCase();
@@ -394,6 +401,7 @@ const App = memo(() => {
         return rows;
     };
 
+    //Add logic to calculate height of each row, based on the content of  or more columns
     const calculateRowHeight = (rows, index, headerCells) => {
         let rowHeight = 50;
         if (headerCells && headerCells.length && rows && rows.length && index >= 0) {
