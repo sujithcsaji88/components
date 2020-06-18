@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { DEPARTURE_PORT } from "../../constants/filtertypeconstants";
-import Airport from "./PortTypes/airport.js"
-import AirportGroup from "./PortTypes/airportGroup.js"
-import City from "./PortTypes/city.js";
-import CityGroup from "./PortTypes/cityGroup.js";
-import Country from "./PortTypes/country.js";
+import Airport from "./porttypes/airport"
+import AirportGroup from "./porttypes/airportGroup"
+import City from "./porttypes/city";
+import CityGroup from "./porttypes/cityGroup";
+import Country from "./porttypes/country";
 
 const DeparturePort = (props) => {
 const[name,setName]=useState(props.name);
