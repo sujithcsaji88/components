@@ -21,7 +21,7 @@ useEffect(
   if (name === DEPARTURE_PORT) {
     return (
       <div>
-     <Airport name={name} type={type} clearValues={props.clearValues}  valueToSave={props.PortvalueToSave}/>
+     <Airport name={name} type={type} clearValues={props.clearValues}  valueToSave={props.PortvalueToSave} DepartureAirportEnabledSave={props.DepartureAirportEnabledSave}/>
      <AirportGroup name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
      <City name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
      <CityGroup name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
