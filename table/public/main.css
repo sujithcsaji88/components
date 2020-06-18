@@ -170,7 +170,7 @@ select:-webkit-autofill:focus {
     flex-wrap: wrap;
 }
 .table-outer .table .table-row:last-child {
-    margin-bottom: 50px;
+    margin-bottom: 150px;
 }
 .table-outer .table .table-row .table-row-wrap {
     width: 100%;
