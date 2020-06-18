@@ -4,7 +4,7 @@ import Card from "react-bootstrap/Card";
 import { Accordion, Form } from "react-bootstrap";
 import {
   DEPARTURE_PORT,
-  ARRIVAL_PORT
+  ARRIVAL_PORT,
 } from "../../constants/filtertypeconstants";
 
 const leftDrawer = (props) => {

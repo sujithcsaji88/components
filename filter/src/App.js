@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
+import List from './components/List/List';
+import Lists from './components/List/Lists';
 
 function useComponentVisible() {
   const [showSideDrawer, setShowSideDrawer] = useState(false);
@@ -91,6 +93,8 @@ function App() {
           onClick={() => setShowSideDrawer(true)}
         ></input>
       </div>
+        {/* <List/> */}
+        <Lists/>
     </div>
   );
 }
