@@ -522,6 +522,7 @@ select:-webkit-autofill:focus {
 @media screen and (max-width: 1024px) {
     .cell-edit {
         display: block;
+        right: 0;
     }
 }
 .table-outer .table .table-row .table-cell:hover .cell-edit {
