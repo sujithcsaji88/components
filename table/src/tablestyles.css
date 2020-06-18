@@ -1,18 +1,6 @@
 /*****************************************************************************
 Do not modify below styles. These are required by the table to work properly
 ******************************************************************************/
-html,
-body,
-#root {
-    height: 91vh;
-}
-body {
-    overflow-y: hidden;
-}
-.tableContainer,
-.wrapper {
-    height: 100%;
-}
 .table .thead {
     overflow-y: scroll;
     overflow-x: hidden;

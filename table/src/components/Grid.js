@@ -21,6 +21,7 @@ const listRef = createRef();
 
 const Grid = memo((props) => {
     const {
+        tableHeight,
         columns,
         data,
         globalSearchLogic,
@@ -143,7 +144,7 @@ const Grid = memo((props) => {
                     </div>
                 </div>
             </div>
-            <div className="tableContainer table-outer">
+            <div className="tableContainer table-outer" style={{ height: tableHeight }}>
                 <AutoSizer disableWidth disableResizing>
                     {({ height }) => (
                         <div {...getTableProps()} className="table">

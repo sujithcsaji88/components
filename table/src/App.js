@@ -9,6 +9,10 @@ import SegmentEdit from "./components/Cells/SegmentEdit";
 const App = memo(() => {
     //Check if device is desktop
     const isDesktop = window.innerWidth > 1024;
+
+    //Get table height value, which is a required value
+    const tableHeight = "85vh";
+
     //Create an array of airports
     const airportCodeList = useMemo(
         () => [
@@ -515,6 +519,7 @@ const App = memo(() => {
 
     return (
         <Grid
+            tableHeight={tableHeight}
             columns={columns}
             data={data}
             globalSearchLogic={globalSearchLogic}
