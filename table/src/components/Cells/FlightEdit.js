@@ -53,7 +53,10 @@ const FlightEdit = memo(({ value: initialValue, row: { index }, column: { id }, 
     return (
         <ClickAwayListener onClickAway={clearEdit}>
             <div className="flight-details content">
-                <div onClick={openEdit}>
+                <div className="cell-edit" onClick={openEdit}>
+                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                <div>
                     <strong>{value.flightno}</strong>
                     <span>{value.date}</span>
                 </div>

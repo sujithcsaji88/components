@@ -511,3 +511,19 @@ select:-webkit-autofill:focus {
     left: 7px;
     top: 7px;
 }
+.cell-edit {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    cursor: pointer;
+    color: #dadfe9;
+    display: none;
+}
+@media screen and (max-width: 1024px) {
+    .cell-edit {
+        display: block;
+    }
+}
+.table-outer .table .table-row .table-cell:hover .cell-edit {
+    display: block;
+}
