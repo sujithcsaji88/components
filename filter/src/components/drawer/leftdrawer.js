@@ -28,7 +28,7 @@ const leftDrawer = (props) => {
                         return (
                           <li
                             onClick={(e) => {
-                              props.handleValue(filterData.name, type.name);
+                              props.handleValue(filterData.name, type.name,filterData.enabled);
                             }}
                           >
                             {type.name}
@@ -46,7 +46,7 @@ const leftDrawer = (props) => {
       return (
         <li
           onClick={(e) => {
-            props.handleDate(filterData.name, filterData.field);
+            props.handleDate(filterData.name, filterData.field,filterData.enabled);
           }}
         >
           <strong>{filterData.name}</strong>
@@ -56,7 +56,7 @@ const leftDrawer = (props) => {
       return (
         <li
           onClick={(e) => {
-            props.handleRevenue(filterData.name, filterData.condition);
+            props.handleRevenue(filterData.name, filterData.condition,filterData.enabled);
           }}
         >
           <strong>{filterData.name}</strong>
