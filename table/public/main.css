@@ -169,6 +169,13 @@ select:-webkit-autofill:focus {
     border-bottom: 1px solid #d2d5de;
     flex-wrap: wrap;
 }
+.table-outer .table .table-row:last-child {
+    margin-bottom: 50px;
+}
+.table-outer .table .table-row .table-row-wrap {
+    width: 100%;
+    display: flex;
+}
 .table-outer .table .table-row .table-cell {
     padding: 0.8em 1.2em;
     position: relative;
@@ -189,13 +196,15 @@ select:-webkit-autofill:focus {
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    margin-right: 5px;
 }
-.table-outer .table .table-row .table-cell .action .fa {
+.table-outer .table .table-row .table-cell .action .expander .fa {
     font-size: 22px;
     color: #999999;
 }
 .table-outer .table .table-row .expand {
     width: 100%;
+    padding: 0 10px 0 100px;
 }
 .tableContainer .table .th .resizer,
 .tableContainer .table .td .resizer {
@@ -251,7 +260,8 @@ select:-webkit-autofill:focus {
 .table-outer .table .table-row .table-cell .content .content-edit.open {
     display: flex;
 }
-.table-outer .table .table-row .table-cell .content .content-edit input {
+.table-outer .table .table-row .table-cell .content .content-edit input,
+.table-outer .table .table-row .table-cell .content .content-edit select {
     display: inline-block;
     height: 23px;
     width: 120px;
@@ -330,31 +340,18 @@ select:-webkit-autofill:focus {
     margin: 0;
     padding: 0;
 }
-.table-outer .table .details-wrap ul {
-    display: flex;
-    flex-wrap: wrap;
-}
 .table-outer .table .details-wrap ul li {
+    display: inline;
     padding-right: 5px;
     margin-right: 5px;
-    margin-bottom: 5px;
     position: relative;
 }
 .table-outer .table .details-wrap ul li:last-child {
     padding-right: 0;
     margin-right: 0;
 }
-.table-outer .table .details-wrap ul li:last-child::after {
-    display: none;
-}
-.table-outer .table .details-wrap ul li::after {
-    content: "";
-    background: #dadfe9;
-    height: 10px;
-    width: 1px;
-    right: -1px;
-    top: 2px;
-    position: absolute;
+.table-outer .table .details-wrap ul li.divider {
+    color: #dadfe9;
 }
 .table-outer .table .details-wrap ul li span {
     color: #566a81;
