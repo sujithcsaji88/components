@@ -7,7 +7,7 @@ const AppliedFilterPanel = (props) => {
     <div className="list">
       <div className="displayFlex">
         <div className="alignLeft">
-          <FontAwesomeIcon icon={faAlignLeft} onClick={props.click}/>
+          <FontAwesomeIcon icon={faAlignLeft} onClick={props.clicked}/>
           <div className="leftSpace">All flights</div>
         </div>
         {/* <div className="marginLeft">

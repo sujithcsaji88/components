@@ -173,7 +173,8 @@ const RightDrawer = (props) => {
       }
     }
   };
-  const DepartureAirportEnabledSave = (enabled) => {
+
+  const departureAirportEnabledSave = (enabled) => {
     setDepartureAirportEnabled(enabled);
     if (!dateEnabledSave) {
       setFromDateTime("");
@@ -220,7 +221,7 @@ const RightDrawer = (props) => {
           clearValues={props.clearValues}
           PortvalueToSave={PortvalueToSave}
           enabled={props.enabled}
-          DepartureAirportEnabledSave={DepartureAirportEnabledSave}
+          departureAirportEnabledSave={departureAirportEnabledSave}
         />
         <ArrivalPort
           name={props.name}
@@ -250,7 +251,10 @@ const RightDrawer = (props) => {
       <div className="rdisplayFlex">
         <div className="ralignLeft">
           <Button variant="">
-            <FontAwesomeIcon icon={faSave}></FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faSave}
+              onClick={showModal}
+            ></FontAwesomeIcon>
           </Button>
         </div>
         <div className="rmarginLeft">

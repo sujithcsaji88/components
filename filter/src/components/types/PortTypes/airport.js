@@ -42,7 +42,7 @@ export default function Airport(props){
         <div className="marginLeft">
         <Form.Check type="switch" id="date" label="" checked={enabled} onClick={(e) => {
               enableSwitchChange(e); 
-              props.DepartureAirportEnabledSave(e.target.checked);
+              props.departureAirportEnabledSave(e.target.checked);
             }} />
           <FontAwesomeIcon
             icon={faTimes}

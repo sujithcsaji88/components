@@ -95,7 +95,7 @@ function App() {
         </div>
       )}
       <AppliedFilterPanel click={() => setApplyFilter(true)} />
-      {/* <ListAndSavedFilterPanel click={() => setListAndSavedFilter(false)}/> */}
+      <ListAndSavedFilterPanel clicked={() => setApplyFilter(true)}/>
     </div>
   );
 }

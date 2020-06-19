@@ -25,6 +25,7 @@ const DeparturePort = (props) => {
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
+          departureAirportEnabledSave={props.departureAirportEnabledSave}
         />
         <AirportGroup
           name={name}
