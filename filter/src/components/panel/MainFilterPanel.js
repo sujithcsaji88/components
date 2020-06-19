@@ -14,7 +14,7 @@ const MainFilterPanel = (props) => {
             icon={faAlignLeft}
             onClick={() => setListFilter(true)}
           />
-          <SavedFilters showFilter={listFilter}/>
+          <SavedFilters showFilter={listFilter} />
           <div className="leftSpace">All flights</div>
         </div>
         {/* <div className="marginLeft">
