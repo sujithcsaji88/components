@@ -20,7 +20,17 @@ import TableViewIcon from "../images/TableViewIcon.png";
 const listRef = createRef();
 
 const Grid = memo((props) => {
-    const { columns, data, globalSearchLogic, updateCellData, updateRowData, selectBulkData, calculateRowHeight } = props;
+    const {
+        tableHeight,
+        columns,
+        data,
+        globalSearchLogic,
+        updateCellData,
+        updateRowData,
+        selectBulkData,
+        calculateRowHeight,
+        renderExpandedContent
+    } = props;
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -91,11 +101,11 @@ const Grid = memo((props) => {
                             );
                         })}
                     </div>
-                    {row.isExpanded ? <div className="expand">Remarks: {row.original.remarks}</div> : null}
+                    {row.isExpanded ? <div className="expand">{renderExpandedContent(row)}</div> : null}
                 </div>
             );
         },
-        [prepareRow, rows]
+        [prepareRow, rows, renderExpandedContent]
     );
 
     const bulkSelector = () => {
@@ -134,7 +144,7 @@ const Grid = memo((props) => {
                     </div>
                 </div>
             </div>
-            <div className="tableContainer table-outer">
+            <div className="tableContainer table-outer" style={{ height: tableHeight }}>
                 <AutoSizer disableWidth disableResizing>
                     {({ height }) => (
                         <div {...getTableProps()} className="table">
@@ -170,7 +180,7 @@ const Grid = memo((props) => {
                                 <List
                                     ref={listRef}
                                     className="table-list"
-                                    height={height - 50}
+                                    height={height}
                                     itemCount={rows.length}
                                     itemSize={(index) => calculateRowHeight(rows, index, headerGroups)}
                                     overscanCount={20}

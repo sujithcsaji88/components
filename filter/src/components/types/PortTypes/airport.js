@@ -1,11 +1,14 @@
-import React,{useState,useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Form } from "react-bootstrap";
 
 export default function Airport(props){
     const [labelName, setLabelName] = useState();
     const [labelType, setLabelType] = useState();
-  
+    const [enabled, setEnabled] = useState();
+    const [textStatus, setTextStatus] = useState(false)
+
     useEffect(() => {
       if (props.type === 'Airport') {
         setLabelName(props.name);
@@ -13,6 +16,16 @@ export default function Airport(props){
       }
     }, [props]);
   
+    const enableSwitchChange = (e) => {
+      setEnabled(e.target.checked);
+      if (!enabled) {
+        setTextStatus(false)
+      }
+      else {
+        setTextStatus(true)
+      }
+    }
+
     const closeAirport = () => {
       setLabelName("");
       setLabelType("");
@@ -27,6 +40,10 @@ export default function Airport(props){
           <p>{labelType}</p>
         </div>
         <div className="marginLeft">
+        <Form.Check type="switch" id="date" label="" checked={enabled} onClick={(e) => {
+              enableSwitchChange(e); 
+              props.departureAirportEnabledSave(e.target.checked);
+            }} />
           <FontAwesomeIcon
             icon={faTimes}
             onClick={() => {
@@ -38,6 +55,7 @@ export default function Airport(props){
       </div>
       <div className="displayFlex">
         <input
+          disabled={textStatus}
           type="text"
           placeholder="filter"
           className="form-control"

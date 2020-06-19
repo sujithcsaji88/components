@@ -7,6 +7,13 @@ import FlightEdit from "./components/Cells/FlightEdit";
 import SegmentEdit from "./components/Cells/SegmentEdit";
 
 const App = memo(() => {
+    //Check if device is desktop
+    const isDesktop = window.innerWidth > 1024;
+
+    //Get table height value, which is a required value
+    const tableHeight = "85vh";
+
+    //Create an array of airports
     const airportCodeList = useMemo(
         () => [
             "AAA",
@@ -66,7 +73,9 @@ const App = memo(() => {
         ],
         []
     );
-    const columns = useMemo(
+
+    //Configure columns and its related functions
+    let columns = useMemo(
         () => [
             {
                 Header: "Id",
@@ -240,6 +249,7 @@ const App = memo(() => {
                 Header: "ULD Positions",
                 accessor: "uldPositions",
                 disableSortBy: true,
+                width: 100,
                 Cell: (row) => (
                     <div className="uld-details content">
                         <ul>
@@ -349,8 +359,62 @@ const App = memo(() => {
         ],
         [airportCodeList]
     );
+
+    if (!isDesktop) {
+        columns = columns.filter((item) => {
+            return item.accessor !== "details";
+        });
+    }
+
+    //Store input JSON data, to handle cell edits
     const [data, setData] = useState(sampleData);
 
+    //Return data that has to be shown in the row expanded region
+    const renderExpandedContent = (row) => {
+        const { remarks, details } = row.original;
+        if (isDesktop) {
+            return remarks;
+        } else {
+            const { startTime, endTime, status, additionalStatus, flightModel, bodyType, type, timeStatus } = details;
+            let timeStatusArray = timeStatus.split(" ");
+            const timeValue = timeStatusArray.shift();
+            const timeText = timeStatusArray.join(" ");
+            return (
+                <div className="details-wrap content">
+                    <ul>
+                        <li>{remarks}</li>
+                        <li className="divider">|</li>
+                    </ul>
+                    <ul>
+                        <li>
+                            {startTime} – {endTime}
+                        </li>
+                        <li className="divider">|</li>
+                        <li>
+                            <span>{status}</span>
+                        </li>
+                        <li className="divider">|</li>
+                        <li>{additionalStatus}</li>
+                        <li className="divider">|</li>
+                        <li>{flightModel}</li>
+                        <li className="divider">|</li>
+                        <li>{bodyType}</li>
+                        <li className="divider">|</li>
+                        <li>
+                            <span>{type}</span>
+                        </li>
+                        <li className="divider">|</li>
+                        <li>
+                            <strong>{timeValue} </strong>
+                            <span>{timeText}</span>
+                        </li>
+                    </ul>
+                </div>
+            );
+        }
+    };
+
+    //Add logic for doing global search in the table
     const globalSearchLogic = (rows, columns, filterValue) => {
         if (filterValue) {
             const searchText = filterValue.toLowerCase();
@@ -390,6 +454,7 @@ const App = memo(() => {
         return rows;
     };
 
+    //Add logic to calculate height of each row, based on the content of  or more columns
     const calculateRowHeight = (rows, index, headerCells) => {
         let rowHeight = 50;
         if (headerCells && headerCells.length && rows && rows.length && index >= 0) {
@@ -420,7 +485,7 @@ const App = memo(() => {
                 }
             });
             if (isExpanded) {
-                rowHeight = rowHeight + 30;
+                rowHeight = rowHeight + (isDesktop ? 30 : 80);
             }
         }
         return rowHeight;
@@ -454,6 +519,7 @@ const App = memo(() => {
 
     return (
         <Grid
+            tableHeight={tableHeight}
             columns={columns}
             data={data}
             globalSearchLogic={globalSearchLogic}
@@ -461,6 +527,7 @@ const App = memo(() => {
             updateRowData={updateRowData}
             selectBulkData={selectBulkData}
             calculateRowHeight={calculateRowHeight}
+            renderExpandedContent={renderExpandedContent}
         />
     );
 });

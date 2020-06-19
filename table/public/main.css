@@ -170,7 +170,7 @@ select:-webkit-autofill:focus {
     flex-wrap: wrap;
 }
 .table-outer .table .table-row:last-child {
-    margin-bottom: 50px;
+    margin-bottom: 150px;
 }
 .table-outer .table .table-row .table-row-wrap {
     width: 100%;
@@ -340,23 +340,23 @@ select:-webkit-autofill:focus {
     margin: 0;
     padding: 0;
 }
-.table-outer .table .details-wrap ul li {
+.details-wrap ul li {
     display: inline;
     padding-right: 5px;
     margin-right: 5px;
     position: relative;
 }
-.table-outer .table .details-wrap ul li:last-child {
+.details-wrap ul li:last-child {
     padding-right: 0;
     margin-right: 0;
 }
-.table-outer .table .details-wrap ul li.divider {
+.details-wrap ul li.divider {
     color: #dadfe9;
 }
-.table-outer .table .details-wrap ul li span {
+.details-wrap ul li span {
     color: #566a81;
 }
-.table-outer .table .details-wrap ul li strong {
+.details-wrap ul li strong {
     color: #ff6666;
 }
 .table-outer .table .weight-details > strong {
@@ -510,4 +510,21 @@ select:-webkit-autofill:focus {
     position: absolute;
     left: 7px;
     top: 7px;
+}
+.cell-edit {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    cursor: pointer;
+    color: #dadfe9;
+    display: none;
+}
+@media screen and (max-width: 1024px) {
+    .cell-edit {
+        display: block;
+        right: 0;
+    }
+}
+.table-outer .table .table-row .table-cell:hover .cell-edit {
+    display: block;
 }

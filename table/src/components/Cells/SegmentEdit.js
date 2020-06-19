@@ -27,7 +27,9 @@ const SegmentEdit = memo(({ value: initialValue, index, id, airportCodeList, upd
 
     const saveEdit = () => {
         setEdit(false);
-        updateCellData(index, id, value);
+        if (updateCellData) {
+            updateCellData(index, id, value);
+        }
     };
 
     const clearEdit = () => {
@@ -42,7 +44,10 @@ const SegmentEdit = memo(({ value: initialValue, index, id, airportCodeList, upd
     return (
         <ClickAwayListener onClickAway={clearEdit}>
             <div className="revenue-details content">
-                <div className={`segment-details content ${isEdit ? "close" : "open"}`} onClick={openEdit}>
+                <div className="cell-edit" onClick={openEdit}>
+                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                <div className={`segment-details content ${isEdit ? "close" : "open"}`}>
                     <span>{value.from}</span>
                     <i>
                         <img src={FlightIcon} alt="segment" />
