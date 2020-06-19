@@ -34,7 +34,7 @@ const Date = (props) => {
 
   if (labelName === DATE) {
     return (
-      <React.Fragment>
+      <div className="filter__input">
         <div className="displayFlex">
           <div className="alignLeft">
             <Form.Label>
@@ -84,7 +84,7 @@ const Date = (props) => {
             </div>
           );
         })}
-      </React.Fragment>
+      </div>
     );
   } else {
     return <div></div>;

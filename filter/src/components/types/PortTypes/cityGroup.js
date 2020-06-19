@@ -20,7 +20,7 @@ export default function CityGroup(props) {
 
   if (labelType === "City Group") {
     return (
-      <React.Fragment>
+      <div className="filter__input">
         <div className="displayFlex">
           <div className="alignLeft">
             <p>{labelName}</p>
@@ -47,7 +47,7 @@ export default function CityGroup(props) {
             }}
           ></input>
         </div>
-      </React.Fragment>
+      </div>
     );
   } else return <div></div>;
 }
