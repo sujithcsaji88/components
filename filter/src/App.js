@@ -2,20 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
+import AppliedFilterPanel from "./components/panel/AppliedFilterPanel";
+import ListAndSavedFilterPanel from "./components/panel/ListAndSavedFilterPanel";
 
 function useComponentVisible() {
-  const [showSideDrawer, setShowSideDrawer] = useState(false);
+  const [showApplyFilter, setApplyFilter] = useState(false);
+
   const ref = useRef(null);
 
-  const handleHideDropdown = (event) => {
+  const handleHideDropdown = (event ) => {
     if (event.key === "Escape") {
-      setShowSideDrawer(false);
+      setApplyFilter(false);
     }
   };
 
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
-      setShowSideDrawer(true);
+      setApplyFilter(false);
     }
   };
 
@@ -28,7 +31,7 @@ function useComponentVisible() {
     };
   });
 
-  return { ref, showSideDrawer, setShowSideDrawer };
+  return { ref, showApplyFilter, setApplyFilter};
 }
 
 function App() {
@@ -36,35 +39,38 @@ function App() {
   const [labelType, setLabelType] = useState();
   const [field, setField] = useState();
   const [condition, setCondition] = useState();
-  const[enabled,setEnabled]=useState();
+  const [enabled, setEnabled] = useState();
 
-  const passValues = (filterName, filterType,enabled) => {
+  const passValues = (filterName, filterType, enabled) => {
     setLabelName(filterName);
     setLabelType(filterType);
     setEnabled(enabled);
   };
 
-  const passDate = (filterName, field,enabled) => {
+  const passDate = (filterName, field, enabled) => {
     setLabelName(filterName);
     setField(field);
     setEnabled(enabled);
   };
-  const passRevenue = (filterName, condition,enabled) => {
+  const passRevenue = (filterName, condition, enabled) => {
     setLabelName(filterName);
     setCondition(condition);
     setEnabled(enabled);
   };
+
   const clearType = () => {
     setLabelType("");
   };
+
   const clearName = () => {
     setLabelName("");
   };
-  const { ref, showSideDrawer, setShowSideDrawer } = useComponentVisible(true);
+
+  const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
   return (
     <div ref={ref}>
-      {showSideDrawer && (
+      {showApplyFilter && (
         <div className="sideDrawer" ref={ref}>
           <div className="row">
             <div className="col-md-5 col-lg-5">
@@ -88,14 +94,8 @@ function App() {
           </div>
         </div>
       )}
-      <div>
-        <input
-          type="submit"
-          value="+ add filter"
-          className="dummy"
-          onClick={() => setShowSideDrawer(true)}
-        ></input>
-      </div>
+      <AppliedFilterPanel click={() => setApplyFilter(true)} />
+      {/* <ListAndSavedFilterPanel click={() => setListAndSavedFilter(false)}/> */}
     </div>
   );
 }

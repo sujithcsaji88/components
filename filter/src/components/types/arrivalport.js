@@ -7,28 +7,54 @@ import CityGroup from "./porttypes/cityGroup";
 import Country from "./porttypes/country";
 
 const ArrivalPort = (props) => {
-  const[name,setName]=useState();
-const[type,setType]=useState();
-useEffect(
-  ()=>{
-    if(props.name===ARRIVAL_PORT){
-    setName(props.name)
-    setType(props.type)
+  const [name, setName] = useState();
+  const [type, setType] = useState();
+
+  useEffect(() => {
+    if (props.name === ARRIVAL_PORT) {
+      setName(props.name);
+      setType(props.type);
     }
-  }
-,[props]);
+  }, [props]);
+
   if (name === ARRIVAL_PORT) {
     return (
-      <div>
-     <Airport name={name} type={type} clearValues={props.clearValues}  valueToSave={props.PortvalueToSave}/>
-     <AirportGroup name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
-     <City name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
-     <CityGroup name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
-     <Country name={name} type={type} clearValues={props.clearValues} valueToSave={props.PortvalueToSave}/>
-     </div>
+      <React.Fragment>
+        <Airport
+          name={name}
+          type={type}
+          clearValues={props.clearValues}
+          valueToSave={props.PortvalueToSave}
+        />
+        <AirportGroup
+          name={name}
+          type={type}
+          clearValues={props.clearValues}
+          valueToSave={props.PortvalueToSave}
+        />
+        <City
+          name={name}
+          type={type}
+          clearValues={props.clearValues}
+          valueToSave={props.PortvalueToSave}
+        />
+        <CityGroup
+          name={name}
+          type={type}
+          clearValues={props.clearValues}
+          valueToSave={props.PortvalueToSave}
+        />
+        <Country
+          name={name}
+          type={type}
+          clearValues={props.clearValues}
+          valueToSave={props.PortvalueToSave}
+        />
+      </React.Fragment>
     );
   } else {
     return <div></div>;
   }
 };
+
 export default ArrivalPort;
