@@ -70,7 +70,7 @@ export default function Airport(props){
           type="text"
           placeholder="filter"
           className="form-control"
-          onChange={(e)=>{props.valueToSave(e,labelName,labelType)}}
+          onChange={(e)=>{props.valueToSave(e,labelName,labelType,enabled)}}
         ></input>
       </div>
     </div>

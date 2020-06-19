@@ -7,7 +7,7 @@ import { REVENUE } from "../../constants/filtertypeconstants";
 const Revenue = (props) => {
   const [labelName, setLabelName] = useState();
   const [condition, setCondition] = useState();
-  const [enabled, setEnabled] = useState();
+  const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   useEffect(() => {
     if (props.name === REVENUE) {
@@ -86,7 +86,7 @@ const Revenue = (props) => {
               type="text"
               placeholder="Amount"
               defaultValue=""
-              onChange={(e) => { props.revenueAmountSave(e,labelName) }}
+              onChange={(e) => { props.revenueAmountSave(e,labelName,enabled) }}
             />
           </Form.Group>
         </div>

@@ -64,11 +64,12 @@ const enableSwitchChange = (e) => {
         </div>
         <div className="displayFlex">
           <input
+          disable={textStatus}
             type="text"
             placeholder="filter"
             className="form-control"
             onChange={(e) => {
-              props.valueToSave(e, labelName, labelType);
+              props.valueToSave(e, labelName, labelType,enabled);
             }}
           ></input>
         </div>

@@ -69,7 +69,7 @@ export default function CityGroup(props) {
             placeholder="filter"
             className="form-control"
             onChange={(e) => {
-              props.valueToSave(e, labelName, labelType);
+              props.valueToSave(e, labelName, labelType,enabled);
             }}
           ></input>
         </div>

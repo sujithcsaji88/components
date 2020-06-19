@@ -7,7 +7,7 @@ import { DATE } from "../../constants/filtertypeconstants";
 const Date = (props) => {
   const [labelName, setLabelName] = useState();
   const [field, setField] = useState();
-  const [enabled, setEnabled] = useState();
+  const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   
   useEffect(() => {
@@ -71,13 +71,13 @@ const Date = (props) => {
               </div>
               <div className="displayFlex">
                 <Form.Control
+                disabled={textStatus}
                   required
                   type="text"
                   placeholder="Filter"
                   defaultValue=""
                   className="col-lg-7 mr-3"
-                  onChange={(e) => { props.dateSave(e,field.name,labelName);
-                                   
+                  onChange={(e) => { props.dateSave(e,field.name,labelName,enabled);              
                    }}
                 />
               </div>

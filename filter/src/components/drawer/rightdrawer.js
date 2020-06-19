@@ -34,19 +34,23 @@ const RightDrawer = (props) => {
             },
             {
               column: departureAirportGroupName,
-              value:departureAirportGroup
+              value:departureAirportGroup,
+              enabled:departureAirportGroupEnabled
             },
             {
               column: departureCityName,
-              value:departureCity
+              value:departureCity,
+              enabled:departureCityEnabled
             },
             {
               column: departureCityGroupName,
-              value:departureCityGroup
+              value:departureCityGroup,
+              enabled:departureCityGroupEnabled
             },
             {
               column: departureCountryName,
-              value:departureCountry
+              value:departureCountry,
+              enabled:departureCountryEnabled
             }
           ]
         },
@@ -55,23 +59,28 @@ const RightDrawer = (props) => {
           types: [
             {
               column: arrivalAirportName,
-              value:arrivalAirport
+              value:arrivalAirport,
+              enabled:arrivalAirportEnabled
             },
             {
               column:arrivalAirportGroupName,
-              value:arrivalAirportGroup
+              value:arrivalAirportGroup,
+              enabled:arrivalAirportGroupEnabled
             },
             {
               column:arrivalCityName,
-              value:arrivalCity
+              value:arrivalCity,
+              enabled:arrivalCityEnabled
             },
             {
               column: arrivalCityGroupName,
-              value:arrivalCityGroup
+              value:arrivalCityGroup,
+              enabled:arrivalCityGroupEnabled
             },
             {
               column:arrivalCountryName,
-              value:arrivalCountry
+              value:arrivalCountry,
+              enabled:arrivalCountryEnabled
             }
           ]
         },
@@ -97,24 +106,8 @@ const RightDrawer = (props) => {
         }
       ]
     }
-    
-    // let existing = localStorage.getItem("filters");
-    // existing = existing ? JSON.parse(existing) : [];
-    // existing.push(obj);
-    // localStorage.setItem("filters", JSON.stringify(existing));
+    console.log(obj);
 
-    const myData = obj; // I am assuming that "this.state.myData"
-    // is an object and I wrote it to file as
-    // json
-    const json = JSON.stringify(myData);
-    const blob = new Blob([json], { type: "application/json" });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = href;
-    link.download = fileName + ".json";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }
   const [departurePortName,setDeparturePortName]=useState();
   const [departureAirportName, setDepartureAirportName] = useState();
@@ -156,46 +149,56 @@ const RightDrawer = (props) => {
   const [fromDateTime, setFromDateTime] = useState();
   const [toDateTimeName,setToDateTimeName]=useState();
   const [toDateTime, setToDateTime] = useState();
-  const [dateEnabled, setDateEnabled] = useState(true);
-  const [revenueEnabled, setRevenueEnabled] = useState(true);
+  const [dateEnabled, setDateEnabled] = useState();
+  const [revenueEnabled, setRevenueEnabled] = useState();
   const [popupStatus, setPopupStatus] = useState(false);
   const [fileName, setFileName] = useState();
-  const PortvalueToSave = (e, name, type) => {
+  const PortvalueToSave = (e,name,type,enabled) => {
     if (name === DEPARTURE_PORT) {
       setDeparturePortName(name);
       if (type === AIRPORT) {
         setDepartureAirportName(type);
         setDepartureAirport(e.target.value);
+        setDepartureAirportEnabled(enabled);
       } else if (type === AIRPORT_GROUP) {
         setDepartureAirportGroupName(type);
         setDepartureAirportGroup(e.target.value);
+        setDepartureAirportGroupEnabled(enabled);
       } else if (type === CITY) {
         setDepartureCityName(type)
         setDepartureCity(e.target.value);
+        setDepartureCityEnabled(enabled);
       } else if (type === CITY_GROUP) {
         setDepartureCityGroupName(type)
         setDepartureCityGroup(e.target.value);
+        setDepartureCityGroupEnabled(enabled);
       } else if (type === COUNTRY) {
         setDepartureCountryName(type);
         setDepartureCountry(e.target.value);
+        setDepartureCountryEnabled(enabled)
       }
     } else if (name === ARRIVAL_PORT) {
        setArrivalPortName(name)
       if (type === AIRPORT) {
         setArrivalAirportName(type);
         setArrivalAirport(e.target.value);
+        setArrivalAirportEnabled(enabled);
       } else if (type === AIRPORT_GROUP) {
         setArrivalAirportGroupName(type);
         setArrivalAirportGroup(e.target.value);
+        setArrivalAirportGroupEnabled(enabled);
       } else if (type === CITY) {
         setArrivalCityName(type);
         setArrivalCity(e.target.value);
+        setArrivalCityEnabled(enabled);
       } else if (type === CITY_GROUP) {
         setArrivalCityGroupName(type);
         setArrivalCityGroup(e.target.value);
+        setArrivalCityGroupEnabled(enabled);
       } else if (type === COUNTRY) {
         setArrivalCountryName(type);
         setArrivalCountry(e.target.value);
+        setArrivalCountryEnabled(enabled);
       }
     }
   };
@@ -263,12 +266,14 @@ const RightDrawer = (props) => {
   const revenueConditionSave = (e) => {
       setRevenueCondition(e.target.value);
   }
-  const revenueAmountSave = (e,name) => {
+  const revenueAmountSave = (e,name,enabled) => {
+      setRevenueEnabled(enabled);
       setRevenueName(name);
       setRevenueAmount(e.target.value);
   }
-  const dateSave = (e, name) => {
-    setDateName(name);
+  const dateSave = (e, name,labelName,enabled) => {
+    setDateEnabled(enabled)
+    setDateName(labelName);
       if (name === FROM_DATE) {
         setFromDateTimeName(name)
         setFromDateTime(e.target.value);
@@ -280,13 +285,17 @@ const RightDrawer = (props) => {
   }
   const dateEnabledSave=(enabled)=>{
     setDateEnabled(enabled);
-    if (!dateEnabledSave) {
+    if (dateEnabled===false) {
       setFromDateTime("");
       setToDateTime("");
     }
   };
   const revenueEnabledSave = (enabled) => {
     setRevenueEnabled(enabled);
+    if (revenueEnabled===false) {
+      setRevenueCondition("");
+      setRevenueAmount("");
+    }
   };
   const showModal = () => {
     setPopupStatus(!popupStatus);
@@ -343,7 +352,7 @@ const RightDrawer = (props) => {
       <div className="rdisplayFlex">
         <div className="ralignLeft">
           <Button variant="">
-            <FontAwesomeIcon icon={faSave}></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faSave} onClick={saveFilters}></FontAwesomeIcon>
           </Button>
         </div>
         <div className="rmarginLeft">
@@ -355,23 +364,6 @@ const RightDrawer = (props) => {
           </Button>
         </div>
       </div>
-      <Modal size="sm" show={popupStatus} onHide={showModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <label>name of file:</label>
-          <input type="text" onChange={setFileNameFunc} />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={showModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={saveFilters}>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </React.Fragment>
   );
 };
