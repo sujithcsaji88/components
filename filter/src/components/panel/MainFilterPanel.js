@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
+import SavedFilters from "./SavedFilters";
 
-const AppliedFilterPanel = (props) => {
+const MainFilterPanel = (props) => {
+  const [listFilter, setListFilter] = useState(false);
+
   return (
     <div className="list">
       <div className="displayFlex">
         <div className="alignLeft">
-          <FontAwesomeIcon icon={faAlignLeft} onClick={props.click}/>
+          <FontAwesomeIcon
+            icon={faAlignLeft}
+            onClick={() => setListFilter(true)}
+          />
+          <SavedFilters showFilter={listFilter}/>
           <div className="leftSpace">All flights</div>
         </div>
         {/* <div className="marginLeft">
@@ -18,8 +25,12 @@ const AppliedFilterPanel = (props) => {
       </div>
       <div className="secondList">
         <div className="displayFlex">
-          <div className="listContent" onClick={props.click}><span>Origin:</span> FRA</div>
-          <div className="listContent" onClick={props.click}><span>Date:</span> between 24 Apr - 9 May</div>
+          <div className="listContent" onClick={props.click}>
+            <span>Origin:</span> FRA
+          </div>
+          <div className="listContent" onClick={props.click}>
+            <span>Date:</span> between 24 Apr - 9 May
+          </div>
           <div onClick={props.click}>+ Add Filter</div>
         </div>
       </div>
@@ -27,4 +38,4 @@ const AppliedFilterPanel = (props) => {
   );
 };
 
-export default AppliedFilterPanel;
+export default MainFilterPanel;

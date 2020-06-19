@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
-import AppliedFilterPanel from "./components/panel/AppliedFilterPanel";
-import ListAndSavedFilterPanel from "./components/panel/ListAndSavedFilterPanel";
+import MainFilterPanel from "./components/panel/MainFilterPanel";
+import SavedFilters from "./components/panel/SavedFilters";
 
 function useComponentVisible() {
   const [showApplyFilter, setApplyFilter] = useState(false);
@@ -94,8 +94,7 @@ function App() {
           </div>
         </div>
       )}
-      <AppliedFilterPanel click={() => setApplyFilter(true)} />
-      {/* <ListAndSavedFilterPanel click={() => setListAndSavedFilter(false)}/> */}
+      <MainFilterPanel click={() => setApplyFilter(true)} />
     </div>
   );
 }

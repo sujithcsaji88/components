@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button} from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
 import Date from "../types/date";
 import Revenue from "../types/revenue";
-import Modal from "react-bootstrap/Modal";
 import {
   DEPARTURE_PORT,
   ARRIVAL_PORT,
@@ -151,8 +150,6 @@ const RightDrawer = (props) => {
   const [toDateTime, setToDateTime] = useState();
   const [dateEnabled, setDateEnabled] = useState();
   const [revenueEnabled, setRevenueEnabled] = useState();
-  const [popupStatus, setPopupStatus] = useState(false);
-  const [fileName, setFileName] = useState();
   const PortvalueToSave = (e,name,type,enabled) => {
     if (name === DEPARTURE_PORT) {
       setDeparturePortName(name);
@@ -296,12 +293,6 @@ const RightDrawer = (props) => {
       setRevenueCondition("");
       setRevenueAmount("");
     }
-  };
-  const showModal = () => {
-    setPopupStatus(!popupStatus);
-  };
-  const setFileNameFunc = (e) => {
-    setFileName(e.target.value);
   };
   return (
     <React.Fragment>
