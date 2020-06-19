@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
 
-const list = (props) => {
+const AppliedFilterPanel = (props) => {
   return (
     <div className="list">
       <div className="displayFlex">
@@ -18,13 +18,13 @@ const list = (props) => {
       </div>
       <div className="secondList">
         <div className="displayFlex">
-          <div className="listContent" onClick={props.clicked}><span>Origin:</span> FRA</div>
-          <div className="listContent" onClick={props.clicked}><span>Date:</span> between 24 Apr - 9 May</div>
-          <div onClick={props.clicked}>+ Add Filter</div>
+          <div className="listContent" onClick={props.click}><span>Origin:</span> FRA</div>
+          <div className="listContent" onClick={props.click}><span>Date:</span> between 24 Apr - 9 May</div>
+          <div onClick={props.click}>+ Add Filter</div>
         </div>
       </div>
     </div>
   );
 };
 
-export default list;
+export default AppliedFilterPanel;

@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 
-const lists = (props) => {
+const ListAndSavedFilterPanel = (props) => {
   return (
     <div className="lists">
       <div className="listsView">
@@ -103,4 +103,4 @@ const lists = (props) => {
   );
 };
 
-export default lists;
+export default ListAndSavedFilterPanel;

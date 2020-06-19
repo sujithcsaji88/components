@@ -1,21 +1,11 @@
 {
   "applyfilter": [
-    {
-      "column": "Airport",
-      "value": ""
-    },
+   
     {
       "column": "Airport Group",
       "value": ""
     },
-    {
-      "column": "City",
-      "value": ""
-    },
-    {
-      "column": "Revenue",
-      "value": ""
-    },
+    
     {
       "column": "FromDate",
       "value": ""

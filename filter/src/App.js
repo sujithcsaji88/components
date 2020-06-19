@@ -2,22 +2,23 @@ import React, { useState, useRef, useEffect } from "react";
 import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
-import List from "./components/List/List";
-import Lists from "./components/List/Lists";
+import AppliedFilterPanel from "./components/panel/AppliedFilterPanel";
+import ListAndSavedFilterPanel from "./components/panel/ListAndSavedFilterPanel";
 
 function useComponentVisible() {
-  const [showSideDrawer, setShowSideDrawer] = useState(false);
+  const [showApplyFilter, setApplyFilter] = useState(false);
+
   const ref = useRef(null);
 
-  const handleHideDropdown = (event) => {
+  const handleHideDropdown = (event ) => {
     if (event.key === "Escape") {
-      setShowSideDrawer(false);
+      setApplyFilter(false);
     }
   };
 
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
-      setShowSideDrawer(false);
+      setApplyFilter(false);
     }
   };
 
@@ -30,7 +31,7 @@ function useComponentVisible() {
     };
   });
 
-  return { ref, showSideDrawer, setShowSideDrawer };
+  return { ref, showApplyFilter, setApplyFilter};
 }
 
 function App() {
@@ -65,11 +66,11 @@ function App() {
     setLabelName("");
   };
 
-  const { ref, showSideDrawer, setShowSideDrawer } = useComponentVisible(true);
+  const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
   return (
     <div ref={ref}>
-      {showSideDrawer && (
+      {showApplyFilter && (
         <div className="sideDrawer" ref={ref}>
           <div className="row">
             <div className="col-md-5 col-lg-5">
@@ -93,8 +94,8 @@ function App() {
           </div>
         </div>
       )}
-      <List clicked={() => setShowSideDrawer(true)} />
-      {/* <Lists click={() => setShowList(false)}/> */}
+      <AppliedFilterPanel click={() => setApplyFilter(true)} />
+      {/* <ListAndSavedFilterPanel click={() => setListAndSavedFilter(false)}/> */}
     </div>
   );
 }
