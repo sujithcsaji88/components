@@ -7,7 +7,7 @@ import {
   ARRIVAL_PORT,
 } from "../../constants/filtertypeconstants";
 
-const leftDrawer = (props) => {
+const LeftDrawer = (props) => {
   const loadedData = FilterData.filter.map((filterData) => {
     if (
       filterData.name === DEPARTURE_PORT ||
@@ -17,10 +17,10 @@ const leftDrawer = (props) => {
         <li>
           <Accordion>
             <Card>
-              <Accordion.Toggle as={Card.Header} eventKey="0">
+              <Accordion.Toggle as={Card.Header} eventKey="0" >
                 <strong>{filterData.name}</strong>
               </Accordion.Toggle>
-              <Accordion.Collapse eventKey="0">
+              <Accordion.Collapse eventKey="0" >
                 <Card.Body>
                   <ul className="firstAccordion">
                     {filterData.types &&
@@ -91,4 +91,4 @@ const leftDrawer = (props) => {
   );
 };
 
-export default leftDrawer;
+export default LeftDrawer;
