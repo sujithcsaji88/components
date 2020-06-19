@@ -48,7 +48,7 @@ export default function City(props) {
             <p>{labelType}</p>
           </div>
           <div className="marginLeft">
-          <Form.Check type="switch" id={switchId} label="" checked={enabled} onClick={(e) => {
+          <Form.Check type="switch" id={switchId} label="" defaultChecked={enabled} onClick={(e) => {
               enableSwitchChange(e); 
               if(labelName===DEPARTURE_PORT){props.departureCityEnabledSave(e.target.checked);}
               else if (labelName===ARRIVAL_PORT){props.arrivalCityEnabledSave(e.target.checked);}
@@ -66,7 +66,6 @@ export default function City(props) {
           <input
           disabled={textStatus}
             type="text"
-            placeholder="filter"
             className="form-control"
             onChange={(e) => {
               props.valueToSave(e, labelName, labelType,enabled);

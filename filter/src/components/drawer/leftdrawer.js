@@ -8,13 +8,13 @@ import {
 } from "../../constants/filtertypeconstants";
 
 const LeftDrawer = (props) => {
-  const loadedData = FilterData.filter.map((filterData) => {
+  const loadedData = FilterData.filter.map((filterData,index) => {
     if (
       filterData.name === DEPARTURE_PORT ||
       filterData.name === ARRIVAL_PORT
     ) {
       return (
-        <li>
+        <li key={index}>
           <Accordion>
             <Card>
               <Accordion.Toggle className="show" as={Card.Header} eventKey="0">
@@ -22,9 +22,9 @@ const LeftDrawer = (props) => {
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0" >
                 <Card.Body>
-                  <ul className="firstAccordion">
+                  <ul className="firstAccordion" key={index}>
                     {filterData.types &&
-                      filterData.types.map((type) => {
+                      filterData.types.map((type,index) => {
                         return (
                           <li
                             onClick={(e) => {
@@ -34,6 +34,7 @@ const LeftDrawer = (props) => {
                                 filterData.enabled
                               );
                             }}
+                            key={index}
                           >
                             {type.name}
                           </li>
@@ -56,6 +57,7 @@ const LeftDrawer = (props) => {
               filterData.enabled
             );
           }}
+          key={index}
         >
           {filterData.name}
         </li>
@@ -70,12 +72,13 @@ const LeftDrawer = (props) => {
               filterData.enabled
             );
           }}
+          key={index}
         >
           {filterData.name}
         </li>
       );
     } else {
-      return <li>{filterData.name}</li>;
+      return <li key={index}>{filterData.name}</li>;
     }
   });
 

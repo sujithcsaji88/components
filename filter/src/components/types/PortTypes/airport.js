@@ -53,7 +53,7 @@ export default function Airport(props){
               type="switch"
               id={switchId}
               label=""
-              checked={enabled}
+              defaultChecked={enabled}
               onClick={(e) => {
                 enableSwitchChange(e); 
                 if(labelName===DEPARTURE_PORT){props.departureAirportEnabledSave(e.target.checked);}
@@ -73,7 +73,6 @@ export default function Airport(props){
         <input
           disabled={textStatus}
           type="text"
-          placeholder="filter"
           className="form-control"
           onChange={(e)=>{props.valueToSave(e,labelName,labelType,enabled)}}
         ></input>

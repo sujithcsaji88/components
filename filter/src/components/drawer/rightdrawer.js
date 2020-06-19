@@ -20,7 +20,6 @@ import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const RightDrawer = (props) => {
   const saveFilters = () => {
-    console.log("hooi");
     const obj = {
       savedfilter: [
         {
