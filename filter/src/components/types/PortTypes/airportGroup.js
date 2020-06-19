@@ -20,7 +20,7 @@ export default function AirportGroup(props) {
 
   if (labelType === "Airport Group") {
     return (
-      <React.Fragment>
+      <div className="filter__input">
         <div className="displayFlex">
           <div className="alignLeft">
             <p>{labelName}</p>
@@ -47,7 +47,7 @@ export default function AirportGroup(props) {
             }}
           ></input>
         </div>
-      </React.Fragment>
+      </div>
     );
   } else return <div></div>;
 }
