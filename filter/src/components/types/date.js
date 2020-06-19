@@ -7,7 +7,7 @@ import { DATE } from "../../constants/filtertypeconstants";
 const Date = (props) => {
   const [labelName, setLabelName] = useState();
   const [field, setField] = useState();
-  const [enabled, setEnabled] = useState();
+  const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   
   useEffect(() => {
@@ -40,11 +40,11 @@ const Date = (props) => {
 
   if (labelName === DATE) {
     return (
-      <div className="filter__input">
-        <div className="displayFlex">
+      <div className="filter__input" >
+        <div className="displayFlex" key={1} >
           <div className="alignLeft">
             <Form.Label>
-              <strong>Date</strong>
+              <strong>{labelName}</strong>
             </Form.Label>
           </div>
           <div className="marginLeft">
@@ -52,13 +52,12 @@ const Date = (props) => {
               type="switch"
               id="date"
               label=""
-              checked={enabled}
+              defaultChecked={enabled}
               onClick={(e) => {
                 enableSwitchChange(e);
                 props.dateEnabledSave(e.target.checked);
               }}
             />
-            <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon
               className="fontIcons"
               icon={faTimes}
@@ -71,20 +70,19 @@ const Date = (props) => {
         </div>
         {field.map((field, index) => {
           return (
-            <div>
-              <div className="displayFlex">
-                <Form.Text className="text-muted">{field.name}</Form.Text>
+            <div  key={`${index}-${field.name}`}>
+              <div className="displayFlex" key={`${index},${field.name}`}>
+                <Form.Text  className="text-muted">{field.name}</Form.Text>
               </div>
-              <div className="displayFlex">
+              <div className="displayFlex" key={index}>
                 <Form.Control
+                disabled={textStatus}
                   required
                   type="text"
-                  placeholder="Filter"
                   defaultValue=""
                   className="col-lg-7 mr-3"
-                  onChange={(e) => {
-                    props.dateSave(e, field.name, "date");
-                  }}
+                  onChange={(e) => { props.dateSave(e,field.name,labelName,enabled);              
+                   }}
                 />
               </div>
             </div>

@@ -7,24 +7,24 @@ import {
   ARRIVAL_PORT,
 } from "../../constants/filtertypeconstants";
 
-const leftDrawer = (props) => {
-  const loadedData = FilterData.filter.map((filterData) => {
+const LeftDrawer = (props) => {
+  const loadedData = FilterData.filter.map((filterData,index) => {
     if (
       filterData.name === DEPARTURE_PORT ||
       filterData.name === ARRIVAL_PORT
     ) {
       return (
-        <li>
+        <li key={index}>
           <Accordion>
             <Card>
               <Accordion.Toggle className="show" as={Card.Header} eventKey="0">
                 {filterData.name}
               </Accordion.Toggle>
-              <Accordion.Collapse eventKey="0">
+              <Accordion.Collapse eventKey="0" >
                 <Card.Body>
-                  <ul className="firstAccordion">
+                  <ul className="firstAccordion" key={index}>
                     {filterData.types &&
-                      filterData.types.map((type) => {
+                      filterData.types.map((type,index) => {
                         return (
                           <li
                             onClick={(e) => {
@@ -34,6 +34,7 @@ const leftDrawer = (props) => {
                                 filterData.enabled
                               );
                             }}
+                            key={index}
                           >
                             {type.name}
                           </li>
@@ -56,6 +57,7 @@ const leftDrawer = (props) => {
               filterData.enabled
             );
           }}
+          key={index}
         >
           {filterData.name}
         </li>
@@ -70,12 +72,13 @@ const leftDrawer = (props) => {
               filterData.enabled
             );
           }}
+          key={index}
         >
           {filterData.name}
         </li>
       );
     } else {
-      return <li>{filterData.name}</li>;
+      return <li key={index}>{filterData.name}</li>;
     }
   });
 
@@ -99,4 +102,4 @@ const leftDrawer = (props) => {
   );
 };
 
-export default leftDrawer;
+export default LeftDrawer;

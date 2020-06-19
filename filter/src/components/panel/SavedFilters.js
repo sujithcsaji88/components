@@ -106,7 +106,7 @@ const SavedFilters = (props) => {
       </div>
     );
   }
-  return <div></div>;
+  else return <div></div>
 };
 
 export default SavedFilters;

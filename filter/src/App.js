@@ -3,16 +3,16 @@ import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
 import MainFilterPanel from "./components/panel/MainFilterPanel";
-import SavedFilters from "./components/panel/SavedFilters";
+
 
 function useComponentVisible() {
   const [showApplyFilter, setApplyFilter] = useState(false);
-
   const ref = useRef(null);
 
   const handleHideDropdown = (event ) => {
     if (event.key === "Escape") {
       setApplyFilter(false);
+
     }
   };
 

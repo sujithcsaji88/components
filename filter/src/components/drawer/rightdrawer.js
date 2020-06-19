@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button} from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
 import Date from "../types/date";
 import Revenue from "../types/revenue";
-import Modal from "react-bootstrap/Modal";
 import {
   DEPARTURE_PORT,
   ARRIVAL_PORT,
@@ -21,131 +20,135 @@ import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const RightDrawer = (props) => {
   const saveFilters = () => {
-    console.log("hooi");
     const obj = {
       savedfilter: [
         {
-          column: "Departure Port",
+          column: departurePortName,
           types: [
             {
-              column: "Airport",
-              value: departureAirport,
-              enabled: departureAirportEnabled,
+              column: departureAirportName,
+              value:departureAirport,
+              enabled:departureAirportEnabled
             },
             {
-              column: "Airport Group",
-              value: departureAirportGroup,
+              column: departureAirportGroupName,
+              value:departureAirportGroup,
+              enabled:departureAirportGroupEnabled
             },
             {
-              column: "City",
-              value: departureCity,
+              column: departureCityName,
+              value:departureCity,
+              enabled:departureCityEnabled
             },
             {
-              column: "City Group",
-              value: departureCityGroup,
+              column: departureCityGroupName,
+              value:departureCityGroup,
+              enabled:departureCityGroupEnabled
             },
             {
-              column: "Country",
-              value: departureCountry,
-            },
-          ],
+              column: departureCountryName,
+              value:departureCountry,
+              enabled:departureCountryEnabled
+            }
+          ]
         },
         {
-          column: "Arrival Port",
+          column:arrivalPortName,
           types: [
             {
-              column: "Airport",
-              value: arrivalAirport,
+              column: arrivalAirportName,
+              value:arrivalAirport,
+              enabled:arrivalAirportEnabled
             },
             {
-              column: "Airport Group",
-              value: arrivalAirportGroup,
+              column:arrivalAirportGroupName,
+              value:arrivalAirportGroup,
+              enabled:arrivalAirportGroupEnabled
             },
             {
-              column: "City",
-              value: arrivalCity,
+              column:arrivalCityName,
+              value:arrivalCity,
+              enabled:arrivalCityEnabled
             },
             {
-              column: "City Group",
-              value: arrivalCityGroup,
+              column: arrivalCityGroupName,
+              value:arrivalCityGroup,
+              enabled:arrivalCityGroupEnabled
             },
             {
-              column: "Country",
-              value: arrivalCountry,
-            },
-          ],
+              column:arrivalCountryName,
+              value:arrivalCountry,
+              enabled:arrivalCountryEnabled
+            }
+          ]
         },
         {
-          column: "Revenue",
+          column: revenueName,
           enabled: revenueEnabled,
           condition: revenueCondition,
           value: revenueAmount,
         },
         {
-          column: "FromDate",
+          column: dateName,
           enabled: dateEnabled,
-          value: fromDateTime,
-        },
-        {
-          column: "ToDate",
-          enabled: dateEnabled,
-          value: toDateTime,
-        },
-      ],
-    };
+          field: [
+            {
+              column: fromDateTimeName,
+              value:fromDateTime
+            },
+            {
+              column: toDateTimeName,
+              value:toDateTime
+            }
+          ]
+        }
+      ]
+    }
+    console.log(obj);
 
-    // let existing = localStorage.getItem("filters");
-    // existing = existing ? JSON.parse(existing) : [];
-    // existing.push(obj);
-    // localStorage.setItem("filters", JSON.stringify(existing));
-
-    const myData = obj; // I am assuming that "this.state.myData"
-    // is an object and I wrote it to file as
-    // json
-    const json = JSON.stringify(myData);
-    const blob = new Blob([json], { type: "application/json" });
-    const href = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = href;
-    link.download = fileName + ".json";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+  }
+  const [departurePortName,setDeparturePortName]=useState();
+  const [departureAirportName, setDepartureAirportName] = useState();
   const [departureAirport, setDepartureAirport] = useState();
   const [departureAirportEnabled, setDepartureAirportEnabled] = useState();
+  const [departureAirportGroupName, setDepartureAirportGroupName] = useState();
   const [departureAirportGroup, setDepartureAirportGroup] = useState();
-  const [
-    departureAirportGroupEnabled,
-    setDepartureAirportGroupEnabled,
-  ] = useState();
+  const [departureAirportGroupEnabled, setDepartureAirportGroupEnabled] = useState();
+  const [departureCityName, setDepartureCityName] = useState();
   const [departureCity, setDepartureCity] = useState();
   const [departureCityEnabled, setDepartureCityEnabled] = useState();
+  const [departureCityGroupName, setDepartureCityGroupName] = useState();
   const [departureCityGroup, setDepartureCityGroup] = useState();
   const [departureCityGroupEnabled, setDepartureCityGroupEnabled] = useState();
+  const [departureCountryName, setDepartureCountryName] = useState();
   const [departureCountry, setDepartureCountry] = useState();
   const [departureCountryEnabled, setDepartureCountryEnabled] = useState();
+  const [arrivalPortName,setArrivalPortName]=useState();
+  const [arrivalAirportName, setArrivalAirportName] = useState();
   const [arrivalAirport, setArrivalAirport] = useState();
   const [arrivalAirportEnabled, setArrivalAirportEnabled] = useState();
+  const [arrivalAirportGroupName, setArrivalAirportGroupName] = useState();
   const [arrivalAirportGroup, setArrivalAirportGroup] = useState();
-  const [
-    arrivalAirportGroupEnabled,
-    setArrivalAirportGroupEnabled,
-  ] = useState();
+  const [arrivalAirportGroupEnabled, setArrivalAirportGroupEnabled] = useState();
+  const [arrivalCityName, setArrivalCityName] = useState();
   const [arrivalCity, setArrivalCity] = useState();
   const [arrivalCityEnabled, setArrivalCityEnabled] = useState();
+  const [arrivalCityGroupName, setArrivalCityGroupName] = useState();
   const [arrivalCityGroup, setArrivalCityGroup] = useState();
   const [arrivalCityGroupEnabled, setArrivalCityGroupEnabled] = useState();
+  const [arrivalCountryName, setArrivalCountryName] = useState();
   const [arrivalCountry, setArrivalCountry] = useState();
   const [arrivalCountryEnabled, setArrivalCountryEnabled] = useState();
+  const [revenueName,setRevenueName]=useState();
   const [revenueCondition, setRevenueCondition] = useState();
   const [revenueAmount, setRevenueAmount] = useState();
+  const [dateName,setDateName]=useState();
+  const [fromDateTimeName,setFromDateTimeName]=useState();
   const [fromDateTime, setFromDateTime] = useState();
+  const [toDateTimeName,setToDateTimeName]=useState();
   const [toDateTime, setToDateTime] = useState();
   const [dateEnabled, setDateEnabled] = useState(true);
   const [revenueEnabled, setRevenueEnabled] = useState(true);
-  const [popupStatus, setPopupStatus] = useState(false);
-  const [fileName, setFileName] = useState();
 
   if(props.isReset === true){
     // //resetting all the values on RESET to undefined to remove old data
@@ -159,70 +162,149 @@ const RightDrawer = (props) => {
     // props.setIsResetFalse();
   }
 
-  const PortvalueToSave = (e, name, type) => {
+  const PortvalueToSave = (e, name, type,enabled) => {
     if (name === DEPARTURE_PORT) {
+      setDeparturePortName(name);
       if (type === AIRPORT) {
+        setDepartureAirportName(type);
         setDepartureAirport(e.target.value);
+        setDepartureAirportEnabled(enabled);
       } else if (type === AIRPORT_GROUP) {
+        setDepartureAirportGroupName(type);
         setDepartureAirportGroup(e.target.value);
+        setDepartureAirportGroupEnabled(enabled);
       } else if (type === CITY) {
+        setDepartureCityName(type)
         setDepartureCity(e.target.value);
+        setDepartureCityEnabled(enabled);
       } else if (type === CITY_GROUP) {
+        setDepartureCityGroupName(type)
         setDepartureCityGroup(e.target.value);
+        setDepartureCityGroupEnabled(enabled);
       } else if (type === COUNTRY) {
+        setDepartureCountryName(type);
         setDepartureCountry(e.target.value);
+        setDepartureCountryEnabled(enabled)
       }
     } else if (name === ARRIVAL_PORT) {
+       setArrivalPortName(name)
       if (type === AIRPORT) {
+        setArrivalAirportName(type);
         setArrivalAirport(e.target.value);
+        setArrivalAirportEnabled(enabled);
       } else if (type === AIRPORT_GROUP) {
+        setArrivalAirportGroupName(type);
         setArrivalAirportGroup(e.target.value);
+        setArrivalAirportGroupEnabled(enabled);
       } else if (type === CITY) {
+        setArrivalCityName(type);
         setArrivalCity(e.target.value);
+        setArrivalCityEnabled(enabled);
       } else if (type === CITY_GROUP) {
+        setArrivalCityGroupName(type);
         setArrivalCityGroup(e.target.value);
+        setArrivalCityGroupEnabled(enabled);
       } else if (type === COUNTRY) {
+        setArrivalCountryName(type);
         setArrivalCountry(e.target.value);
+        setArrivalCountryEnabled(enabled);
       }
     }
   };
-
   const departureAirportEnabledSave = (enabled) => {
     setDepartureAirportEnabled(enabled);
-    if (!dateEnabledSave) {
-      setFromDateTime("");
-      setToDateTime("");
+    if (!departureAirportEnabled) {
+      setDepartureAirport("");
     }
-  };
+  }
+  const departureAirportGroupEnabledSave = (enabled) => {
+    setDepartureAirportGroupEnabled(enabled);
+    if (!departureAirportGroupEnabled) {
+      setDepartureAirportGroup("");
+    }
+  }
+  const departureCityEnabledSave = (enabled) => {
+    setDepartureAirportGroupEnabled(enabled);
+    if (!departureCityEnabled) {
+      setDepartureCity("");
+    }
+  }
+  const departureCityGroupEnabledSave = (enabled) => {
+    setDepartureAirportGroupEnabled(enabled);
+    if (!departureCityGroupEnabled) {
+      setDepartureCityGroup("");
+    }
+  }
+  const departureCountryEnabledSave = (enabled) => {
+    setDepartureCountryEnabled(enabled);
+    if (!departureCountryEnabled) {
+      setDepartureCountry("");
+    }
+  }
+  const arrivalAirportEnabledSave=(enabled)=>{
+    setArrivalAirportEnabled(enabled);
+    if(!arrivalAirportEnabled){
+      setArrivalAirportGroup('')
+    }
+  }
+  const arrivalAirportGroupEnabledSave = (enabled) => {
+    setArrivalAirportGroupEnabled(enabled);
+    if (!arrivalAirportGroupEnabled) {
+      setArrivalAirportGroup("");
+    }
+  }
+  const arrivalCityEnabledSave = (enabled) => {
+    setArrivalAirportGroupEnabled(enabled);
+    if (!arrivalCityEnabled) {
+      setArrivalCity("");
+    }
+  }
+  const arrivalCityGroupEnabledSave = (enabled) => {
+    setArrivalAirportGroupEnabled(enabled);
+    if (!arrivalCityGroupEnabled) {
+      setArrivalCityGroup("");
+    }
+  }
+  const arrivalCountryEnabledSave = (enabled) => {
+    setArrivalCountryEnabled(enabled);
+    if (!arrivalCountryEnabled) {
+      setArrivalCountry("");
+    }
+  }
 
   const revenueConditionSave = (e) => {
-    setRevenueCondition(e.target.value);
-  };
-  const revenueAmountSave = (e) => {
-    setRevenueAmount(e.target.value);
-  };
-  const dateSave = (e, name) => {
-    if (name === FROM_DATE) {
-      setFromDateTime(e.target.value);
-    } else if (name === TO_DATE) {
-      setToDateTime(e.target.value);
-    }
-  };
-  const dateEnabledSave = (enabled) => {
+      setRevenueCondition(e.target.value);
+  }
+  const revenueAmountSave = (e,name,enabled) => {
+      setRevenueEnabled(enabled);
+      setRevenueName(name);
+      setRevenueAmount(e.target.value);
+  }
+  const dateSave = (e, name,labelName,enabled) => {
+    setDateEnabled(enabled)
+    setDateName(labelName);
+      if (name === FROM_DATE) {
+        setFromDateTimeName(name)
+        setFromDateTime(e.target.value);
+
+      } else if (name === TO_DATE) {
+        setToDateTimeName(name);
+        setToDateTime(e.target.value);
+      }
+  }
+  const dateEnabledSave=(enabled)=>{
     setDateEnabled(enabled);
-    if (!dateEnabledSave) {
+    if (dateEnabled===false) {
       setFromDateTime("");
       setToDateTime("");
     }
   };
   const revenueEnabledSave = (enabled) => {
     setRevenueEnabled(enabled);
-  };
-  const showModal = () => {
-    setPopupStatus(!popupStatus);
-  };
-  const setFileNameFunc = (e) => {
-    setFileName(e.target.value);
+    if (revenueEnabled===false) {
+      setRevenueCondition("");
+      setRevenueAmount("");
+    }
   };
 
   const collectFilterAttributesToMap = () => {
@@ -335,6 +417,10 @@ const RightDrawer = (props) => {
           PortvalueToSave={PortvalueToSave}
           enabled={props.enabled}
           departureAirportEnabledSave={departureAirportEnabledSave}
+          departureAirportGroupEnabledSave={departureAirportGroupEnabledSave}
+          departureCityEnabledSave={departureCityEnabledSave}
+          departureCityGroupEnabledSave={departureCityGroupEnabledSave}
+          departureCountryEnabledSave={departureCountryEnabledSave}
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -343,6 +429,11 @@ const RightDrawer = (props) => {
           enabled={props.enabled}
           clearValues={props.clearValues}
           PortvalueToSave={PortvalueToSave}
+          arrivalAirportEnabledSave={arrivalAirportEnabledSave}
+          arrivalAirportGroupEnabledSave={arrivalAirportGroupEnabledSave}
+          arrivalCityEnabledSave={arrivalCityEnabledSave}
+          arrivalCityGroupEnabledSave={arrivalCityGroupEnabledSave}
+          arrivalCountryEnabledSave={arrivalCountryEnabledSave}
         />
         <Date
           isReset={props.isReset}
@@ -367,10 +458,7 @@ const RightDrawer = (props) => {
       <div className="rdisplayFlex">
         <div className="ralignLeft">
           <Button variant="">
-            <FontAwesomeIcon
-              icon={faSave}
-              onClick={showModal}
-            ></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faSave} onClick={saveFilters}></FontAwesomeIcon>
           </Button>
         </div>
         <div className="rmarginLeft">
@@ -384,23 +472,6 @@ const RightDrawer = (props) => {
           </Button>
         </div>
       </div>
-      <Modal size="sm" show={popupStatus} onHide={showModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <label>name of file:</label>
-          <input type="text" onChange={setFileNameFunc} />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={showModal}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={saveFilters}>
-            Save
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </React.Fragment>
   );
 };

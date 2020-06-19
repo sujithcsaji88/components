@@ -7,7 +7,7 @@ import { REVENUE } from "../../constants/filtertypeconstants";
 const Revenue = (props) => {
   const [labelName, setLabelName] = useState();
   const [condition, setCondition] = useState();
-  const [enabled, setEnabled] = useState();
+  const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   useEffect(() => {
     if (props.name) {
@@ -50,13 +50,12 @@ const Revenue = (props) => {
               type="switch"
               id="revenue"
               label=""
-              checked={enabled}
+              defaultChecked={enabled}
               onClick={(e) => {
                 enableSwitchChange(e);
                 props.revenueEnabledSave(e.target.checked);
               }}
             />
-            <FontAwesomeIcon className="fontIcons" icon={faSortAmountDown} />
             <FontAwesomeIcon
               className="fontIcons"
               icon={faTimes}
@@ -78,7 +77,7 @@ const Revenue = (props) => {
               }}
             >
               {condition.map((condition, index) => {
-                return <option>{condition.value}</option>;
+                return <option key={index}>{condition.value}</option>;
               })}
             </Form.Control>
           </Form.Group>
@@ -90,11 +89,8 @@ const Revenue = (props) => {
               disabled={textStatus}
               required
               type="text"
-              placeholder="Amount"
               defaultValue=""
-              onChange={(e) => {
-                props.revenueAmountSave(e);
-              }}
+              onChange={(e) => { props.revenueAmountSave(e,labelName,enabled) }}
             />
           </Form.Group>
         </div>
