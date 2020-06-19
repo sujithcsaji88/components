@@ -10,8 +10,8 @@ const App = memo(() => {
     //Check if device is desktop
     const isDesktop = window.innerWidth > 1024;
 
-    //Get table height value, which is a required value
-    const tableHeight = "85vh";
+    //Get grid height value, which is a required value
+    const gridHeight = "85vh";
 
     //Create an array of airports
     const airportCodeList = useMemo(
@@ -411,7 +411,7 @@ const App = memo(() => {
         }
     };
 
-    //Add logic for doing global search in the table
+    //Add logic for doing global search in the grid
     const globalSearchLogic = (rows, columns, filterValue) => {
         if (filterValue) {
             const searchText = filterValue.toLowerCase();
@@ -505,7 +505,7 @@ const App = memo(() => {
 
     return (
         <Grid
-            tableHeight={tableHeight}
+            gridHeight={gridHeight}
             columns={columns}
             data={data}
             globalSearchLogic={globalSearchLogic}
