@@ -199,13 +199,66 @@ const RightDrawer = (props) => {
       }
     }
   };
-  const DepartureAirportEnabledSave = (enabled) => {
+  const departureAirportEnabledSave = (enabled) => {
     setDepartureAirportEnabled(enabled);
-    if (!dateEnabledSave) {
-      setFromDateTime("");
-      setToDateTime("");
+    if (!departureAirportEnabled) {
+      setDepartureAirport("");
     }
-  };
+  }
+  const departureAirportGroupEnabledSave = (enabled) => {
+    setDepartureAirportGroupEnabled(enabled);
+    if (!departureAirportGroupEnabled) {
+      setDepartureAirportGroup("");
+    }
+  }
+  const departureCityEnabledSave = (enabled) => {
+    setDepartureAirportGroupEnabled(enabled);
+    if (!departureCityEnabled) {
+      setDepartureCity("");
+    }
+  }
+  const departureCityGroupEnabledSave = (enabled) => {
+    setDepartureAirportGroupEnabled(enabled);
+    if (!departureCityGroupEnabled) {
+      setDepartureCityGroup("");
+    }
+  }
+  const departureCountryEnabledSave = (enabled) => {
+    setDepartureCountryEnabled(enabled);
+    if (!departureCountryEnabled) {
+      setDepartureCountry("");
+    }
+  }
+  const arrivalAirportEnabledSave=(enabled)=>{
+    setArrivalAirportEnabled(enabled);
+    if(!arrivalAirportEnabled){
+      setArrivalAirportGroup('')
+    }
+  }
+  const arrivalAirportGroupEnabledSave = (enabled) => {
+    setArrivalAirportGroupEnabled(enabled);
+    if (!arrivalAirportGroupEnabled) {
+      setArrivalAirportGroup("");
+    }
+  }
+  const arrivalCityEnabledSave = (enabled) => {
+    setArrivalAirportGroupEnabled(enabled);
+    if (!arrivalCityEnabled) {
+      setArrivalCity("");
+    }
+  }
+  const arrivalCityGroupEnabledSave = (enabled) => {
+    setArrivalAirportGroupEnabled(enabled);
+    if (!arrivalCityGroupEnabled) {
+      setArrivalCityGroup("");
+    }
+  }
+  const arrivalCountryEnabledSave = (enabled) => {
+    setArrivalCountryEnabled(enabled);
+    if (!arrivalCountryEnabled) {
+      setArrivalCountry("");
+    }
+  }
 
   const revenueConditionSave = (e) => {
       setRevenueCondition(e.target.value);
@@ -251,7 +304,11 @@ const RightDrawer = (props) => {
           clearValues={props.clearValues}
           PortvalueToSave={PortvalueToSave}
           enabled={props.enabled}
-          DepartureAirportEnabledSave={DepartureAirportEnabledSave}
+          departureAirportEnabledSave={departureAirportEnabledSave}
+          departureAirportGroupEnabledSave={departureAirportGroupEnabledSave}
+          departureCityEnabledSave={departureCityEnabledSave}
+          departureCityGroupEnabledSave={departureCityGroupEnabledSave}
+          departureCountryEnabledSave={departureCountryEnabledSave}
         />
         <ArrivalPort
           name={props.name}
@@ -259,6 +316,11 @@ const RightDrawer = (props) => {
           enabled={props.enabled}
           clearValues={props.clearValues}
           PortvalueToSave={PortvalueToSave}
+          arrivalAirportEnabledSave={arrivalAirportEnabledSave}
+          arrivalAirportGroupEnabledSave={arrivalAirportGroupEnabledSave}
+          arrivalCityEnabledSave={arrivalCityEnabledSave}
+          arrivalCityGroupEnabledSave={arrivalCityGroupEnabledSave}
+          arrivalCountryEnabledSave={arrivalCountryEnabledSave}
         />
         <Date
           name={props.name}

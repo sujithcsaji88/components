@@ -25,30 +25,35 @@ const ArrivalPort = (props) => {
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
+          arrivalAirportEnabledSave={props.arrivalAirportEnabledSave}            
         />
         <AirportGroup
           name={name}
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
+          arrivalAirportGroupEnabledSave={props.arrivalAirportGroupEnabledSave}
         />
         <City
           name={name}
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
+          arrivalCityEnabledSave={props.arrivalCityEnabledSave}
         />
         <CityGroup
           name={name}
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
+          arrivalCityGroupEnabledSave={props.arrivalCityGroupEnabledSave}
         />
         <Country
           name={name}
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
+          arrivalCountryEnabledSave={props.arrivalCountryEnabledSave}
         />
       </React.Fragment>
     );
