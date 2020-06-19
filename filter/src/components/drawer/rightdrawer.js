@@ -296,8 +296,8 @@ const RightDrawer = (props) => {
   };
   return (
     <React.Fragment>
+      <div className="filter__title">Searched Filters</div>
       <div className="rightDrawer">
-        <div>Searched Filters</div>
         <DeparturePort
           name={props.name}
           type={props.type}

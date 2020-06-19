@@ -1,5 +1,5 @@
-import React, { useMemo, useState, memo } from "react";
-import sampleData from "./data.json";
+import React, { useMemo, memo } from "react";
+import data from "./data.json";
 import RowOptions from "./components/Cells/RowOptions";
 import Grid from "./components/Grid";
 import SREdit from "./components/Cells/SREdit";
@@ -10,8 +10,8 @@ const App = memo(() => {
     //Check if device is desktop
     const isDesktop = window.innerWidth > 1024;
 
-    //Get table height value, which is a required value
-    const tableHeight = "85vh";
+    //Get grid height value, which is a required value
+    const gridHeight = "85vh";
 
     //Create an array of airports
     const airportCodeList = useMemo(
@@ -366,9 +366,6 @@ const App = memo(() => {
         });
     }
 
-    //Store input JSON data, to handle cell edits
-    const [data, setData] = useState(sampleData);
-
     //Return data that has to be shown in the row expanded region
     const renderExpandedContent = (row) => {
         const { remarks, details } = row.original;
@@ -414,7 +411,7 @@ const App = memo(() => {
         }
     };
 
-    //Add logic for doing global search in the table
+    //Add logic for doing global search in the grid
     const globalSearchLogic = (rows, columns, filterValue) => {
         if (filterValue) {
             const searchText = filterValue.toLowerCase();
@@ -494,17 +491,6 @@ const App = memo(() => {
     //Gets called when there is a cell edit
     const updateCellData = (rowIndex, columnId, value) => {
         console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
-        setData((old) =>
-            old.map((row, index) => {
-                if (index === rowIndex) {
-                    return {
-                        ...old[rowIndex],
-                        [columnId]: value
-                    };
-                }
-                return row;
-            })
-        );
     };
 
     //Gets called when Row option is selected
@@ -519,7 +505,7 @@ const App = memo(() => {
 
     return (
         <Grid
-            tableHeight={tableHeight}
+            gridHeight={gridHeight}
             columns={columns}
             data={data}
             globalSearchLogic={globalSearchLogic}

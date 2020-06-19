@@ -40,7 +40,7 @@ const enableSwitchChange = (e) => {
   }
   if (labelType === "Country") {
     return (
-      <React.Fragment>
+      <div className="filter__input">
         <div className="displayFlex">
           <div className="alignLeft">
             <p>{labelName}</p>
@@ -73,7 +73,7 @@ const enableSwitchChange = (e) => {
             }}
           ></input>
         </div>
-      </React.Fragment>
+      </div>
     );
   } else return <div></div>;
 }

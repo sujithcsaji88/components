@@ -25,12 +25,20 @@
 
 //sideDrawer scss
 
+.filter__wrap{
+  display: flex;
+  .filter__title{
+    border-bottom: #eff1f6 solid 1px;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #7e82a7;
+  }
+}
+
 .sideDrawer {
   box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
-  padding: 0px 15px;
   position: fixed;
-  height: 500px;
-  width: 500px;
   font-size: 14px;
   color: #1f567e;
   line-height: 28px;
@@ -40,7 +48,7 @@
   background: #fff;
   .displayFlex {
     display: flex;
-    margin: 0px 15px 0px 0px;
+    margin: 0px 0px;
     justify-content: space-between;
     .alignLeft {
       display: flex;
@@ -54,22 +62,44 @@
   }
   .leftDrawer {
     list-style: none;
-    padding: 0px;
+    padding: 0 15px;
     overflow-y: scroll;
-    height: 450px;
-    width: 195px;
+    height: 532px;
+    width: 205px;
+    margin-bottom: 0;
+    li{
+      &.selected{
+        font-weight: bold;
+      }
+    }
+  }
+  .filter__inputwrap{
+    padding: 0;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
   .rightDrawer {
-    height: 430px;
+    height: 470px;
     overflow-y: scroll;
     overflow-x: hidden;
     width: 276px;
-    margin-bottom: 20px;
+    margin-top: 5px;
+    .filter__input{
+      margin-top: 7px;
+      padding: 0 10px 15px;
+      border-bottom: #d4d9e8 solid 1px;
+    }
   }
   .rdisplayFlex {
     display: flex;
     margin: 0px;
     justify-content: space-between;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    border-top: #ccc solid 1px;
+    padding-top: 9px;
     .ralignLeft {
       display: flex;
     }
@@ -82,6 +112,15 @@
       .reset {
         color: #47c9c9;
       }
+    }
+  }
+
+  .form-row{
+    border-bottom: #eff1f6 solid 1px;
+    .customControl{
+      border: 0;
+      padding: 0 5px 0 15px;
+      font-size: 14px;
     }
   }
 }
@@ -107,7 +146,7 @@
       font-family: FontAwesome;
       font-weight: bold;
     }
-    .card-header .collapse .show::after {
+    .card-header.show::after {
       content: "\f106";
       color: #1f567e;
       top: 0px;

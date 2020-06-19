@@ -32,7 +32,7 @@ const Revenue = (props) => {
 
   if (labelName === REVENUE) {
     return (
-      <div>
+      <div className="filter__input">
         <div className="displayFlex">
           <div className="alignLeft">
             <Form.Label>

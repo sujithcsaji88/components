@@ -72,15 +72,15 @@ function App() {
     <div ref={ref}>
       {showApplyFilter && (
         <div className="sideDrawer" ref={ref}>
-          <div className="row">
-            <div className="col-md-5 col-lg-5">
+          <div className="filter__wrap">
+            <div className="filter__list">
               <LeftDrawer
                 handleDate={passDate}
                 handleValue={passValues}
                 handleRevenue={passRevenue}
               />
             </div>
-            <div className="col-md-7 col-lg-7">
+            <div className="filter__inputwrap">
               <RightDrawer
                 field={field}
                 condition={condition}

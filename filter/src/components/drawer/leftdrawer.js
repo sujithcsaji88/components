@@ -17,8 +17,8 @@ const LeftDrawer = (props) => {
         <li>
           <Accordion>
             <Card>
-              <Accordion.Toggle as={Card.Header} eventKey="0" >
-                <strong>{filterData.name}</strong>
+              <Accordion.Toggle className="show" as={Card.Header} eventKey="0">
+                {filterData.name}
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0" >
                 <Card.Body>
@@ -28,7 +28,11 @@ const LeftDrawer = (props) => {
                         return (
                           <li
                             onClick={(e) => {
-                              props.handleValue(filterData.name, type.name,filterData.enabled);
+                              props.handleValue(
+                                filterData.name,
+                                type.name,
+                                filterData.enabled
+                              );
                             }}
                           >
                             {type.name}
@@ -46,40 +50,44 @@ const LeftDrawer = (props) => {
       return (
         <li
           onClick={(e) => {
-            props.handleDate(filterData.name, filterData.field,filterData.enabled);
+            props.handleDate(
+              filterData.name,
+              filterData.field,
+              filterData.enabled
+            );
           }}
         >
-          <strong>{filterData.name}</strong>
+          {filterData.name}
         </li>
       );
     } else if (filterData.condition) {
       return (
         <li
           onClick={(e) => {
-            props.handleRevenue(filterData.name, filterData.condition,filterData.enabled);
+            props.handleRevenue(
+              filterData.name,
+              filterData.condition,
+              filterData.enabled
+            );
           }}
         >
-          <strong>{filterData.name}</strong>
+          {filterData.name}
         </li>
       );
     } else {
-      return (
-        <li>
-          <strong>{filterData.name}</strong>
-        </li>
-      );
+      return <li>{filterData.name}</li>;
     }
   });
 
   return (
-    <div className="sideDrawer">
+    <div className="">
       <Form.Row>
         <Form.Control
           required
           type="text"
           placeholder="Search a Filter"
           defaultValue=""
-          className="customControl col-md-5 col-lg-5"
+          className="customControl"
         />
       </Form.Row>
       <div className="row">

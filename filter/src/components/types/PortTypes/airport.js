@@ -36,18 +36,47 @@ export default function Airport(props){
       }
     }
 
-    const closeAirport = () => {
-      setLabelName("");
-      setLabelType("");
-    };
-    if(labelType==='Airport'){
-    return(
-      <div>
-      <div className="displayFlex">
-        <div className="alignLeft">
-          <p>{labelName}</p>
-          <span>&nbsp;&gt;&nbsp;</span>
-          <p>{labelType}</p>
+  const enableSwitchChange = (e) => {
+    setEnabled(e.target.checked);
+    if (!enabled) {
+      setTextStatus(false);
+    } else {
+      setTextStatus(true);
+    }
+  };
+
+  const closeAirport = () => {
+    setLabelName("");
+    setLabelType("");
+  };
+  if (labelType === "Airport") {
+    return (
+      <div className="filter__input">
+        <div className="displayFlex">
+          <div className="alignLeft">
+            <p>{labelName}</p>
+            <span>&nbsp;&gt;&nbsp;</span>
+            <p>{labelType}</p>
+          </div>
+          <div className="marginLeft">
+            <Form.Check
+              type="switch"
+              id="date"
+              label=""
+              checked={enabled}
+              onClick={(e) => {
+                enableSwitchChange(e);
+                props.departureAirportEnabledSave(e.target.checked);
+              }}
+            />
+            <FontAwesomeIcon
+              icon={faTimes}
+              onClick={() => {
+                closeAirport();
+                props.clearValues();
+              }}
+            />
+          </div>
         </div>
         <div className="marginLeft">
         <Form.Check type="switch" id={switchId} label="" checked={enabled} onClick={(e) => {
@@ -63,7 +92,6 @@ export default function Airport(props){
             }}
           />
         </div>
-      </div>
       <div className="displayFlex">
         <input
           disabled={textStatus}
