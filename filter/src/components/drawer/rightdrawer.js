@@ -146,6 +146,19 @@ const RightDrawer = (props) => {
   const [revenueEnabled, setRevenueEnabled] = useState(true);
   const [popupStatus, setPopupStatus] = useState(false);
   const [fileName, setFileName] = useState();
+
+  if(props.isReset === true){
+    // //resetting all the values on RESET to undefined to remove old data
+    // setDepartureAirport(undefined); setDepartureAirportGroup(undefined); setDepartureCity(undefined);
+    // setDepartureCityGroup(undefined); setDepartureCountry(undefined);
+    // setArrivalAirport(undefined); setArrivalAirportGroup(undefined); setArrivalCity(undefined)
+    // setArrivalCityGroup(undefined); setArrivalCountry(undefined);
+    // setRevenueCondition(undefined);setRevenueAmount(undefined);
+    // setFromDateTime(undefined); setToDateTime(undefined);
+    // //making isReset=False to prevent infinite rendering 
+    // props.setIsResetFalse();
+  }
+
   const PortvalueToSave = (e, name, type) => {
     if (name === DEPARTURE_PORT) {
       if (type === AIRPORT) {
@@ -315,6 +328,7 @@ const RightDrawer = (props) => {
       <div className="filter__title">Searched Filters</div>
       <div className="rightDrawer">
         <DeparturePort
+          isReset={props.isReset}
           name={props.name}
           type={props.type}
           clearValues={props.clearValues}
@@ -323,6 +337,7 @@ const RightDrawer = (props) => {
           departureAirportEnabledSave={departureAirportEnabledSave}
         />
         <ArrivalPort
+          isReset={props.isReset}
           name={props.name}
           type={props.type}
           enabled={props.enabled}
@@ -330,6 +345,7 @@ const RightDrawer = (props) => {
           PortvalueToSave={PortvalueToSave}
         />
         <Date
+          isReset={props.isReset}
           name={props.name}
           field={props.field}
           enabled={props.enabled}
@@ -338,6 +354,7 @@ const RightDrawer = (props) => {
           dateEnabledSave={dateEnabledSave}
         />
         <Revenue
+          isReset={props.isReset}
           name={props.name}
           condition={props.condition}
           enabled={props.enabled}
@@ -357,7 +374,7 @@ const RightDrawer = (props) => {
           </Button>
         </div>
         <div className="rmarginLeft">
-          <Button variant="" className="reset">
+          <Button variant="" className="reset" onClick={props.clearAllFilter}>
             Reset
           </Button>
           <Button variant="" className="applyFilter"

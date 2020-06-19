@@ -11,10 +11,16 @@ const DeparturePort = (props) => {
   const [type, setType] = useState();
 
   useEffect(() => {
-    if (props.name === DEPARTURE_PORT) {
-      setName(props.name);
-      setType(props.type);
-    }
+    if(props.name){
+      if(props.isReset === true){
+         setName("")
+         setType("") 
+      }
+      else if(props.name===DEPARTURE_PORT){
+        setName(props.name)
+        setType(props.type)
+      }
+  }
   }, [props]);
 
   if (name === DEPARTURE_PORT) {
