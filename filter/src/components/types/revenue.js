@@ -10,10 +10,16 @@ const Revenue = (props) => {
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   useEffect(() => {
-    if (props.name === REVENUE) {
+    if (props.name) {
+      if(props.isReset === true){
+      setLabelName("")
+      setCondition("")
+      }
+      else if(props.name === REVENUE){
       setLabelName(props.name);
-      setCondition(props.condition);
-      setEnabled(props.enabled);
+      setCondition(props.condition)
+     
+    } 
     }
   }, [props]);
 

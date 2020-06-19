@@ -11,10 +11,16 @@ const Date = (props) => {
   const [textStatus, setTextStatus] = useState(false);
   
   useEffect(() => {
-    if (props.name === DATE) {
+    if (props.name) {
+      if(props.isReset === true){
+        setLabelName("");
+       setField("")
+      }
+      else if(props.name === DATE){
       setLabelName(props.name);
-      setField(props.field);
+      setField(props.field)
     }
+  }
   }, [props]);
 
   const closeDate = () => {

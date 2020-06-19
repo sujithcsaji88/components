@@ -40,19 +40,23 @@ function App() {
   const [field, setField] = useState();
   const [condition, setCondition] = useState();
   const [enabled, setEnabled] = useState();
+  const [isReset, setIsReset] = useState(false);
 
   const passValues = (filterName, filterType, enabled) => {
+    setIsResetFalse();
     setLabelName(filterName);
     setLabelType(filterType);
     setEnabled(enabled);
   };
 
   const passDate = (filterName, field, enabled) => {
+    setIsResetFalse();
     setLabelName(filterName);
     setField(field);
     setEnabled(enabled);
   };
   const passRevenue = (filterName, condition, enabled) => {
+    setIsResetFalse();
     setLabelName(filterName);
     setCondition(condition);
     setEnabled(enabled);
@@ -65,6 +69,15 @@ function App() {
   const clearName = () => {
     setLabelName("");
   };
+
+  const clearAllFilter =()=>{
+    console.log("CLEAR ALL FILTER ");
+    setIsReset(true);
+  }
+
+  const setIsResetFalse=()=>{
+    setIsReset(false);
+  }
 
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
@@ -82,6 +95,9 @@ function App() {
             </div>
             <div className="filter__inputwrap">
               <RightDrawer
+                clearAllFilter={clearAllFilter}
+                setIsResetFalse={setIsResetFalse}
+                isReset={isReset}
                 field={field}
                 condition={condition}
                 enabled={enabled}

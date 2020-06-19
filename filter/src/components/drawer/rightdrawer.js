@@ -148,9 +148,22 @@ const RightDrawer = (props) => {
   const [fromDateTime, setFromDateTime] = useState();
   const [toDateTimeName,setToDateTimeName]=useState();
   const [toDateTime, setToDateTime] = useState();
-  const [dateEnabled, setDateEnabled] = useState();
-  const [revenueEnabled, setRevenueEnabled] = useState();
-  const PortvalueToSave = (e,name,type,enabled) => {
+  const [dateEnabled, setDateEnabled] = useState(true);
+  const [revenueEnabled, setRevenueEnabled] = useState(true);
+
+  if(props.isReset === true){
+    // //resetting all the values on RESET to undefined to remove old data
+    // setDepartureAirport(undefined); setDepartureAirportGroup(undefined); setDepartureCity(undefined);
+    // setDepartureCityGroup(undefined); setDepartureCountry(undefined);
+    // setArrivalAirport(undefined); setArrivalAirportGroup(undefined); setArrivalCity(undefined)
+    // setArrivalCityGroup(undefined); setArrivalCountry(undefined);
+    // setRevenueCondition(undefined);setRevenueAmount(undefined);
+    // setFromDateTime(undefined); setToDateTime(undefined);
+    // //making isReset=False to prevent infinite rendering 
+    // props.setIsResetFalse();
+  }
+
+  const PortvalueToSave = (e, name, type,enabled) => {
     if (name === DEPARTURE_PORT) {
       setDeparturePortName(name);
       if (type === AIRPORT) {
@@ -294,11 +307,111 @@ const RightDrawer = (props) => {
       setRevenueAmount("");
     }
   };
+
+  const collectFilterAttributesToMap = () => {
+    var filter = [], typeArrival = [], typeDeparture = [], fieldList=[], obj = {};
+
+      if(fromDateTime !== undefined)
+        fieldList.push({"column": "From Date & Time", "value": fromDateTime});
+      
+      if(toDateTime !== undefined)
+        fieldList.push({"column": "To Date & Time", "value": toDateTime});
+
+    var departureEntitiesNameList = [
+      { entityName: "departureAirport", entityValue: departureAirport },
+      { entityName: "departureAirportGroup", entityValue: departureAirportGroup },
+      { entityName: "departureCity", entityValue: departureCity },
+      { entityName: "departureCityGroup", entityValue: departureCityGroup },
+      { entityName: "departureCountry", entityValue: departureCountry }
+    ];
+
+    var arrivalEntitiesNameList = [
+      { entityName: "arrivalAirport", entityValue: arrivalAirport },
+      { entityName: "arrivalAirportGroup", entityValue: arrivalAirportGroup },
+      { entityName: "arrivalCity", entityValue: arrivalCity },
+      { entityName: "arrivalCityGroup", entityValue: arrivalCityGroup },
+      { entityName: "arrivalCountry", entityValue: arrivalCountry }
+    ];
+
+    departureEntitiesNameList.map(item => {
+      if( constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`) !== undefined)
+        typeDeparture.push(
+          constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`));
+    });
+
+    arrivalEntitiesNameList.map(item => {
+      if( constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`) !== undefined)
+        typeArrival.push(
+          constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`));
+    })
+
+    if(typeDeparture.length>0){
+      obj["column"] = "Departure Port"
+      obj["types"] = typeDeparture;
+      filter.push(obj);
+    }
+
+    obj = {}; //nullifying obj for reuse
+
+    if(typeArrival.length>0){
+      obj["column"] = "Arrival Port"
+      obj["types"] = typeArrival;
+      filter.push(obj);
+    }
+
+    obj = {}; //nullifying obj for reuse
+
+    if(fieldList.length>0){
+      obj["column"] = "Date"
+      obj["field"] = fieldList;
+      filter.push(obj);
+    }
+    
+    obj = {}; //nullifying obj for reuse
+
+    if(revenueCondition!==undefined){
+      obj["column"] = "Revenue";
+      obj["condition"] = revenueCondition;
+      obj["value"]=revenueAmount != undefined ? revenueAmount : 0
+      filter.push(obj);
+    }
+    obj = {}; //nullifying obj for reuse
+
+    obj["filter"] = filter
+    console.log("filterJson ", obj)
+  }
+
+  const constructAirportListEntities = (mapColumValue, mapEntityValue) => {
+    var obj = {}, key = "";
+    //dont use === in comparison; Intentionally did !=
+    if(mapEntityValue !== "undefined"){
+      if (mapColumValue.includes("AirportGroup")) {
+        key = "Airport Group";
+      }
+      else if (mapColumValue.includes("CityGroup")) {
+        key = "City Group";
+      }
+      else if (mapColumValue.includes("Airport")) {
+        key = "Airport"
+      }
+      else if (mapColumValue.includes("City")) {
+        key = "City"
+      }
+      else if (mapColumValue.includes("Country")) {
+        key = "Country"
+      }
+      obj["column"] = key;
+      obj["value"] = mapEntityValue
+      return obj;
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="filter__title">Searched Filters</div>
       <div className="rightDrawer">
         <DeparturePort
+          isReset={props.isReset}
           name={props.name}
           type={props.type}
           clearValues={props.clearValues}
@@ -311,6 +424,7 @@ const RightDrawer = (props) => {
           departureCountryEnabledSave={departureCountryEnabledSave}
         />
         <ArrivalPort
+          isReset={props.isReset}
           name={props.name}
           type={props.type}
           enabled={props.enabled}
@@ -323,6 +437,7 @@ const RightDrawer = (props) => {
           arrivalCountryEnabledSave={arrivalCountryEnabledSave}
         />
         <Date
+          isReset={props.isReset}
           name={props.name}
           field={props.field}
           enabled={props.enabled}
@@ -331,6 +446,7 @@ const RightDrawer = (props) => {
           dateEnabledSave={dateEnabledSave}
         />
         <Revenue
+          isReset={props.isReset}
           name={props.name}
           condition={props.condition}
           enabled={props.enabled}
@@ -347,10 +463,12 @@ const RightDrawer = (props) => {
           </Button>
         </div>
         <div className="rmarginLeft">
-          <Button variant="" className="reset">
+          <Button variant="" className="reset" onClick={props.clearAllFilter}>
             Reset
           </Button>
-          <Button variant="" className="applyFilter">
+          <Button variant="" className="applyFilter"
+          onClick={() => collectFilterAttributesToMap()}
+          >
             Apply Filter
           </Button>
         </div>
