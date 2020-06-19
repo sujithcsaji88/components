@@ -211,6 +211,105 @@ const RightDrawer = (props) => {
   const setFileNameFunc = (e) => {
     setFileName(e.target.value);
   };
+
+  const collectFilterAttributesToMap = () => {
+    var filter = [], typeArrival = [], typeDeparture = [], fieldList=[], obj = {};
+
+      if(fromDateTime !== undefined)
+        fieldList.push({"column": "From Date & Time", "value": fromDateTime});
+      
+      if(toDateTime !== undefined)
+        fieldList.push({"column": "To Date & Time", "value": toDateTime});
+
+    var departureEntitiesNameList = [
+      { entityName: "departureAirport", entityValue: departureAirport },
+      { entityName: "departureAirportGroup", entityValue: departureAirportGroup },
+      { entityName: "departureCity", entityValue: departureCity },
+      { entityName: "departureCityGroup", entityValue: departureCityGroup },
+      { entityName: "departureCountry", entityValue: departureCountry }
+    ];
+
+    var arrivalEntitiesNameList = [
+      { entityName: "arrivalAirport", entityValue: arrivalAirport },
+      { entityName: "arrivalAirportGroup", entityValue: arrivalAirportGroup },
+      { entityName: "arrivalCity", entityValue: arrivalCity },
+      { entityName: "arrivalCityGroup", entityValue: arrivalCityGroup },
+      { entityName: "arrivalCountry", entityValue: arrivalCountry }
+    ];
+
+    departureEntitiesNameList.map(item => {
+      if( constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`) !== undefined)
+        typeDeparture.push(
+          constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`));
+    });
+
+    arrivalEntitiesNameList.map(item => {
+      if( constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`) !== undefined)
+        typeArrival.push(
+          constructAirportListEntities(`${item.entityName}`, `${item.entityValue}`));
+    })
+
+    if(typeDeparture.length>0){
+      obj["column"] = "Departure Port"
+      obj["types"] = typeDeparture;
+      filter.push(obj);
+    }
+
+    obj = {}; //nullifying obj for reuse
+
+    if(typeArrival.length>0){
+      obj["column"] = "Arrival Port"
+      obj["types"] = typeArrival;
+      filter.push(obj);
+    }
+
+    obj = {}; //nullifying obj for reuse
+
+    if(fieldList.length>0){
+      obj["column"] = "Date"
+      obj["field"] = fieldList;
+      filter.push(obj);
+    }
+    
+    obj = {}; //nullifying obj for reuse
+
+    if(revenueCondition!==undefined){
+      obj["column"] = "Revenue";
+      obj["condition"] = revenueCondition;
+      obj["value"]=revenueAmount != undefined ? revenueAmount : 0
+      filter.push(obj);
+    }
+    obj = {}; //nullifying obj for reuse
+
+    obj["filter"] = filter
+    console.log("filterJson ", obj)
+  }
+
+  const constructAirportListEntities = (mapColumValue, mapEntityValue) => {
+    var obj = {}, key = "";
+    //dont use === in comparison; Intentionally did !=
+    if(mapEntityValue !== "undefined"){
+      if (mapColumValue.includes("AirportGroup")) {
+        key = "Airport Group";
+      }
+      else if (mapColumValue.includes("CityGroup")) {
+        key = "City Group";
+      }
+      else if (mapColumValue.includes("Airport")) {
+        key = "Airport"
+      }
+      else if (mapColumValue.includes("City")) {
+        key = "City"
+      }
+      else if (mapColumValue.includes("Country")) {
+        key = "Country"
+      }
+      obj["column"] = key;
+      obj["value"] = mapEntityValue
+      return obj;
+    }
+  }
+
   return (
     <React.Fragment>
       <div className="filter__title">Searched Filters</div>
@@ -261,7 +360,9 @@ const RightDrawer = (props) => {
           <Button variant="" className="reset">
             Reset
           </Button>
-          <Button variant="" className="applyFilter">
+          <Button variant="" className="applyFilter"
+          onClick={() => collectFilterAttributesToMap()}
+          >
             Apply Filter
           </Button>
         </div>
