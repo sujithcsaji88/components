@@ -1,5 +1,5 @@
-import React, { useMemo, useState, memo } from "react";
-import sampleData from "./data.json";
+import React, { useMemo, memo } from "react";
+import data from "./data.json";
 import RowOptions from "./components/Cells/RowOptions";
 import Grid from "./components/Grid";
 import SREdit from "./components/Cells/SREdit";
@@ -366,9 +366,6 @@ const App = memo(() => {
         });
     }
 
-    //Store input JSON data, to handle cell edits
-    const [data, setData] = useState(sampleData);
-
     //Return data that has to be shown in the row expanded region
     const renderExpandedContent = (row) => {
         const { remarks, details } = row.original;
@@ -494,17 +491,6 @@ const App = memo(() => {
     //Gets called when there is a cell edit
     const updateCellData = (rowIndex, columnId, value) => {
         console.log(rowIndex + " " + columnId + " " + JSON.stringify(value));
-        setData((old) =>
-            old.map((row, index) => {
-                if (index === rowIndex) {
-                    return {
-                        ...old[rowIndex],
-                        [columnId]: value
-                    };
-                }
-                return row;
-            })
-        );
     };
 
     //Gets called when Row option is selected
