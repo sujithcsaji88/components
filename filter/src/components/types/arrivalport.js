@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { ARRIVAL_PORT } from "../../constants/filtertypeconstants";
-import Airport from "./porttypes/airport";
-import AirportGroup from "./porttypes/airportGroup";
-import City from "./porttypes/city";
-import CityGroup from "./porttypes/cityGroup";
-import Country from "./porttypes/country";
+import Airport from "./PortTypes/airport";
+import AirportGroup from "./PortTypes/airportGroup";
+import City from "./PortTypes/city";
+import CityGroup from "./PortTypes/cityGroup";
+import Country from "./PortTypes/country";
 
 const ArrivalPort = (props) => {
   const [name, setName] = useState();
   const [type, setType] = useState();
 
   useEffect(() => {
-    if (props.name === ARRIVAL_PORT) {
-      setName(props.name);
-      setType(props.type);
+    if(props.name){
+      if(props.isReset === true){
+        setName("")
+        setType("")
+     }
+    else if(props.name===ARRIVAL_PORT){
+    setName(props.name)
+    setType(props.type)
     }
+  }
   }, [props]);
 
   if (name === ARRIVAL_PORT) {
