@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
 import SavedFilters from "./SavedFilters";
 
 const MainFilterPanel = (props) => {
   const [listFilter, setListFilter] = useState(false);
+  let listRef=useRef();
+  useEffect(
+    ()=>{
+      document.addEventListener("mousedown",()=>{
+          setListFilter(false)
+      })
+    }
+  );
 
+  
   return (
     <div className="list">
       <div className="displayFlex">
         <div className="alignLeft">
           <FontAwesomeIcon
+            
             icon={faAlignLeft}
             onClick={() => setListFilter(true)}
           />
-          <SavedFilters showFilter={listFilter} />
+          <SavedFilters   showFilter={listFilter} />
           <div className="leftSpace">All flights</div>
         </div>
         {/* <div className="marginLeft">

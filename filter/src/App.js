@@ -15,7 +15,6 @@ function useComponentVisible() {
 
     }
   };
-
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setApplyFilter(false);
