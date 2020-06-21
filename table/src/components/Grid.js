@@ -14,6 +14,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import RowSelector from "./Cells/RowSelector";
 import DefaultColumnFilter from "./Functions/DefaultColumnFilter";
 import GlobalFilter from "./Functions/GlobalFilter";
+import "./tablestyles.css";
 
 const listRef = createRef();
 
