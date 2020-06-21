@@ -1,10 +1,10 @@
 import React, { useMemo, memo } from "react";
 import data from "./data.json";
-import RowOptions from "./components/Cells/RowOptions";
+import RowOptions from "./cells/RowOptions";
 import Grid from "./components/Grid";
-import SREdit from "./components/Cells/SREdit";
-import FlightEdit from "./components/Cells/FlightEdit";
-import SegmentEdit from "./components/Cells/SegmentEdit";
+import SREdit from "./cells/SREdit";
+import FlightEdit from "./cells/FlightEdit";
+import SegmentEdit from "./cells/SegmentEdit";
 
 const App = memo(() => {
     //Check if device is desktop

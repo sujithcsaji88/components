@@ -1,8 +1,8 @@
 import React, { useState, memo } from "react";
 import ClickAwayListener from "react-click-away-listener";
-import RowDelete from "../../images/RowDelete.svg";
-import RowEdit from "../../images/RowEdit.svg";
-import RowPin from "../../images/RowPin.png";
+import RowDelete from "../images/RowDelete.svg";
+import RowEdit from "../images/RowEdit.svg";
+import RowPin from "../images/RowPin.png";
 
 const RowOptions = memo((props) => {
     const { row, updateRowData } = props;
