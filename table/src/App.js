@@ -505,6 +505,7 @@ const App = memo(() => {
 
     return (
         <Grid
+            title="AWBs"
             gridHeight={gridHeight}
             columns={columns}
             data={data}

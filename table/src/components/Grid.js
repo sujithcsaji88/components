@@ -19,6 +19,7 @@ const listRef = createRef();
 
 const Grid = memo((props) => {
     const {
+        title,
         gridHeight,
         columns,
         data,
@@ -122,7 +123,7 @@ const Grid = memo((props) => {
                 <div className="results">
                     <div className="name">
                         <strong>{rows.length}</strong>
-                        <span> AWBs</span>
+                        <span> {title ? title : "Rows"}</span>
                     </div>
                 </div>
                 <div className="filter-utilities">
