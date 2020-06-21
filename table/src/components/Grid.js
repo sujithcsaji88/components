@@ -14,8 +14,6 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import RowSelector from "./Cells/RowSelector";
 import DefaultColumnFilter from "./Functions/DefaultColumnFilter";
 import GlobalFilter from "./Functions/GlobalFilter";
-import FilterIcon from "../images/FilterIcon.svg";
-import TableViewIcon from "../images/TableViewIcon.png";
 
 const listRef = createRef();
 
@@ -130,14 +128,7 @@ const Grid = memo((props) => {
                 <div className="filter-utilities">
                     <GlobalFilter globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
                     <div className="filter-icon keyword-search" onClick={toggleColumnFilter}>
-                        <i>
-                            <img src={FilterIcon} alt="cargo" />
-                        </i>
-                    </div>
-                    <div className="filter-icon table-view">
-                        <i>
-                            <img src={TableViewIcon} alt="cargo" />
-                        </i>
+                        <i className="fa fa-filter" aria-hidden="true"></i>
                     </div>
                     <div className="filter-icon bulk-select" onClick={bulkSelector}>
                         <i className="fa fa-pencil-square-o"></i>
