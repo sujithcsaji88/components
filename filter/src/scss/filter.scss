@@ -269,6 +269,7 @@ label {
 
 .custom-switch {
   padding: 0px !important;
+  margin-right: 20px;
 }
 
 .custom-control {
@@ -366,4 +367,9 @@ label {
       }
     }
   }
+}
+
+.fa-times {
+  vertical-align: top;
+  margin-top: 1px;
 }
