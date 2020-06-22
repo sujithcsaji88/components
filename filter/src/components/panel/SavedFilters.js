@@ -1,4 +1,4 @@
-import React from "react";
+import React from  "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 
@@ -106,7 +106,9 @@ const SavedFilters = (props) => {
       </div>
     );
   }
-  else return <div></div>
+  else {
+    return <div></div>
+  }
 };
 
 export default SavedFilters;

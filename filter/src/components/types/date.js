@@ -26,7 +26,6 @@ const Date = (props) => {
   const closeDate = () => {
     setLabelName("");
     setField("");
-    setEnabled(false);
   };
 
   const enableSwitchChange = (e) => {
@@ -38,7 +37,7 @@ const Date = (props) => {
     }
   };
 
-  if (labelName === DATE) {
+  if (labelName === DATE ) {
     return (
       <div className="filter__input" >
         <div className="displayFlex" key={1} >
@@ -78,7 +77,7 @@ const Date = (props) => {
                 <Form.Control
                 disabled={textStatus}
                   required
-                  type="text"
+                  type="date"
                   defaultValue=""
                   className="col-lg-7 mr-3"
                   onChange={(e) => { props.dateSave(e,field.name,labelName,enabled);              
@@ -90,7 +89,12 @@ const Date = (props) => {
         })}
       </div>
     );
-  } else {
+  } 
+  
+  else if (props.isReset === true) {
+    return <div></div>;
+  }
+  else {
     return <div></div>;
   }
 };

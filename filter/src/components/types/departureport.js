@@ -32,6 +32,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureAirportEnabledSave={props.departureAirportEnabledSave}
+          isReset={props.isReset}  
         />
         <AirportGroup
           name={name}
@@ -39,6 +40,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureAirportGroupEnabledSave={props.departureAirportGroupEnabledSave}
+          isReset={props.isReset}  
         />
         <City
           name={name}
@@ -46,6 +48,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureCityEnabledSave={props.departureCityEnabledSave}
+          isReset={props.isReset}  
         />
         <CityGroup
           name={name}
@@ -53,6 +56,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureCityGroupEnabledSave={props.departureCityGroupEnabledSave}
+          isReset={props.isReset}  
         />
         <Country
           name={name}
@@ -60,6 +64,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureCountryEnabledSave={props.departureCountryEnabledSave}
+          isReset={props.isReset}  
         />
       </React.Fragment>
     );

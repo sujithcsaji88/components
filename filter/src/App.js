@@ -15,7 +15,6 @@ function useComponentVisible() {
 
     }
   };
-
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setApplyFilter(false);
@@ -71,8 +70,7 @@ function App() {
   };
 
   const clearAllFilter =()=>{
-    console.log("CLEAR ALL FILTER ");
-    setIsReset(true);
+    setIsReset(true); 
   }
 
   const setIsResetFalse=()=>{

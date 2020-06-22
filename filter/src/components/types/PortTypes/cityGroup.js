@@ -64,7 +64,7 @@ export default function CityGroup(props) {
         </div>
         <div className="displayFlex">
           <input
-          disable={textStatus.toString()}
+          disabled={textStatus}
             type="text"
             className="form-control"
             onChange={(e) => {
@@ -74,5 +74,9 @@ export default function CityGroup(props) {
         </div>
       </div>
     );
-  } else return <div></div>;
+  } 
+  else if (props.isReset === true) {
+    return <div></div>;
+  }
+  else return <div></div>;
 }
