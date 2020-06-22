@@ -105,9 +105,8 @@ const SavedFilters = (props) => {
         </div>
       </div>
     );
-  }
-  else {
-    return <div></div>
+  } else {
+    return <div></div>;
   }
 };
 

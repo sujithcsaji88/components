@@ -1,57 +1,55 @@
-.popup--save{
+.popup--save {
   position: absolute;
-    bottom: 55px;
-    right: 17px;
-    padding: 10px 15px;
-    text-align: left;
-    width: 292px;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
+  bottom: 55px;
+  right: 17px;
+  padding: 10px 15px;
+  text-align: left;
+  width: 292px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
 
-    h5{
-      color: rgba(40, 46, 108, 0.749019607843137);
-      font-weight: 700;
-      font-style: normal;
-      font-size: 14px;
-    }
-    label{
-      font-weight: 400;
+  h5 {
+    color: rgba(40, 46, 108, 0.749019607843137);
+    font-weight: 700;
+    font-style: normal;
+    font-size: 14px;
+  }
+  label {
+    font-weight: 400;
     font-style: normal;
     font-size: 14px;
     color: rgba(40, 46, 108, 0.996078431372549);
-
-    }
-    .txt{
-      margin-bottom: 10px;
+  }
+  .txt {
+    margin-bottom: 10px;
     border: #ccc solid 1px;
     border-radius: 3px;
-    }
-    .button{
+  }
+  .button {
     border: #2680e8 solid 1px;
     background: transparent;
     border-radius: 3px;
     color: #2680e8;
     width: 65px;
     margin-left: 3px;
-    }
-    .btn-wrap{
-      display: flex;
-      justify-content: flex-end;
-    }
+  }
+  .btn-wrap {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
-.button-save{
-  span{
+.button-save {
+  span {
     display: block;
     font-size: 9px;
   }
 }
-
 
 * {
   font-family: "Segoe UI";
@@ -78,16 +76,15 @@
   scroll-behavior: smooth;
 }
 
-
-.filter__wrap{
+.filter__wrap {
   display: flex;
-  .filter__title{
+  .filter__title {
     border-bottom: #eff1f6 solid 1px;
     padding: 4px 10px;
     text-transform: uppercase;
     font-size: 12px;
     color: #7e82a7;
-    .filter-count{
+    .filter-count {
       border: #c5cadf 1px solid;
       padding: 2px 10px;
       border-radius: 9px;
@@ -129,13 +126,13 @@
     height: 532px;
     width: 205px;
     margin-bottom: 0;
-    li{
-      &.selected{
+    li {
+      &.selected {
         font-weight: bold;
       }
     }
   }
-  .filter__inputwrap{
+  .filter__inputwrap {
     padding: 0;
     z-index: 99;
     display: flex;
@@ -148,32 +145,35 @@
     overflow-x: hidden;
     width: 291px;
     margin-top: 5px;
-    .filter__input{
+    .filter__input {
       margin-top: 7px;
       padding: 0 10px 15px;
       border-bottom: #d4d9e8 solid 1px;
     }
     .custom-switch .custom-control-label::after {
-    width: 16px;
-    height: 16px;
-    border: #aaadc5 solid 1px;
-    top: -2px;
-    left:-37px;
-    }
-
-    .custom-switch .custom-control-input:checked~.custom-control-label::after
-    { width: 16px;
+      width: 16px;
       height: 16px;
       border: #aaadc5 solid 1px;
-      top: -2px;    
-      transform: translateX(.81rem);  
+      top: -2px;
+      left: -37px;
     }
-    .custom-control-label::before{
+
+    .custom-switch
+      .custom-control-input:checked
+      ~ .custom-control-label::after {
+      width: 16px;
+      height: 16px;
+      border: #aaadc5 solid 1px;
+      top: -2px;
+      transform: translateX(0.81rem);
+    }
+    .custom-control-label::before {
       height: 2px;
     }
-    input:before:focus{outline: none;
-    box-shadow: none;}
-    
+    input:before:focus {
+      outline: none;
+      box-shadow: none;
+    }
   }
   .filter__btn {
     display: flex;
@@ -194,7 +194,7 @@
         background: #00b4b4;
         color: #fff;
         height: 37px;
-    padding: 6px 15px 10px;
+        padding: 6px 15px 10px;
       }
       .reset {
         color: #47c9c9;
@@ -202,9 +202,9 @@
     }
   }
 
-  .form-row{
+  .form-row {
     border-bottom: #eff1f6 solid 1px;
-    .customControl{
+    .customControl {
       border: 0;
       padding: 0 5px 0 15px;
       font-size: 14px;
@@ -367,4 +367,3 @@ label {
     }
   }
 }
-

@@ -11,15 +11,13 @@ const Revenue = (props) => {
   const [textStatus, setTextStatus] = useState(false);
   useEffect(() => {
     if (props.name) {
-      if(props.isReset === true){
-      setLabelName("")
-      setCondition("")
+      if (props.isReset === true) {
+        setLabelName("");
+        setCondition("");
+      } else if (props.name === REVENUE) {
+        setLabelName(props.name);
+        setCondition(props.condition);
       }
-      else if(props.name === REVENUE){
-      setLabelName(props.name);
-      setCondition(props.condition)
-     
-    } 
     }
   }, [props]);
 
@@ -90,18 +88,17 @@ const Revenue = (props) => {
               required
               type="text"
               defaultValue=""
-              onChange={(e) => { props.revenueAmountSave(e,labelName,enabled) }}
+              onChange={(e) => {
+                props.revenueAmountSave(e, labelName, enabled);
+              }}
             />
           </Form.Group>
         </div>
       </div>
     );
-  }
-  
-  else if (props.isReset === true) {
+  } else if (props.isReset === true) {
     return <div></div>;
-  }
-  else return <div></div>;
+  } else return <div></div>;
 };
 
 export default Revenue;

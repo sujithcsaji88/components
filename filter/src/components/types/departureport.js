@@ -11,16 +11,15 @@ const DeparturePort = (props) => {
   const [type, setType] = useState();
 
   useEffect(() => {
-    if(props.name){
-      if(props.isReset === true){
-         setName("")
-         setType("") 
+    if (props.name) {
+      if (props.isReset === true) {
+        setName("");
+        setType("");
+      } else if (props.name === DEPARTURE_PORT) {
+        setName(props.name);
+        setType(props.type);
       }
-      else if(props.name===DEPARTURE_PORT){
-        setName(props.name)
-        setType(props.type)
-      }
-  }
+    }
   }, [props]);
 
   if (name === DEPARTURE_PORT) {
@@ -32,15 +31,17 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureAirportEnabledSave={props.departureAirportEnabledSave}
-          isReset={props.isReset}  
+          isReset={props.isReset}
         />
         <AirportGroup
           name={name}
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
-          departureAirportGroupEnabledSave={props.departureAirportGroupEnabledSave}
-          isReset={props.isReset}  
+          departureAirportGroupEnabledSave={
+            props.departureAirportGroupEnabledSave
+          }
+          isReset={props.isReset}
         />
         <City
           name={name}
@@ -48,7 +49,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureCityEnabledSave={props.departureCityEnabledSave}
-          isReset={props.isReset}  
+          isReset={props.isReset}
         />
         <CityGroup
           name={name}
@@ -56,7 +57,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureCityGroupEnabledSave={props.departureCityGroupEnabledSave}
-          isReset={props.isReset}  
+          isReset={props.isReset}
         />
         <Country
           name={name}
@@ -64,7 +65,7 @@ const DeparturePort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           departureCountryEnabledSave={props.departureCountryEnabledSave}
-          isReset={props.isReset}  
+          isReset={props.isReset}
         />
       </React.Fragment>
     );
