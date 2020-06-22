@@ -222,7 +222,7 @@ const RightDrawer = (props) => {
   };
 
 
-  const saveApplyFilterMap = () => {
+  const saveApplyFilterMap = (className) => {
     setShowSavePopup("none")
     let filter = [], typeArrival = [], typeDeparture = [], fieldList=[], obj = {};
 
@@ -293,8 +293,14 @@ const RightDrawer = (props) => {
     }
     obj = {}; //nullifying obj for reuse
 
-    obj["filter"] = filter
-    console.log(saveFilterName, obj)
+    if(className==="applyFilter"){
+      obj["applyFilter"] = filter;
+      console.log(obj)
+    }
+    else{ 
+      obj[saveFilterName]=filter;
+      console.log(obj)
+    }
   }
   const constructPortListEntities = (mapColumn, mapValue,enabled) => {
     let obj = {}, key = "";
@@ -390,7 +396,7 @@ const RightDrawer = (props) => {
             Reset
           </Button>
           <Button variant="" className="applyFilter"
-          onClick={() => saveApplyFilterMap()}
+          onClick={() => saveApplyFilterMap("applyFilter")}
           >
             Apply Filter
           </Button>
