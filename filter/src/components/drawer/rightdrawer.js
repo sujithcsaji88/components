@@ -301,6 +301,7 @@ const RightDrawer = (props) => {
       obj[saveFilterName]=filter;
       console.log(obj)
     }
+    props.captureFilterMap(obj);
   }
   const constructPortListEntities = (mapColumn, mapValue,enabled) => {
     let obj = {}, key = "";

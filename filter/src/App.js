@@ -40,6 +40,7 @@ function App() {
   const [condition, setCondition] = useState();
   const [enabled, setEnabled] = useState();
   const [isReset, setIsReset] = useState(false);
+  const [filterMap, setFilterMap]=useState();
 
   const passValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
@@ -77,6 +78,10 @@ function App() {
     setIsReset(false);
   }
 
+  const captureFilterMap=(map)=>{
+    setFilterMap(map);
+  }
+
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
   return (
@@ -93,6 +98,7 @@ function App() {
             </div>
             <div className="filter__inputwrap">
               <RightDrawer
+                captureFilterMap={captureFilterMap}
                 clearAllFilter={clearAllFilter}
                 setIsResetFalse={setIsResetFalse}
                 isReset={isReset}
@@ -108,7 +114,7 @@ function App() {
           </div>
         </div>
       )}
-      <MainFilterPanel click={() => setApplyFilter(true)} />
+      <MainFilterPanel filterMap={filterMap} click={() => setApplyFilter(true)} />
     </div>
   );
 }

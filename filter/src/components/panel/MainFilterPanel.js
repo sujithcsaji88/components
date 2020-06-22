@@ -40,6 +40,35 @@ const MainFilterPanel = (props) => {
           <div className="listContent" onClick={props.click}>
             <span>Date:</span> between 24 Apr - 9 May
           </div>
+          {
+           props.filterMap !== undefined ? props.filterMap.applyFilter.map(item=>{
+              if(item.column === "Departure Port" || item.column === "Arrival Port" ){
+               return item.types.map(subItem=>{
+                  return (
+                  <div className="listContent" onClick={props.click}>
+                  <span>{item.column === "Departure Port" ? "Departure " :"Arrival "}
+                  {subItem.column} {": "}</span> {subItem.value}
+                  </div>
+                  )
+                })
+              }
+              else if(item.column === "Revenue"){
+                return (
+                  <div className="listContent" onClick={props.click}>
+                  <span>{item.column}{" "}{item.condition} </span> {item.value}
+                  </div>
+                  )
+              }
+              else{
+                return (
+                  <div className="listContent" onClick={props.click}>
+                  <span>{item.column}</span> {item.value}
+                  </div>
+                  )
+              }
+            })
+          : null 
+          } 
           <div onClick={props.click}>+ Add Filter</div>
         </div>
       </div>
