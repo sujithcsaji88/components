@@ -462,7 +462,7 @@ const RightDrawer = (props) => {
       <div className="filter__btn">
         <div className="filter__save">
           <Button className="button-save" variant="">
-            <img src="../images/icon-save.svg" onClick={showPopUp} />
+            <img src="../images/icon-save.svg" onClick={showPopUp} alt="save icon" />
             <span>SAVE</span>
           </Button>
         </div>

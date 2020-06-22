@@ -10,7 +10,6 @@ const MainFilterPanel = (props) => {
       setListFilter(false);
     });
   });
-
   return (
     <div className="list">
       <div className="displayFlex">
@@ -25,7 +24,7 @@ const MainFilterPanel = (props) => {
       </div>
       <div className="secondList">
         <div className="displayFlex">
-          {props.filterMap !== undefined
+          {props.filterMap !== undefined && props.filterMap.applyFilter !== undefined
             ? props.filterMap.applyFilter.map((item) => {
                 if (
                   item.column === "Departure Port" ||
@@ -33,7 +32,7 @@ const MainFilterPanel = (props) => {
                 ) {
                   return item.types.map((subItem) => {
                     return (
-                      <div className="listContent" onClick={props.click}>
+                      <div className="listContent" key={item.column} onClick={props.click}>
                         <span>
                           {item.column === "Departure Port"
                             ? "Departure "
@@ -46,7 +45,7 @@ const MainFilterPanel = (props) => {
                   });
                 } else if (item.column === "Revenue") {
                   return (
-                    <div className="listContent" onClick={props.click}>
+                    <div className="listContent" key={item.column} onClick={props.click}>
                       <span>
                         {item.column} {item.condition}{" "}
                       </span>{" "}
@@ -55,7 +54,7 @@ const MainFilterPanel = (props) => {
                   );
                 } else {
                   return (
-                    <div className="listContent" onClick={props.click}>
+                    <div className="listContent" key={item.column} onClick={props.click}>
                       <span>{item.column}</span> {item.value}
                     </div>
                   );
