@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button} from "react-bootstrap";
+import { Button,Card} from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
 import Date from "../types/date";
@@ -19,7 +19,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 
 const RightDrawer = (props) => {
-  const [showSavePopup,setShowSavePopup]=useState(true)
+  const [showSavePopup,setShowSavePopup]=useState("none");
+  const [saveFilterName,setSaveFilterName]=useState("")
   // const saveFilters = () => {
   //   const obj = {
   //     savedfilter: [
@@ -310,6 +311,7 @@ const RightDrawer = (props) => {
 
 
   const saveApplyFilterMap = () => {
+    setShowSavePopup("none")
     let filter = [], typeArrival = [], typeDeparture = [], fieldList=[], obj = {};
 
       if(fromDateTime !== undefined)
@@ -380,7 +382,7 @@ const RightDrawer = (props) => {
     obj = {}; //nullifying obj for reuse
 
     obj["filter"] = filter
-    console.log("SavefilterJson", obj)
+    console.log(saveFilterName, obj)
   }
   const constructPortListEntities = (mapColumnValue, mapValue,enabled) => {
     let obj = {}, key = "";
@@ -505,7 +507,13 @@ const RightDrawer = (props) => {
   //     return obj;
   //   }
   // }
+  const registersaveFilterName=(e)=>{
+  setSaveFilterName(e.target.value)
+  }
+  const showPopUp=()=>{
 
+    setShowSavePopup("")
+  }
   return (
     <React.Fragment>
       <div className="filter__title">Searched Filters</div>
@@ -559,7 +567,7 @@ const RightDrawer = (props) => {
       <div className="rdisplayFlex">
         <div className="ralignLeft">
           <Button variant="">
-            <FontAwesomeIcon icon={faSave} onClick={saveApplyFilterMap}></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faSave} onClick={showPopUp} ></FontAwesomeIcon>
           </Button>
         </div>
         <div className="rmarginLeft">
@@ -573,6 +581,12 @@ const RightDrawer = (props) => {
           </Button>
         </div>
       </div>
+      <Card style={{"display":showSavePopup}} className="showSavePopup">
+        <h5>Save the Filter</h5>
+        <label>filterName</label>
+        <input value={saveFilterName} onChange={(e)=>registersaveFilterName(e)} />
+        <button onClick={saveApplyFilterMap}>save</button>
+      </Card>
     </React.Fragment>
   );
 };

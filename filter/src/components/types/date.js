@@ -26,7 +26,6 @@ const Date = (props) => {
   const closeDate = () => {
     setLabelName("");
     setField("");
-    setEnabled(false);
   };
 
   const enableSwitchChange = (e) => {
