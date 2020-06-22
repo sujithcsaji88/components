@@ -296,30 +296,31 @@ const RightDrawer = (props) => {
     obj["filter"] = filter
     console.log(saveFilterName, obj)
   }
-  const constructPortListEntities = (mapColumnValue, mapValue,enabled) => {
+  const constructPortListEntities = (mapColumn, mapValue,enabled) => {
     let obj = {}, key = "";
     //dont use === in comparison; Intentionally did !=
-    if(mapValue !== "undefined" && enabled !== false){
-      if (mapColumnValue.includes("Airport Group")) {
+    if(mapValue !== "undefined"){
+      if (mapColumn.includes("Airport Group")) {
         key = "Airport Group";
       }
-      else if (mapColumnValue.includes("City Group")) {
+      else if (mapColumn.includes("City Group")) {
         key = "City Group";
       }
-      else if (mapColumnValue.includes("Airport")) {
+      else if (mapColumn.includes("Airport")) {
         key = "Airport"
       }
-      else if (mapColumnValue.includes("City")) {
+      else if (mapColumn.includes("City")) {
         key = "City"
       }
-      else if (mapColumnValue.includes("Country")) {
+      else if (mapColumn.includes("Country")) {
         key = "Country"
       }
       obj["column"] = key;
       obj["value"] = mapValue;
       obj["enabled"]=enabled;
+      return obj;
     }
-    return obj;
+    
   }
   const registersaveFilterName=(e)=>{
   setSaveFilterName(e.target.value)
