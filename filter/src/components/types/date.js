@@ -78,7 +78,7 @@ const Date = (props) => {
                 <Form.Control
                 disabled={textStatus}
                   required
-                  type="text"
+                  type="date"
                   defaultValue=""
                   className="col-lg-7 mr-3"
                   onChange={(e) => { props.dateSave(e,field.name,labelName,enabled);              

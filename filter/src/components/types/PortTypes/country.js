@@ -64,7 +64,7 @@ const enableSwitchChange = (e) => {
         </div>
         <div className="displayFlex">
           <input
-          disable={textStatus.toString()}
+          disabled={textStatus}
             type="text"
             className="form-control"
             onChange={(e) => {
@@ -74,5 +74,7 @@ const enableSwitchChange = (e) => {
         </div>
       </div>
     );
-  } else return <div></div>;
+  } 
+  
+  else return <div></div>;
 }
