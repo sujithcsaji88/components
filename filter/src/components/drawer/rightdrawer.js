@@ -337,8 +337,10 @@ const RightDrawer = (props) => {
   }
   return (
     <React.Fragment>
-      <div className="filter__title">Searched Filters</div>
-      <div className="rightDrawer">
+      <div className="filter__title">Searched Filters
+      <span className="filter-count">3</span>
+      </div>
+      <div className="filter__content">
         <DeparturePort
           isReset={props.isReset}
           name={props.name}
@@ -385,13 +387,15 @@ const RightDrawer = (props) => {
           revenueEnabledSave={revenueEnabledSave}
         />
       </div>
-      <div className="rdisplayFlex">
-        <div className="ralignLeft">
-          <Button variant="">
-            <FontAwesomeIcon icon={faSave} onClick={showPopUp} ></FontAwesomeIcon>
+      <div className="filter__btn">
+        <div className="filter__save">
+          <Button className="button-save" variant="">
+            {/* <FontAwesomeIcon icon={faSave} onClick={showPopUp} ></FontAwesomeIcon> */}
+            <img src="../images/icon-save.svg" onClick={showPopUp} />
+            <span>SAVE</span>
           </Button>
         </div>
-        <div className="rmarginLeft">
+        <div className="btn-wrap">
           <Button variant="" className="reset" onClick={props.clearAllFilter}>
             Reset
           </Button>
@@ -401,13 +405,17 @@ const RightDrawer = (props) => {
             Apply Filter
           </Button>
         </div>
+        <div style={{"display":showSavePopup}} className="popup--save">
+          <h5>Save the Filter</h5>
+          <label>Saved Filter Name</label>
+          <input className="txt" value={saveFilterName} onChange={(e)=>registersaveFilterName(e)} />
+          <div className="btn-wrap">
+          <button className="button" onClick={saveApplyFilterMap}>Save</button>
+          <button className="button" >Cancel</button>
+        </div>
       </div>
-      <Card style={{"display":showSavePopup}} className="showSavePopup">
-        <h5>Save the Filter</h5>
-        <label>filterName</label>
-        <input value={saveFilterName} onChange={(e)=>registersaveFilterName(e)} />
-        <button onClick={saveApplyFilterMap}>save</button>
-      </Card>
+      </div>
+      
     </React.Fragment>
   );
 };
