@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from "react";
 import ClickAwayListener from "react-click-away-listener";
-import FlightIcon from "../../images/FlightIcon.png";
+import FlightIcon from "../images/FlightIcon.png";
 
 const SegmentEdit = memo(({ value: initialValue, index, id, airportCodeList, updateCellData }) => {
     const [value, setValue] = useState(initialValue);

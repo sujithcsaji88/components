@@ -1,17 +1,17 @@
 import React, { useMemo, memo } from "react";
 import data from "./data.json";
-import RowOptions from "./components/Cells/RowOptions";
+import RowOptions from "./cells/RowOptions";
 import Grid from "./components/Grid";
-import SREdit from "./components/Cells/SREdit";
-import FlightEdit from "./components/Cells/FlightEdit";
-import SegmentEdit from "./components/Cells/SegmentEdit";
+import SREdit from "./cells/SREdit";
+import FlightEdit from "./cells/FlightEdit";
+import SegmentEdit from "./cells/SegmentEdit";
 
 const App = memo(() => {
     //Check if device is desktop
     const isDesktop = window.innerWidth > 1024;
 
     //Get grid height value, which is a required value
-    const gridHeight = "85vh";
+    const gridHeight = "80vh";
 
     //Create an array of airports
     const airportCodeList = useMemo(
@@ -344,7 +344,7 @@ const App = memo(() => {
                 Cell: ({ row }) => {
                     return (
                         <div className="action">
-                            <RowOptions row={row} updateRowData={updateRowData} />
+                            <RowOptions row={row} selectRowOptions={selectRowOptions} />
                             <span className="expander" {...row.getToggleRowExpandedProps()}>
                                 {row.isExpanded ? (
                                     <i className="fa fa-angle-up" aria-hidden="true"></i>
@@ -494,7 +494,7 @@ const App = memo(() => {
     };
 
     //Gets called when Row option is selected
-    const updateRowData = (row) => {
+    const selectRowOptions = (row) => {
         console.log(row);
     };
 
@@ -505,12 +505,12 @@ const App = memo(() => {
 
     return (
         <Grid
+            title="AWBs"
             gridHeight={gridHeight}
             columns={columns}
             data={data}
             globalSearchLogic={globalSearchLogic}
             updateCellData={updateCellData}
-            updateRowData={updateRowData}
             selectBulkData={selectBulkData}
             calculateRowHeight={calculateRowHeight}
             renderExpandedContent={renderExpandedContent}
