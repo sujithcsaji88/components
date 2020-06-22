@@ -11,26 +11,29 @@ import {
 } from "react-table";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import RowSelector from "./Cells/RowSelector";
+import RowSelector from "./Functions/RowSelector";
 import DefaultColumnFilter from "./Functions/DefaultColumnFilter";
 import GlobalFilter from "./Functions/GlobalFilter";
-import FilterIcon from "../images/FilterIcon.svg";
-import TableViewIcon from "../images/TableViewIcon.png";
+import "./tablestyles.css";
 
 const listRef = createRef();
 
 const Grid = memo((props) => {
     const {
-        tableHeight,
+        title,
+        gridHeight,
         columns,
         data,
         globalSearchLogic,
         updateCellData,
-        updateRowData,
         selectBulkData,
         calculateRowHeight,
         renderExpandedContent
     } = props;
+
+    if (!(data && data.length) || !(columns && columns.length)) {
+        return <h2 style={{ marginTop: "50px", textAlign: "center" }}>Invalid Data or Columns Configuration</h2>;
+    }
     const [isFilterOpen, setFilterOpen] = useState(false);
 
     const toggleColumnFilter = () => {
@@ -58,8 +61,13 @@ const Grid = memo((props) => {
             data,
             defaultColumn,
             updateCellData,
-            updateRowData,
-            globalFilter: (rows, columns, filterValue) => globalSearchLogic(rows, columns, filterValue)
+            globalFilter: (rows, columns, filterValue) => {
+                if (globalSearchLogic && typeof globalSearchLogic === "function") {
+                    return globalSearchLogic(rows, columns, filterValue);
+                } else {
+                    return rows;
+                }
+            }
         },
         useFilters,
         useGlobalFilter,
@@ -101,7 +109,9 @@ const Grid = memo((props) => {
                             );
                         })}
                     </div>
-                    {row.isExpanded ? <div className="expand">{renderExpandedContent(row)}</div> : null}
+                    {row.isExpanded ? (
+                        <div className="expand">{renderExpandedContent ? renderExpandedContent(row) : null}</div>
+                    ) : null}
                 </div>
             );
         },
@@ -109,7 +119,9 @@ const Grid = memo((props) => {
     );
 
     const bulkSelector = () => {
-        selectBulkData(selectedFlatRows);
+        if (selectBulkData) {
+            selectBulkData(selectedFlatRows);
+        }
     };
 
     useEffect(() => {
@@ -124,27 +136,20 @@ const Grid = memo((props) => {
                 <div className="results">
                     <div className="name">
                         <strong>{rows.length}</strong>
-                        <span> AWBs</span>
+                        <span> {title ? title : "Rows"}</span>
                     </div>
                 </div>
                 <div className="filter-utilities">
                     <GlobalFilter globalFilter={state.globalFilter} setGlobalFilter={setGlobalFilter} />
                     <div className="filter-icon keyword-search" onClick={toggleColumnFilter}>
-                        <i>
-                            <img src={FilterIcon} alt="cargo" />
-                        </i>
-                    </div>
-                    <div className="filter-icon table-view">
-                        <i>
-                            <img src={TableViewIcon} alt="cargo" />
-                        </i>
+                        <i className="fa fa-filter" aria-hidden="true"></i>
                     </div>
                     <div className="filter-icon bulk-select" onClick={bulkSelector}>
                         <i className="fa fa-pencil-square-o"></i>
                     </div>
                 </div>
             </div>
-            <div className="tableContainer table-outer" style={{ height: tableHeight }}>
+            <div className="tableContainer table-outer" style={{ height: gridHeight ? gridHeight : "50vh" }}>
                 <AutoSizer disableWidth disableResizing>
                     {({ height }) => (
                         <div {...getTableProps()} className="table">
@@ -182,7 +187,13 @@ const Grid = memo((props) => {
                                     className="table-list"
                                     height={height}
                                     itemCount={rows.length}
-                                    itemSize={(index) => calculateRowHeight(rows, index, headerGroups)}
+                                    itemSize={(index) => {
+                                        if (calculateRowHeight && typeof calculateRowHeight === "function") {
+                                            return calculateRowHeight(rows, index, headerGroups);
+                                        } else {
+                                            return 70;
+                                        }
+                                    }}
                                     overscanCount={20}
                                 >
                                     {RenderRow}
