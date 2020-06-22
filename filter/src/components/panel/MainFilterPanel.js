@@ -1,11 +1,10 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
 import SavedFilters from "./SavedFilters";
 
 const MainFilterPanel = (props) => {
   const [listFilter, setListFilter] = useState(false);
-  let listRef=useRef();
   useEffect(
     ()=>{
       document.addEventListener("mousedown",()=>{

@@ -248,7 +248,7 @@ const RightDrawer = (props) => {
       { column:arrivalCountryName, value: arrivalCountry,enabled:arrivalCountryEnabled }
     ];
 
-    departureEntitiesNameList.map(item => {
+    departureEntitiesNameList.map(item =>  {
       if( constructPortListEntities(`${item.column}`, `${item.value}`,`${item.enabled}`) !== undefined)
         typeDeparture.push(
           constructPortListEntities(`${item.column}`, `${item.value}`,`${item.enabled}`));
@@ -287,7 +287,7 @@ const RightDrawer = (props) => {
     if(revenueCondition!==undefined){
       obj["column"] = revenueName;
       obj["condition"] = revenueCondition;
-      obj["value"]=revenueAmount != undefined ? revenueAmount : 0;
+      obj["value"]=revenueAmount !== undefined ? revenueAmount : 0;
       obj["enabled"]=revenueEnabled;
       filter.push(obj);
     }
