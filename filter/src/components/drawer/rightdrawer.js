@@ -222,7 +222,7 @@ const RightDrawer = (props) => {
   };
 
 
-  const saveApplyFilterMap = () => {
+  const saveApplyFilterMap = (className) => {
     setShowSavePopup("none")
     let filter = [], typeArrival = [], typeDeparture = [], fieldList=[], obj = {};
 
@@ -293,33 +293,40 @@ const RightDrawer = (props) => {
     }
     obj = {}; //nullifying obj for reuse
 
-    obj["filter"] = filter
-    console.log(saveFilterName, obj)
+    if(className==="applyFilter"){
+      obj["applyFilter"] = filter;
+      console.log(obj)
+    }
+    else{ 
+      obj[saveFilterName]=filter;
+      console.log(obj)
+    }
   }
-  const constructPortListEntities = (mapColumnValue, mapValue,enabled) => {
+  const constructPortListEntities = (mapColumn, mapValue,enabled) => {
     let obj = {}, key = "";
     //dont use === in comparison; Intentionally did !=
-    if(mapValue !== "undefined" && enabled !== false){
-      if (mapColumnValue.includes("Airport Group")) {
+    if(mapValue !== "undefined"){
+      if (mapColumn.includes("Airport Group")) {
         key = "Airport Group";
       }
-      else if (mapColumnValue.includes("City Group")) {
+      else if (mapColumn.includes("City Group")) {
         key = "City Group";
       }
-      else if (mapColumnValue.includes("Airport")) {
+      else if (mapColumn.includes("Airport")) {
         key = "Airport"
       }
-      else if (mapColumnValue.includes("City")) {
+      else if (mapColumn.includes("City")) {
         key = "City"
       }
-      else if (mapColumnValue.includes("Country")) {
+      else if (mapColumn.includes("Country")) {
         key = "Country"
       }
       obj["column"] = key;
       obj["value"] = mapValue;
       obj["enabled"]=enabled;
+      return obj;
     }
-    return obj;
+    
   }
   const registersaveFilterName=(e)=>{
   setSaveFilterName(e.target.value)
@@ -389,7 +396,7 @@ const RightDrawer = (props) => {
             Reset
           </Button>
           <Button variant="" className="applyFilter"
-          onClick={() => saveApplyFilterMap()}
+          onClick={() => saveApplyFilterMap("applyFilter")}
           >
             Apply Filter
           </Button>
