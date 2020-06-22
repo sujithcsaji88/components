@@ -75,6 +75,8 @@ const enableSwitchChange = (e) => {
       </div>
     );
   } 
-  
+  else if (props.isReset === true) {
+    return <div></div>;
+  }
   else return <div></div>;
 }

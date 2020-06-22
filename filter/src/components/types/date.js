@@ -37,7 +37,7 @@ const Date = (props) => {
     }
   };
 
-  if (labelName === DATE) {
+  if (labelName === DATE ) {
     return (
       <div className="filter__input" >
         <div className="displayFlex" key={1} >
@@ -89,7 +89,12 @@ const Date = (props) => {
         })}
       </div>
     );
-  } else {
+  } 
+  
+  else if (props.isReset === true) {
+    return <div></div>;
+  }
+  else {
     return <div></div>;
   }
 };

@@ -70,8 +70,7 @@ function App() {
   };
 
   const clearAllFilter =()=>{
-    console.log("CLEAR ALL FILTER ");
-    setIsReset(true);
+    setIsReset(true); 
   }
 
   const setIsResetFalse=()=>{

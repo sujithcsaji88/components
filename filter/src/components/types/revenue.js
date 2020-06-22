@@ -96,7 +96,12 @@ const Revenue = (props) => {
         </div>
       </div>
     );
-  } else return <div></div>;
+  }
+  
+  else if (props.isReset === true) {
+    return <div></div>;
+  }
+  else return <div></div>;
 };
 
 export default Revenue;
