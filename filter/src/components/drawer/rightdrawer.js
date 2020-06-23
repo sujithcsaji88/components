@@ -383,7 +383,7 @@ const RightDrawer = (props) => {
       savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
       savedFilters.push(filters);
       localStorage.setItem("savedFilters", JSON.stringify(savedFilters));
-      savedFilters.map((item,key)=>{console.log(item)})
+      console.log(savedFilters);
     }
     props.captureFilterMap(obj);
   };
