@@ -64,7 +64,7 @@ export default function City(props) {
             />
             <FontAwesomeIcon
               icon={faTimes}
-              onClick={() => {
+              onClick={(e) => {
                 closeCity();
                 props.clearValues();
               }}

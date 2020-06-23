@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { faTimes, faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
+import { faTimes} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
 import { REVENUE } from "../../constants/filtertypeconstants";

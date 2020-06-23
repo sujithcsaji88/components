@@ -1,27 +1,33 @@
 {
-    "savedfilter": [
+   "savedFilter":{
+    "filter1": [
       {
         "name": "Departure Port",
         "types": [
           {
             "name": "Airport",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "Airport Group",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "City",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "City Group",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "Country",
-            "value":""
+            "value":"",
+            "enabled":true
           }
         ]
       },
@@ -30,23 +36,28 @@
         "types": [
           {
             "name": "Airport",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "Airport Group",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "City",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "City Group",
-            "value":""
+            "value":"",
+            "enabled":true
           },
           {
             "name": "Country",
-            "value":""
+            "value":"",
+            "enabled":true
           }
         ]
       },
@@ -66,6 +77,8 @@
         "enabled": true,
         "value": ""
       }
-    ]
+    ],
+    "filter2":[]
+  }
   }
   

@@ -7,9 +7,10 @@ import MainFilterPanel from "./components/panel/MainFilterPanel";
 
 function useComponentVisible() {
   const [showApplyFilter, setApplyFilter] = useState(false);
+
   const ref = useRef(null);
 
-  const handleHideDropdown = (event ) => {
+  const handleHideDropdown = (event) => {
     if (event.key === "Escape") {
       setApplyFilter(false);
 
@@ -21,6 +22,8 @@ function useComponentVisible() {
     }
   };
 
+
+
   useEffect(() => {
     document.addEventListener("keydown", handleHideDropdown, true);
     document.addEventListener("click", handleClickOutside, true);
@@ -30,18 +33,23 @@ function useComponentVisible() {
     };
   });
 
-  return { ref, showApplyFilter, setApplyFilter};
+  return { ref, showApplyFilter, setApplyFilter };
 }
 
 function App() {
+  const [addedFilter, setAddedFilter] = useState(0);
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
   const [field, setField] = useState();
   const [condition, setCondition] = useState();
   const [enabled, setEnabled] = useState();
   const [isReset, setIsReset] = useState(false);
-  const [filterMap, setFilterMap]=useState();
+  const [filterMap, setFilterMap] = useState();
 
+
+  const addedFilterCount = () => {
+    setAddedFilter(addedFilter + 1)
+  }
   const passValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
@@ -64,21 +72,30 @@ function App() {
 
   const clearType = () => {
     setLabelType("");
+    if(addedFilter!==0){
+      setAddedFilter(addedFilter-1)
+    }
+    
   };
 
   const clearName = () => {
     setLabelName("");
+    if(addedFilter!==0){
+      setAddedFilter(addedFilter-1)
+    }
+    
   };
 
-  const clearAllFilter =()=>{
-    setIsReset(true); 
+  const clearAllFilter = () => {
+    setIsReset(true);
+    setAddedFilter(0)
   }
 
-  const setIsResetFalse=()=>{
+  const setIsResetFalse = () => {
     setIsReset(false);
   }
 
-  const captureFilterMap=(map)=>{
+  const captureFilterMap = (map) => {
     setFilterMap(map);
   }
 
@@ -94,6 +111,7 @@ function App() {
                 handleDate={passDate}
                 handleValue={passValues}
                 handleRevenue={passRevenue}
+                addedFilterCount={addedFilterCount}
               />
             </div>
             <div className="filter__inputwrap">
@@ -109,6 +127,7 @@ function App() {
                 type={labelType}
                 clearValues={clearType}
                 clearValue={clearName}
+                addedFilter={addedFilter}
               />
             </div>
           </div>

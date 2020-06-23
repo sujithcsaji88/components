@@ -230,7 +230,9 @@ const RightDrawer = (props) => {
       typeArrival = [],
       typeDeparture = [],
       fieldList = [],
-      obj = {};
+      obj = {},
+      filters=[],
+      buff={};
 
     if (fromDateTime !== undefined)
       fieldList.push({
@@ -373,8 +375,15 @@ const RightDrawer = (props) => {
       obj["applyFilter"] = filter;
       console.log(obj);
     } else {
-      obj[saveFilterName] = filter;
+      buff[saveFilterName]=filter;
+      filters.push(buff);
+      obj["saveFilter"]={...filters}
       console.log(obj);
+      let savedFilters = localStorage.getItem("savedFilters");
+      savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
+      savedFilters.push(filters);
+      localStorage.setItem("savedFilters", JSON.stringify(savedFilters));
+      console.log(savedFilters);
     }
     props.captureFilterMap(obj);
   };
@@ -410,7 +419,7 @@ const RightDrawer = (props) => {
     <React.Fragment>
       <div className="filter__title">
         Searched Filters
-        <span className="filter-count">3</span>
+        <span className="filter-count">{props.addedFilter}</span>
       </div>
       <div className="filter__content">
         <DeparturePort
@@ -424,7 +433,7 @@ const RightDrawer = (props) => {
           departureAirportGroupEnabledSave={departureAirportGroupEnabledSave}
           departureCityEnabledSave={departureCityEnabledSave}
           departureCityGroupEnabledSave={departureCityGroupEnabledSave}
-          departureCountryEnabledSave={departureCountryEnabledSave}
+          departureCountryEnabledSave={departureCountryEnabledSave}   
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -487,10 +496,12 @@ const RightDrawer = (props) => {
             onChange={(e) => registersaveFilterName(e)}
           />
           <div className="btn-wrap">
-            <button className="button" onClick={saveApplyFilterMap}>
+            <button className="button" onClick={(e)=>{saveApplyFilterMap();
+            setSaveFilterName("")}
+            }>
               Save
             </button>
-            <button className="button">Cancel</button>
+            <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>
           </div>
         </div>
       </div>
