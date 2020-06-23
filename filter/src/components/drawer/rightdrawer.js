@@ -17,6 +17,7 @@ import {
 } from "../../constants/filtertypeconstants";
 
 const RightDrawer = (props) => {
+  const [savedFilterState,setSavedFilterState]=useState(localStorage.getItem("filters") || '')
   const [showSavePopup, setShowSavePopup] = useState("none");
   const [saveFilterName, setSaveFilterName] = useState("");
   const [departurePortName, setDeparturePortName] = useState();
@@ -230,7 +231,9 @@ const RightDrawer = (props) => {
       typeArrival = [],
       typeDeparture = [],
       fieldList = [],
-      obj = {};
+      obj = {},
+      filters=[],
+      buff={};
 
     if (fromDateTime !== undefined)
       fieldList.push({
@@ -373,8 +376,15 @@ const RightDrawer = (props) => {
       obj["applyFilter"] = filter;
       console.log(obj);
     } else {
-      obj[saveFilterName] = filter;
+      buff[saveFilterName]=filter;
+      filters.push(buff);
+      obj["saveFilter"]={...filters}
       console.log(obj);
+      let savedFilters = localStorage.getItem("savedFilters");
+      savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
+      savedFilters.push(filters);
+      localStorage.setItem("savedFilters", JSON.stringify(savedFilters));
+      savedFilters.map((item,key)=>{console.log(item)})
     }
     props.captureFilterMap(obj);
   };
@@ -490,7 +500,7 @@ const RightDrawer = (props) => {
             <button className="button" onClick={saveApplyFilterMap}>
               Save
             </button>
-            <button className="button">Cancel</button>
+            <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>
           </div>
         </div>
       </div>
