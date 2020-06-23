@@ -11,16 +11,15 @@ const ArrivalPort = (props) => {
   const [type, setType] = useState();
 
   useEffect(() => {
-    if(props.name){
-      if(props.isReset === true){
-        setName("")
-        setType("")
-     }
-    else if(props.name===ARRIVAL_PORT){
-    setName(props.name)
-    setType(props.type)
+    if (props.name) {
+      if (props.isReset === true) {
+        setName("");
+        setType("");
+      } else if (props.name === ARRIVAL_PORT) {
+        setName(props.name);
+        setType(props.type);
+      }
     }
-  }
   }, [props]);
 
   if (name === ARRIVAL_PORT) {
@@ -31,7 +30,8 @@ const ArrivalPort = (props) => {
           type={type}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
-          arrivalAirportEnabledSave={props.arrivalAirportEnabledSave}            
+          arrivalAirportEnabledSave={props.arrivalAirportEnabledSave}
+          isReset={props.isReset}
         />
         <AirportGroup
           name={name}
@@ -39,6 +39,7 @@ const ArrivalPort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           arrivalAirportGroupEnabledSave={props.arrivalAirportGroupEnabledSave}
+          isReset={props.isReset}
         />
         <City
           name={name}
@@ -46,6 +47,7 @@ const ArrivalPort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           arrivalCityEnabledSave={props.arrivalCityEnabledSave}
+          isReset={props.isReset}
         />
         <CityGroup
           name={name}
@@ -53,6 +55,7 @@ const ArrivalPort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           arrivalCityGroupEnabledSave={props.arrivalCityGroupEnabledSave}
+          isReset={props.isReset}
         />
         <Country
           name={name}
@@ -60,6 +63,7 @@ const ArrivalPort = (props) => {
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           arrivalCountryEnabledSave={props.arrivalCountryEnabledSave}
+          isReset={props.isReset}
         />
       </React.Fragment>
     );

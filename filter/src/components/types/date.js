@@ -9,24 +9,22 @@ const Date = (props) => {
   const [field, setField] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
-  
+
   useEffect(() => {
     if (props.name) {
-      if(props.isReset === true){
+      if (props.isReset === true) {
         setLabelName("");
-       setField("")
+        setField("");
+      } else if (props.name === DATE) {
+        setLabelName(props.name);
+        setField(props.field);
       }
-      else if(props.name === DATE){
-      setLabelName(props.name);
-      setField(props.field)
     }
-  }
   }, [props]);
 
   const closeDate = () => {
     setLabelName("");
     setField("");
-    setEnabled(false);
   };
 
   const enableSwitchChange = (e) => {
@@ -40,8 +38,8 @@ const Date = (props) => {
 
   if (labelName === DATE) {
     return (
-      <div className="filter__input" >
-        <div className="displayFlex" key={1} >
+      <div className="filter__input">
+        <div className="displayFlex" key={1}>
           <div className="alignLeft">
             <Form.Label>
               <strong>{labelName}</strong>
@@ -70,19 +68,20 @@ const Date = (props) => {
         </div>
         {field.map((field, index) => {
           return (
-            <div  key={`${index}-${field.name}`}>
+            <div key={`${index}-${field.name}`}>
               <div className="displayFlex" key={`${index},${field.name}`}>
-                <Form.Text  className="text-muted">{field.name}</Form.Text>
+                <Form.Text className="text-muted">{field.name}</Form.Text>
               </div>
               <div className="displayFlex" key={index}>
                 <Form.Control
-                disabled={textStatus}
+                  disabled={textStatus}
                   required
-                  type="text"
+                  type="date"
                   defaultValue=""
                   className="col-lg-7 mr-3"
-                  onChange={(e) => { props.dateSave(e,field.name,labelName,enabled);              
-                   }}
+                  onChange={(e) => {
+                    props.dateSave(e, field.name, labelName, enabled);
+                  }}
                 />
               </div>
             </div>
@@ -90,6 +89,8 @@ const Date = (props) => {
         })}
       </div>
     );
+  } else if (props.isReset === true) {
+    return <div></div>;
   } else {
     return <div></div>;
   }

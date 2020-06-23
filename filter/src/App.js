@@ -15,7 +15,6 @@ function useComponentVisible() {
 
     }
   };
-
   const handleClickOutside = (event) => {
     if (ref.current && !ref.current.contains(event.target)) {
       setApplyFilter(false);
@@ -41,6 +40,7 @@ function App() {
   const [condition, setCondition] = useState();
   const [enabled, setEnabled] = useState();
   const [isReset, setIsReset] = useState(false);
+  const [filterMap, setFilterMap]=useState();
 
   const passValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
@@ -71,12 +71,15 @@ function App() {
   };
 
   const clearAllFilter =()=>{
-    console.log("CLEAR ALL FILTER ");
-    setIsReset(true);
+    setIsReset(true); 
   }
 
   const setIsResetFalse=()=>{
     setIsReset(false);
+  }
+
+  const captureFilterMap=(map)=>{
+    setFilterMap(map);
   }
 
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
@@ -84,7 +87,7 @@ function App() {
   return (
     <div ref={ref}>
       {showApplyFilter && (
-        <div className="sideDrawer" ref={ref}>
+        <div className="filter--grid" ref={ref}>
           <div className="filter__wrap">
             <div className="filter__list">
               <LeftDrawer
@@ -95,6 +98,7 @@ function App() {
             </div>
             <div className="filter__inputwrap">
               <RightDrawer
+                captureFilterMap={captureFilterMap}
                 clearAllFilter={clearAllFilter}
                 setIsResetFalse={setIsResetFalse}
                 isReset={isReset}
@@ -110,7 +114,7 @@ function App() {
           </div>
         </div>
       )}
-      <MainFilterPanel click={() => setApplyFilter(true)} />
+      <MainFilterPanel filterMap={filterMap} click={() => setApplyFilter(true)} />
     </div>
   );
 }
