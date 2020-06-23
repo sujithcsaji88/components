@@ -46,6 +46,7 @@ const Date = (props) => {
             </Form.Label>
           </div>
           <div className="marginLeft">
+            
             <Form.Check
               type="switch"
               id="date"
@@ -56,6 +57,7 @@ const Date = (props) => {
                 props.dateEnabledSave(e.target.checked);
               }}
             />
+            
             <FontAwesomeIcon
               className="fontIcons"
               icon={faTimes}
@@ -70,19 +72,27 @@ const Date = (props) => {
           return (
             <div key={`${index}-${field.name}`}>
               <div className="displayFlex" key={`${index},${field.name}`}>
-                <Form.Text className="text-muted">{field.name}</Form.Text>
+                <Form.Text>{field.name}</Form.Text>
               </div>
               <div className="displayFlex" key={index}>
+              <div className="date-wrap">
                 <Form.Control
                   disabled={textStatus}
                   required
                   type="date"
                   defaultValue=""
-                  className="col-lg-7 mr-3"
+                  className="date"
                   onChange={(e) => {
                     props.dateSave(e, field.name, labelName, enabled);
                   }}
                 />
+                <span class="date-button">
+                  <button type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                </span>
+                </div>
+                <div className="time-wrap"> 
+                  <input className="time" type="time" />
+                </div>
               </div>
             </div>
           );

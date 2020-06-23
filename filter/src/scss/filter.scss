@@ -167,6 +167,9 @@
       top: -2px;
       transform: translateX(0.81rem);
     }
+    .custom-control-input:focus~.custom-control-label:before{
+      box-shadow: none;
+    }
     .custom-control-label::before {
       height: 2px;
     }
@@ -208,6 +211,48 @@
       border: 0;
       padding: 0 5px 0 15px;
       font-size: 14px;
+    }
+  }
+  .date-wrap{
+    border: #c5cadf 1px solid;
+    border-radius: 3px;
+    position: relative;
+    height: 30px;
+   
+    .date{
+      border: 1px solid #c5cadf;
+      padding: 5px 10px;
+      height: 30px;
+      width: 150px;
+      color:#1f567e;
+    }
+    .date-button{
+      position: absolute;
+      top: 1px;
+      right: 9px;
+      width: 25px;
+      height: 25px;
+      background: #fff;
+      pointer-events: none;
+    }
+    
+    .date-button button {
+      border: none;
+      background: transparent;
+      .fa{
+        color:#9497b6;
+      }
+    }
+  }
+  small{
+    color:#57809e;
+  }
+  .time-wrap{
+    .time{
+      border: 1px solid #c5cadf;
+      padding: 5px 10px;
+      height: 30px;
+      color:#1f567e;
     }
   }
 }
