@@ -86,8 +86,8 @@ const Date = (props) => {
                     props.dateSave(e, field.name, labelName, enabled);
                   }}
                 />
-                <span class="date-button">
-                  <button type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                <span className="date-button">
+                  <button type="button"><i className="fa fa-calendar" aria-hidden="true"></i></button>
                 </span>
                 </div>
                 <div className="time-wrap"> 
