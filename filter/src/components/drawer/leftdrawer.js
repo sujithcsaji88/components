@@ -33,6 +33,7 @@ const LeftDrawer = (props) => {
                                 type.name,
                                 filterData.enabled
                               );
+                              props.addedFilterCount();
                             }}
                             key={index}
                           >
@@ -56,6 +57,7 @@ const LeftDrawer = (props) => {
               filterData.field,
               filterData.enabled
             );
+            props.addedFilterCount();
           }}
           key={index}
         >
@@ -71,6 +73,7 @@ const LeftDrawer = (props) => {
               filterData.condition,
               filterData.enabled
             );
+            props.addedFilterCount();
           }}
           key={index}
         >

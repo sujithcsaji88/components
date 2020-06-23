@@ -17,7 +17,6 @@ import {
 } from "../../constants/filtertypeconstants";
 
 const RightDrawer = (props) => {
-  const [savedFilterState,setSavedFilterState]=useState(localStorage.getItem("filters") || '')
   const [showSavePopup, setShowSavePopup] = useState("none");
   const [saveFilterName, setSaveFilterName] = useState("");
   const [departurePortName, setDeparturePortName] = useState();
@@ -420,7 +419,7 @@ const RightDrawer = (props) => {
     <React.Fragment>
       <div className="filter__title">
         Searched Filters
-        <span className="filter-count">3</span>
+        <span className="filter-count">{props.addedFilter}</span>
       </div>
       <div className="filter__content">
         <DeparturePort
@@ -434,7 +433,7 @@ const RightDrawer = (props) => {
           departureAirportGroupEnabledSave={departureAirportGroupEnabledSave}
           departureCityEnabledSave={departureCityEnabledSave}
           departureCityGroupEnabledSave={departureCityGroupEnabledSave}
-          departureCountryEnabledSave={departureCountryEnabledSave}
+          departureCountryEnabledSave={departureCountryEnabledSave}   
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -497,7 +496,9 @@ const RightDrawer = (props) => {
             onChange={(e) => registersaveFilterName(e)}
           />
           <div className="btn-wrap">
-            <button className="button" onClick={saveApplyFilterMap}>
+            <button className="button" onClick={(e)=>{saveApplyFilterMap();
+            setSaveFilterName("")}
+            }>
               Save
             </button>
             <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>

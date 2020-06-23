@@ -65,7 +65,7 @@ export default function AirportGroup(props) {
             />
             <FontAwesomeIcon
               icon={faTimes}
-              onClick={() => {
+              onClick={(e) => {
                 closeAirportGroup();
                 props.clearValues();
               }}
