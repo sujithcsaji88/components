@@ -41,13 +41,13 @@ export default function CityGroup(props) {
   if (labelType === "City Group") {
     return (
       <div className="filter__input">
-        <div className="displayFlex">
-          <div className="alignLeft">
-            <p>{labelName}</p>
+        <div className="filter__input-title">
+          <div className="filter__label">
+            <span>{labelName}</span>
             <span>&nbsp;&gt;&nbsp;</span>
-            <p>{labelType}</p>
+            <span>{labelType}</span>
           </div>
-          <div className="marginLeft">
+          <div className="filter__control">
             <Form.Check
               type="switch"
               id={switchId}
