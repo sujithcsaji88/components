@@ -94,7 +94,8 @@
   }
 }
 
-.filter--grid {
+.filter__grid {
+  z-index: 9;
   box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
   position: fixed;
   font-size: 14px;

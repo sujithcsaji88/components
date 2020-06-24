@@ -3,6 +3,7 @@ import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
 import MainFilterPanel from "./components/panel/MainFilterPanel";
+import SpreadSheet from "../src/spreadSheet/SpeadSheet";
 
 
 function useComponentVisible() {
@@ -45,6 +46,7 @@ function App() {
   const [enabled, setEnabled] = useState();
   const [isReset, setIsReset] = useState(false);
   const [filterMap, setFilterMap] = useState();
+  const [filterKeys,setFilterKeys]=useState();
 
 
   const addedFilterCount = () => {
@@ -98,13 +100,35 @@ function App() {
   const captureFilterMap = (map) => {
     setFilterMap(map);
   }
-
+  const onApplyFilter = (obj) => {
+    console.log(obj)
+        let searchKeys = []
+        obj.applyFilter.map(item => {
+        const types = item.types
+        const field=item.field
+        if(types){types.map(types => {
+          console.log(types.value)
+          searchKeys.push(types.value)
+        })}
+        else if(field){
+          field.map(field => {
+            console.log(field.value)
+            searchKeys.push(field.value)
+          })
+        }
+        else {
+          searchKeys.push(item.value)
+        }
+      });
+  console.log(searchKeys)
+  setFilterKeys(searchKeys)
+}
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
   return (
     <div ref={ref}>
       {showApplyFilter && (
-        <div className="filter--grid" ref={ref}>
+        <div className="filter__grid" ref={ref}>
           <div className="filter__wrap">
             <div className="filter__list">
               <LeftDrawer
@@ -128,12 +152,14 @@ function App() {
                 clearValues={clearType}
                 clearValue={clearName}
                 addedFilter={addedFilter}
+                onApplyFilter={onApplyFilter}
               />
             </div>
           </div>
         </div>
       )}
       <MainFilterPanel filterMap={filterMap} click={() => setApplyFilter(true)} />
+      <SpreadSheet filterArray={filterKeys} />
     </div>
   );
 }

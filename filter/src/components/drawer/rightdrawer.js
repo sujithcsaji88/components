@@ -231,22 +231,43 @@ const RightDrawer = (props) => {
       typeDeparture = [],
       fieldList = [],
       obj = {},
-      filters=[],
-      buff={};
+      filters = [],
+      buff = {};
 
-    if (fromDateTime !== undefined)
-      fieldList.push({
-        column: fromDateTimeName,
-        value: fromDateTime,
-        enabled: dateEnabled,
-      });
+    if (fromDateTime !== undefined) {
+      if (className !== "applyFilter") {
+        fieldList.push({
+          column: fromDateTimeName,
+          value: fromDateTime,
+          enabled: dateEnabled,
+        });
+      }
+      else {
+        fieldList.push({
+          column: fromDateTimeName,
+          value: fromDateTime
+        });
+      }
 
-    if (toDateTime !== undefined)
-      fieldList.push({
-        column: toDateTimeName,
-        value: toDateTime,
-        enabled: dateEnabled,
-      });
+    }
+
+
+    if (toDateTime !== undefined) {
+      if (className !== "applyFilter") {
+        fieldList.push({
+          column: toDateTimeName,
+          value: toDateTime,
+          enabled: dateEnabled,
+        });
+      }
+      else {
+        fieldList.push({
+          column: toDateTimeName,
+          value: toDateTime
+        });
+      }
+    }
+
 
     let departureEntitiesNameList = [
       {
@@ -309,14 +330,16 @@ const RightDrawer = (props) => {
         constructPortListEntities(
           `${item.column}`,
           `${item.value}`,
-          `${item.enabled}`
+          `${item.enabled}`,
+          className
         ) !== undefined
       )
         typeDeparture.push(
           constructPortListEntities(
             `${item.column}`,
             `${item.value}`,
-            `${item.enabled}`
+            `${item.enabled}`,
+            className
           )
         );
     });
@@ -326,14 +349,16 @@ const RightDrawer = (props) => {
         constructPortListEntities(
           `${item.column}`,
           `${item.value}`,
-          `${item.enabled}`
+          `${item.enabled}`,
+          className
         ) !== undefined
       )
         typeArrival.push(
           constructPortListEntities(
             `${item.column}`,
             `${item.value}`,
-            `${item.enabled}`
+            `${item.enabled}`,
+            className
           )
         );
     });
@@ -362,11 +387,18 @@ const RightDrawer = (props) => {
 
     obj = {}; //nullifying obj for reuse
 
-    if (revenueCondition !== undefined) {
-      obj["column"] = revenueName;
-      obj["condition"] = revenueCondition;
-      obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
-      obj["enabled"] = revenueEnabled;
+    if (revenueCondition !== undefined && revenueAmount !==undefined) {
+      if (className !== "applyFilter") {
+        obj["column"] = revenueName;
+        obj["condition"] = revenueCondition;
+        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+        obj["enabled"] = revenueEnabled;
+      }
+      else {
+        obj["column"] = revenueName;
+        obj["condition"] = revenueCondition;
+        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+      }
       filter.push(obj);
     }
     obj = {}; //nullifying obj for reuse
@@ -374,10 +406,11 @@ const RightDrawer = (props) => {
     if (className === "applyFilter") {
       obj["applyFilter"] = filter;
       console.log(obj);
+      props.onApplyFilter(obj);
     } else {
-      buff[saveFilterName]=filter;
+      buff[saveFilterName] = filter;
       filters.push(buff);
-      obj["saveFilter"]={...filters}
+      obj["saveFilter"] = { ...filters }
       console.log(obj);
       let savedFilters = localStorage.getItem("savedFilters");
       savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
@@ -387,11 +420,11 @@ const RightDrawer = (props) => {
     }
     props.captureFilterMap(obj);
   };
-  const constructPortListEntities = (mapColumn, mapValue, enabled) => {
+  const constructPortListEntities = (mapColumn, mapValue, enabled, className) => {
     let obj = {},
       key = "";
     //dont use === in comparison; Intentionally did !=
-    if (mapValue !== "undefined") {
+    if ((mapValue !== "undefined" && mapValue.length>0) && enabled==="true") {
       if (mapColumn.includes("Airport Group")) {
         key = "Airport Group";
       } else if (mapColumn.includes("City Group")) {
@@ -405,7 +438,9 @@ const RightDrawer = (props) => {
       }
       obj["column"] = key;
       obj["value"] = mapValue;
-      obj["enabled"] = enabled;
+      if (className !== "applyFilter") {
+        obj["enabled"] = enabled;
+      }
       return obj;
     }
   };
@@ -433,7 +468,7 @@ const RightDrawer = (props) => {
           departureAirportGroupEnabledSave={departureAirportGroupEnabledSave}
           departureCityEnabledSave={departureCityEnabledSave}
           departureCityGroupEnabledSave={departureCityGroupEnabledSave}
-          departureCountryEnabledSave={departureCountryEnabledSave}   
+          departureCountryEnabledSave={departureCountryEnabledSave}
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -482,7 +517,11 @@ const RightDrawer = (props) => {
           <Button
             variant=""
             className="applyFilter"
-            onClick={() => saveApplyFilterMap("applyFilter")}
+            onClick={
+              (e) => {
+                saveApplyFilterMap("applyFilter");
+              }
+            }
           >
             Apply Filter
           </Button>
@@ -496,12 +535,14 @@ const RightDrawer = (props) => {
             onChange={(e) => registersaveFilterName(e)}
           />
           <div className="btn-wrap">
-            <button className="button" onClick={(e)=>{saveApplyFilterMap();
-            setSaveFilterName("")}
+            <button className="button" onClick={(e) => {
+              saveApplyFilterMap();
+              setSaveFilterName("")
+            }
             }>
               Save
             </button>
-            <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>
+            <button className="button" onClick={(e) => { setShowSavePopup("none") }}>Cancel</button>
           </div>
         </div>
       </div>
