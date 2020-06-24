@@ -9,6 +9,8 @@ const Revenue = (props) => {
   const [condition, setCondition] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
+  const [allowEdit, setAllowEdit] = useState(true); 
+
   useEffect(() => {
     if (props.name) {
       if (props.isReset === true) {
@@ -18,6 +20,15 @@ const Revenue = (props) => {
         setLabelName(props.name);
         setCondition(props.condition);
       }
+      else if (props.filterInfoToShow!== undefined && 
+        props.filterInfoToShow.some(item => (item.column === "Revenue"))) {
+          setLabelName("Revenue");
+          props.filterInfoToShow.map(item=>{
+            if(item.column === "Revenue"){
+              setCondition(props.condition)
+    }
+          })
+    }
     }
   }, [props]);
 
@@ -35,15 +46,25 @@ const Revenue = (props) => {
   };
 
   if (labelName === REVENUE) {
+    var amountValueOnEditFilter="", conditionValueOnEditFilter="";
+    if(props.filterInfoToShow!==undefined){
+      props.filterInfoToShow.map(item=>{
+        if(item.column === "Revenue"){
+          amountValueOnEditFilter = item.value
+          conditionValueOnEditFilter=item.condition
+        }
+      })
+    }
+    
     return (
       <div className="filter__input">
-        <div className="displayFlex">
-          <div className="alignLeft">
+        <div className="filter__input-title">
+          <div className="filter__label">
             <Form.Label>
               <strong>{labelName}</strong>
             </Form.Label>
           </div>
-          <div className="marginLeft">
+          <div className="filter__control">
             <Form.Check
               type="switch"
               id="revenue"
@@ -70,6 +91,7 @@ const Revenue = (props) => {
             <Form.Control
               disabled={textStatus}
               as="select"
+              defaultValue={conditionValueOnEditFilter !=="" ? conditionValueOnEditFilter : null}
               onChange={(e) => {
                 props.revenueConditionSave(e);
               }}
@@ -87,8 +109,10 @@ const Revenue = (props) => {
               disabled={textStatus}
               required
               type="text"
-              defaultValue=""
+              defaultValue= {allowEdit && 
+                amountValueOnEditFilter !== "" ? amountValueOnEditFilter : null}
               onChange={(e) => {
+                setAllowEdit(false);
                 props.revenueAmountSave(e, labelName, enabled);
               }}
             />

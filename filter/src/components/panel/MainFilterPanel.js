@@ -30,9 +30,8 @@ const MainFilterPanel = (props) => {
                   item.column === "Departure Port" ||
                   item.column === "Arrival Port"
                 ) {
-                  return item.types.map((subItem) => {
-                    return (
-                      <div className="listContent" key={item.column} onClick={props.click}>
+                  return item.types.map((subItem) => (
+                    <div className="listContent" key={item.column} onClick={()=>props.click(props.filterMap.applyFilter)}>
                         <span>
                           {item.column === "Departure Port"
                             ? "Departure "
@@ -41,8 +40,7 @@ const MainFilterPanel = (props) => {
                         </span>{" "}
                         {subItem.value}
                       </div>
-                    );
-                  });
+          ));
                 } else if (item.column === "Revenue") {
                   return (
                     <div className="listContent" key={item.column} onClick={props.click}>
@@ -52,16 +50,29 @@ const MainFilterPanel = (props) => {
                       {item.value}
                     </div>
                   );
+                }
+                else if(item.column === "Date"){
+                  return item.field.map((subItem)=>(
+                    <div className="listContent" key={item.column} onClick={()=>props.click(props.filterMap.applyFilter)}>
+                      <span>
+                        {subItem.column === "From Date & Time"
+                          ? "From "
+                          : "To "} {": "}
+                      </span>{" "}
+                      {subItem.value}
+                    </div>
+                  )
+                  );
                 } else {
                   return (
-                    <div className="listContent" key={item.column} onClick={props.click}>
+                    <div className="listContent" key={item.column} onClick={()=>props.click(props.filterMap.applyFilter)}>
                       <span>{item.column}</span> {item.value}
                     </div>
                   );
                 }
               })
             : null}
-          <div onClick={props.click}>+ Add Filter</div>
+          <div onClick={()=>props.click()}>+ Add Filter</div>
         </div>
       </div>
     </div>

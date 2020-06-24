@@ -13,6 +13,7 @@ export default function CityGroup(props) {
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
+  const [allowEdit, setAllowEdit] = useState(true); 
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
@@ -23,6 +24,10 @@ export default function CityGroup(props) {
     if (props.type === "City Group") {
       setLabelName(props.name);
       setLabelType(props.type);
+    }
+    else if(props.cityGroupToDisplay!==""){
+      setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
+      setLabelType("City Group");
     }
   }, [props]);
 
@@ -41,13 +46,13 @@ export default function CityGroup(props) {
   if (labelType === "City Group") {
     return (
       <div className="filter__input">
-        <div className="displayFlex">
-          <div className="alignLeft">
-            <p>{labelName}</p>
+        <div className="filter__input-title">
+          <div className="filter__label">
+            <span>{labelName}</span>
             <span>&nbsp;&gt;&nbsp;</span>
-            <p>{labelType}</p>
+            <span>{labelType}</span>
           </div>
-          <div className="marginLeft">
+          <div className="filter__control">
             <Form.Check
               type="switch"
               id={switchId}
@@ -77,8 +82,11 @@ export default function CityGroup(props) {
             type="text"
             className="form-control"
             onChange={(e) => {
+              setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
+            value= { allowEdit && props.cityGroupToDisplay !=="" ? 
+            props.cityGroupToDisplay : null}
           ></input>
         </div>
       </div>
