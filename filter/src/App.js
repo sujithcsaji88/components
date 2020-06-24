@@ -3,8 +3,7 @@ import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
 import MainFilterPanel from "./components/panel/MainFilterPanel";
-import SpreadSheet from "./components/datagrid/speadsheet"
-
+import SpreadSheet from "./components/datagrid/speadsheet";
 
 function useComponentVisible() {
   const [showApplyFilter, setApplyFilter] = useState(false);
@@ -14,7 +13,6 @@ function useComponentVisible() {
   const handleHideDropdown = (event) => {
     if (event.key === "Escape") {
       setApplyFilter(false);
-
     }
   };
   const handleClickOutside = (event) => {
@@ -22,8 +20,6 @@ function useComponentVisible() {
       setApplyFilter(false);
     }
   };
-
-
 
   useEffect(() => {
     document.addEventListener("keydown", handleHideDropdown, true);
@@ -46,13 +42,12 @@ function App() {
   const [enabled, setEnabled] = useState();
   const [isReset, setIsReset] = useState(false);
   const [filterMap, setFilterMap] = useState();
-  const [filterKeys,setFilterKeys]=useState();
-  const [filterInfoToShow, setFilterInfoToShow]=useState();
-
+  const [filterKeys, setFilterKeys] = useState();
+  const [filterInfoToShow, setFilterInfoToShow] = useState();
 
   const addedFilterCount = () => {
-    setAddedFilter(addedFilter + 1)
-  }
+    setAddedFilter(addedFilter + 1);
+  };
   const passValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
@@ -77,53 +72,51 @@ function App() {
 
   const clearType = () => {
     setLabelType("");
-    if(addedFilter!==0){
-      setAddedFilter(addedFilter-1)
+    if (addedFilter !== 0) {
+      setAddedFilter(addedFilter - 1);
     }
-    
   };
 
   const clearName = () => {
     setLabelName("");
-    if(addedFilter!==0){
-      setAddedFilter(addedFilter-1)
+    if (addedFilter !== 0) {
+      setAddedFilter(addedFilter - 1);
     }
-    
   };
 
   const clearAllFilter = () => {
     setIsReset(true);
-    setAddedFilter(0)
-  }
+    setAddedFilter(0);
+  };
 
   const setIsResetFalse = () => {
     setIsReset(false);
-  }
+  };
 
   const captureFilterMap = (map) => {
     setFilterMap(map);
-  }
+  };
   const onApplyFilter = (obj) => {
-  setFilterKeys(obj)
-}
+    setFilterKeys(obj);
+  };
 
-const applyFilterClose=()=>{
-  setApplyFilter(false);
-}
+  const applyFilterClose = () => {
+    setApplyFilter(false);
+  };
 
-  const handleFilterViewInRightDrawer=(filterInfo)=>{
+  const handleFilterViewInRightDrawer = (filterInfo) => {
     //krishna's change here*****
-    setApplyFilter(true)
+    setApplyFilter(true);
 
     setLabelName("");
     setLabelType("");
     setApplyFilter(true);
-    if(filterInfo!==undefined){
+    if (filterInfo !== undefined) {
       setLabelName(labelName);
       setLabelType(labelType);
       setFilterInfoToShow(filterInfo);
-    } 
-  }
+    }
+  };
 
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
@@ -163,7 +156,10 @@ const applyFilterClose=()=>{
         </div>
       )}
 
-      <MainFilterPanel filterMap={filterMap} click={(item) => handleFilterViewInRightDrawer(item)} />
+      <MainFilterPanel
+        filterMap={filterMap}
+        click={(item) => handleFilterViewInRightDrawer(item)}
+      />
       <SpreadSheet filterArray={filterKeys} />
     </div>
   );

@@ -30,8 +30,8 @@ class Grid extends Component {
       selectedIndexes: [],
       junk: {},
       topLeft: {},
-      status:'',
-      textValue:'',
+      status: "",
+      textValue: "",
       columns: [
         {
           key: "flightno",
@@ -223,12 +223,11 @@ class Grid extends Component {
           filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
-        
       ].map((c) => ({ ...c, ...defaultColumnProperties })),
     };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
-    this.handletextValue=this.handletextValue.bind(this);
+    this.handletextValue = this.handletextValue.bind(this);
   }
 
   updateRows = (startIdx, newRows) => {
@@ -305,11 +304,10 @@ class Grid extends Component {
   };
 
   componentWillReceiveProps(props) {
-    this.setState({ rows: props.rows })
-    this.setState({status:props.status})
-    this.setState({textValue:props.textValue})
+    this.setState({ rows: props.rows });
+    this.setState({ status: props.status });
+    this.setState({ textValue: props.textValue });
   }
- 
 
   onRowsSelected = (rows) => {
     this.setState({
@@ -381,9 +379,9 @@ class Grid extends Component {
     this.setState(reorderedColumns);
   };
 
-  handletextValue(){
-    this.setState({textValue:''})
-    this.setState({status:''})
+  handletextValue() {
+    this.setState({ textValue: "" });
+    this.setState({ status: "" });
   }
   render() {
     return (
@@ -393,7 +391,9 @@ class Grid extends Component {
           onHeaderDrop={this.onHeaderDrop}
         >
           <ReactDataGrid
-            getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
+            getValidFilterValues={(columnKey) =>
+              this.getValidFilterValues(this.props.rows, columnKey)
+            }
             minHeight={680}
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
@@ -414,7 +414,6 @@ class Grid extends Component {
                 indexes: this.state.selectedIndexes,
               },
             }}
-            
           />
         </DraggableContainer>
       </div>
