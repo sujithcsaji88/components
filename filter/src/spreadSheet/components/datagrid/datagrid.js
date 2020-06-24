@@ -19,7 +19,7 @@ const {
 const defaultColumnProperties = {
   sortable: true,
   resizable: true,
-  filterable: true,
+  filterable: false,
   width: 120,
 };
 
@@ -59,8 +59,8 @@ class Grid extends Component {
           draggable: true,
         },
         {
-          key: "segmentfrom",
-          name: "Segment From",
+          key: "departureAirport",
+          name: "Departure Airport",
           editable: true,
           filterRenderer: AutoCompleteFilter,
           draggable: true,
@@ -80,8 +80,8 @@ class Grid extends Component {
           draggable: true,
         },
         {
-          key: "segmentto",
-          name: "Segment To",
+          key: "arrivalAirport",
+          name: "Arrival Airport",
           editable: true,
           filterRenderer: AutoCompleteFilter,
           draggable: true,
@@ -293,7 +293,6 @@ class Grid extends Component {
     const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
     pasteData.forEach((row) => {
       const rowData = {};
-      // Merge the values from pasting and the keys from the columns
       this.state.columns
         .slice(topLeft.colIdx, topLeft.colIdx + row.length)
         .forEach((col, j) => {
@@ -449,31 +448,11 @@ class Grid extends Component {
   render() {
     return (
       <div>
-        {/* <div className="parentDiv">
-          <div className="totalCount">
-            Showing <strong> {this.props.count} </strong> records
-          </div>
-          <div className="globalSearch">
-            <FormControl
-              type="text"
-              placeholder="Search a screen"
-              onChange={this.props.handleChange}
-              value={this.props.value}
-            />
-            <span className="crossSearchIcon">
-              <FontAwesomeIcon icon={faTimes} onClick={this.onClose}/>
-            </span>
-          </div>
-          <FontAwesomeIcon className="filterIcons" icon={faFilter} />
-          <FontAwesomeIcon className="filterIcons" icon={faSortAmountDown} />
-        </div> */}
-        {/* <ErrorMessage className="errorDiv" status={this.props.status} /> */}
         <DraggableContainer
           className="gridDiv"
           onHeaderDrop={this.onHeaderDrop}
         >
           <ReactDataGrid
-            toolbar={<Toolbar enableFilter={true} />}
             getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
             minHeight={680}
             columns={this.state.columns}
@@ -484,7 +463,6 @@ class Grid extends Component {
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)
             }
-            toolbar={<Toolbar enableFilter={true} />}
             getValidFilterValues={(columnKey) =>
               this.getValidFilterValues(this.props.rows, columnKey)
             }

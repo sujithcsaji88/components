@@ -1,5 +1,6 @@
 
 .filter--grid {
+  z-index: 9;
   box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
   position: fixed;
   font-size: 14px;
@@ -112,32 +113,6 @@
   align-items: center;
 }
 
-.filter__grid {
-  z-index: 9;
-  box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
-  position: fixed;
-  font-size: 14px;
-  color: #1f567e;
-  line-height: 28px;
-  top: 0px;
-  left: 0px;
-  transition: 0.5s;
-  background: #fff;
-  .displayFlex {
-    display: flex;
-    margin: 0px 0px;
-    justify-content: space-between;
-    align-items: center;
-    .alignLeft {
-      display: flex;
-    }
-    .marginLeft {
-      margin-left: auto;
-      .fontIcons {
-        margin-left: 10px;
-      }
-    }
-  }
   .leftDrawer {
     list-style: none;
     padding: 0 15px;

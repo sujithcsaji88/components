@@ -126,7 +126,7 @@ function App() {
   return (
     <div ref={ref}>
       {showApplyFilter && (
-        <div className="filter__grid" ref={ref}>
+        <div className="filter--grid" ref={ref}>
           <div className="filter__wrap">
             <div className="filter__list">
               <LeftDrawer
