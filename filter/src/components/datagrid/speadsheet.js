@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import Grid from './datagrid'
 import CargoData from '../../stubs/CargoData.json'
 import {
@@ -9,7 +9,6 @@ let searchKey;
 export default function SpreadSheet(props) {
   const [data, setData] = useState();
   const [status,setStatus]=useState("");
-  const [filterArray,setFilterArray]=useState();
   const rows = CargoData.map((CargoData) => {
     return {
       key: CargoData.travelId,

@@ -8,9 +8,7 @@ const {
 } = require("react-data-grid-addons");
 
 const defaultColumnProperties = {
-  sortable: true,
   resizable: true,
-  filterable: false,
   width: 120,
 };
 
@@ -225,20 +223,7 @@ class Grid extends Component {
           filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
-        {
-          key: "queuedBookingSR",
-          name: "Queued Booking SR",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "queuedBookingvolume",
-          name: "Queued Booking Volume",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
+        
       ].map((c) => ({ ...c, ...defaultColumnProperties })),
     };
     document.addEventListener("copy", this.handleCopy);
@@ -343,20 +328,6 @@ class Grid extends Component {
     });
   };
 
-  handleFilterChange = (value) => {
-    newFilters = { ...value };
-    let { junk } = this.state;
-    if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
-      newFilters[value.column.key] = value;
-      junk[value.column.key] = value;
-    } else if (value.filterTerm == null || value.filterTerm.length <= 0) {
-      delete newFilters[value.column.key];
-      delete junk[value.column.key];
-    }
-    this.setState({ filter: newFilters, junk });
-    const data = this.getrows(this.props.rows, junk);
-    this.setState({ rows: data });
-  };
   getrows = (rows, junk) => {
     if (Object.keys(junk).length <= 0) {
       junk = {};
@@ -427,7 +398,6 @@ class Grid extends Component {
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
             rowsCount={10}
-            // onGridRowsUpdated={this.onGridRowsUpdated}
             enableCellSelect={true}
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)
@@ -435,7 +405,6 @@ class Grid extends Component {
             getValidFilterValues={(columnKey) =>
               this.getValidFilterValues(this.props.rows, columnKey)
             }
-            onAddFilter={(filter) => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,
               enableShiftSelect: true,
@@ -445,9 +414,7 @@ class Grid extends Component {
                 indexes: this.state.selectedIndexes,
               },
             }}
-            onGridSort={(sortColumn, sortDirection) =>
-              this.sortRows(this.props.rows, sortColumn, sortDirection)
-            }
+            
           />
         </DraggableContainer>
       </div>
