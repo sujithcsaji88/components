@@ -375,7 +375,7 @@ class Grid extends Component {
     });
   };
 
-  handleFilterChange = (value) => {
+  handleFilterChange =  (value) => {
     newFilters = { ...value };
     let { junk } = this.state;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {

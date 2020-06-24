@@ -39,13 +39,13 @@ const Date = (props) => {
   if (labelName === DATE) {
     return (
       <div className="filter__input">
-        <div className="displayFlex" key={1}>
-          <div className="alignLeft">
+        <div className="filter__input-title" key={1}>
+          <div className="filter__label">
             <Form.Label>
               <strong>{labelName}</strong>
             </Form.Label>
           </div>
-          <div className="marginLeft">
+          <div className="filter__control">
             
             <Form.Check
               type="switch"
@@ -74,7 +74,7 @@ const Date = (props) => {
               <div className="displayFlex" key={`${index},${field.name}`}>
                 <Form.Text>{field.name}</Form.Text>
               </div>
-              <div className="displayFlex" key={index}>
+              <div className="filter__split" key={index}>
               <div className="date-wrap">
                 <Form.Control
                   disabled={textStatus}
@@ -87,7 +87,7 @@ const Date = (props) => {
                   }}
                 />
                 <span className="date-button">
-                  <button type="button"><i className="fa fa-calendar" aria-hidden="true"></i></button>
+                  <button type="button"></button>
                 </span>
                 </div>
                 <div className="time-wrap"> 
