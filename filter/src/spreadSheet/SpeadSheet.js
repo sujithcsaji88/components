@@ -49,19 +49,19 @@ export default function SpreadSheet(props) {
   useEffect(() => {
     setData(rows);
     let filteredRows;
-    console.log(props.filterArray);
+
     let searchKeys = []
     if(props.filterArray!==undefined){
       props.filterArray.applyFilter.map(item => {
         const types = item.types
         const field=item.field
         if(types){types.map(types => {
-          console.log(types.value)
+   
           searchKeys.push({"columnName":item.column,"name":types.column,"value":types.value})
         })}
         else if(field){
           field.map(field => {
-            console.log(field.value)
+    
             searchKeys.push({"columnName":item.column,"name":field.column,"value":field.value})
           })
         }
@@ -70,12 +70,13 @@ export default function SpreadSheet(props) {
         }
       });
     }
-    console.log(searchKeys);
+ 
+    filteredRows=rows;
     searchKeys.map((obj)=>{
       const columnName=obj.columnName;
       const name=obj.name;
       const searchKey=obj.value;
-      filteredRows = rows.filter((item) => {
+      filteredRows = filteredRows.filter((item) => {
         switch(columnName){
           case "Departure Port":
              return (item.departureAirport && item.departureAirport.toLowerCase().includes(searchKey))
