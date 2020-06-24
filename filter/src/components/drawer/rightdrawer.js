@@ -496,12 +496,12 @@ const RightDrawer = (props) => {
             onChange={(e) => registersaveFilterName(e)}
           />
           <div className="btn-wrap">
+            <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>
             <button className="button" onClick={(e)=>{saveApplyFilterMap();
             setSaveFilterName("")}
             }>
               Save
             </button>
-            <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>
           </div>
         </div>
       </div>
