@@ -123,8 +123,8 @@
     list-style: none;
     padding: 0 15px;
     overflow-y: scroll;
-    height: 532px;
-    width: 205px;
+    height: 470px;
+    width: 215px;
     margin-bottom: 0;
     li {
       &.selected {
@@ -140,7 +140,7 @@
     justify-content: flex-start;
   }
   .filter__content {
-    height: 470px;
+    height: 410px;
     overflow-y: scroll;
     overflow-x: hidden;
     width: 291px;
@@ -198,9 +198,11 @@
         color: #fff;
         height: 37px;
         padding: 6px 15px 10px;
+        font-size: 14px;
       }
       .reset {
         color: #47c9c9;
+        font-size: 14px;
       }
     }
   }
@@ -341,7 +343,6 @@ label {
       .leftSpace {
         margin-left: 15px;
         color: #20577f;
-        font-weight: bold;
       }
     }
     .marginLeft {
