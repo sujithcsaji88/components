@@ -3,6 +3,7 @@ import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
 import MainFilterPanel from "./components/panel/MainFilterPanel";
+import SpreadSheet from "../src/spreadSheet/SpeadSheet";
 
 
 function useComponentVisible() {
@@ -45,6 +46,7 @@ function App() {
   const [enabled, setEnabled] = useState();
   const [isReset, setIsReset] = useState(false);
   const [filterMap, setFilterMap] = useState();
+  const [filterKeys,setFilterKeys]=useState();
   const [filterInfoToShow, setFilterInfoToShow]=useState();
 
 
@@ -101,8 +103,13 @@ function App() {
   const captureFilterMap = (map) => {
     setFilterMap(map);
   }
+  const onApplyFilter = (obj) => {
+  setFilterKeys(obj)
+}
 
   const handleFilterViewInRightDrawer=(filterInfo)=>{
+    //krishna's change here*****
+    setApplyFilter(true)
     console.log("FILTER_INFO ", filterInfo);
     setLabelName("");
     setLabelType("");
@@ -143,13 +150,16 @@ function App() {
                 clearValues={clearType}
                 clearValue={clearName}
                 addedFilter={addedFilter}
+                onApplyFilter={onApplyFilter}
                 filterInfoToShow={filterInfoToShow}
               />
             </div>
           </div>
         </div>
       )}
+
       <MainFilterPanel filterMap={filterMap} click={(item) => handleFilterViewInRightDrawer(item)} />
+      <SpreadSheet filterArray={filterKeys} />
     </div>
   );
 }
