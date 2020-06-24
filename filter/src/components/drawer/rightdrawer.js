@@ -524,6 +524,7 @@ const RightDrawer = (props) => {
             onClick={
               (e) => {
                 saveApplyFilterMap("applyFilter");
+                props.applyFilterClose();
               }
             }
           >

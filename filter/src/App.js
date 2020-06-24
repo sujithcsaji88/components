@@ -107,6 +107,10 @@ function App() {
   setFilterKeys(obj)
 }
 
+const applyFilterClose=()=>{
+  setApplyFilter(false);
+}
+
   const handleFilterViewInRightDrawer=(filterInfo)=>{
     //krishna's change here*****
     setApplyFilter(true)
@@ -152,6 +156,7 @@ function App() {
                 addedFilter={addedFilter}
                 onApplyFilter={onApplyFilter}
                 filterInfoToShow={filterInfoToShow}
+                applyFilterClose={applyFilterClose}
               />
             </div>
           </div>
