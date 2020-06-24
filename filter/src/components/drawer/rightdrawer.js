@@ -411,7 +411,7 @@ const RightDrawer = (props) => {
       buff[saveFilterName] = filter;
       filters.push(buff);
       obj["saveFilter"] = { ...filters }
-      console.log(obj);
+
       let savedFilters = localStorage.getItem("savedFilters");
       savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
       savedFilters.push(filters);

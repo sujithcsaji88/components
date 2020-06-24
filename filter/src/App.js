@@ -110,7 +110,7 @@ function App() {
   const handleFilterViewInRightDrawer=(filterInfo)=>{
     //krishna's change here*****
     setApplyFilter(true)
-    console.log("FILTER_INFO ", filterInfo);
+
     setLabelName("");
     setLabelType("");
     setApplyFilter(true);
