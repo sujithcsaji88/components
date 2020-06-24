@@ -45,6 +45,7 @@ function App() {
   const [enabled, setEnabled] = useState();
   const [isReset, setIsReset] = useState(false);
   const [filterMap, setFilterMap] = useState();
+  const [filterInfoToShow, setFilterInfoToShow]=useState();
 
 
   const addedFilterCount = () => {
@@ -55,6 +56,7 @@ function App() {
     setLabelName(filterName);
     setLabelType(filterType);
     setEnabled(enabled);
+    setFilterInfoToShow(undefined);
   };
 
   const passDate = (filterName, field, enabled) => {
@@ -62,6 +64,7 @@ function App() {
     setLabelName(filterName);
     setField(field);
     setEnabled(enabled);
+    setFilterInfoToShow(undefined);
   };
   const passRevenue = (filterName, condition, enabled) => {
     setIsResetFalse();
@@ -99,6 +102,18 @@ function App() {
     setFilterMap(map);
   }
 
+  const handleFilterViewInRightDrawer=(filterInfo)=>{
+    console.log("FILTER_INFO ", filterInfo);
+    setLabelName("");
+    setLabelType("");
+    setApplyFilter(true);
+    if(filterInfo!==undefined){
+      setLabelName(labelName);
+      setLabelType(labelType);
+      setFilterInfoToShow(filterInfo);
+    } 
+  }
+
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
   return (
@@ -128,12 +143,13 @@ function App() {
                 clearValues={clearType}
                 clearValue={clearName}
                 addedFilter={addedFilter}
+                filterInfoToShow={filterInfoToShow}
               />
             </div>
           </div>
         </div>
       )}
-      <MainFilterPanel filterMap={filterMap} click={() => setApplyFilter(true)} />
+      <MainFilterPanel filterMap={filterMap} click={(item) => handleFilterViewInRightDrawer(item)} />
     </div>
   );
 }

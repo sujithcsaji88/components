@@ -434,6 +434,7 @@ const RightDrawer = (props) => {
           departureCityEnabledSave={departureCityEnabledSave}
           departureCityGroupEnabledSave={departureCityGroupEnabledSave}
           departureCountryEnabledSave={departureCountryEnabledSave}   
+          filterInfoToShow={props.filterInfoToShow}   
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -447,6 +448,7 @@ const RightDrawer = (props) => {
           arrivalCityEnabledSave={arrivalCityEnabledSave}
           arrivalCityGroupEnabledSave={arrivalCityGroupEnabledSave}
           arrivalCountryEnabledSave={arrivalCountryEnabledSave}
+          filterInfoToShow={props.filterInfoToShow}
         />
         <Date
           isReset={props.isReset}
@@ -456,6 +458,7 @@ const RightDrawer = (props) => {
           clearValue={props.clearValue}
           dateSave={dateSave}
           dateEnabledSave={dateEnabledSave}
+          filterInfoToShow={props.filterInfoToShow}
         />
         <Revenue
           isReset={props.isReset}
@@ -466,6 +469,7 @@ const RightDrawer = (props) => {
           revenueConditionSave={revenueConditionSave}
           revenueAmountSave={revenueAmountSave}
           revenueEnabledSave={revenueEnabledSave}
+          filterInfoToShow={props.filterInfoToShow}
         />
       </div>
       <div className="filter__btn">
