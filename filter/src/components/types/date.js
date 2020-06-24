@@ -46,7 +46,6 @@ const Date = (props) => {
             </Form.Label>
           </div>
           <div className="filter__control">
-            
             <Form.Check
               type="switch"
               id="date"

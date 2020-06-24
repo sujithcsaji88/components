@@ -37,13 +37,13 @@ const Revenue = (props) => {
   if (labelName === REVENUE) {
     return (
       <div className="filter__input">
-        <div className="displayFlex">
-          <div className="alignLeft">
+        <div className="filter__input-title">
+          <div className="filter__label">
             <Form.Label>
               <strong>{labelName}</strong>
             </Form.Label>
           </div>
-          <div className="marginLeft">
+          <div className="filter__control">
             <Form.Check
               type="switch"
               id="revenue"
