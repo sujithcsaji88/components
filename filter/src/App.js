@@ -101,27 +101,7 @@ function App() {
     setFilterMap(map);
   }
   const onApplyFilter = (obj) => {
-    console.log(obj)
-        let searchKeys = []
-        obj.applyFilter.map(item => {
-        const types = item.types
-        const field=item.field
-        if(types){types.map(types => {
-          console.log(types.value)
-          searchKeys.push(types.value)
-        })}
-        else if(field){
-          field.map(field => {
-            console.log(field.value)
-            searchKeys.push(field.value)
-          })
-        }
-        else {
-          searchKeys.push(item.value)
-        }
-      });
-  console.log(searchKeys)
-  setFilterKeys(searchKeys)
+  setFilterKeys(obj)
 }
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 

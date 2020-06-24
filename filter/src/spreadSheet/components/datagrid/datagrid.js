@@ -478,7 +478,7 @@ class Grid extends Component {
             minHeight={680}
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
-            rowsCount={this.state.rows.length}
+            rowsCount={10}
             onGridRowsUpdated={this.onGridRowsUpdated}
             enableCellSelect={true}
             onColumnResize={(idx, width) =>

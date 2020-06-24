@@ -80,6 +80,7 @@ const Date = (props) => {
                   disabled={textStatus}
                   required
                   type="date"
+                  dateFormat="DD-MMM-YYYY"
                   defaultValue=""
                   className="date"
                   onChange={(e) => {
