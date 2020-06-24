@@ -13,6 +13,9 @@ export default function Airport(props) {
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
+    //purpose is to allow Edit of existing filters
+    const [allowEdit, setAllowEdit] = useState(true); 
+
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
@@ -23,6 +26,10 @@ export default function Airport(props) {
     if (props.type === "Airport") {
       setLabelName(props.name);
       setLabelType(props.type);
+    }
+    else if(props.airportToDisplay!==""){
+      setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
+      setLabelType("Airport");
     }
   }, [props]);
 
@@ -77,8 +84,11 @@ export default function Airport(props) {
             type="text"
             className="form-control"
             onChange={(e) => {
+              setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
+            value= { allowEdit && props.airportToDisplay!=="" ? 
+                      props.airportToDisplay : null}
           ></input>
         </div>
       </div>

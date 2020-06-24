@@ -13,6 +13,7 @@ export default function City(props) {
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
+  const [allowEdit, setAllowEdit] = useState(true); 
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
@@ -23,6 +24,10 @@ export default function City(props) {
     if (props.type === "City") {
       setLabelName(props.name);
       setLabelType(props.type);
+    }
+    else if(props.cityToDisplay!==""){
+      setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
+      setLabelType("City");
     }
   }, [props]);
 
@@ -77,8 +82,11 @@ export default function City(props) {
             type="text"
             className="form-control"
             onChange={(e) => {
+              setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
+            value= { allowEdit && props.cityToDisplay!=="" ? 
+            props.cityToDisplay : null}
           ></input>
         </div>
       </div>

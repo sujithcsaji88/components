@@ -19,7 +19,16 @@ const Date = (props) => {
         setLabelName(props.name);
         setField(props.field);
       }
+      else if (props.filterInfoToShow!== undefined && 
+        props.filterInfoToShow.some(item => (item.column === "Date"))) {
+          setLabelName("Date");
+          props.filterInfoToShow.map(item=>{
+            if(item.column === "Date"){
+              setField(item.field)
     }
+          })
+    }
+}
   }, [props]);
 
   const closeDate = () => {
@@ -37,6 +46,22 @@ const Date = (props) => {
   };
 
   if (labelName === DATE) {
+    var toDateValue="", fromDateValue="";
+    if(props.filterInfoToShow !== undefined){
+      props.filterInfoToShow.map(item=>{
+        if(item.column === "Date"){
+          item.field.map(subItem=>{
+            if(subItem.column === "From Date & Time"){
+              fromDateValue = subItem.value
+            }
+            if(subItem.column === "To Date & Time"){
+              toDateValue = subItem.value
+            }
+          })
+        }
+      })
+    }
+
     return (
       <div className="filter__input">
         <div className="filter__input-title" key={1}>
@@ -79,7 +104,7 @@ const Date = (props) => {
                   disabled={textStatus}
                   required
                   type="date"
-                  defaultValue=""
+                  defaultValue={field.name === "From Date & Time" ? fromDateValue : toDateValue}
                   className="date"
                   onChange={(e) => {
                     props.dateSave(e, field.name, labelName, enabled);
