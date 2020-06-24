@@ -1,16 +1,7 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
-import { Toolbar, Data, Filters } from "react-data-grid-addons";
+import { Data, Filters } from "react-data-grid-addons";
 import { range } from "lodash";
-import { applyFormula } from "../../utilities/utils";
-import { FormControl } from "react-bootstrap";
-import {
-  faFilter,
-  faSortAmountDown,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ErrorMessage from "../common/ErrorMessage";
 
 const {
   DraggableHeader: { DraggableContainer },
@@ -333,29 +324,7 @@ class Grid extends Component {
     this.setState({status:props.status})
     this.setState({textValue:props.textValue})
   }
-  onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
-    if (
-      updated.yeild !== null ||
-      updated.yeild !== undefined ||
-      updated.revenue !== null ||
-      updated.revenue !== undefined ||
-      updated.weightpercentage !== null ||
-      updated.weightpercentage !== undefined ||
-      updated.weightvalue !== null ||
-      updated.weightvalue !== undefined
-    ) {
-      updated = applyFormula(updated);
-    }
-    if (action !== "COPY_PASTE") {
-      this.setState((state) => {
-        const rows = state.rows.slice();
-        for (let i = fromRow; i <= toRow; i++) {
-          rows[i] = { ...rows[i], ...updated };
-        }
-        return { rows };
-      });
-    }
-  };
+ 
 
   onRowsSelected = (rows) => {
     this.setState({
@@ -458,7 +427,7 @@ class Grid extends Component {
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
             rowsCount={10}
-            onGridRowsUpdated={this.onGridRowsUpdated}
+            // onGridRowsUpdated={this.onGridRowsUpdated}
             enableCellSelect={true}
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, Suspense } from "react";
-import Grid from "./components/datagrid/datagrid";
-import CargoData from "./stubs/CargoData.json";
+import Grid from './datagrid'
+import CargoData from '../../stubs/CargoData.json'
 import {
   BrowserRouter as Router
 } from "react-router-dom";
-import LoadingSpinner from "./components/common/LoadingSpinner";
+
 let searchKey;
 export default function SpreadSheet(props) {
   const [data, setData] = useState();
@@ -150,5 +150,5 @@ export default function SpreadSheet(props) {
     );
   } 
   else 
-  return<LoadingSpinner/>
+  return ""
 }

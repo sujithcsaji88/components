@@ -3,7 +3,7 @@ import "./scss/filter.scss";
 import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
 import MainFilterPanel from "./components/panel/MainFilterPanel";
-import SpreadSheet from "../src/spreadSheet/SpeadSheet";
+import SpreadSheet from "./components/datagrid/speadsheet"
 
 
 function useComponentVisible() {
