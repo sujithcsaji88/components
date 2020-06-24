@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
-import { Data, Filters } from "react-data-grid-addons";
-import { range } from "lodash";
+import { Data } from "react-data-grid-addons";
 
 const {
   DraggableHeader: { DraggableContainer },
@@ -15,11 +14,7 @@ const defaultColumnProperties = {
 const defaultParsePaste = (str) =>
   str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
 
-let newFilters = {};
-
 const selectors = Data.Selectors;
-
-const { AutoCompleteFilter, SingleSelectFilter } = Filters;
 
 class Grid extends Component {
   constructor(props) {
@@ -36,197 +31,90 @@ class Grid extends Component {
         {
           key: "flightno",
           name: "Flight #",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
           draggable: true,
         },
         {
           key: "date",
           name: "Date",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
           draggable: true,
         },
         {
           key: "departureAirport",
           name: "Departure Airport",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "revenue",
           name: "Revenue",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
           draggable: true,
         },
         {
           key: "yeild",
           name: "Yeild",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
           draggable: true,
         },
         {
           key: "arrivalAirport",
           name: "Arrival Airport",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "flightModel",
           name: "Flight Model",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "bodyType",
-          name: "Body Type",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "type",
           name: "Type",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "startTime",
           name: "Start Time",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "endTime",
           name: "End Time",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "status",
           name: "Status",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "additionalStatus",
           name: "Additional Status",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "timeStatus",
           name: "Time Status",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "weightpercentage",
           name: "Weight Percentage",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "weightvalue",
           name: "Weight Value",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "volumepercentage",
           name: "Volume Percentage",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
         {
           key: "volumevalue",
           name: "Volume Value",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition1",
-          name: "uldposition1",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue1",
-          name: "uldvalue1",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition2",
-          name: "uldposition2",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue2",
-          name: "uldvalue2",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition3",
-          name: "uldposition3",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue3",
-          name: "uldvalue3",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition4",
-          name: "uldposition4",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue4",
-          name: "uldvalue4",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-
-        {
-          key: "sr",
-          name: "SR",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
       ].map((c) => ({ ...c, ...defaultColumnProperties })),
     };
-    document.addEventListener("copy", this.handleCopy);
-    document.addEventListener("paste", this.handlePaste);
     this.handletextValue = this.handletextValue.bind(this);
   }
 
@@ -245,37 +133,6 @@ class Grid extends Component {
   rowGetter = (i) => {
     const { rows } = this.state;
     return rows[i];
-  };
-
-  handleCopy = (e) => {
-    e.preventDefault();
-    const { topLeft, botRight } = this.state;
-    const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
-      .map((rowIdx) =>
-        this.state.columns
-          .slice(topLeft.colIdx, botRight.colIdx + 1)
-          .map((col) => this.rowGetter(rowIdx)[col.key])
-          .join("\t")
-      )
-      .join("\n");
-    e.clipboardData.setData("text/plain", text);
-  };
-
-  handlePaste = (e) => {
-    e.preventDefault();
-    const { topLeft } = this.state;
-    const newRows = [];
-    const pasteData = defaultParsePaste(e.clipboardData.getData("text/plain"));
-    pasteData.forEach((row) => {
-      const rowData = {};
-      this.state.columns
-        .slice(topLeft.colIdx, topLeft.colIdx + row.length)
-        .forEach((col, j) => {
-          rowData[col.key] = row[j];
-        });
-      newRows.push(rowData);
-    });
-    this.updateRows(topLeft.rowIdx, newRows);
   };
 
   setSelection = (args) => {
@@ -397,11 +254,8 @@ class Grid extends Component {
             minHeight={680}
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
-            rowsCount={10}
+            rowsCount={this.state.rows.length}
             enableCellSelect={true}
-            onColumnResize={(idx, width) =>
-              console.log(`Column ${idx} has been resized to ${width}`)
-            }
             getValidFilterValues={(columnKey) =>
               this.getValidFilterValues(this.props.rows, columnKey)
             }
