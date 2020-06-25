@@ -13,6 +13,7 @@ export default function AirportGroup(props) {
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
+  const [allowEdit, setAllowEdit] = useState(true);
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
@@ -23,6 +24,11 @@ export default function AirportGroup(props) {
     if (props.type === "Airport Group") {
       setLabelName(props.name);
       setLabelType(props.type);
+    } else if (props.airportGroupToDisplay !== "") {
+      setLabelName(
+        props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
+      );
+      setLabelType("Airport Group");
     }
   }, [props]);
 
@@ -42,13 +48,13 @@ export default function AirportGroup(props) {
   if (labelType === "Airport Group") {
     return (
       <div className="filter__input">
-        <div className="displayFlex">
-          <div className="alignLeft">
-            <p>{labelName}</p>
+        <div className="filter__input-title">
+          <div className="filter__label">
+            <span>{labelName}</span>
             <span>&nbsp;&gt;&nbsp;</span>
-            <p>{labelType}</p>
+            <span>{labelType}</span>
           </div>
-          <div className="marginLeft">
+          <div className="filter__control">
             <Form.Check
               type="switch"
               id={switchId}
@@ -65,7 +71,7 @@ export default function AirportGroup(props) {
             />
             <FontAwesomeIcon
               icon={faTimes}
-              onClick={() => {
+              onClick={(e) => {
                 closeAirportGroup();
                 props.clearValues();
               }}
@@ -78,8 +84,14 @@ export default function AirportGroup(props) {
             type="text"
             className="form-control"
             onChange={(e) => {
+              setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
+            value={
+              allowEdit && props.airportGroupToDisplay !== ""
+                ? props.airportGroupToDisplay
+                : null
+            }
           ></input>
         </div>
       </div>

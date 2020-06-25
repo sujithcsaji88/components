@@ -230,21 +230,44 @@ const RightDrawer = (props) => {
       typeArrival = [],
       typeDeparture = [],
       fieldList = [],
-      obj = {};
+      obj = {},
+      filters = [],
+      buff = {};
 
-    if (fromDateTime !== undefined)
-      fieldList.push({
-        column: fromDateTimeName,
-        value: fromDateTime,
-        enabled: dateEnabled,
-      });
+    if (fromDateTime !== undefined) {
+      if (className !== "applyFilter") {
+        fieldList.push({
+          column: fromDateTimeName,
+          value: fromDateTime,
+          enabled: dateEnabled,
+        });
+      }
+      else {
+        fieldList.push({
+          column: fromDateTimeName,
+          value: fromDateTime
+        });
+      }
 
-    if (toDateTime !== undefined)
-      fieldList.push({
-        column: toDateTimeName,
-        value: toDateTime,
-        enabled: dateEnabled,
-      });
+    }
+
+
+    if (toDateTime !== undefined) {
+      if (className !== "applyFilter") {
+        fieldList.push({
+          column: toDateTimeName,
+          value: toDateTime,
+          enabled: dateEnabled,
+        });
+      }
+      else {
+        fieldList.push({
+          column: toDateTimeName,
+          value: toDateTime
+        });
+      }
+    }
+
 
     let departureEntitiesNameList = [
       {
@@ -307,14 +330,16 @@ const RightDrawer = (props) => {
         constructPortListEntities(
           `${item.column}`,
           `${item.value}`,
-          `${item.enabled}`
+          `${item.enabled}`,
+          className
         ) !== undefined
       )
         typeDeparture.push(
           constructPortListEntities(
             `${item.column}`,
             `${item.value}`,
-            `${item.enabled}`
+            `${item.enabled}`,
+            className
           )
         );
     });
@@ -324,14 +349,16 @@ const RightDrawer = (props) => {
         constructPortListEntities(
           `${item.column}`,
           `${item.value}`,
-          `${item.enabled}`
+          `${item.enabled}`,
+          className
         ) !== undefined
       )
         typeArrival.push(
           constructPortListEntities(
             `${item.column}`,
             `${item.value}`,
-            `${item.enabled}`
+            `${item.enabled}`,
+            className
           )
         );
     });
@@ -360,11 +387,18 @@ const RightDrawer = (props) => {
 
     obj = {}; //nullifying obj for reuse
 
-    if (revenueCondition !== undefined) {
-      obj["column"] = revenueName;
-      obj["condition"] = revenueCondition;
-      obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
-      obj["enabled"] = revenueEnabled;
+    if (revenueCondition !== undefined && revenueAmount !==undefined) {
+      if (className !== "applyFilter") {
+        obj["column"] = revenueName;
+        obj["condition"] = revenueCondition;
+        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+        obj["enabled"] = revenueEnabled;
+      }
+      else {
+        obj["column"] = revenueName;
+        obj["condition"] = revenueCondition;
+        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+      }
       filter.push(obj);
     }
     obj = {}; //nullifying obj for reuse
@@ -372,17 +406,25 @@ const RightDrawer = (props) => {
     if (className === "applyFilter") {
       obj["applyFilter"] = filter;
       console.log(obj);
+      props.onApplyFilter(obj);
     } else {
-      obj[saveFilterName] = filter;
-      console.log(obj);
+      buff[saveFilterName] = filter;
+      filters.push(buff);
+      obj["saveFilter"] = { ...filters }
+
+      let savedFilters = localStorage.getItem("savedFilters");
+      savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
+      savedFilters.push(filters);
+      localStorage.setItem("savedFilters", JSON.stringify(savedFilters));
+      console.log(savedFilters);
     }
     props.captureFilterMap(obj);
   };
-  const constructPortListEntities = (mapColumn, mapValue, enabled) => {
+  const constructPortListEntities = (mapColumn, mapValue, enabled, className) => {
     let obj = {},
       key = "";
     //dont use === in comparison; Intentionally did !=
-    if (mapValue !== "undefined") {
+    if ((mapValue !== "undefined" && mapValue.length>0) && enabled==="true") {
       if (mapColumn.includes("Airport Group")) {
         key = "Airport Group";
       } else if (mapColumn.includes("City Group")) {
@@ -396,7 +438,9 @@ const RightDrawer = (props) => {
       }
       obj["column"] = key;
       obj["value"] = mapValue;
-      obj["enabled"] = enabled;
+      if (className !== "applyFilter") {
+        obj["enabled"] = enabled;
+      }
       return obj;
     }
   };
@@ -410,7 +454,7 @@ const RightDrawer = (props) => {
     <React.Fragment>
       <div className="filter__title">
         Searched Filters
-        <span className="filter-count">3</span>
+        <span className="filter-count">{props.addedFilter}</span>
       </div>
       <div className="filter__content">
         <DeparturePort
@@ -424,7 +468,8 @@ const RightDrawer = (props) => {
           departureAirportGroupEnabledSave={departureAirportGroupEnabledSave}
           departureCityEnabledSave={departureCityEnabledSave}
           departureCityGroupEnabledSave={departureCityGroupEnabledSave}
-          departureCountryEnabledSave={departureCountryEnabledSave}
+          departureCountryEnabledSave={departureCountryEnabledSave}   
+          filterInfoToShow={props.filterInfoToShow}   
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -438,6 +483,7 @@ const RightDrawer = (props) => {
           arrivalCityEnabledSave={arrivalCityEnabledSave}
           arrivalCityGroupEnabledSave={arrivalCityGroupEnabledSave}
           arrivalCountryEnabledSave={arrivalCountryEnabledSave}
+          filterInfoToShow={props.filterInfoToShow}
         />
         <Date
           isReset={props.isReset}
@@ -447,6 +493,7 @@ const RightDrawer = (props) => {
           clearValue={props.clearValue}
           dateSave={dateSave}
           dateEnabledSave={dateEnabledSave}
+          filterInfoToShow={props.filterInfoToShow}
         />
         <Revenue
           isReset={props.isReset}
@@ -457,6 +504,7 @@ const RightDrawer = (props) => {
           revenueConditionSave={revenueConditionSave}
           revenueAmountSave={revenueAmountSave}
           revenueEnabledSave={revenueEnabledSave}
+          filterInfoToShow={props.filterInfoToShow}
         />
       </div>
       <div className="filter__btn">
@@ -473,7 +521,12 @@ const RightDrawer = (props) => {
           <Button
             variant=""
             className="applyFilter"
-            onClick={() => saveApplyFilterMap("applyFilter")}
+            onClick={
+              (e) => {
+                saveApplyFilterMap("applyFilter");
+                props.applyFilterClose();
+              }
+            }
           >
             Apply Filter
           </Button>
@@ -487,10 +540,12 @@ const RightDrawer = (props) => {
             onChange={(e) => registersaveFilterName(e)}
           />
           <div className="btn-wrap">
-            <button className="button" onClick={saveApplyFilterMap}>
+            <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>
+            <button className="button" onClick={(e)=>{saveApplyFilterMap();
+            setSaveFilterName("")}
+            }>
               Save
             </button>
-            <button className="button">Cancel</button>
           </div>
         </div>
       </div>
