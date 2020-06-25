@@ -11,9 +11,6 @@ const defaultColumnProperties = {
   width: 120,
 };
 
-const defaultParsePaste = (str) =>
-  str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
-
 const selectors = Data.Selectors;
 
 class Grid extends Component {
@@ -40,7 +37,7 @@ class Grid extends Component {
         },
         {
           key: "departureAirport",
-          name: "Departure Airport",
+          name: "Dept. Airport",
           draggable: true,
         },
         {
@@ -55,17 +52,12 @@ class Grid extends Component {
         },
         {
           key: "arrivalAirport",
-          name: "Arrival Airport",
+          name: "Arrv. Airport",
           draggable: true,
         },
         {
           key: "flightModel",
           name: "Flight Model",
-          draggable: true,
-        },
-        {
-          key: "type",
-          name: "Type",
           draggable: true,
         },
         {
@@ -118,46 +110,9 @@ class Grid extends Component {
     this.handletextValue = this.handletextValue.bind(this);
   }
 
-  updateRows = (startIdx, newRows) => {
-    this.setState((state) => {
-      const rows = state.rows.slice();
-      for (let i = 0; i < newRows.length; i++) {
-        if (startIdx + i < rows.length) {
-          rows[startIdx + i] = { ...rows[startIdx + i], ...newRows[i] };
-        }
-      }
-      return { rows };
-    });
-  };
-
   rowGetter = (i) => {
     const { rows } = this.state;
     return rows[i];
-  };
-
-  setSelection = (args) => {
-    this.setState({
-      topLeft: {
-        rowIdx: args.topLeft.rowIdx,
-        colIdx: args.topLeft.idx,
-      },
-      botRight: {
-        rowIdx: args.bottomRight.rowIdx,
-        colIdx: args.bottomRight.idx,
-      },
-    });
-  };
-
-  sortRows = (data, sortColumn, sortDirection) => {
-    const comparer = (a, b) => {
-      if (sortDirection === "ASC") {
-        return a[sortColumn] > b[sortColumn] ? 1 : -1;
-      } else if (sortDirection === "DESC") {
-        return a[sortColumn] < b[sortColumn] ? 1 : -1;
-      }
-    };
-    this.setState({ rows: [...this.state.rows].sort(comparer) });
-    return sortDirection === "NONE" ? data : this.state.rows;
   };
 
   componentWillReceiveProps(props) {
@@ -183,17 +138,6 @@ class Grid extends Component {
     });
   };
 
-  getrows = (rows, junk) => {
-    if (Object.keys(junk).length <= 0) {
-      junk = {};
-    }
-    const data = selectors.getRows({
-      rows: rows,
-      filters: junk,
-    });
-    return data;
-  };
-
   getValidFilterValues(rows, columnId) {
     return rows
       .map((r) => r[columnId])
@@ -201,17 +145,7 @@ class Grid extends Component {
         return i === a.indexOf(item);
       });
   }
-  sortRows = (data, sortColumn, sortDirection) => {
-    const comparer = (a, b) => {
-      if (sortDirection === "ASC") {
-        return a[sortColumn] > b[sortColumn] ? 1 : -1;
-      } else if (sortDirection === "DESC") {
-        return a[sortColumn] < b[sortColumn] ? 1 : -1;
-      }
-    };
-    this.setState({ rows: [...data].sort(comparer) });
-    return sortDirection === "NONE" ? data : this.state.rows;
-  };
+
   onHeaderDrop = (source, target) => {
     const stateCopy = Object.assign({}, this.state);
     const columnSourceIndex = this.state.columns.findIndex(
@@ -256,9 +190,6 @@ class Grid extends Component {
             rowGetter={(i) => this.state.rows[i]}
             rowsCount={this.state.rows.length}
             enableCellSelect={true}
-            getValidFilterValues={(columnKey) =>
-              this.getValidFilterValues(this.props.rows, columnKey)
-            }
             rowSelection={{
               showCheckbox: true,
               enableShiftSelect: true,
