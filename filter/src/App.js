@@ -52,6 +52,7 @@ function App() {
   const [filterMap, setFilterMap] = useState();
   const [filterKeys, setFilterKeys] = useState();
   const [filterInfoToShow, setFilterInfoToShow] = useState();
+  const childRefs=useRef(null);
 
   const addedFilterCount = () => {
     setAddedFilter(addedFilter + 1);
@@ -78,11 +79,13 @@ function App() {
     setEnabled(enabled);
   };
 
-  const clearType = () => {
+  const clearType = (resetStateVariableMap) => {
     setLabelType("");
     if (addedFilter !== 0) {
       setAddedFilter(addedFilter - 1);
     }
+    if(resetStateVariableMap!==undefined)
+    childRefs.current.clearStateVariables(resetStateVariableMap);
   };
 
   const clearName = () => {
@@ -152,12 +155,13 @@ function App() {
                 enabled={enabled}
                 name={labelName}
                 type={labelType}
-                clearValues={clearType}
+                clearValues={(resetStateVariableMap)=>clearType(resetStateVariableMap)}
                 clearValue={clearName}
                 addedFilter={addedFilter}
                 onApplyFilter={onApplyFilter}
                 filterInfoToShow={filterInfoToShow}
                 applyFilterClose={applyFilterClose}
+                ref={childRefs}
               />
             </div>
           </div>

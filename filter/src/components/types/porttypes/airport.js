@@ -71,9 +71,10 @@ export default function Airport(props) {
             />
             <FontAwesomeIcon
               icon={faTimes}
+              type="button"
               onClick={() => {
                 closeAirport();
-                props.clearValues();
+                props.clearValues({name:props.name, type:"Airport"});
               }}
             />
           </div>

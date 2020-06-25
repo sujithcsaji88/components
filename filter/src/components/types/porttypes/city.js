@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
@@ -7,32 +7,31 @@ import {
   ARRIVAL_PORT,
 } from "../../../constants/filtertypeconstants";
 
-export default function AirportGroup(props) {
+export default function City(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
-  const [allowEdit, setAllowEdit] = useState(true);
+  const [allowEdit, setAllowEdit] = useState(true); 
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
-      setSwitchId("departureAirportGroup");
+      setSwitchId("departureCity");
     } else if (props.name === ARRIVAL_PORT) {
-      setSwitchId("arrivalAirportGroup");
+      setSwitchId("arrivalCity");
     }
-    if (props.type === "Airport Group") {
+    if (props.type === "City") {
       setLabelName(props.name);
       setLabelType(props.type);
-    } else if (props.airportGroupToDisplay !== "") {
-      setLabelName(
-        props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
-      );
-      setLabelType("Airport Group");
+    }
+    else if(props.cityToDisplay!==""){
+      setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
+      setLabelType("City");
     }
   }, [props]);
 
-  const closeAirportGroup = () => {
+  const closeCity = () => {
     setLabelName("");
     setLabelType("");
   };
@@ -44,8 +43,7 @@ export default function AirportGroup(props) {
       setTextStatus(true);
     }
   };
-
-  if (labelType === "Airport Group") {
+  if (labelType === "City") {
     return (
       <div className="filter__input">
         <div className="filter__input-title">
@@ -63,17 +61,18 @@ export default function AirportGroup(props) {
               onClick={(e) => {
                 enableSwitchChange(e);
                 if (labelName === DEPARTURE_PORT) {
-                  props.departureAirportGroupEnabledSave(e.target.checked);
+                  props.departureCityEnabledSave(e.target.checked);
                 } else if (labelName === ARRIVAL_PORT) {
-                  props.arrivalAirportGroupEnabledSave(e.target.checked);
+                  props.arrivalCityEnabledSave(e.target.checked);
                 }
               }}
             />
             <FontAwesomeIcon
               icon={faTimes}
+              type="button"
               onClick={(e) => {
-                closeAirportGroup();
-                props.clearValues();
+                closeCity();
+                props.clearValues({name:props.name, type:"City"});
               }}
             />
           </div>
@@ -87,11 +86,8 @@ export default function AirportGroup(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            defaultValue={
-              allowEdit && props.airportGroupToDisplay !== ""
-                ? props.airportGroupToDisplay
-                : null
-            }
+            defaultValue= { allowEdit && props.cityToDisplay!=="" ? 
+            props.cityToDisplay : null}
           ></input>
         </div>
       </div>
