@@ -7,35 +7,32 @@ import {
   ARRIVAL_PORT,
 } from "../../../constants/filtertypeconstants";
 
-export default function AirportGroup(props) {
+export default function Airport(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
+  //purpose is to allow Edit of existing filters
   const [allowEdit, setAllowEdit] = useState(true);
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
-      setSwitchId("departureAirportGroup");
+      setSwitchId("departureAirport");
     } else if (props.name === ARRIVAL_PORT) {
-      setSwitchId("arrivalAirportGroup");
+      setSwitchId("arrivalAirport");
     }
-    if (props.type === "Airport Group") {
+    if (props.type === "Airport") {
       setLabelName(props.name);
       setLabelType(props.type);
-    } else if (props.airportGroupToDisplay !== "") {
+    } else if (props.airportToDisplay !== "") {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
-      setLabelType("Airport Group");
+      setLabelType("Airport");
     }
   }, [props]);
 
-  const closeAirportGroup = () => {
-    setLabelName("");
-    setLabelType("");
-  };
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
     if (!enabled) {
@@ -44,8 +41,11 @@ export default function AirportGroup(props) {
       setTextStatus(true);
     }
   };
-
-  if (labelType === "Airport Group") {
+  const closeAirport = () => {
+    setLabelName("");
+    setLabelType("");
+  };
+  if (labelType === "Airport") {
     return (
       <div className="filter__input">
         <div className="filter__input-title">
@@ -63,17 +63,18 @@ export default function AirportGroup(props) {
               onClick={(e) => {
                 enableSwitchChange(e);
                 if (labelName === DEPARTURE_PORT) {
-                  props.departureAirportGroupEnabledSave(e.target.checked);
+                  props.departureAirportEnabledSave(e.target.checked);
                 } else if (labelName === ARRIVAL_PORT) {
-                  props.arrivalAirportGroupEnabledSave(e.target.checked);
+                  props.arrivalAirportEnabledSave(e.target.checked);
                 }
               }}
             />
             <FontAwesomeIcon
               icon={faTimes}
-              onClick={(e) => {
-                closeAirportGroup();
-                props.clearValues();
+              type="button"
+              onClick={() => {
+                closeAirport();
+                props.clearValues({name:props.name, type:"Airport"});
               }}
             />
           </div>
@@ -88,8 +89,8 @@ export default function AirportGroup(props) {
               props.valueToSave(e, labelName, labelType, enabled);
             }}
             value={
-              allowEdit && props.airportGroupToDisplay !== ""
-                ? props.airportGroupToDisplay
+              allowEdit && props.airportToDisplay !== ""
+                ? props.airportToDisplay
                 : null
             }
           ></input>
@@ -98,5 +99,7 @@ export default function AirportGroup(props) {
     );
   } else if (props.isReset === true) {
     return <div></div>;
-  } else return <div></div>;
+  } else {
+    return <div></div>;
+  }
 }
