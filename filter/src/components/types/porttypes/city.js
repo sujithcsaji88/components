@@ -7,7 +7,7 @@ import {
   ARRIVAL_PORT,
 } from "../../../constants/filtertypeconstants";
 
-export default function Country(props) {
+export default function City(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
   const [enabled, setEnabled] = useState(true);
@@ -17,21 +17,21 @@ export default function Country(props) {
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
-      setSwitchId("departureCountry");
+      setSwitchId("departureCity");
     } else if (props.name === ARRIVAL_PORT) {
-      setSwitchId("ArrivalCountry");
+      setSwitchId("arrivalCity");
     }
-    if (props.type === "Country") {
+    if (props.type === "City") {
       setLabelName(props.name);
       setLabelType(props.type);
     }
-    else if(props.countryToDisplay!==""){
+    else if(props.cityToDisplay!==""){
       setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
-      setLabelType("Country");
+      setLabelType("City");
     }
   }, [props]);
 
-  const closeCountry = () => {
+  const closeCity = () => {
     setLabelName("");
     setLabelType("");
   };
@@ -43,7 +43,7 @@ export default function Country(props) {
       setTextStatus(true);
     }
   };
-  if (labelType === "Country") {
+  if (labelType === "City") {
     return (
       <div className="filter__input">
         <div className="filter__input-title">
@@ -61,17 +61,18 @@ export default function Country(props) {
               onClick={(e) => {
                 enableSwitchChange(e);
                 if (labelName === DEPARTURE_PORT) {
-                  props.departureCountryEnabledSave(e.target.checked);
+                  props.departureCityEnabledSave(e.target.checked);
                 } else if (labelName === ARRIVAL_PORT) {
-                  props.arrivalCountryEnabledSave(e.target.checked);
+                  props.arrivalCityEnabledSave(e.target.checked);
                 }
               }}
             />
             <FontAwesomeIcon
               icon={faTimes}
+              type="button"
               onClick={(e) => {
-                closeCountry();
-                props.clearValues();
+                closeCity();
+                props.clearValues({name:props.name, type:"City"});
               }}
             />
           </div>
@@ -85,8 +86,8 @@ export default function Country(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            value= { allowEdit && props.countryToDisplay !== "" ? 
-            props.countryToDisplay : null}
+            value= { allowEdit && props.cityToDisplay!=="" ? 
+            props.cityToDisplay : null}
           ></input>
         </div>
       </div>
