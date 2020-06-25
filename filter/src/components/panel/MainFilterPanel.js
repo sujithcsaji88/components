@@ -43,7 +43,7 @@ const MainFilterPanel = (props) => {
           ));
                 } else if (item.column === "Revenue") {
                   return (
-                    <div className="listContent" key={item.column} onClick={props.click}>
+                    <div className="listContent" key={item.column} onClick={()=>props.click(props.filterMap.applyFilter)}>
                       <span>
                         {item.column} {item.condition}{" "}
                       </span>{" "}

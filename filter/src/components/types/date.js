@@ -19,16 +19,15 @@ const Date = (props) => {
         setLabelName(props.name);
         setField(props.field);
       }
-      else if (props.filterInfoToShow!== undefined && 
-        props.filterInfoToShow.some(item => (item.column === "Date"))) {
-          setLabelName("Date");
-          props.filterInfoToShow.map(item=>{
-            if(item.column === "Date"){
-              setField(item.field)
+      else if (props.filterInfoToShow!== undefined && props.filterInfoToShow.some(item => (item.column === "Date"))) {
+        setLabelName("Date");
+        props.filterInfoToShow.map(item=>{
+          if(item.column === "Date"){
+            setField(item.field)
+          }
+        })
+      }
     }
-          })
-    }
-}
   }, [props]);
 
   const closeDate = () => {
