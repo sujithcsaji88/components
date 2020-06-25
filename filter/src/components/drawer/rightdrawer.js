@@ -226,8 +226,6 @@ const RightDrawer = (props) => {
   };
 
   const saveApplyFilterMap = (className) => {
-
-    if (saveFilterName.length > 0) {
       setShowSavePopup("none");
       let filter = [],
         typeArrival = [],
@@ -422,10 +420,6 @@ const RightDrawer = (props) => {
         console.log(savedFilters);
       }
       props.captureFilterMap(obj);
-    }
-    else {
-      setSaveFilterWarning("Enter a proper filter Array name !")
-    }
 
   };
   const constructPortListEntities = (mapColumn, mapValue, enabled, className) => {
