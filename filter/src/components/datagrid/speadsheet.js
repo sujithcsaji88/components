@@ -12,7 +12,8 @@ export default function SpreadSheet(props) {
       key: CargoData.travelId,
       travelId: CargoData.travelId,
       flightno: CargoData.flightno,
-      date: CargoData.date,
+      fromDate: CargoData.fromDate,
+      toDate: CargoData.toDate,
       departureAirport: CargoData.DepartureAirport,
       arrivalAirport: CargoData.ArrivalAirport,
       revenue: CargoData.Revenue,
@@ -82,6 +83,7 @@ export default function SpreadSheet(props) {
     searchKeys.map((obj) => {
       const columnName = obj.columnName;
       const searchKey = obj.value;
+      const name=obj.name;
       const revenueCondition=obj.condition;
       filteredRows = filteredRows.filter((item) => {
         switch (columnName) {
@@ -98,7 +100,12 @@ export default function SpreadSheet(props) {
             );
             break;
           case "Date":
-            return item.date && item.date.toLowerCase().includes(searchKey);
+            if(name==="From Date & Time"){
+              return item.fromDate >= searchKey;
+            }
+            else{
+              return item.toDate <= searchKey;
+            }
             break;
           case "Revenue":
             
@@ -139,7 +146,7 @@ export default function SpreadSheet(props) {
             else if(revenueCondition==="does not match")
             {
               return (
-                String(item.revenue) != searchKey
+                String(item.revenue) !== searchKey
               );
             }
             else if(revenueCondition==="contains")

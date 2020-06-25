@@ -31,8 +31,13 @@ class Grid extends Component {
           draggable: true,
         },
         {
-          key: "date",
-          name: "Date",
+          key: "fromDate",
+          name: "From Date",
+          draggable: true,
+        },
+        {
+          key: "toDate",
+          name: "To Date",
           draggable: true,
         },
         {
