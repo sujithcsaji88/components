@@ -56,11 +56,6 @@ class Grid extends Component {
           draggable: true,
         },
         {
-          key: "flightModel",
-          name: "Flight Model",
-          draggable: true,
-        },
-        {
           key: "startTime",
           name: "Start Time",
           draggable: true,
