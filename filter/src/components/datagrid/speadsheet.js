@@ -12,10 +12,11 @@ export default function SpreadSheet(props) {
       key: CargoData.travelId,
       travelId: CargoData.travelId,
       flightno: CargoData.flightno,
-      date: CargoData.date,
-      departureAirport: CargoData.segmentfrom,
-      arrivalAirport: CargoData.segmentto,
-      flightModel: CargoData.flightModel,
+      fromDate: CargoData.fromDate,
+      toDate: CargoData.toDate,
+      departureAirport: CargoData.DepartureAirport,
+      arrivalAirport: CargoData.ArrivalAirport,
+      revenue: CargoData.Revenue,
       bodyType: CargoData.bodyType,
       type: CargoData.type,
       startTime: CargoData.startTime,
@@ -35,7 +36,6 @@ export default function SpreadSheet(props) {
       uldvalue3: CargoData.uldvalue3,
       uldposition4: CargoData.uldposition4,
       uldvalue4: CargoData.uldvalue4,
-      revenue: CargoData.revenue,
       yeild: CargoData.yeild,
       sr: CargoData.sr,
       queuedBookingSR: CargoData.queuedBookingSR,
@@ -82,29 +82,85 @@ export default function SpreadSheet(props) {
     filteredRows = rows;
     searchKeys.map((obj) => {
       const columnName = obj.columnName;
-      const name = obj.name;
       const searchKey = obj.value;
+      const name=obj.name;
+      const revenueCondition=obj.condition;
       filteredRows = filteredRows.filter((item) => {
         switch (columnName) {
           case "Departure Port":
             return (
               item.departureAirport &&
-              item.departureAirport.toLowerCase().includes(searchKey)
+              item.departureAirport.toLowerCase().includes(searchKey.toLowerCase())
             );
             break;
           case "Arrival Port":
             return (
               item.arrivalAirport &&
-              item.arrivalAirport.toLowerCase().includes(searchKey)
+              item.arrivalAirport.toLowerCase().includes(searchKey.toLowerCase())
             );
             break;
           case "Date":
-            return item.date && item.date.toLowerCase().includes(searchKey);
+            if(name==="From Date & Time"){
+              return item.fromDate >= searchKey;
+            }
+            else{
+              return item.toDate <= searchKey;
+            }
             break;
           case "Revenue":
-            return (
-              item.revenue && item.revenue.toLowerCase().includes(searchKey)
-            );
+            
+            if (revenueCondition=== "equals") {
+              return (
+                String(item.revenue) === searchKey
+              );
+            }
+            else if(revenueCondition==="not equals to")
+            {
+              return (
+                String(item.revenue) !== (searchKey)
+              );
+            }
+            else if(revenueCondition==="less than")
+            {
+              return (
+                String(item.revenue) < searchKey
+              );
+            }
+            else if(revenueCondition==="greater than")
+            {
+              return (
+                String(item.revenue) > searchKey
+              );
+            }
+            else if(revenueCondition==="less or equal"){
+              return (
+                String(item.revenue) <= searchKey
+              );
+            }
+            else if(revenueCondition==="greater or equal")
+            {
+              return (
+                String(item.revenue) >= searchKey
+              );
+            }
+            else if(revenueCondition==="does not match")
+            {
+              return (
+                String(item.revenue) !== searchKey
+              );
+            }
+            else if(revenueCondition==="contains")
+            {
+              return (
+                String(item.revenue).includes(searchKey)
+              );
+            }
+            else {
+              return (
+                String(item.revenue).includes(searchKey)
+              );
+            }
+
             break;
           default:
         }

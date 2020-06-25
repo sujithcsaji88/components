@@ -86,7 +86,7 @@ export default function Country(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            value= { allowEdit && props.countryToDisplay !== "" ? 
+            defaultValue= { allowEdit && props.countryToDisplay !== "" ? 
             props.countryToDisplay : null}
           ></input>
         </div>

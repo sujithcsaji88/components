@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import FilterData from "../../stubs/FilterData.json";
 import Card from "react-bootstrap/Card";
 import { Accordion, Form } from "react-bootstrap";
@@ -8,16 +8,39 @@ import {
 } from "../../constants/filtertypeconstants";
 
 const LeftDrawer = (props) => {
+  const [departureAccordian,setDepartureAccordian]=useState(false);
+  const [arrivalAccordian,setArrivalAccordian]=useState(false);
+  const [departureAccordianShow,setDepartureAccordianShow]=useState("");
+  const [arrivalAccordianShow,setArrivalAccordianShow]=useState("")
+  const accordianArrowToggle =(name)=>{
+    if(name===DEPARTURE_PORT){
+      setDepartureAccordian(!departureAccordian);
+      if(departureAccordian){
+        setDepartureAccordianShow("")
+      }
+      else{
+        setDepartureAccordianShow("show")
+      }
+    }
+    else{
+      setArrivalAccordian(!arrivalAccordian);
+      if(arrivalAccordian){
+        setArrivalAccordianShow("")
+      }
+      else{
+        setArrivalAccordianShow("show")
+      }
+      
+    }
+    
+  }
   const loadedData = FilterData.filter.map((filterData, index) => {
-    if (
-      filterData.name === DEPARTURE_PORT ||
-      filterData.name === ARRIVAL_PORT
-    ) {
+    if (filterData.name === DEPARTURE_PORT) {
       return (
-        <li key={index}>
+        <div key={index}>
           <Accordion>
             <Card>
-              <Accordion.Toggle className="show" as={Card.Header} eventKey="0">
+              <Accordion.Toggle className={departureAccordianShow} as={Card.Header} eventKey="0" onClick={(e)=>accordianArrowToggle(filterData.name)}>
                 {filterData.name}
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0">
@@ -46,9 +69,47 @@ const LeftDrawer = (props) => {
               </Accordion.Collapse>
             </Card>
           </Accordion>
-        </li>
+        </div>
       );
-    } else if (filterData.field) {
+    }
+    else if (filterData.name === ARRIVAL_PORT) {
+      return (
+        <div key={index}>
+          <Accordion>
+            <Card>
+              <Accordion.Toggle className={arrivalAccordianShow} as={Card.Header} eventKey="0" onClick={(e)=>accordianArrowToggle(filterData.name)}>
+                {filterData.name}
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <ul className="firstAccordion" key={index}>
+                    {filterData.types &&
+                      filterData.types.map((type, index) => {
+                        return (
+                          <li
+                            onClick={(e) => {
+                              props.handleValue(
+                                filterData.name,
+                                type.name,
+                                filterData.enabled
+                              );
+                              props.addedFilterCount();
+                            }}
+                            key={index}
+                          >
+                            {type.name}
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        </div>
+      );
+    } 
+    else if (filterData.field) {
       return (
         <li
           onClick={(e) => {

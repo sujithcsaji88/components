@@ -31,8 +31,13 @@ class Grid extends Component {
           draggable: true,
         },
         {
-          key: "date",
-          name: "Date",
+          key: "fromDate",
+          name: "From Date",
+          draggable: true,
+        },
+        {
+          key: "toDate",
+          name: "To Date",
           draggable: true,
         },
         {
@@ -53,11 +58,6 @@ class Grid extends Component {
         {
           key: "arrivalAirport",
           name: "Arrv. Airport",
-          draggable: true,
-        },
-        {
-          key: "flightModel",
-          name: "Flight Model",
           draggable: true,
         },
         {

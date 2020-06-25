@@ -86,7 +86,7 @@ export default function City(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            value= { allowEdit && props.cityToDisplay!=="" ? 
+            defaultValue= { allowEdit && props.cityToDisplay!=="" ? 
             props.cityToDisplay : null}
           ></input>
         </div>

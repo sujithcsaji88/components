@@ -88,7 +88,7 @@ export default function AirportGroup(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            value={
+            defaultValue={
               allowEdit && props.airportGroupToDisplay !== ""
                 ? props.airportGroupToDisplay
                 : null
