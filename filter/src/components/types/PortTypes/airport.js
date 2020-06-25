@@ -87,7 +87,7 @@ export default function Airport(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            value={
+            defaultValue={
               allowEdit && props.airportToDisplay !== ""
                 ? props.airportToDisplay
                 : null
