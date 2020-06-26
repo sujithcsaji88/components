@@ -435,7 +435,7 @@ const RightDrawer = forwardRef((props, ref) => {
         console.log(savedFilters);
       }
       else{
-        setSaveFilterWarning("enter a valid filter name!")
+        setSaveFilterWarning("Enter a valid filter name!")
         setWarningLabel("alert alert-danger")
         setShowSavePopup("")
       }
@@ -563,7 +563,7 @@ const RightDrawer = forwardRef((props, ref) => {
         </div>
         <div style={{ display: showSavePopup }} className="popup--save">
           <h5>Save the Filter</h5>
-          <h6 className={warningLabel}>{saveFilterWarning}</h6>
+          <span className={warningLabel}>{saveFilterWarning}</span>
           <label>Saved Filter Name</label>
           <input
             className="txt"
