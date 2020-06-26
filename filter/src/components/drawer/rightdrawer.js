@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {forwardRef, useRef, useImperativeHandle, useState } from "react";
 import { Button } from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
@@ -16,7 +16,7 @@ import {
   TO_DATE,
 } from "../../constants/filtertypeconstants";
 
-const RightDrawer = (props) => {
+const RightDrawer = forwardRef((props, ref) => {
   const [showSavePopup, setShowSavePopup] = useState("none");
   const [saveFilterName, setSaveFilterName] = useState("");
   const [departurePortName, setDeparturePortName] = useState();
@@ -67,6 +67,7 @@ const RightDrawer = (props) => {
   const [toDateTime, setToDateTime] = useState();
   const [dateEnabled, setDateEnabled] = useState(true);
   const [revenueEnabled, setRevenueEnabled] = useState(true);
+  const [saveFilterWarning, setSaveFilterWarning] = useState("");
 
   if (props.isReset === true) {
     // //resetting all the values on RESET to undefined to remove old data
@@ -81,54 +82,67 @@ const RightDrawer = (props) => {
   }
 
   const PortvalueToSave = (e, name, type, enabled) => {
+    assignValuesForPort(e.target.value, name, type, enabled, false);
+  };
+
+  const assignValuesForPort=(value, name, type, enabled, isResetVariable)=>{
     if (name === DEPARTURE_PORT) {
       setDeparturePortName(name);
       if (type === AIRPORT) {
-        setDepartureAirportName(type);
-        setDepartureAirport(e.target.value);
-        setDepartureAirportEnabled(enabled);
+        setDepartureAirportName(isResetVariable === false ? type : undefined);
+        setDepartureAirport(isResetVariable === false ? value : undefined);
+        setDepartureAirportEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === AIRPORT_GROUP) {
-        setDepartureAirportGroupName(type);
-        setDepartureAirportGroup(e.target.value);
-        setDepartureAirportGroupEnabled(enabled);
+        setDepartureAirportGroupName(isResetVariable === false ? type : undefined);
+        setDepartureAirportGroup(isResetVariable === false ? value : undefined);
+        setDepartureAirportGroupEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === CITY) {
-        setDepartureCityName(type);
-        setDepartureCity(e.target.value);
-        setDepartureCityEnabled(enabled);
+        setDepartureCityName(isResetVariable === false ? type : undefined);
+        setDepartureCity(isResetVariable === false ? value : undefined);
+        setDepartureCityEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === CITY_GROUP) {
-        setDepartureCityGroupName(type);
-        setDepartureCityGroup(e.target.value);
-        setDepartureCityGroupEnabled(enabled);
+        setDepartureCityGroupName(isResetVariable === false ? type : undefined);
+        setDepartureCityGroup(isResetVariable === false ? value : undefined );
+        setDepartureCityGroupEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === COUNTRY) {
-        setDepartureCountryName(type);
-        setDepartureCountry(e.target.value);
-        setDepartureCountryEnabled(enabled);
+        setDepartureCountryName(isResetVariable === false ? type : undefined);
+        setDepartureCountry(isResetVariable === false ? value : undefined);
+        setDepartureCountryEnabled(isResetVariable === false ? enabled:undefined );
       }
     } else if (name === ARRIVAL_PORT) {
       setArrivalPortName(name);
       if (type === AIRPORT) {
-        setArrivalAirportName(type);
-        setArrivalAirport(e.target.value);
-        setArrivalAirportEnabled(enabled);
+        setArrivalAirportName(isResetVariable === false ? type : undefined);
+        setArrivalAirport(isResetVariable === false ? value : undefined);
+        setArrivalAirportEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === AIRPORT_GROUP) {
-        setArrivalAirportGroupName(type);
-        setArrivalAirportGroup(e.target.value);
-        setArrivalAirportGroupEnabled(enabled);
+        setArrivalAirportGroupName(isResetVariable === false ? type : undefined);
+        setArrivalAirportGroup(isResetVariable === false ? value : undefined);
+        setArrivalAirportGroupEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === CITY) {
-        setArrivalCityName(type);
-        setArrivalCity(e.target.value);
-        setArrivalCityEnabled(enabled);
+        setArrivalCityName(isResetVariable === false ? type : undefined);
+        setArrivalCity(isResetVariable === false ? value : undefined);
+        setArrivalCityEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === CITY_GROUP) {
-        setArrivalCityGroupName(type);
-        setArrivalCityGroup(e.target.value);
-        setArrivalCityGroupEnabled(enabled);
+        setArrivalCityGroupName(isResetVariable === false ? type : undefined);
+        setArrivalCityGroup(isResetVariable === false ? value : undefined);
+        setArrivalCityGroupEnabled(isResetVariable === false ? enabled : undefined);
       } else if (type === COUNTRY) {
-        setArrivalCountryName(type);
-        setArrivalCountry(e.target.value);
-        setArrivalCountryEnabled(enabled);
+        setArrivalCountryName(isResetVariable === false ? type : undefined);
+        setArrivalCountry(isResetVariable === false ? value : undefined);
+        setArrivalCountryEnabled(isResetVariable === false ? enabled : undefined);
       }
     }
   };
+
+  useImperativeHandle(ref, () => ({
+    clearStateVariables(resetStateVariableMap){
+      console.log("BHAI CLEARED ", resetStateVariableMap)
+      assignValuesForPort(undefined, resetStateVariableMap.name, resetStateVariableMap.type,
+          false, true);
+    }
+  }));
+  
   const departureAirportEnabledSave = (enabled) => {
     setDepartureAirportEnabled(enabled);
     if (!departureAirportEnabled) {
@@ -225,206 +239,207 @@ const RightDrawer = (props) => {
   };
 
   const saveApplyFilterMap = (className) => {
-    setShowSavePopup("none");
-    let filter = [],
-      typeArrival = [],
-      typeDeparture = [],
-      fieldList = [],
-      obj = {},
-      filters = [],
-      buff = {};
+      setShowSavePopup("none");
+      let filter = [],
+        typeArrival = [],
+        typeDeparture = [],
+        fieldList = [],
+        obj = {},
+        filters = [],
+        buff = {};
 
-    if (fromDateTime !== undefined) {
-      if (className !== "applyFilter") {
-        fieldList.push({
-          column: fromDateTimeName,
-          value: fromDateTime,
-          enabled: dateEnabled,
-        });
+      if (fromDateTime !== undefined) {
+        if (className !== "applyFilter") {
+          fieldList.push({
+            column: fromDateTimeName,
+            value: fromDateTime,
+            enabled: dateEnabled,
+          });
+        }
+        else {
+          fieldList.push({
+            column: fromDateTimeName,
+            value: fromDateTime
+          });
+        }
+
       }
-      else {
-        fieldList.push({
-          column: fromDateTimeName,
-          value: fromDateTime
-        });
+
+
+      if (toDateTime !== undefined) {
+        if (className !== "applyFilter") {
+          fieldList.push({
+            column: toDateTimeName,
+            value: toDateTime,
+            enabled: dateEnabled,
+          });
+        }
+        else {
+          fieldList.push({
+            column: toDateTimeName,
+            value: toDateTime
+          });
+        }
       }
 
-    }
 
+      let departureEntitiesNameList = [
+        {
+          column: departureAirportName,
+          value: departureAirport,
+          enabled: departureAirportEnabled,
+        },
+        {
+          column: departureAirportGroupName,
+          value: departureAirportGroup,
+          enabled: departureAirportGroupEnabled,
+        },
+        {
+          column: departureCityName,
+          value: departureCity,
+          enabled: departureCityEnabled,
+        },
+        {
+          column: departureCityGroupName,
+          value: departureCityGroup,
+          enabled: departureCityGroupEnabled,
+        },
+        {
+          column: departureCountryName,
+          value: departureCountry,
+          enabled: departureCountryEnabled,
+        },
+      ];
 
-    if (toDateTime !== undefined) {
-      if (className !== "applyFilter") {
-        fieldList.push({
-          column: toDateTimeName,
-          value: toDateTime,
-          enabled: dateEnabled,
-        });
-      }
-      else {
-        fieldList.push({
-          column: toDateTimeName,
-          value: toDateTime
-        });
-      }
-    }
+      var arrivalEntitiesNameList = [
+        {
+          column: arrivalAirportName,
+          value: arrivalAirport,
+          enabled: arrivalAirportEnabled,
+        },
+        {
+          column: arrivalAirportGroupName,
+          value: arrivalAirportGroup,
+          enabled: arrivalAirportGroupEnabled,
+        },
+        {
+          column: arrivalCityName,
+          value: arrivalCity,
+          enabled: arrivalCityEnabled,
+        },
+        {
+          column: arrivalCityGroupName,
+          value: arrivalCityGroup,
+          enabled: arrivalCityGroupEnabled,
+        },
+        {
+          column: arrivalCountryName,
+          value: arrivalCountry,
+          enabled: arrivalCountryEnabled,
+        },
+      ];
 
-
-    let departureEntitiesNameList = [
-      {
-        column: departureAirportName,
-        value: departureAirport,
-        enabled: departureAirportEnabled,
-      },
-      {
-        column: departureAirportGroupName,
-        value: departureAirportGroup,
-        enabled: departureAirportGroupEnabled,
-      },
-      {
-        column: departureCityName,
-        value: departureCity,
-        enabled: departureCityEnabled,
-      },
-      {
-        column: departureCityGroupName,
-        value: departureCityGroup,
-        enabled: departureCityGroupEnabled,
-      },
-      {
-        column: departureCountryName,
-        value: departureCountry,
-        enabled: departureCountryEnabled,
-      },
-    ];
-
-    var arrivalEntitiesNameList = [
-      {
-        column: arrivalAirportName,
-        value: arrivalAirport,
-        enabled: arrivalAirportEnabled,
-      },
-      {
-        column: arrivalAirportGroupName,
-        value: arrivalAirportGroup,
-        enabled: arrivalAirportGroupEnabled,
-      },
-      {
-        column: arrivalCityName,
-        value: arrivalCity,
-        enabled: arrivalCityEnabled,
-      },
-      {
-        column: arrivalCityGroupName,
-        value: arrivalCityGroup,
-        enabled: arrivalCityGroupEnabled,
-      },
-      {
-        column: arrivalCountryName,
-        value: arrivalCountry,
-        enabled: arrivalCountryEnabled,
-      },
-    ];
-
-    departureEntitiesNameList.map((item) => {
-      if (
-        constructPortListEntities(
-          `${item.column}`,
-          `${item.value}`,
-          `${item.enabled}`,
-          className
-        ) !== undefined
-      )
-        typeDeparture.push(
+      departureEntitiesNameList.map((item) => {
+        if (
           constructPortListEntities(
             `${item.column}`,
             `${item.value}`,
             `${item.enabled}`,
             className
-          )
-        );
-    });
+          ) !== undefined
+        )
+          typeDeparture.push(
+            constructPortListEntities(
+              `${item.column}`,
+              `${item.value}`,
+              `${item.enabled}`,
+              className
+            )
+          );
+      });
 
-    arrivalEntitiesNameList.map((item) => {
-      if (
-        constructPortListEntities(
-          `${item.column}`,
-          `${item.value}`,
-          `${item.enabled}`,
-          className
-        ) !== undefined
-      )
-        typeArrival.push(
+      arrivalEntitiesNameList.map((item) => {
+        if (
           constructPortListEntities(
             `${item.column}`,
             `${item.value}`,
             `${item.enabled}`,
             className
-          )
-        );
-    });
+          ) !== undefined
+        )
+          typeArrival.push(
+            constructPortListEntities(
+              `${item.column}`,
+              `${item.value}`,
+              `${item.enabled}`,
+              className
+            )
+          );
+      });
 
-    if (typeDeparture.length > 0 && departurePortName !== undefined) {
-      obj["column"] = departurePortName;
-      obj["types"] = typeDeparture;
-      filter.push(obj);
-    }
-
-    obj = {}; //nullifying obj for reuse
-
-    if (typeArrival.length > 0 && arrivalPortName !== undefined) {
-      obj["column"] = arrivalPortName;
-      obj["types"] = typeArrival;
-      filter.push(obj);
-    }
-
-    obj = {}; //nullifying obj for reuse
-
-    if (fieldList.length > 0) {
-      obj["column"] = dateName;
-      obj["field"] = fieldList;
-      filter.push(obj);
-    }
-
-    obj = {}; //nullifying obj for reuse
-
-    if (revenueCondition !== undefined && revenueAmount !==undefined) {
-      if (className !== "applyFilter") {
-        obj["column"] = revenueName;
-        obj["condition"] = revenueCondition;
-        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
-        obj["enabled"] = revenueEnabled;
+      if (typeDeparture.length > 0 && departurePortName !== undefined) {
+        obj["column"] = departurePortName;
+        obj["types"] = typeDeparture;
+        filter.push(obj);
       }
-      else {
-        obj["column"] = revenueName;
-        obj["condition"] = revenueCondition;
-        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+
+      obj = {}; //nullifying obj for reuse
+
+      if (typeArrival.length > 0 && arrivalPortName !== undefined) {
+        obj["column"] = arrivalPortName;
+        obj["types"] = typeArrival;
+        filter.push(obj);
       }
-      filter.push(obj);
-    }
-    obj = {}; //nullifying obj for reuse
 
-    if (className === "applyFilter") {
-      obj["applyFilter"] = filter;
-      console.log(obj);
-      props.onApplyFilter(obj);
-    } else {
-      buff[saveFilterName] = filter;
-      filters.push(buff);
-      obj["saveFilter"] = { ...filters }
+      obj = {}; //nullifying obj for reuse
 
-      let savedFilters = localStorage.getItem("savedFilters");
-      savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
-      savedFilters.push(filters);
-      localStorage.setItem("savedFilters", JSON.stringify(savedFilters));
-      console.log(savedFilters);
-    }
-    props.captureFilterMap(obj);
+      if (fieldList.length > 0) {
+        obj["column"] = dateName;
+        obj["field"] = fieldList;
+        filter.push(obj);
+      }
+
+      obj = {}; //nullifying obj for reuse
+
+      if (revenueCondition !== undefined && revenueAmount !== undefined) {
+        if (className !== "applyFilter") {
+          obj["column"] = revenueName;
+          obj["condition"] = revenueCondition;
+          obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+          obj["enabled"] = revenueEnabled;
+        }
+        else {
+          obj["column"] = revenueName;
+          obj["condition"] = revenueCondition;
+          obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+        }
+        filter.push(obj);
+      }
+      obj = {}; //nullifying obj for reuse
+
+      if (className === "applyFilter") {
+        obj["applyFilter"] = filter;
+        console.log(obj);
+        props.onApplyFilter(obj);
+      } else {
+        buff[saveFilterName] = filter;
+        filters.push(buff);
+        obj["saveFilter"] = { ...filters }
+
+        let savedFilters = localStorage.getItem("savedFilters");
+        savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
+        savedFilters.push(filters);
+        localStorage.setItem("savedFilters", JSON.stringify(savedFilters));
+        console.log(savedFilters);
+      }
+      props.captureFilterMap(obj);
+
   };
   const constructPortListEntities = (mapColumn, mapValue, enabled, className) => {
     let obj = {},
       key = "";
     //dont use === in comparison; Intentionally did !=
-    if ((mapValue !== "undefined" && mapValue.length>0) && enabled==="true") {
+    if ((mapValue !== "undefined" && mapValue.length > 0) && enabled === "true") {
       if (mapColumn.includes("Airport Group")) {
         key = "Airport Group";
       } else if (mapColumn.includes("City Group")) {
@@ -445,11 +460,17 @@ const RightDrawer = (props) => {
     }
   };
   const registersaveFilterName = (e) => {
+    setSaveFilterWarning("")
     setSaveFilterName(e.target.value);
   };
   const showPopUp = () => {
     setShowSavePopup("");
   };
+  const cancelSavePopup = () => {
+    setShowSavePopup("none")
+    setSaveFilterWarning("")
+
+  }
   return (
     <React.Fragment>
       <div className="filter__title">
@@ -461,15 +482,15 @@ const RightDrawer = (props) => {
           isReset={props.isReset}
           name={props.name}
           type={props.type}
-          clearValues={props.clearValues}
+          clearValues={(resetStateVariableMap)=>props.clearValues(resetStateVariableMap)}
           PortvalueToSave={PortvalueToSave}
           enabled={props.enabled}
           departureAirportEnabledSave={departureAirportEnabledSave}
           departureAirportGroupEnabledSave={departureAirportGroupEnabledSave}
           departureCityEnabledSave={departureCityEnabledSave}
           departureCityGroupEnabledSave={departureCityGroupEnabledSave}
-          departureCountryEnabledSave={departureCountryEnabledSave}   
-          filterInfoToShow={props.filterInfoToShow}   
+          departureCountryEnabledSave={departureCountryEnabledSave}
+          filterInfoToShow={props.filterInfoToShow}
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -533,6 +554,7 @@ const RightDrawer = (props) => {
         </div>
         <div style={{ display: showSavePopup }} className="popup--save">
           <h5>Save the Filter</h5>
+          <h6 style={{ color: "red" }}>{saveFilterWarning}</h6>
           <label>Saved Filter Name</label>
           <input
             className="txt"
@@ -540,17 +562,19 @@ const RightDrawer = (props) => {
             onChange={(e) => registersaveFilterName(e)}
           />
           <div className="btn-wrap">
-            <button className="button" onClick={(e)=>{setShowSavePopup("none")}}>Cancel</button>
-            <button className="button" onClick={(e)=>{saveApplyFilterMap();
-            setSaveFilterName("")}
-            }>
-              Save
+            <button className="button" onClick={(e) => {cancelSavePopup();} }>Cancel</button>
+          <button className="button" onClick={(e) => {
+            saveApplyFilterMap();
+            setSaveFilterName("")
+          }
+          }>
+            Save
             </button>
-          </div>
         </div>
       </div>
-    </React.Fragment>
+      </div>
+    </React.Fragment >
   );
-};
+});
 
 export default RightDrawer;

@@ -60,7 +60,7 @@ const ArrivalPort = (props) => {
         <Airport
           name={name}
           type={type}
-          clearValues={props.clearValues}
+          clearValues={(resetStateVariableMap)=>props.clearValues(resetStateVariableMap)}
           valueToSave={props.PortvalueToSave}
           arrivalAirportEnabledSave={props.arrivalAirportEnabledSave}
           isReset={props.isReset}

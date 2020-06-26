@@ -34,16 +34,25 @@ function useComponentVisible() {
 }
 
 function App() {
+  //to show the selected filter count on the rightdrawer of the filter component
   const [addedFilter, setAddedFilter] = useState(0);
+  //filter labelnames state where the names of filter passed down from leftdrawer component stored
   const [labelName, setLabelName] = useState();
+  //filter typesName state where the typesName of filter passed down from leftdrawer component stored
   const [labelType, setLabelType] = useState();
+  //incase of date filter the fromDate and toDate names are stored while passed down from leftdrawer component
   const [field, setField] = useState();
+  //incase of revenue filter the conditiontypes while passed down from leftdrawer component
   const [condition, setCondition] = useState();
+  //initial enabled value passed from the leftdrawer stored 
   const [enabled, setEnabled] = useState();
+  //holding the state of the reset function
   const [isReset, setIsReset] = useState(false);
+  
   const [filterMap, setFilterMap] = useState();
   const [filterKeys, setFilterKeys] = useState();
   const [filterInfoToShow, setFilterInfoToShow] = useState();
+  const childRefs=useRef(null);
 
   const addedFilterCount = () => {
     setAddedFilter(addedFilter + 1);
@@ -70,11 +79,13 @@ function App() {
     setEnabled(enabled);
   };
 
-  const clearType = () => {
+  const clearType = (resetStateVariableMap) => {
     setLabelType("");
     if (addedFilter !== 0) {
       setAddedFilter(addedFilter - 1);
     }
+    if(resetStateVariableMap!==undefined)
+    childRefs.current.clearStateVariables(resetStateVariableMap);
   };
 
   const clearName = () => {
@@ -144,12 +155,13 @@ function App() {
                 enabled={enabled}
                 name={labelName}
                 type={labelType}
-                clearValues={clearType}
+                clearValues={(resetStateVariableMap)=>clearType(resetStateVariableMap)}
                 clearValue={clearName}
                 addedFilter={addedFilter}
                 onApplyFilter={onApplyFilter}
                 filterInfoToShow={filterInfoToShow}
                 applyFilterClose={applyFilterClose}
+                ref={childRefs}
               />
             </div>
           </div>

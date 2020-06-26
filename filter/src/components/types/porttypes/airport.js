@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
@@ -7,34 +7,32 @@ import {
   ARRIVAL_PORT,
 } from "../../../constants/filtertypeconstants";
 
-export default function City(props) {
+export default function Airport(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
-  const [allowEdit, setAllowEdit] = useState(true); 
+  //purpose is to allow Edit of existing filters
+  const [allowEdit, setAllowEdit] = useState(true);
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
-      setSwitchId("departureCity");
+      setSwitchId("departureAirport");
     } else if (props.name === ARRIVAL_PORT) {
-      setSwitchId("arrivalCity");
+      setSwitchId("arrivalAirport");
     }
-    if (props.type === "City") {
+    if (props.type === "Airport") {
       setLabelName(props.name);
       setLabelType(props.type);
-    }
-    else if(props.cityToDisplay!==""){
-      setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
-      setLabelType("City");
+    } else if (props.airportToDisplay !== "") {
+      setLabelName(
+        props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
+      );
+      setLabelType("Airport");
     }
   }, [props]);
 
-  const closeCity = () => {
-    setLabelName("");
-    setLabelType("");
-  };
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
     if (!enabled) {
@@ -43,7 +41,11 @@ export default function City(props) {
       setTextStatus(true);
     }
   };
-  if (labelType === "City") {
+  const closeAirport = () => {
+    setLabelName("");
+    setLabelType("");
+  };
+  if (labelType === "Airport") {
     return (
       <div className="filter__input">
         <div className="filter__input-title">
@@ -61,17 +63,18 @@ export default function City(props) {
               onClick={(e) => {
                 enableSwitchChange(e);
                 if (labelName === DEPARTURE_PORT) {
-                  props.departureCityEnabledSave(e.target.checked);
+                  props.departureAirportEnabledSave(e.target.checked);
                 } else if (labelName === ARRIVAL_PORT) {
-                  props.arrivalCityEnabledSave(e.target.checked);
+                  props.arrivalAirportEnabledSave(e.target.checked);
                 }
               }}
             />
             <FontAwesomeIcon
               icon={faTimes}
-              onClick={(e) => {
-                closeCity();
-                props.clearValues();
+              type="button"
+              onClick={() => {
+                closeAirport();
+                props.clearValues({name:props.name, type:"Airport"});
               }}
             />
           </div>
@@ -85,13 +88,18 @@ export default function City(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            value= { allowEdit && props.cityToDisplay!=="" ? 
-            props.cityToDisplay : null}
+            defaultValue={
+              allowEdit && props.airportToDisplay !== ""
+                ? props.airportToDisplay
+                : null
+            }
           ></input>
         </div>
       </div>
     );
   } else if (props.isReset === true) {
     return <div></div>;
-  } else return <div></div>;
+  } else {
+    return <div></div>;
+  }
 }

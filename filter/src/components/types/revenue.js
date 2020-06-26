@@ -25,7 +25,7 @@ const Revenue = (props) => {
           setLabelName("Revenue");
           props.filterInfoToShow.map(item=>{
             if(item.column === "Revenue"){
-              setCondition(props.condition)
+               setCondition(props.condition)
     }
           })
     }
