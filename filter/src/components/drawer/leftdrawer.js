@@ -12,6 +12,7 @@ const LeftDrawer = (props) => {
   const [arrivalAccordian,setArrivalAccordian]=useState(false);
   const [departureAccordianShow,setDepartureAccordianShow]=useState("");
   const [arrivalAccordianShow,setArrivalAccordianShow]=useState("")
+  const [filteredFilterData,setFilteredFilterData]=useState(FilterData);
   const accordianArrowToggle =(name)=>{
     if(name===DEPARTURE_PORT){
       setDepartureAccordian(!departureAccordian);
@@ -34,7 +35,20 @@ const LeftDrawer = (props) => {
     }
     
   }
-  const loadedData = FilterData.filter.map((filterData, index) => {
+  const searchFilterHandler=(e)=>{
+    let filteredList={};
+    const searchKey=e.target.value;
+    console.log(searchKey)
+    if(FilterData){
+      FilterData.filter.map((filterData,index)=>{
+        filteredList["filter"]=FilterData.filter.filter((filterData)=>{
+          return (filterData.name && filterData.name.toLowerCase().includes(searchKey.toLowerCase()))
+        })
+      })
+    }
+    setFilteredFilterData(filteredList)
+  }
+  const loadedData = filteredFilterData.filter.map((filterData, index) => {
     if (filterData.name === DEPARTURE_PORT) {
       return (
         <div key={index}>
@@ -155,6 +169,7 @@ const LeftDrawer = (props) => {
           placeholder="Search a Filter"
           defaultValue=""
           className="customControl"
+          onChange={searchFilterHandler}
         />
       </Form.Row>
       <div className="row">
