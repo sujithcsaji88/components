@@ -1,11 +1,52 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 
 const SavedFilters = (props) => {
-  if (props.showFilter) {
-    return (
-      <div className="lists">
+  const [showFilter, setShowFilter] = useState(false)
+  let listRef =useRef();
+  useEffect(
+    () => {
+      let listHandler = (event) => {
+        if (listRef.current && !listRef.current.contains(event.target)) {
+          setShowFilter(false)
+          props.handleListFilter();
+        }
+      }
+      setShowFilter(props.showFilter);
+      document.addEventListener("mousedown", listHandler)
+
+      return () => {
+        document.removeEventListener("mousedown", listHandler)
+      }
+    }
+    , [props]);
+
+    let name='';
+    let savedFilters = localStorage.getItem("savedFilters");
+    savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
+    const savedFilter=savedFilters.map((savedFilters,index)=>{
+      return(
+        savedFilters.map((filter,index)=>{
+         name=Object.keys(filter)[0];
+          return (
+          <div>
+          <div className="alignLeft">
+            <FontAwesomeIcon style={{marginLeft:"-54px"}} icon={faCheck}></FontAwesomeIcon>
+            <div style={{marginLeft:"15px"}} key={index}>{name}</div>
+            <FontAwesomeIcon
+              icon={faStar}
+              className="marginLeft"
+            ></FontAwesomeIcon>
+           </div>
+            </div>);
+        })
+      )
+    })
+  if (showFilter) {
+    
+    return(
+         <div className="lists" ref={listRef}>
         <div className="listsView">
           <div className="text-muted">list view</div>
           <div className="alignLeft">
@@ -69,42 +110,9 @@ const SavedFilters = (props) => {
           </div>
         </div>
         <div className="savedFilters">
-          <div className="text-muted">saved filters</div>
-          <div className="alignLeft">
-            <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
-            <div className="leftSpace">Flights under 2500kgs capacity (30)</div>
-            <FontAwesomeIcon
-              icon={faStar}
-              className="marginLeft"
-            ></FontAwesomeIcon>
-          </div>
-          <div className="alignLeft">
-            <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
-            <div className="leftSpace">Flights under 2500kgs capacity (30)</div>
-            <FontAwesomeIcon
-              icon={faStar}
-              className="marginLeft"
-            ></FontAwesomeIcon>
-          </div>
-          <div className="alignLeft">
-            <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
-            <div className="leftSpace">Flights under 2500kgs capacity (30)</div>
-            <FontAwesomeIcon
-              icon={faStar}
-              className="marginLeft"
-            ></FontAwesomeIcon>
-          </div>
-          <div className="alignLeft">
-            <FontAwesomeIcon icon={faCheck}></FontAwesomeIcon>
-            <div className="leftSpace">Flights under 2500kgs capacity (30)</div>
-            <FontAwesomeIcon
-              icon={faStar}
-              className="marginLeft"
-            ></FontAwesomeIcon>
-          </div>
+            <ul className="leftSpace">{savedFilter}</ul>
         </div>
-      </div>
-    );
+      </div>);
   } else {
     return <div></div>;
   }
