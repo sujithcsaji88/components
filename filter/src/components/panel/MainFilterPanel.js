@@ -5,20 +5,18 @@ import SavedFilters from "./SavedFilters";
 
 const MainFilterPanel = (props) => {
   const [listFilter, setListFilter] = useState(false);
-  useEffect(() => {
-    document.addEventListener("mousedown", () => {
-      setListFilter(false);
-    });
-  });
+  const handleListFilter=()=>{
+    setListFilter(!listFilter)
+  }
   return (
     <div className="list">
       <div className="displayFlex">
         <div className="alignLeft">
           <FontAwesomeIcon
             icon={faAlignLeft}
-            onClick={() => setListFilter(true)}
+            onClick={handleListFilter}
           />
-          <SavedFilters showFilter={listFilter} />
+          <SavedFilters showFilter={listFilter} handleListFilter={handleListFilter} />
           <div className="leftSpace">All flights</div>
         </div>
       </div>
