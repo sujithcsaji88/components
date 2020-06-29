@@ -21,11 +21,8 @@ const Date = (props) => {
       }
       if (props.filterInfoToShow !== undefined && props.filterInfoToShow.some(item => (item.column === "Date"))) {
         setLabelName("Date");
-        props.filterInfoToShow.map(item => {
-          if (item.column === "Date") {
-            setField(item.field)
-          }
-        })
+        props.filterInfoToShow.filter(item => item.column === "Date" ).map(item =>
+             setField(item.field))
       }
     }
   }, [props]);

@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useImperativeHandle, useState } from "react";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Button } from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
@@ -14,6 +14,8 @@ import {
   COUNTRY,
   FROM_DATE,
   TO_DATE,
+  ISRESET_TRUE,
+  ISRESET_FALSE
 } from "../../constants/filtertypeconstants";
 
 const RightDrawer = forwardRef((props, ref) => {
@@ -83,8 +85,7 @@ const RightDrawer = forwardRef((props, ref) => {
   }
 
   const PortvalueToSave = (e, name, type, enabled) => {
-    assignValuesForPort(e, name, type, enabled, false);
-    console.log(e,name,type,enabled)
+    assignValuesForPort(e.target.value, name, type, enabled, ISRESET_FALSE);
   };
 
   const assignValuesForPort = (value, name, type, enabled, isResetVariable) => {
@@ -141,7 +142,7 @@ const RightDrawer = forwardRef((props, ref) => {
     clearStateVariables(resetStateVariableMap) {
       console.log("BHAI CLEARED ", resetStateVariableMap)
       assignValuesForPort(undefined, resetStateVariableMap.name, resetStateVariableMap.type,
-        false, true);
+        false, ISRESET_TRUE);
     }
   }));
 
@@ -342,43 +343,33 @@ const RightDrawer = forwardRef((props, ref) => {
         },
       ];
 
-      departureEntitiesNameList.map((item) => {
-        if (
-          constructPortListEntities(
-            `${item.column}`,
-            `${item.value}`,
-            `${item.enabled}`,
-            className
-          ) !== undefined
-        )
-          typeDeparture.push(
-            constructPortListEntities(
-              `${item.column}`,
-              `${item.value}`,
-              `${item.enabled}`,
-              className
-            )
-          );
-      });
+    departureEntitiesNameList.filter(item=>  constructPortListEntities(
+      `${item.column}`,
+      `${item.value}`,
+      `${item.enabled}`,
+      className
+    ) !== undefined ).map(item=>typeDeparture.push(
+      constructPortListEntities(
+        `${item.column}`,
+        `${item.value}`,
+        `${item.enabled}`,
+        className
+      )
+    ))
 
-      arrivalEntitiesNameList.map((item) => {
-        if (
-          constructPortListEntities(
-            `${item.column}`,
-            `${item.value}`,
-            `${item.enabled}`,
-            className
-          ) !== undefined
-        )
-          typeArrival.push(
-            constructPortListEntities(
-              `${item.column}`,
-              `${item.value}`,
-              `${item.enabled}`,
-              className
-            )
-          );
-      });
+    arrivalEntitiesNameList.filter(item=>  constructPortListEntities(
+      `${item.column}`,
+      `${item.value}`,
+      `${item.enabled}`,
+      className
+    ) !== undefined ).map(item=>typeArrival.push(
+      constructPortListEntities(
+        `${item.column}`,
+        `${item.value}`,
+        `${item.enabled}`,
+        className
+      )
+    ))
 
       if (typeDeparture.length > 0 && departurePortName !== undefined) {
         obj["column"] = departurePortName;
@@ -404,21 +395,26 @@ const RightDrawer = forwardRef((props, ref) => {
 
       obj = {}; //nullifying obj for reuse
 
-      if (revenueCondition !== undefined && revenueAmount !== undefined) {
-        if (className !== "applyFilter") {
-          obj["column"] = revenueName;
-          obj["condition"] = revenueCondition;
-          obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
-          obj["enabled"] = revenueEnabled;
-        }
-        else {
-          obj["column"] = revenueName;
-          obj["condition"] = revenueCondition;
-          obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
-        }
-        filter.push(obj);
+    /*
+    FIX for revenueCondition === equals on default condition
+    -> checking only for presence of revenueAmount and 
+    setting revenueCondition === "equals" if revenueCondition===undefined
+    */
+    if (revenueAmount !== undefined) {
+      if (className !== "applyFilter") {
+        obj["column"] = revenueName;
+        obj["condition"] = revenueCondition === undefined ? "equals" : revenueCondition;
+        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+        obj["enabled"] = revenueEnabled;
       }
-      obj = {}; //nullifying obj for reuse
+      else {
+        obj["column"] = revenueName;
+        obj["condition"] = revenueCondition === undefined ? "equals" : revenueCondition;
+        obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
+      }
+      filter.push(obj);
+    }
+    obj = {}; //nullifying obj for reuse
 
       if (className === "applyFilter") {
         obj["applyFilter"] = filter;

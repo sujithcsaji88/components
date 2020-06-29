@@ -22,13 +22,18 @@ const Revenue = (props) => {
       }
       if (props.filterInfoToShow!== undefined && 
         props.filterInfoToShow.some(item => (item.column === "Revenue"))) {
-          setLabelName("Revenue");
-          props.filterInfoToShow.map(item=>{
-            if(item.column === "Revenue"){
-               setCondition(props.condition)
-    }
-          })
-    }
+        setLabelName("Revenue");
+
+        props.filterInfoToShow.filter(item => item.column === "Revenue").map(() =>
+          setCondition(props.condition));
+
+
+        //       props.filterInfoToShow.map(item=>{
+        //         if(item.column === "Revenue"){
+        //            setCondition(props.condition)
+        // }
+        //       })
+      }
     }
   }, [props]);
 

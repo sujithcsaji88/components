@@ -19,7 +19,7 @@ const DeparturePort = (props) => {
         setName(props.name);
         setType(props.type);
       }
-      //condition necessary for showing filter resutls in right Frawer
+      //condition necessary for showing filter resutls in right Drawer
       else if (props.filterInfoToShow !== undefined &&
         props.filterInfoToShow.some(item => (item.column === "Departure Port"))) {
         setName("Departure Port");
@@ -32,28 +32,15 @@ const DeparturePort = (props) => {
     var airportToDisplay = "", airportGroupToDisplay = "",
       cityToDisplay = "", cityGroupToDisplay = "", countryToDisplay = "";
     if (props.filterInfoToShow !== undefined) {
-      props.filterInfoToShow.map(item => {
-        if (item.column === "Departure Port" &&
-          item.types !== undefined && Array.isArray(item.types)) {
-          item.types.map(subItem => {
-            if (subItem.column === "Airport") {
-              airportToDisplay = subItem.value;
-            }
-            else if (subItem.column === "Airport Group") {
-              airportGroupToDisplay = subItem.value;
-            }
-            else if (subItem.column === "City") {
-              cityToDisplay = subItem.value;
-            }
-            else if (subItem.column === "City Group") {
-              cityGroupToDisplay = subItem.value;
-            }
-            else if (subItem.column === "Country") {
-              countryToDisplay = subItem.value;
-            }
-          })
-        }
-      })
+      props.filterInfoToShow.filter((item) => item.column === "Departure Port" && 
+      item.types !== undefined && Array.isArray(item.types)).map(item=>(
+        item.types.map(subItem =>
+        subItem.column === "Airport" ? airportToDisplay = subItem.value :
+        subItem.column === "Airport Group" ? airportGroupToDisplay = subItem.value :
+        subItem.column === "City" ? cityToDisplay = subItem.value :
+        subItem.column === "City Group" ? cityGroupToDisplay = subItem.value:
+        subItem.column === "Country" ? countryToDisplay = subItem.value : "" )
+      ));
     }
     return (
       <React.Fragment>
