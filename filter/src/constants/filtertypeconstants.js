@@ -23,3 +23,5 @@ export const FLIGHT_TYPE = "Flight Type";
 export const FLIGHT_STATUS = "Flight Status";
 export const SEGMENT_STATUS = "Segment Status";
 export const MILESTONE_STATUS = "Milestone Status";
+export const ISRESET_TRUE = true;
+export const ISRESET_FALSE = false;

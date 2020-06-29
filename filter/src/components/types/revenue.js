@@ -22,13 +22,18 @@ const Revenue = (props) => {
       }
       else if (props.filterInfoToShow!== undefined && 
         props.filterInfoToShow.some(item => (item.column === "Revenue"))) {
-          setLabelName("Revenue");
-          props.filterInfoToShow.map(item=>{
-            if(item.column === "Revenue"){
-               setCondition(props.condition)
-    }
-          })
-    }
+        setLabelName("Revenue");
+
+        props.filterInfoToShow.filter(item => item.column === "Revenue").map(() =>
+          setCondition(props.condition));
+
+
+        //       props.filterInfoToShow.map(item=>{
+        //         if(item.column === "Revenue"){
+        //            setCondition(props.condition)
+        // }
+        //       })
+      }
     }
   }, [props]);
 
@@ -48,12 +53,11 @@ const Revenue = (props) => {
   if (labelName === REVENUE) {
     var amountValueOnEditFilter="", conditionValueOnEditFilter="";
     if(props.filterInfoToShow!==undefined){
-      props.filterInfoToShow.map(item=>{
-        if(item.column === "Revenue"){
-          amountValueOnEditFilter = item.value
-          conditionValueOnEditFilter=item.condition
-        }
-      })
+
+      amountValueOnEditFilter = props.filterInfoToShow.filter(item =>
+        item.column === "Revenue")[0].value;
+      conditionValueOnEditFilter = props.filterInfoToShow.filter(item =>
+        item.column === "Revenue")[0].condition;
     }
     
     return (

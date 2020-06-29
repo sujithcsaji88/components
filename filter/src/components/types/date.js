@@ -21,11 +21,8 @@ const Date = (props) => {
       }
       else if (props.filterInfoToShow!== undefined && props.filterInfoToShow.some(item => (item.column === "Date"))) {
         setLabelName("Date");
-        props.filterInfoToShow.map(item=>{
-          if(item.column === "Date"){
-            setField(item.field)
-          }
-        })
+        props.filterInfoToShow.filter(item => item.column === "Date" ).map(item =>
+             setField(item.field))
       }
     }
   }, [props]);
@@ -47,18 +44,10 @@ const Date = (props) => {
   if (labelName === DATE) {
     var toDateValue="", fromDateValue="";
     if(props.filterInfoToShow !== undefined){
-      props.filterInfoToShow.map(item=>{
-        if(item.column === "Date"){
-          item.field.map(subItem=>{
-            if(subItem.column === "From Date & Time"){
-              fromDateValue = subItem.value
-            }
-            if(subItem.column === "To Date & Time"){
-              toDateValue = subItem.value
-            }
-          })
-        }
-      })
+      props.filterInfoToShow.filter(item=>item.column==="Date").map(item=>
+        item.field.map(subItem => subItem.column === "From Date & Time" ? 
+        fromDateValue = subItem.value : toDateValue = subItem.value
+        ))
     }
 
     return (

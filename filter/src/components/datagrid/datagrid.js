@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
-import { Data } from "react-data-grid-addons";
+// import { Data } from "react-data-grid-addons";
 
 const {
   DraggableHeader: { DraggableContainer },
@@ -11,7 +11,7 @@ const defaultColumnProperties = {
   width: 120,
 };
 
-const selectors = Data.Selectors;
+// const selectors = Data.Selectors;
 
 class Grid extends Component {
   constructor(props) {
