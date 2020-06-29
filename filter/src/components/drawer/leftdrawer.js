@@ -40,11 +40,11 @@ const LeftDrawer = (props) => {
     const searchKey=e.target.value;
     console.log(searchKey)
     if(FilterData){
-      FilterData.filter.map((filterData,index)=>{
-        filteredList["filter"]=FilterData.filter.filter((filterData)=>{
-          return (filterData.name && filterData.name.toLowerCase().includes(searchKey.toLowerCase()))
-        })
-      })
+      FilterData.filter.map((filterData,index)=>(
+        filteredList["filter"]=FilterData.filter.filter((filterData)=>(
+           (filterData.name && filterData.name.toLowerCase().includes(searchKey.toLowerCase()))
+        ))
+      ))
     }
     setFilteredFilterData(filteredList)
   }
