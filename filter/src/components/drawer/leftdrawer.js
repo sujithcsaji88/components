@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import FilterData from "../../stubs/FilterData.json";
 import Card from "react-bootstrap/Card";
 import { Accordion, Form } from "react-bootstrap";
@@ -8,16 +8,53 @@ import {
 } from "../../constants/filtertypeconstants";
 
 const LeftDrawer = (props) => {
-  const loadedData = FilterData.filter.map((filterData, index) => {
-    if (
-      filterData.name === DEPARTURE_PORT ||
-      filterData.name === ARRIVAL_PORT
-    ) {
+  const [departureAccordian,setDepartureAccordian]=useState(false);
+  const [arrivalAccordian,setArrivalAccordian]=useState(false);
+  const [departureAccordianShow,setDepartureAccordianShow]=useState("");
+  const [arrivalAccordianShow,setArrivalAccordianShow]=useState("")
+  const [filteredFilterData,setFilteredFilterData]=useState(FilterData);
+  const accordianArrowToggle =(name)=>{
+    if(name===DEPARTURE_PORT){
+      setDepartureAccordian(!departureAccordian);
+      if(departureAccordian){
+        setDepartureAccordianShow("")
+      }
+      else{
+        setDepartureAccordianShow("show")
+      }
+    }
+    else{
+      setArrivalAccordian(!arrivalAccordian);
+      if(arrivalAccordian){
+        setArrivalAccordianShow("")
+      }
+      else{
+        setArrivalAccordianShow("show")
+      }
+      
+    }
+    
+  }
+  const searchFilterHandler=(e)=>{
+    let filteredList={};
+    const searchKey=e.target.value;
+    console.log(searchKey)
+    if(FilterData){
+      FilterData.filter.map((filterData,index)=>{
+        filteredList["filter"]=FilterData.filter.filter((filterData)=>{
+          return (filterData.name && filterData.name.toLowerCase().includes(searchKey.toLowerCase()))
+        })
+      })
+    }
+    setFilteredFilterData(filteredList)
+  }
+  const loadedData = filteredFilterData.filter.map((filterData, index) => {
+    if (filterData.name === DEPARTURE_PORT) {
       return (
-        <li key={index}>
+        <div key={index}>
           <Accordion>
             <Card>
-              <Accordion.Toggle className="show" as={Card.Header} eventKey="0">
+              <Accordion.Toggle className={departureAccordianShow} as={Card.Header} eventKey="0" onClick={(e)=>accordianArrowToggle(filterData.name)}>
                 {filterData.name}
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0">
@@ -46,9 +83,47 @@ const LeftDrawer = (props) => {
               </Accordion.Collapse>
             </Card>
           </Accordion>
-        </li>
+        </div>
       );
-    } else if (filterData.field) {
+    }
+    else if (filterData.name === ARRIVAL_PORT) {
+      return (
+        <div key={index}>
+          <Accordion>
+            <Card>
+              <Accordion.Toggle className={arrivalAccordianShow} as={Card.Header} eventKey="0" onClick={(e)=>accordianArrowToggle(filterData.name)}>
+                {filterData.name}
+              </Accordion.Toggle>
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                  <ul className="firstAccordion" key={index}>
+                    {filterData.types &&
+                      filterData.types.map((type, index) => {
+                        return (
+                          <li
+                            onClick={(e) => {
+                              props.handleValue(
+                                filterData.name,
+                                type.name,
+                                filterData.enabled
+                              );
+                              props.addedFilterCount();
+                            }}
+                            key={index}
+                          >
+                            {type.name}
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
+        </div>
+      );
+    } 
+    else if (filterData.field) {
       return (
         <li
           onClick={(e) => {
@@ -94,6 +169,7 @@ const LeftDrawer = (props) => {
           placeholder="Search a Filter"
           defaultValue=""
           className="customControl"
+          onChange={searchFilterHandler}
         />
       </Form.Row>
       <div className="row">

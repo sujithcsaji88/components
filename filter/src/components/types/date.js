@@ -103,7 +103,7 @@ const Date = (props) => {
                   disabled={textStatus}
                   required
                   type="date"
-                  defaultValue={field.name === "From Date & Time" ? fromDateValue : toDateValue}
+                  defaultValue={field.name === "From Date & Time" || field.column === "From Date & Time" ? fromDateValue : toDateValue}
                   className="date"
                   onChange={(e) => {
                     props.dateSave(e, field.name, labelName, enabled);

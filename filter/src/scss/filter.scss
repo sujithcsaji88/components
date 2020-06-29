@@ -383,6 +383,7 @@ label {
 }
 
 .lists {
+  z-index: 9;
   box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
   position: fixed;
   height: 480px;
@@ -394,6 +395,7 @@ label {
   left: 0px;
   transition: 0.5s;
   background: #fff;
+  overflow-y: scroll;
   .listsView {
     border-bottom: 1px solid #bcbdd1;
     padding: 15px;

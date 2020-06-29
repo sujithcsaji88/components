@@ -7,7 +7,7 @@ import {
   ARRIVAL_PORT,
 } from "../../../constants/filtertypeconstants";
 
-export default function CityGroup(props) {
+export default function Country(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
   const [enabled, setEnabled] = useState(true);
@@ -17,21 +17,21 @@ export default function CityGroup(props) {
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
-      setSwitchId("departureCityGroup");
+      setSwitchId("departureCountry");
     } else if (props.name === ARRIVAL_PORT) {
-      setSwitchId("arrivalCityGroup");
+      setSwitchId("ArrivalCountry");
     }
-    if (props.type === "City Group") {
+    if (props.type === "Country") {
       setLabelName(props.name);
       setLabelType(props.type);
     }
-    else if(props.cityGroupToDisplay!==""){
+    else if(props.countryToDisplay!==""){
       setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
-      setLabelType("City Group");
+      setLabelType("Country");
     }
   }, [props]);
 
-  const closeCityGroup = () => {
+  const closeCountry = () => {
     setLabelName("");
     setLabelType("");
   };
@@ -43,7 +43,7 @@ export default function CityGroup(props) {
       setTextStatus(true);
     }
   };
-  if (labelType === "City Group") {
+  if (labelType === "Country") {
     return (
       <div className="filter__input">
         <div className="filter__input-title">
@@ -61,17 +61,18 @@ export default function CityGroup(props) {
               onClick={(e) => {
                 enableSwitchChange(e);
                 if (labelName === DEPARTURE_PORT) {
-                  props.departureCityGroupEnabledSave(e.target.checked);
+                  props.departureCountryEnabledSave(e.target.checked);
                 } else if (labelName === ARRIVAL_PORT) {
-                  props.arrivalCityGroupEnabledSave(e.target.checked);
+                  props.arrivalCountryEnabledSave(e.target.checked);
                 }
               }}
             />
             <FontAwesomeIcon
               icon={faTimes}
+              type="button"
               onClick={(e) => {
-                closeCityGroup();
-                props.clearValues();
+                closeCountry();
+                props.clearValues({name:props.name, type:"Country"});
               }}
             />
           </div>
@@ -85,8 +86,8 @@ export default function CityGroup(props) {
               setAllowEdit(false);
               props.valueToSave(e, labelName, labelType, enabled);
             }}
-            value= { allowEdit && props.cityGroupToDisplay !=="" ? 
-            props.cityGroupToDisplay : null}
+            defaultValue= { allowEdit && props.countryToDisplay !== "" ? 
+            props.countryToDisplay : null}
           ></input>
         </div>
       </div>
