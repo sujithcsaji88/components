@@ -4,6 +4,8 @@ import RightDrawer from "./components/drawer/rightdrawer";
 import LeftDrawer from "./components/drawer/leftdrawer";
 import MainFilterPanel from "./components/panel/MainFilterPanel";
 import SpreadSheet from "./components/datagrid/speadsheet";
+import FilterData from "../src/stubs/FilterData.json";
+import { DEPARTURE_PORT, ARRIVAL_PORT, DATE, REVENUE } from "./constants/filtertypeconstants";
 
 function useComponentVisible() {
   const [showApplyFilter, setApplyFilter] = useState(false);
@@ -48,11 +50,11 @@ function App() {
   const [enabled, setEnabled] = useState();
   //holding the state of the reset function
   const [isReset, setIsReset] = useState(false);
-  
+
   const [filterMap, setFilterMap] = useState();
   const [filterKeys, setFilterKeys] = useState();
   const [filterInfoToShow, setFilterInfoToShow] = useState();
-  const childRefs=useRef(null);
+  const childRefs = useRef(null);
 
   const addedFilterCount = () => {
     setAddedFilter(addedFilter + 1);
@@ -84,9 +86,55 @@ function App() {
     if (addedFilter !== 0) {
       setAddedFilter(addedFilter - 1);
     }
-    if(resetStateVariableMap!==undefined)
-    childRefs.current.clearStateVariables(resetStateVariableMap);
+    if (resetStateVariableMap !== undefined)
+      childRefs.current.clearStateVariables(resetStateVariableMap);
   };
+  const onSelectSavedFilter = (savedFilter, name) => {
+    let filterArray = [];
+    savedFilter[name].map((filter, index) => {
+      filterArray.push(filter)
+    })
+    console.log(filterArray)
+    savedFilter[name].map((filters, index) => {
+      if (filters.column === DEPARTURE_PORT) {
+        filters.types.map((filter, index) => {
+          setLabelName(filters.column)
+          setLabelType(filter.column)
+          setEnabled(filter.enabled)
+        })
+      }
+      if (filters.column === ARRIVAL_PORT) {
+        filters.types.map((filter, index) => {
+          setLabelName(filters.column)
+          setLabelType(filter.column)
+          setEnabled(filter.enabled)
+        })
+      }
+      if(filters.column===DATE){
+        filters.field.map((field, index) => {
+          setLabelName(filters.column)
+          setField(field.column)
+          setEnabled(field.enabled)
+        })
+      }
+      if(filters.column===REVENUE){
+        setLabelName(filters.column)
+        console.log(FilterData)
+        let conditions=[];
+        FilterData.filter.map((filters,index)=>{
+          if(filters.name===REVENUE){
+            if(filters.condition!==undefined){
+              conditions.push(filters.condition)
+            }
+          }
+        })
+        setCondition(conditions[0])
+        setEnabled(filters.enabled)
+      }
+    })
+    setApplyFilter(true)
+    setFilterInfoToShow(filterArray)
+  }
 
   const clearName = () => {
     setLabelName("");
@@ -155,7 +203,7 @@ function App() {
                 enabled={enabled}
                 name={labelName}
                 type={labelType}
-                clearValues={(resetStateVariableMap)=>clearType(resetStateVariableMap)}
+                clearValues={(resetStateVariableMap) => clearType(resetStateVariableMap)}
                 clearValue={clearName}
                 addedFilter={addedFilter}
                 onApplyFilter={onApplyFilter}
@@ -171,6 +219,7 @@ function App() {
       <MainFilterPanel
         filterMap={filterMap}
         click={(item) => handleFilterViewInRightDrawer(item)}
+        onSelectSavedFilter={onSelectSavedFilter}
       />
       <SpreadSheet filterArray={filterKeys} />
     </div>

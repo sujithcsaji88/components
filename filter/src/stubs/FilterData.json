@@ -58,10 +58,10 @@
       "enabled": true,
       "field": [
         {
-          "name": "From Date & Time"
+          "column": "From Date & Time"
         },
         {
-          "name": "To Date & Time"
+          "column": "To Date & Time"
         }
       ]
     },

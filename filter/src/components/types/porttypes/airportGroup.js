@@ -86,7 +86,7 @@ export default function AirportGroup(props) {
             className="form-control"
             onChange={(e) => {
               setAllowEdit(false);
-              props.valueToSave(e, labelName, labelType, enabled);
+              props.valueToSave(e.target.value, labelName, labelType, enabled);
             }}
             defaultValue={
               allowEdit && props.airportGroupToDisplay !== ""
