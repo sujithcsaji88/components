@@ -20,7 +20,7 @@ const Revenue = (props) => {
         setLabelName(props.name);
         setCondition(props.condition);
       }
-      else if (props.filterInfoToShow!== undefined && 
+      if (props.filterInfoToShow!== undefined && 
         props.filterInfoToShow.some(item => (item.column === "Revenue"))) {
         setLabelName("Revenue");
 
@@ -53,11 +53,14 @@ const Revenue = (props) => {
   if (labelName === REVENUE) {
     var amountValueOnEditFilter="", conditionValueOnEditFilter="";
     if(props.filterInfoToShow!==undefined){
-
-      amountValueOnEditFilter = props.filterInfoToShow.filter(item =>
-        item.column === "Revenue")[0].value;
-      conditionValueOnEditFilter = props.filterInfoToShow.filter(item =>
-        item.column === "Revenue")[0].condition;
+      props.filterInfoToShow.map(item=>{
+        if(item.column === "Revenue"){
+          amountValueOnEditFilter = item.value
+          conditionValueOnEditFilter=item.condition
+          props.revenueAmountSave(amountValueOnEditFilter, item.column, enabled);
+          props.revenueConditionSave(conditionValueOnEditFilter);
+        }
+      })
     }
     
     return (
@@ -97,7 +100,7 @@ const Revenue = (props) => {
               as="select"
               defaultValue={conditionValueOnEditFilter !=="" ? conditionValueOnEditFilter : null}
               onChange={(e) => {
-                props.revenueConditionSave(e);
+                props.revenueConditionSave(e.target.value);
               }}
             >
               {condition.map((condition, index) => {
@@ -117,7 +120,7 @@ const Revenue = (props) => {
                 amountValueOnEditFilter !== "" ? amountValueOnEditFilter : null}
               onChange={(e) => {
                 setAllowEdit(false);
-                props.revenueAmountSave(e, labelName, enabled);
+                props.revenueAmountSave(e.target.value, labelName, enabled);
               }}
             />
           </Form.Group>

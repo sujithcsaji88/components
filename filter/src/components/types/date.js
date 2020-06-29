@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { faTimes} from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
 import { DATE } from "../../constants/filtertypeconstants";
@@ -19,7 +19,7 @@ const Date = (props) => {
         setLabelName(props.name);
         setField(props.field);
       }
-      else if (props.filterInfoToShow!== undefined && props.filterInfoToShow.some(item => (item.column === "Date"))) {
+      if (props.filterInfoToShow !== undefined && props.filterInfoToShow.some(item => (item.column === "Date"))) {
         setLabelName("Date");
         props.filterInfoToShow.filter(item => item.column === "Date" ).map(item =>
              setField(item.field))
@@ -42,12 +42,22 @@ const Date = (props) => {
   };
 
   if (labelName === DATE) {
-    var toDateValue="", fromDateValue="";
-    if(props.filterInfoToShow !== undefined){
-      props.filterInfoToShow.filter(item=>item.column==="Date").map(item=>
-        item.field.map(subItem => subItem.column === "From Date & Time" ? 
-        fromDateValue = subItem.value : toDateValue = subItem.value
-        ))
+    var toDateValue = "", fromDateValue = "";
+    if (props.filterInfoToShow !== undefined) {
+      props.filterInfoToShow.map(item => {
+        if (item.column === "Date") {
+          item.field.map(subItem => {
+            if (subItem.column === "From Date & Time") {
+              fromDateValue = subItem.value
+              props.dateSave(fromDateValue, subItem.column, labelName, enabled);
+            }
+            if (subItem.column === "To Date & Time") {
+              toDateValue = subItem.value
+              props.dateSave(toDateValue, subItem.column, labelName, enabled);
+            }
+          })
+        }
+      })
     }
 
     return (
@@ -69,7 +79,7 @@ const Date = (props) => {
                 props.dateEnabledSave(e.target.checked);
               }}
             />
-            
+
             <FontAwesomeIcon
               className="fontIcons"
               icon={faTimes}
@@ -87,22 +97,22 @@ const Date = (props) => {
                 <Form.Text>{field.name}</Form.Text>
               </div>
               <div className="filter__split" key={index}>
-              <div className="date-wrap">
-                <Form.Control
-                  disabled={textStatus}
-                  required
-                  type="date"
-                  defaultValue={field.name === "From Date & Time" || field.column === "From Date & Time" ? fromDateValue : toDateValue}
-                  className="date"
-                  onChange={(e) => {
-                    props.dateSave(e, field.name, labelName, enabled);
-                  }}
-                />
-                <span className="date-button">
-                  <button type="button"></button>
-                </span>
+                <div className="date-wrap">
+                  <Form.Control
+                    disabled={textStatus}
+                    required
+                    type="date"
+                    defaultValue={field.name === "From Date & Time" || field.column === "From Date & Time" ? fromDateValue : toDateValue}
+                    className="date"
+                    onChange={(e) => {
+                      props.dateSave(e.target.value, field.column, labelName, enabled);
+                    }}
+                  />
+                  <span className="date-button">
+                    <button type="button"></button>
+                  </span>
                 </div>
-                <div className="time-wrap"> 
+                <div className="time-wrap">
                   <input className="time" type="time" />
                 </div>
               </div>
