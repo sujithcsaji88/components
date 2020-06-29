@@ -25,12 +25,11 @@ export default function Airport(props) {
     if (props.type === "Airport") {
       setLabelName(props.name);
       setLabelType(props.type);
-    } else if (props.airportToDisplay !== "") {
+    } if (props.airportToDisplay !== "") {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
       setLabelType("Airport");
-      props.valueToSave(props.airportToDisplay, labelName, labelType, enabled);
     }
   }, [props]);
 
