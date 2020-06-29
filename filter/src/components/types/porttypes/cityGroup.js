@@ -25,7 +25,7 @@ export default function CityGroup(props) {
       setLabelName(props.name);
       setLabelType(props.type);
     }
-    else if(props.cityGroupToDisplay!==""){
+     if(props.cityGroupToDisplay!==""){
       setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
       setLabelType("City Group");
     }

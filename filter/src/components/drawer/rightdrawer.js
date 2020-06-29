@@ -85,7 +85,8 @@ const RightDrawer = forwardRef((props, ref) => {
   }
 
   const PortvalueToSave = (e, name, type, enabled) => {
-    assignValuesForPort(e.target.value, name, type, enabled, ISRESET_FALSE);
+    assignValuesForPort(e, name, type, enabled, ISRESET_FALSE);
+    //console.log(e,name,type,enabled)
   };
 
   const assignValuesForPort = (value, name, type, enabled, isResetVariable) => {

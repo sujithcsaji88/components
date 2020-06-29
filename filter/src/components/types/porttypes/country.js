@@ -25,7 +25,7 @@ export default function Country(props) {
       setLabelName(props.name);
       setLabelType(props.type);
     }
-    else if(props.countryToDisplay!==""){
+    if(props.countryToDisplay!==""){
       setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
       setLabelType("Country");
     }

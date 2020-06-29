@@ -25,7 +25,7 @@ export default function City(props) {
       setLabelName(props.name);
       setLabelType(props.type);
     }
-    else if(props.cityToDisplay!==""){
+     if(props.cityToDisplay!==""){
       setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
       setLabelType("City");
     }
