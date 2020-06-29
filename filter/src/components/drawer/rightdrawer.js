@@ -394,16 +394,21 @@ const RightDrawer = forwardRef((props, ref) => {
 
     obj = {}; //nullifying obj for reuse
 
-    if (revenueCondition !== undefined && revenueAmount !== undefined) {
+    /*
+    FIX for revenueCondition === equals on default condition
+    -> checking only for presence of revenueAmount and 
+    setting revenueCondition === "equals" if revenueCondition===undefined
+    */
+    if (revenueAmount !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = revenueName;
-        obj["condition"] = revenueCondition;
+        obj["condition"] = revenueCondition === undefined ? "equals" : revenueCondition;
         obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
         obj["enabled"] = revenueEnabled;
       }
       else {
         obj["column"] = revenueName;
-        obj["condition"] = revenueCondition;
+        obj["condition"] = revenueCondition === undefined ? "equals" : revenueCondition;
         obj["value"] = revenueAmount !== undefined ? revenueAmount : 0;
       }
       filter.push(obj);
