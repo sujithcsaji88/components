@@ -25,7 +25,7 @@ export default function Airport(props) {
     if (props.type === "Airport") {
       setLabelName(props.name);
       setLabelType(props.type);
-    } else if (props.airportToDisplay !== "") {
+    } if (props.airportToDisplay !== "") {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
@@ -86,7 +86,7 @@ export default function Airport(props) {
             className="form-control"
             onChange={(e) => {
               setAllowEdit(false);
-              props.valueToSave(e, labelName, labelType, enabled);
+              props.valueToSave(e.target.value, labelName, labelType, enabled);
             }}
             defaultValue={
               allowEdit && props.airportToDisplay !== ""

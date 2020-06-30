@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import FilterData from "../../stubs/FilterData.json";
 import Card from "react-bootstrap/Card";
 import { Accordion, Form } from "react-bootstrap";
@@ -8,43 +8,43 @@ import {
 } from "../../constants/filtertypeconstants";
 
 const LeftDrawer = (props) => {
-  const [departureAccordian,setDepartureAccordian]=useState(false);
-  const [arrivalAccordian,setArrivalAccordian]=useState(false);
-  const [departureAccordianShow,setDepartureAccordianShow]=useState("");
-  const [arrivalAccordianShow,setArrivalAccordianShow]=useState("")
-  const [filteredFilterData,setFilteredFilterData]=useState(FilterData);
-  const accordianArrowToggle =(name)=>{
-    if(name===DEPARTURE_PORT){
+  const [departureAccordian, setDepartureAccordian] = useState(false);
+  const [arrivalAccordian, setArrivalAccordian] = useState(false);
+  const [departureAccordianShow, setDepartureAccordianShow] = useState("");
+  const [arrivalAccordianShow, setArrivalAccordianShow] = useState("")
+  const [filteredFilterData, setFilteredFilterData] = useState(FilterData);
+  const accordianArrowToggle = (name) => {
+    if (name === DEPARTURE_PORT) {
       setDepartureAccordian(!departureAccordian);
-      if(departureAccordian){
+      if (departureAccordian) {
         setDepartureAccordianShow("")
       }
-      else{
+      else {
         setDepartureAccordianShow("show")
       }
     }
-    else{
+    else {
       setArrivalAccordian(!arrivalAccordian);
-      if(arrivalAccordian){
+      if (arrivalAccordian) {
         setArrivalAccordianShow("")
       }
-      else{
+      else {
         setArrivalAccordianShow("show")
       }
-      
+
     }
-    
+
   }
-  const searchFilterHandler=(e)=>{
-    let filteredList={};
-    const searchKey=e.target.value;
+  const searchFilterHandler = (e) => {
+    let filteredList = {};
+    const searchKey = e.target.value;
     console.log(searchKey)
-    if(FilterData){
-      FilterData.filter.map((filterData,index)=>{
-        filteredList["filter"]=FilterData.filter.filter((filterData)=>{
-          return (filterData.name && filterData.name.toLowerCase().includes(searchKey.toLowerCase()))
-        })
-      })
+    if (FilterData) {
+      FilterData.filter.map((filterData, index) => (
+        filteredList["filter"] = FilterData.filter.filter((filterData) => (
+          (filterData.name && filterData.name.toLowerCase().includes(searchKey.toLowerCase()))
+        ))
+      ))
     }
     setFilteredFilterData(filteredList)
   }
@@ -54,7 +54,7 @@ const LeftDrawer = (props) => {
         <div key={index}>
           <Accordion>
             <Card>
-              <Accordion.Toggle className={departureAccordianShow} as={Card.Header} eventKey="0" onClick={(e)=>accordianArrowToggle(filterData.name)}>
+              <Accordion.Toggle className={departureAccordianShow} as={Card.Header} eventKey="0" onClick={(e) => accordianArrowToggle(filterData.name)}>
                 {filterData.name}
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0">
@@ -91,7 +91,7 @@ const LeftDrawer = (props) => {
         <div key={index}>
           <Accordion>
             <Card>
-              <Accordion.Toggle className={arrivalAccordianShow} as={Card.Header} eventKey="0" onClick={(e)=>accordianArrowToggle(filterData.name)}>
+              <Accordion.Toggle className={arrivalAccordianShow} as={Card.Header} eventKey="0" onClick={(e) => accordianArrowToggle(filterData.name)}>
                 {filterData.name}
               </Accordion.Toggle>
               <Accordion.Collapse eventKey="0">
@@ -122,7 +122,7 @@ const LeftDrawer = (props) => {
           </Accordion>
         </div>
       );
-    } 
+    }
     else if (filterData.field) {
       return (
         <li

@@ -25,6 +25,7 @@ const SavedFilters = (props) => {
     let name='';
     let savedFilters = localStorage.getItem("savedFilters");
     savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
+    savedFilters=savedFilters.slice((savedFilters.length-5),(savedFilters.length))
     const savedFilter=savedFilters.map((savedFilters,index)=>{
       return(
         savedFilters.map((filter,index)=>{
@@ -33,7 +34,7 @@ const SavedFilters = (props) => {
           <div>
           <div className="alignLeft">
             <FontAwesomeIcon style={{marginLeft:"-54px"}} icon={faCheck}></FontAwesomeIcon>
-            <div style={{marginLeft:"15px"}} key={index}>{name}</div>
+            <div style={{marginLeft:"15px"}} key={index} onClick={(e)=>{props.onSelectSavedFilter(filter,Object.keys(filter)[0]);}}>{name}</div>
             <FontAwesomeIcon
               icon={faStar}
               className="marginLeft"

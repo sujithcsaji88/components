@@ -20,15 +20,20 @@ const Revenue = (props) => {
         setLabelName(props.name);
         setCondition(props.condition);
       }
-      else if (props.filterInfoToShow!== undefined && 
+      if (props.filterInfoToShow!== undefined && 
         props.filterInfoToShow.some(item => (item.column === "Revenue"))) {
-          setLabelName("Revenue");
-          props.filterInfoToShow.map(item=>{
-            if(item.column === "Revenue"){
-               setCondition(props.condition)
-    }
-          })
-    }
+        setLabelName("Revenue");
+
+        props.filterInfoToShow.filter(item => item.column === "Revenue").map(() =>
+          setCondition(props.condition));
+
+
+        //       props.filterInfoToShow.map(item=>{
+        //         if(item.column === "Revenue"){
+        //            setCondition(props.condition)
+        // }
+        //       })
+      }
     }
   }, [props]);
 
@@ -52,6 +57,8 @@ const Revenue = (props) => {
         if(item.column === "Revenue"){
           amountValueOnEditFilter = item.value
           conditionValueOnEditFilter=item.condition
+          props.revenueAmountSave(amountValueOnEditFilter, item.column, enabled);
+          props.revenueConditionSave(conditionValueOnEditFilter);
         }
       })
     }
@@ -93,7 +100,7 @@ const Revenue = (props) => {
               as="select"
               defaultValue={conditionValueOnEditFilter !=="" ? conditionValueOnEditFilter : null}
               onChange={(e) => {
-                props.revenueConditionSave(e);
+                props.revenueConditionSave(e.target.value);
               }}
             >
               {condition.map((condition, index) => {
@@ -113,7 +120,7 @@ const Revenue = (props) => {
                 amountValueOnEditFilter !== "" ? amountValueOnEditFilter : null}
               onChange={(e) => {
                 setAllowEdit(false);
-                props.revenueAmountSave(e, labelName, enabled);
+                props.revenueAmountSave(e.target.value, labelName, enabled);
               }}
             />
           </Form.Group>

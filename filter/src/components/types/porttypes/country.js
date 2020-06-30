@@ -25,7 +25,7 @@ export default function Country(props) {
       setLabelName(props.name);
       setLabelType(props.type);
     }
-    else if(props.countryToDisplay!==""){
+    if(props.countryToDisplay!==""){
       setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
       setLabelType("Country");
     }
@@ -84,7 +84,7 @@ export default function Country(props) {
             className="form-control"
             onChange={(e) => {
               setAllowEdit(false);
-              props.valueToSave(e, labelName, labelType, enabled);
+              props.valueToSave(e.target.value, labelName, labelType, enabled);
             }}
             defaultValue= { allowEdit && props.countryToDisplay !== "" ? 
             props.countryToDisplay : null}
