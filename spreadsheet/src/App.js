@@ -1,13 +1,6 @@
 import React, { useState, useEffect, Suspense } from "react";
-import Spreadsheet from "./components/slickgrid/slickgrid";
 import Grid from "./components/datagrid/datagrid";
 import CargoData from "./stubs/CargoData.json";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 let searchKey;
 export default function App() {
@@ -96,21 +89,9 @@ export default function App() {
   };
   if (data && data.length) {
     return (
-      <Router>
         <div>
-          <Suspense fallback={<LoadingSpinner />}>
-            <Switch>
-              <Redirect exact from="/" to="grid" />
-              <Route exact path="/slick" component={Spreadsheet}></Route>
-              <Route
-                exact
-                path="/grid"
-                render={(props) => <Grid {...props} rows={data} textValue={searchKey} handleChange={getSearchWord} status={status} count={data.length}/>}
-              ></Route>
-            </Switch>
-          </Suspense>
+               <Grid rows={data} textValue={searchKey} handleChange={getSearchWord} status={status} count={data.length}/>
         </div>
-      </Router>
     );
   } 
   else 

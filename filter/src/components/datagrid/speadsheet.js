@@ -92,13 +92,11 @@ export default function SpreadSheet(props) {
               item.departureAirport &&
               item.departureAirport.toLowerCase().includes(searchKey.toLowerCase())
             );
-            break;
           case "Arrival Port":
             return (
               item.arrivalAirport &&
               item.arrivalAirport.toLowerCase().includes(searchKey.toLowerCase())
             );
-            break;
           case "Date":
             if(name==="From Date & Time"){
               return item.fromDate >= searchKey;
@@ -106,7 +104,6 @@ export default function SpreadSheet(props) {
             else{
               return item.toDate <= searchKey;
             }
-            break;
           case "Revenue":
             
             if (revenueCondition=== "equals") {
@@ -161,7 +158,6 @@ export default function SpreadSheet(props) {
               );
             }
 
-            break;
           default:
         }
       });
