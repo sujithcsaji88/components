@@ -142,7 +142,6 @@ const RightDrawer = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     clearStateVariables(resetStateVariableMap) {
-      console.log("BHAI CLEARED ", resetStateVariableMap)
       assignValuesForPort(undefined, resetStateVariableMap.name, resetStateVariableMap.type,
         false, ISRESET_TRUE);
     }
