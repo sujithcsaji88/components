@@ -44,9 +44,9 @@ const Date = (props) => {
   if (labelName === DATE) {
     var toDateValue = "", fromDateValue = "";
     if (props.filterInfoToShow !== undefined) {
-      props.filterInfoToShow.map(item => {
+      props.filterInfoToShow.forEach(item => {
         if (item.column === "Date") {
-          item.field.map(subItem => {
+          item.field.forEach(subItem => {
             if (subItem.column === "From Date & Time") {
               fromDateValue = subItem.value
               props.dateSave(fromDateValue, subItem.column, labelName, enabled);
