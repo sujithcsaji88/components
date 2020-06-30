@@ -85,9 +85,10 @@ const RightDrawer = forwardRef((props, ref) => {
   }
 
   const PortvalueToSave = (e, name, type, enabled) => {
-    assignValuesForPort(e, name, type, enabled, ISRESET_FALSE);
-    //console.log(e,name,type,enabled)
+     assignValuesForPort(e, name, type, enabled, ISRESET_FALSE);
   };
+  
+
 
   const assignValuesForPort = (value, name, type, enabled, isResetVariable) => {
     if (name === DEPARTURE_PORT) {
@@ -141,7 +142,6 @@ const RightDrawer = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     clearStateVariables(resetStateVariableMap) {
-      console.log("BHAI CLEARED ", resetStateVariableMap)
       assignValuesForPort(undefined, resetStateVariableMap.name, resetStateVariableMap.type,
         false, ISRESET_TRUE);
     }
@@ -222,7 +222,6 @@ const RightDrawer = forwardRef((props, ref) => {
     if (name === FROM_DATE) {
       setFromDateTimeName(name);
       setFromDateTime(e)
-
     } else if (name === TO_DATE) {
       setToDateTimeName(name);
       setToDateTime(e)
