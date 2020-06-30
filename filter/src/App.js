@@ -153,6 +153,9 @@ function App() {
   };
 
   const captureFilterMap = (map) => {
+    if(filterMap !== undefined){
+      map=checkAndMergeFilterLists(filterMap.applyFilter, map.applyFilter);
+    }
     setFilterMap(map);
   };
   const onApplyFilter = (obj) => {
@@ -176,6 +179,48 @@ function App() {
       setFilterInfoToShow(filterInfo);
     }
   };
+
+
+  /**
+   * Returns a merged combination of filter List based on existing and upcoming filter Lists.
+   * 
+   * @param {existing List of filter values} oldList 
+   * @param {New list of updated Filter Values} newList 
+   * 
+   * @returns a map with key as applyFilter and value as Updated filter List
+   */
+  const checkAndMergeFilterLists=(oldList, newList)=>{
+    var returnList=oldList,newListColumnName = "", 
+      isColumnPresentInOldList, oldListTypeArray, dummyOldListTypeArray, isNewItemInOldTypeList;
+    for(var newListIndex=0; newListIndex<newList.length; newListIndex++){
+      newListColumnName = newList[newListIndex].column;
+      isColumnPresentInOldList = oldList.some(item=>(item.column === newListColumnName))
+      if(isColumnPresentInOldList === false){
+        returnList.push(newList[newListIndex]);
+      }
+      else {
+        if(newListColumnName === "Departure Port" || newListColumnName === "Arrival Port"){
+          oldListTypeArray = oldList.filter(item =>
+            (item.column === newListColumnName))[0].types;
+           dummyOldListTypeArray = oldListTypeArray;
+          for (var newItemType of newList[newListIndex].types) {
+            isNewItemInOldTypeList = oldListTypeArray.some(item =>
+              (item.column === newItemType.column))
+            if (isNewItemInOldTypeList === true) {
+              dummyOldListTypeArray = dummyOldListTypeArray.filter(item =>
+                item.column !== newItemType.column)
+            }
+            dummyOldListTypeArray.push(newItemType);
+            returnList[newListIndex]["types"] = dummyOldListTypeArray;
+          }
+        }
+        else {
+          /* LOGIC FOR FILTER UPDATE FOR DATES AND REVENUE */
+        }
+      }
+    }
+    return {"applyFilter" : returnList};
+  }
 
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
