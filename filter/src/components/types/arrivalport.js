@@ -41,14 +41,13 @@ const ArrivalPort = (props) => {
                   subItem.column === "City Group" ? cityGroupToDisplay = subItem.value :
                     subItem.column === "Country" ? countryToDisplay = subItem.value : "")
         ));
-        props.filterInfoToShow.map((item)=>{
-          if(item.column===ARRIVAL_PORT && item.types!== undefined){
-            item.types.map((type,index)=>{
-              props.PortvalueToSave(type.value,item.column,type.column,type.enabled)
-              console.log(type.value,item.column,type.column,type.enabled)
-            })
-          }
-        })
+      props.filterInfoToShow.forEach(item => {
+        if (item.column === ARRIVAL_PORT && item.types !== undefined) {
+          item.types.forEach(type => {
+            props.PortvalueToSave(type.value, item.column, type.column, type.enabled)
+          })
+        }
+      })
     }
     return (
       <React.Fragment>

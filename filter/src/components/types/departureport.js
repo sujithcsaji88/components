@@ -42,11 +42,10 @@ const DeparturePort = (props) => {
                     subItem.column === "Country" ? countryToDisplay = subItem.value : ""
           )
         ));
-      props.filterInfoToShow.map((item)=>{
+      props.filterInfoToShow.forEach(item=>{
         if(item.column===DEPARTURE_PORT && item.types!== undefined){
-          item.types.map((type,index)=>{
-            props.PortvalueToSave(type.value,item.column,type.column,type.enabled)
-            console.log(type.value,item.column,type.column,type.enabled)
+          item.types.forEach(type=>{
+             props.PortvalueToSave(type.value,item.column,type.column,type.enabled)
           })
         }
       })
