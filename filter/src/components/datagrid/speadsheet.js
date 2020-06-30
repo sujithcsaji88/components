@@ -42,18 +42,18 @@ export default function SpreadSheet(props) {
       queuedBookingvolume: CargoData.queuedBookingvolume,
     };
   });
-
+  let filteredRows = rows;
   useEffect(() => {
     setData(rows);
-    let filteredRows;
+    //let filteredRows;
 
     let searchKeys = [];
     if (props.filterArray !== undefined) {
-      props.filterArray.applyFilter.map((item) => {
+      props.filterArray.applyFilter.forEach(item => {
         const types = item.types;
         const field = item.field;
         if (types) {
-          types.map((types) => {
+          types.forEach(types => {
             searchKeys.push({
               columnName: item.column,
               name: types.column,
@@ -61,7 +61,7 @@ export default function SpreadSheet(props) {
             });
           });
         } else if (field) {
-          field.map((field) => {
+          field.forEach(field => {
             searchKeys.push({
               columnName: item.column,
               name: field.column,
@@ -78,13 +78,13 @@ export default function SpreadSheet(props) {
         }
       });
     }
-
-    filteredRows = rows;
-    searchKeys.map((obj) => {
+    
+    searchKeys.forEach(obj => {
       const columnName = obj.columnName;
       const searchKey = obj.value;
       const name=obj.name;
       const revenueCondition=obj.condition;
+      // eslint-disable-next-line
       filteredRows = filteredRows.filter((item) => {
         switch (columnName) {
           case "Departure Port":
@@ -157,13 +157,12 @@ export default function SpreadSheet(props) {
                 String(item.revenue).includes(searchKey)
               );
             }
-
-          default:
+          default: return ""
         }
       });
       setData(filteredRows);
     });
-  }, [props]);
+  },[props]);
 
   const getSearchWord = (e) => {
     searchKey = String(e.target.value).toLowerCase();

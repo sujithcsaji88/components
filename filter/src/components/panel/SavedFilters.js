@@ -4,7 +4,7 @@ import { faCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 
 const SavedFilters = (props) => {
   const [showFilter, setShowFilter] = useState(false)
-  let listRef =useRef();
+  let listRef = useRef();
   useEffect(
     () => {
       let listHandler = (event) => {
@@ -22,32 +22,39 @@ const SavedFilters = (props) => {
     }
     , [props]);
 
-    let name='';
-    let savedFilters = localStorage.getItem("savedFilters");
-    savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
-    savedFilters=savedFilters.slice((savedFilters.length-5),(savedFilters.length))
-    const savedFilter=savedFilters.map((savedFilters,index)=>{
-      return(
-        savedFilters.map((filter,index)=>{
-         name=Object.keys(filter)[0];
-          return (
-          <div>
-          <div className="alignLeft">
-            <FontAwesomeIcon style={{marginLeft:"-54px"}} icon={faCheck}></FontAwesomeIcon>
-            <div style={{marginLeft:"15px"}} key={index} onClick={(e)=>{props.onSelectSavedFilter(filter,Object.keys(filter)[0]);}}>{name}</div>
-            <FontAwesomeIcon
-              icon={faStar}
-              className="marginLeft"
-            ></FontAwesomeIcon>
-           </div>
-            </div>);
-        })
-      )
-    })
+  let name = '';
+  let keyValue='';
+  let savedFilters = localStorage.getItem("savedFilters");
+  savedFilters = savedFilters ? JSON.parse(savedFilters) : [];
+  savedFilters = savedFilters.slice((savedFilters.length - 5), (savedFilters.length))
+  const savedFilter = savedFilters.map((filterArray, index) => {
+    return (
+      filterArray.map((filter) => {
+        name = Object.keys(filter)[0];
+        keyValue=name;
+        return (
+          <div key={index}>
+            <div className="alignLeft">
+              <FontAwesomeIcon style={{ marginLeft: "-54px" }} icon={faCheck}></FontAwesomeIcon>
+              <div  style={{ marginLeft: "15px" }}  onClick={(e) => {
+                props.onSelectSavedFilter(filter, Object.keys(filter)[0]);
+                //Setting the savedFilterlist state to false 
+                setShowFilter(false);
+                //call back function to set the state being passed as props to also false 
+                props.handleListFilter();
+              }}>{name}</div>
+              <FontAwesomeIcon
+                icon={faStar}
+                className="marginLeft"
+              ></FontAwesomeIcon>
+            </div>
+          </div>);
+      })
+    )
+  })
   if (showFilter) {
-    
-    return(
-         <div className="lists" ref={listRef}>
+    return (
+      <div className="lists" ref={listRef}>
         <div className="listsView">
           <div className="text-muted">list view</div>
           <div className="alignLeft">
@@ -110,8 +117,8 @@ const SavedFilters = (props) => {
             ></FontAwesomeIcon>
           </div>
         </div>
-        <div className="savedFilters">
-            <ul className="leftSpace">{savedFilter}</ul>
+        <div   className="savedFilters">
+          <ul key={keyValue}  className="leftSpace">{savedFilter}</ul>
         </div>
       </div>);
   } else {

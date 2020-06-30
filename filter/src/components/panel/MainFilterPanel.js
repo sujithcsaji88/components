@@ -28,8 +28,8 @@ const MainFilterPanel = (props) => {
                   item.column === "Departure Port" ||
                   item.column === "Arrival Port"
                 ) {
-                  return item.types.map((subItem) => (
-                    <div className="listContent" key={item.column} onClick={()=>props.click(props.filterMap.applyFilter)}>
+                  return item.types.map((subItem,index) => (
+                    <div className="listContent" key={index} onClick={()=>props.click(props.filterMap.applyFilter)}>
                         <span>
                           {item.column === "Departure Port"
                             ? "Departure "
@@ -50,8 +50,8 @@ const MainFilterPanel = (props) => {
                   );
                 }
                 else if(item.column === "Date"){
-                  return item.field.map((subItem)=>(
-                    <div className="listContent" key={item.column} onClick={()=>props.click(props.filterMap.applyFilter)}>
+                  return item.field.map((subItem,index)=>(
+                    <div className="listContent" key={index} onClick={()=>props.click(props.filterMap.applyFilter)}>
                       <span>
                         {subItem.column === "From Date & Time"
                           ? "From "
