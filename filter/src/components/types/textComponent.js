@@ -3,8 +3,55 @@ import { BOOKING_PROFILE, FLIGHT_GROUP, FLIGHT_NO, YEILD, SERVICE_RECOVERY, WEIG
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
+import filterData from "../../stubs/FilterData.json";
 
-
+let textComponentArray = [];
+let bookingProfile, flightGroup, flightNo, yielD, serviceRecovery, weight, volume, aircraft, queuedBookings, aircraftClassification, flightType, flightStatus, segmentStatus, milestoneStatus;
+filterData.filter.forEach(item => {
+    if (item.name === BOOKING_PROFILE) {
+        bookingProfile = BOOKING_PROFILE;
+    }
+    else if (item.name === FLIGHT_GROUP) {
+        flightGroup = FLIGHT_GROUP
+    }
+    else if (item.name === FLIGHT_NO) {
+        flightNo = FLIGHT_NO;
+    }
+    else if (item.name === YEILD) {
+        yielD = YEILD;
+    }
+    else if (item.name === SERVICE_RECOVERY) {
+        serviceRecovery = SERVICE_RECOVERY;
+    }
+    else if (item.name === WEIGHT) {
+        weight = WEIGHT;
+    }
+    else if (item.name === VOLUME) {
+        volume = VOLUME;
+    }
+    else if (item.name === AIRCRAFT) {
+        aircraft = AIRCRAFT;
+    }
+    else if (item.name === QUEUED_BOOKINGS) {
+        queuedBookings = QUEUED_BOOKINGS;
+    }
+    else if (item.name === AIRCRAFT_CLASSIFICATION) {
+        aircraftClassification = AIRCRAFT_CLASSIFICATION;
+    }
+    else if (item.name === FLIGHT_TYPE) {
+        flightType = FLIGHT_TYPE;
+    }
+    else if (item.name === FLIGHT_STATUS) {
+        flightStatus = FLIGHT_STATUS;
+    }
+    else if (item.name === SEGMENT_STATUS) {
+        segmentStatus = SEGMENT_STATUS;
+    }
+    else if (item.name === MILESTONE_STATUS) {
+        milestoneStatus = MILESTONE_STATUS;
+    }
+    textComponentArray.push(item.name);
+})
 export default function TextComponent(props) {
     const [bookingProfileName, setBookingProfileName] = useState("none");
     const [flightGroupName, setFlightGroupName] = useState("none");
@@ -62,81 +109,85 @@ export default function TextComponent(props) {
     const [flightStatusSwitchId, setFlightStatusSwitchId] = useState('')
     const [segmentStatusSwitchId, setSegmentStatusSwitchId] = useState('')
     const [milestoneStatusSwitchId, setMilestoneStatusSwitchId] = useState('')
+    const [name, setName] = useState();
     useEffect(
         () => {
-            if (props.name === BOOKING_PROFILE) {
+            if(textComponentArray.includes(props.name)){
+                setName(props.name)
+            }
+            if (props.name === bookingProfile) {
                 setBookingProfileEnabled(props.enabled)
                 setBookingProfileName("")
-                setBookingProfileSwitchId(BOOKING_PROFILE)
+                setBookingProfileSwitchId(bookingProfile)
             }
-            if (props.name === FLIGHT_GROUP) {
+            if (props.name === flightGroup) {
                 setFlightGroupEnabled(props.enabled)
                 setFlightGroupName("");
-                setFlightGroupSwitchId(FLIGHT_GROUP)
+                setFlightGroupSwitchId(flightGroup)
             }
-            if (props.name === FLIGHT_NO) {
+            if (props.name === flightNo) {
                 setFlightNoEnabled(props.enabled)
                 setFlightNoName("");
-                setFlightNoSwitchId(FLIGHT_NO)
+                setFlightNoSwitchId(flightNo)
             }
-            if (props.name === YEILD) {
+            if (props.name === yielD) {
                 setYieldEnabled(props.enabled)
                 setYieldName("");
-                setYieldSwitchId(YEILD)
+                setYieldSwitchId(yielD)
             }
-            if (props.name === SERVICE_RECOVERY) {
+            if (props.name === serviceRecovery) {
                 setServiceRecoveryEnabled(props.enabled)
                 setServiceRecoveryName("");
-                setServiceRecoverySwitchId(SERVICE_RECOVERY)
+                setServiceRecoverySwitchId(serviceRecovery)
             }
-            if (props.name === QUEUED_BOOKINGS) {
+            if (props.name === queuedBookings) {
                 setQueuedBookingsEnabled(props.enabled)
                 setQueuedBookingsName("");
-                setQueuedBookingsSwitchId(QUEUED_BOOKINGS)
+                setQueuedBookingsSwitchId(queuedBookings)
             }
-            if (props.name === WEIGHT) {
+            if (props.name === weight) {
                 setWeightEnabled(props.enabled)
                 setWeightName("");
-                setWeightSwitchId(WEIGHT)
+                setWeightSwitchId(weight)
             }
-            if (props.name === VOLUME) {
+            if (props.name === volume) {
                 setVolumeEnabled(props.enabled)
                 setVolumeName("");
-                setVolumeSwitchId(VOLUME)
+                setVolumeSwitchId(volume)
             }
-            if (props.name === AIRCRAFT) {
+            if (props.name === aircraft) {
                 setAirCraftEnabled(props.enabled)
                 setAirCraftName("");
-                setAirCraftSwitchId(AIRCRAFT)
+                setAirCraftSwitchId(aircraft)
             }
-            if (props.name === AIRCRAFT_CLASSIFICATION) {
+            if (props.name === aircraftClassification) {
                 setAircraftClassificationEnabled(props.enabled)
                 setAircraftClassificationName("");
-                setAircraftClassificationSwitchId(AIRCRAFT_CLASSIFICATION)
+                setAircraftClassificationSwitchId(aircraftClassification)
             }
-            if (props.name === FLIGHT_TYPE) {
+            if (props.name === flightType) {
                 setFlightTypeEnabled(props.enabled)
                 setFlightTypeName("");
-                setFlightTypeSwitchId(FLIGHT_TYPE)
+                setFlightTypeSwitchId(flightType)
             }
-            if (props.name === FLIGHT_STATUS) {
+            if (props.name === flightStatus) {
                 setFlightStatusEnabled(props.enabled)
                 setFlightStatusName("");
-                setFlightStatusSwitchId(FLIGHT_STATUS)
+                setFlightStatusSwitchId(flightStatus)
             }
-            if (props.name === SEGMENT_STATUS) {
+            if (props.name === segmentStatus) {
                 setSegmentStatusEnabled(props.enabled)
                 setSegmentStatusName("");
-                setSegmentStatusSwitchId(SEGMENT_STATUS)
+                setSegmentStatusSwitchId(segmentStatus)
             }
-            if (props.name === MILESTONE_STATUS) {
+            if (props.name === milestoneStatus) {
                 setMilestoneStatusEnabled(props.enabled)
                 setMilestoneStatusName("");
-                setMilestoneStatusSwitchId(MILESTONE_STATUS)
+                setMilestoneStatusSwitchId(milestoneStatus)
             }
         }
         , [props]);
-        
+
     const enableSwitchChange = (e) => {
         if (e.target.id === BOOKING_PROFILE) {
             setBookingProfileEnabled(e.target.checked);
@@ -251,20 +302,63 @@ export default function TextComponent(props) {
             }
         }
     }
-    if (bookingProfileSwitchId === BOOKING_PROFILE || flightGroupSwitchId === FLIGHT_GROUP || flightNoSwitchId === FLIGHT_NO || yieldSwitchId === YEILD || serviceRecoverySwitchId === SERVICE_RECOVERY || queuedBookingsSwitchId === QUEUED_BOOKINGS || weightSwitchId === WEIGHT || volumeSwitchId === VOLUME || airCraftSwitchId === AIRCRAFT || aircraftClassificationSwitchId === AIRCRAFT_CLASSIFICATION || flightTypeSwitchId === FLIGHT_TYPE || flightStatusSwitchId === FLIGHT_STATUS || segmentStatusSwitchId === SEGMENT_STATUS || milestoneStatusSwitchId === MILESTONE_STATUS) {
+
+    const closeBookingProfileName = () => {
+        setBookingProfileName("none")
+    }
+    const closeAircraftClassificationName = () => {
+        setAircraftClassificationName("none");
+    }
+    const closeAirCraftName = () => {
+        setAirCraftName("none");
+    }
+    const closeFlightGroupName = () => {
+        setFlightGroupName("none");
+    }
+    const closeFlightNoName = () => {
+        setFlightNoName("none");
+    }
+    const closeFlightStatusName = () => {
+        setFlightStatusName("none");
+    }
+    const closeFlightTypeName = () => {
+        setFlightTypeName("none")
+    }
+    const closeMilestoneStatusName = () => {
+        setMilestoneStatusName("none");
+    }
+    const closeQueuedBookingsName = () => {
+        setQueuedBookingsName("none");
+    }
+    const closeSegmentStatusName = () => {
+        setSegmentStatusName("none");
+    }
+    const closeServiceRecoveryName = () => {
+        setServiceRecoveryName("none");
+    }
+    const closeVolumeName = () => {
+        setVolumeName("none");
+    }
+    const closeWeightName = () => {
+        setWeightName("none");
+    }
+    const closeYieldName = () => {
+        setYieldName("none");
+    }
+    if (textComponentArray.includes(name)) {
         return (
             <div>
                 <div style={{ display: bookingProfileName }} >
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{BOOKING_PROFILE}</span>
+                                <span>{bookingProfileSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
                                     type="switch"
                                     label=""
-                                    id={BOOKING_PROFILE}
+                                    id={bookingProfileSwitchId}
                                     defaultChecked={bookingProfileEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e);
@@ -274,7 +368,8 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={(e) => {
-                                        props.closeTextComponent();
+                                        //props.closeTextComponent();
+                                        closeBookingProfileName();
                                     }}
                                 />
                             </div>
@@ -294,7 +389,7 @@ export default function TextComponent(props) {
                 <div style={{ display: flightGroupName }} ><div className="filter__input">
                     <div className="filter__input-title">
                         <div className="filter__label">
-                            <span>{FLIGHT_GROUP}</span>
+                            <span>{flightGroupSwitchId}</span>
                         </div>
                         <div className="filter__control">
                             <Form.Check
@@ -310,7 +405,7 @@ export default function TextComponent(props) {
                                 icon={faTimes}
                                 type="button"
                                 onClick={() => {
-                                    console.log("close click")
+                                    closeFlightGroupName();
                                 }}
                             />
                         </div>
@@ -330,7 +425,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{FLIGHT_NO}</span>
+                                <span>{flightNoSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -346,7 +441,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeFlightNoName();
                                     }}
                                 />
                             </div>
@@ -367,7 +462,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{YEILD}</span>
+                                <span>{yieldSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -383,7 +478,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeYieldName();
                                     }}
                                 />
                             </div>
@@ -404,7 +499,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{SERVICE_RECOVERY}</span>
+                                <span>{serviceRecoverySwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -420,7 +515,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeServiceRecoveryName();
                                     }}
                                 />
                             </div>
@@ -441,7 +536,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{QUEUED_BOOKINGS}</span>
+                                <span>{queuedBookingsSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -457,7 +552,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeQueuedBookingsName();
                                     }}
                                 />
                             </div>
@@ -478,7 +573,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{WEIGHT}</span>
+                                <span>{weightSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -494,7 +589,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeWeightName();
                                     }}
                                 />
                             </div>
@@ -515,7 +610,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{VOLUME}</span>
+                                <span>{volumeSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -531,7 +626,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeVolumeName();
                                     }}
                                 />
                             </div>
@@ -552,7 +647,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{AIRCRAFT}</span>
+                                <span>{airCraftSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -568,7 +663,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeAirCraftName();
                                     }}
                                 />
                             </div>
@@ -589,7 +684,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{AIRCRAFT_CLASSIFICATION}</span>
+                                <span>{aircraftClassificationSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -605,7 +700,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeAircraftClassificationName();
                                     }}
                                 />
                             </div>
@@ -626,7 +721,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{FLIGHT_TYPE}</span>
+                                <span>{flightTypeSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -642,7 +737,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeFlightTypeName();
                                     }}
                                 />
                             </div>
@@ -663,7 +758,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{FLIGHT_STATUS}</span>
+                                <span>{flightStatusSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -679,7 +774,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeFlightStatusName();
                                     }}
                                 />
                             </div>
@@ -700,7 +795,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{SEGMENT_STATUS}</span>
+                                <span>{segmentStatusSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -716,7 +811,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeSegmentStatusName();
                                     }}
                                 />
                             </div>
@@ -737,7 +832,7 @@ export default function TextComponent(props) {
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{MILESTONE_STATUS}</span>
+                                <span>{milestoneStatusSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
@@ -753,7 +848,7 @@ export default function TextComponent(props) {
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        console.log("close click")
+                                        closeMilestoneStatusName();
                                     }}
                                 />
                             </div>

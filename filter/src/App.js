@@ -66,7 +66,6 @@ function App() {
     setDataType(dataType);
     setEnabled(enabled);
     setFilterInfoToShow(undefined);
-    console.log(filterName, dataType, enabled)
   };
   const closeTextComponent=()=>{
     setLabelName("");

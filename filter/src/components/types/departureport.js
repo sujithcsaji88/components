@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DEPARTURE_PORT, BOOKING_PROFILE } from "../../constants/filtertypeconstants";
+import { DEPARTURE_PORT } from "../../constants/filtertypeconstants";
 import Airport from "./porttypes/airport";
 import AirportGroup from "./porttypes/airportGroup";
 import City from "./porttypes/city";
@@ -9,7 +9,7 @@ import Country from "./porttypes/country";
 const DeparturePort = (props) => {
   const [name, setName] = useState(props.name);
   const [type, setType] = useState();
-
+  const [enabled,setEnabled]=useState();
   useEffect(() => {
     if (props.name) {
       if (props.isReset === true) {
@@ -18,9 +18,7 @@ const DeparturePort = (props) => {
       } else if (props.name === DEPARTURE_PORT) {
         setName(props.name);
         setType(props.type);
-      }
-      else if (props.name === BOOKING_PROFILE) {
-        setName(props.name);
+        setEnabled(props.enabled)
       }
       //condition necessary for showing filter resutls in right Drawer
       else if (props.filterInfoToShow !== undefined &&
@@ -45,10 +43,10 @@ const DeparturePort = (props) => {
                     subItem.column === "Country" ? countryToDisplay = subItem.value : ""
           )
         ));
-      props.filterInfoToShow.forEach(item => {
-        if (item.column === DEPARTURE_PORT && item.types !== undefined) {
-          item.types.forEach(type => {
-            props.PortvalueToSave(type.value, item.column, type.column, type.enabled)
+      props.filterInfoToShow.forEach(item=>{
+        if(item.column===DEPARTURE_PORT && item.types!== undefined){
+          item.types.forEach(type=>{
+             props.PortvalueToSave(type.value,item.column,type.column,type.enabled)
           })
         }
       })
@@ -58,7 +56,7 @@ const DeparturePort = (props) => {
         <Airport
           name={name}
           type={type}
-          enabled={props.enabled}
+          enabled={enabled}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           airportToDisplay={airportToDisplay}
@@ -105,8 +103,7 @@ const DeparturePort = (props) => {
         />
       </React.Fragment>
     );
-  }
-  else {
+  } else {
     return <div></div>;
   }
 };
