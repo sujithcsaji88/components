@@ -1,0 +1,107 @@
+/*  column-reordering, Column-chooser CSS begins
+    @author Krishna
+*/
+
+.columns--grid {
+    z-index: 9;
+    box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
+    position: fixed;
+    font-size: 14px;
+    color: #1f567e;
+    line-height: 32px;
+    top: 0px;
+    left: 0px;
+    transition: 0.5s;
+    background: #fff;
+    .column__grid {
+      display: flex;
+      .column__chooser {
+        border-right: 1px solid #eee;
+        .column__header {
+          padding: 10px;
+          border-bottom: 1px solid #eee;
+        }
+        .column__body {
+          padding: 10px;
+          margin-bottom: 50px;
+          .column__selectAll {
+            display: flex;
+            .column__selectTxt {
+              margin-left: auto;
+            }
+          }
+          .custom__ctrl {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0px 5px;
+          }
+        }
+        .column__wrap {
+          display: flex;
+          border: 1px solid #cdd0d5;
+          border-radius: 5px;
+          padding: 0px 10px;
+          .column__checkbox {
+            margin-right: 10px;
+          }
+        }
+      }
+      .column__settings {
+        .column__header {
+          display: flex;
+          border-bottom: 1px solid #eee;
+          padding: 10px;
+          .column__close {
+            margin-left: auto;
+          }
+        }
+        .column__body {
+          display: flex;
+          padding: 10px;
+          .column__reorder {
+            border: 1px solid #9ea2a5;
+            border-radius: 5px;
+            text-align: center;
+            height: 180px;
+            margin: 10px 5px;
+            padding: 10px;
+            .column__wrap {
+              display: flex;
+              justify-content: center;
+              .column__checkbox {
+                margin-right: 10px;
+              }
+            }
+          }
+        }
+        .column__footer {
+          padding: 10px;
+          border-top: 1px solid #eee;
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+          width: 81%;
+          display: flex;
+          .column__btns {
+            margin-left: auto;
+            .btns {
+              border: 1px solid #0e4bda;
+              background: #fff;
+              border-radius: 5px;
+              width: 100px;
+              margin-left: 10px;
+              color: #0e4bda;
+            }
+            .btns__save {
+              color: #fff;
+              background: #034bda;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  /*  column-reordering, Column-chooser CSS ends here...
+      @author Krishna
+  */
