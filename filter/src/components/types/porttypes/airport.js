@@ -5,11 +5,13 @@ import { Form } from "react-bootstrap";
 import {
   DEPARTURE_PORT,
   ARRIVAL_PORT,
+  BOOKING_PROFILE
 } from "../../../constants/filtertypeconstants";
 
 export default function Airport(props) {
   const [labelName, setLabelName] = useState();
   const [labelType, setLabelType] = useState();
+  const [labelDataType,setLabeldataType]=useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
@@ -18,14 +20,23 @@ export default function Airport(props) {
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
+      setLabelName(props.name);
       setSwitchId("departureAirport");
     } else if (props.name === ARRIVAL_PORT) {
+      setLabelName(props.name);
       setSwitchId("arrivalAirport");
+    }
+    else if(props.name === BOOKING_PROFILE){
+      setSwitchId(BOOKING_PROFILE);
+      setLabelName(props.name);
+      setLabelType("")
+      setLabeldataType(props.dataType);
+      setEnabled(props.enabled)
     }
     if (props.type === "Airport") {
       setLabelName(props.name);
       setLabelType(props.type);
-    } if (props.airportToDisplay !== "") {
+    } if (props.airportToDisplay !== "" && props.type === "Airport" ) {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
@@ -99,7 +110,41 @@ export default function Airport(props) {
     );
   } else if (props.isReset === true) {
     return <div></div>;
-  } else {
+  } 
+  //  if(labelName===BOOKING_PROFILE){
+  //   return (     
+  //   <div className="filter__input">
+  //   <div className="filter__input-title">
+  //     <div className="filter__label">
+  //       <span>{labelName}</span>
+  //     </div>
+  //     <div className="filter__control">
+  //       <Form.Check
+  //         type="switch"
+  //         id={switchId}
+  //         label=""
+  //         defaultChecked={enabled}
+  //         //onClick={}
+  //       />
+  //       <FontAwesomeIcon
+  //         icon={faTimes}
+  //         type="button"
+  //         //onClick={}
+  //       />
+  //     </div>
+  //   </div>
+  //   <div className="displayFlex">
+  //     <input
+  //       disabled={textStatus}
+  //       type="text"
+  //       className="form-control"
+  //       //onChange={}
+  //       defaultValue="booking Profile"
+  //     ></input>
+  //   </div>
+  // </div>);
+  // }
+  else {
     return <div></div>;
   }
 }

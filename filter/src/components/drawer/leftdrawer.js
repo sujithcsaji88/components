@@ -65,10 +65,10 @@ const LeftDrawer = (props) => {
                         return (
                           <li
                             onClick={(e) => {
-                              props.handleValue(
+                              props.handlePortValue(
                                 filterData.name,
                                 type.name,
-                                filterData.enabled
+                                type.enabled
                               );
                               props.addedFilterCount();
                             }}
@@ -102,7 +102,7 @@ const LeftDrawer = (props) => {
                         return (
                           <li
                             onClick={(e) => {
-                              props.handleValue(
+                              props.handlePortValue(
                                 filterData.name,
                                 type.name,
                                 filterData.enabled
@@ -156,7 +156,11 @@ const LeftDrawer = (props) => {
         </li>
       );
     } else {
-      return <li key={index}>{filterData.name}</li>;
+      return <li key={index} onClick={(e)=>{props.handleValue(
+        filterData.name,
+        filterData.dataType,
+        filterData.enabled
+      );}}>{filterData.name}</li>;
     }
   });
 

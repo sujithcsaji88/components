@@ -50,7 +50,8 @@ function App() {
   const [enabled, setEnabled] = useState();
   //holding the state of the reset function
   const [isReset, setIsReset] = useState(false);
-
+  //dataType of the attribute fields
+  const[dataType,setDataType]=useState();
   const [filterMap, setFilterMap] = useState();
   const [filterKeys, setFilterKeys] = useState();
   const [filterInfoToShow, setFilterInfoToShow] = useState();
@@ -59,7 +60,18 @@ function App() {
   const addedFilterCount = () => {
     setAddedFilter(addedFilter + 1);
   };
-  const passValues = (filterName, filterType, enabled) => {
+  const passValues = (filterName, dataType, enabled) => {
+    setIsResetFalse();
+    setLabelName(filterName);
+    setDataType(dataType);
+    setEnabled(enabled);
+    setFilterInfoToShow(undefined);
+    console.log(filterName, dataType, enabled)
+  };
+  const closeTextComponent=()=>{
+    setLabelName("");
+  }
+  const passPortValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
     setLabelType(filterType);
@@ -241,9 +253,10 @@ function App() {
             <div className="filter__list">
               <LeftDrawer
                 handleDate={passDate}
-                handleValue={passValues}
+                handlePortValue={passPortValues}
                 handleRevenue={passRevenue}
                 addedFilterCount={addedFilterCount}
+                handleValue={passValues}
               />
             </div>
             <div className="filter__inputwrap">
@@ -257,6 +270,7 @@ function App() {
                 enabled={enabled}
                 name={labelName}
                 type={labelType}
+                dataType={dataType}
                 clearValues={(resetStateVariableMap) => clearType(resetStateVariableMap)}
                 clearValue={clearName}
                 addedFilter={addedFilter}
@@ -264,6 +278,7 @@ function App() {
                 filterInfoToShow={filterInfoToShow}
                 applyFilterClose={applyFilterClose}
                 ref={childRefs}
+                closeTextComponent={closeTextComponent}
               />
             </div>
           </div>

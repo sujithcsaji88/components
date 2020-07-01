@@ -4,6 +4,7 @@ import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
 import Date from "../types/date";
 import Revenue from "../types/revenue";
+import   TextComponent   from "../types/textComponent";
 import {
   DEPARTURE_PORT,
   ARRIVAL_PORT,
@@ -84,12 +85,9 @@ const RightDrawer = forwardRef((props, ref) => {
     // props.setIsResetFalse();
   }
 
-  const PortvalueToSave = (e, name, type, enabled) => {
+  const PortvalueToSave = (e, name, type, enabled,savedFilter) => {
      assignValuesForPort(e, name, type, enabled, ISRESET_FALSE);
   };
-  
-
-
   const assignValuesForPort = (value, name, type, enabled, isResetVariable) => {
     if (name === DEPARTURE_PORT) {
       setDeparturePortName(name);
@@ -478,6 +476,7 @@ const RightDrawer = forwardRef((props, ref) => {
       setSaveFilterWarning("")
       setWarningLabel("")
     }
+    
     return (
       <React.Fragment>
         <div className="filter__title">
@@ -533,6 +532,12 @@ const RightDrawer = forwardRef((props, ref) => {
             revenueAmountSave={revenueAmountSave}
             revenueEnabledSave={revenueEnabledSave}
             filterInfoToShow={props.filterInfoToShow}
+          />
+          <TextComponent
+          name={props.name}
+          dataType={props.dataType}
+          enabled={props.enabled}
+          closeTextComponent={props.closeTextComponent}
           />
         </div>
         <div className="filter__btn">
