@@ -53,7 +53,7 @@ const Revenue = (props) => {
   if (labelName === REVENUE) {
     var amountValueOnEditFilter="", conditionValueOnEditFilter="";
     if(props.filterInfoToShow!==undefined){
-      props.filterInfoToShow.map(item=>{
+      props.filterInfoToShow.forEach(item=>{
         if(item.column === "Revenue"){
           amountValueOnEditFilter = item.value
           conditionValueOnEditFilter=item.condition
@@ -61,6 +61,7 @@ const Revenue = (props) => {
           props.revenueConditionSave(conditionValueOnEditFilter);
         }
       })
+      
     }
     
     return (

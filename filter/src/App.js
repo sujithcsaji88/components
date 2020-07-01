@@ -91,47 +91,48 @@ function App() {
   };
   const onSelectSavedFilter = (savedFilter, name) => {
     let filterArray = [];
-    savedFilter[name].map((filter, index) => {
-      filterArray.push(filter)
-    })
-    console.log(filterArray)
-    savedFilter[name].map((filters, index) => {
-      if (filters.column === DEPARTURE_PORT) {
-        filters.types.map((filter, index) => {
+    if(savedFilter!==[] && name!==""){
+      savedFilter[name].forEach(filter => {
+        filterArray.push(filter)
+      })
+      savedFilter[name].forEach(filters => {
+        if (filters.column === DEPARTURE_PORT) {
+          filters.types.forEach(filter => {
+            setLabelName(filters.column)
+            setLabelType(filter.column)
+            setEnabled(filter.enabled)
+          })
+        }
+        if (filters.column === ARRIVAL_PORT) {
+          filters.types.forEach(filter => {
+            setLabelName(filters.column)
+            setLabelType(filter.column)
+            setEnabled(filter.enabled)
+          })
+        }
+        if(filters.column===DATE){
+          filters.field.forEach(field => {
+            setLabelName(filters.column)
+            setField(field.column)
+            setEnabled(field.enabled)
+          })
+        }
+        if(filters.column===REVENUE){
           setLabelName(filters.column)
-          setLabelType(filter.column)
-          setEnabled(filter.enabled)
-        })
-      }
-      if (filters.column === ARRIVAL_PORT) {
-        filters.types.map((filter, index) => {
-          setLabelName(filters.column)
-          setLabelType(filter.column)
-          setEnabled(filter.enabled)
-        })
-      }
-      if(filters.column===DATE){
-        filters.field.map((field, index) => {
-          setLabelName(filters.column)
-          setField(field.column)
-          setEnabled(field.enabled)
-        })
-      }
-      if(filters.column===REVENUE){
-        setLabelName(filters.column)
-        console.log(FilterData)
-        let conditions=[];
-        FilterData.filter.map((filters,index)=>{
-          if(filters.name===REVENUE){
-            if(filters.condition!==undefined){
-              conditions.push(filters.condition)
+          console.log(FilterData)
+          let conditions=[];
+          FilterData.filter.forEach(filters=>{
+            if(filters.name===REVENUE){
+              if(filters.condition!==undefined){
+                conditions.push(filters.condition)
+              }
             }
-          }
-        })
-        setCondition(conditions[0])
-        setEnabled(filters.enabled)
-      }
-    })
+          })
+          setCondition(conditions[0])
+          setEnabled(filters.enabled)
+        }
+      })
+    }
     setApplyFilter(true)
     setFilterInfoToShow(filterArray)
   }
@@ -142,10 +143,18 @@ function App() {
       setAddedFilter(addedFilter - 1);
     }
   };
-
+ // this function clears the rightDrawer
   const clearAllFilter = () => {
+    //set the state of isReset state to true that means to clear all the labelNames and labelTypes
     setIsReset(true);
+    //set filter count state to 0
     setAddedFilter(0);
+    //clears all saved filter list selected
+    onSelectSavedFilter([],"");
+    //Clear the chip values
+    captureFilterMap([]);
+    //revert back the filters applied on the spreadsheet or table
+    setFilterKeys();
   };
 
   const setIsResetFalse = () => {
@@ -153,6 +162,9 @@ function App() {
   };
 
   const captureFilterMap = (map) => {
+    if(filterMap !== undefined){
+      map=checkAndMergeFilterLists(filterMap.applyFilter, map.applyFilter);
+    }
     setFilterMap(map);
   };
   const onApplyFilter = (obj) => {
@@ -176,6 +188,48 @@ function App() {
       setFilterInfoToShow(filterInfo);
     }
   };
+
+
+  /**
+   * Returns a merged combination of filter List based on existing and upcoming filter Lists.
+   * 
+   * @param {existing List of filter values} oldList 
+   * @param {New list of updated Filter Values} newList 
+   * 
+   * @returns a map with key as applyFilter and value as Updated filter List
+   */
+  const checkAndMergeFilterLists=(oldList, newList)=>{
+    var returnList=oldList,newListColumnName = "", 
+      isColumnPresentInOldList, oldListTypeArray, dummyOldListTypeArray, isNewItemInOldTypeList;
+    for(var newListIndex=0; newListIndex<newList.length; newListIndex++){
+      newListColumnName = newList[newListIndex].column;
+      isColumnPresentInOldList = oldList.some(item=>(item.column === newListColumnName))
+      if(isColumnPresentInOldList === false){
+        returnList.push(newList[newListIndex]);
+      }
+      else {
+        if(newListColumnName === "Departure Port" || newListColumnName === "Arrival Port"){
+          oldListTypeArray = oldList.filter(item =>
+            (item.column === newListColumnName))[0].types;
+           dummyOldListTypeArray = oldListTypeArray;
+          for (var newItemType of newList[newListIndex].types) {
+            isNewItemInOldTypeList = oldListTypeArray.some(item =>
+              (item.column === newItemType.column))
+            if (isNewItemInOldTypeList === true) {
+              dummyOldListTypeArray = dummyOldListTypeArray.filter(item =>
+                item.column !== newItemType.column)
+            }
+            dummyOldListTypeArray.push(newItemType);
+            returnList[newListIndex]["types"] = dummyOldListTypeArray;
+          }
+        }
+        else {
+          /* LOGIC FOR FILTER UPDATE FOR DATES AND REVENUE */
+        }
+      }
+    }
+    return {"applyFilter" : returnList};
+  }
 
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
 
