@@ -4,7 +4,7 @@ import CargoData from "./stubs/CargoData.json";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import ColumnReordering from "./components/column/column-reorder/column-reorder";
 import ExportData from './components/column/exportData/exportData';
-
+import Sorting from './components/column/sorting/sorting';
 
 let searchKey;
 export default function App() {
@@ -112,7 +112,8 @@ export default function App() {
           count={data.length}
         />
         {/* <ColumnReordering /> */}
-        <ExportData/>
+        {/* <ExportData/> */}
+        <Sorting/>
       </div>
     );
   } else return <LoadingSpinner />;
