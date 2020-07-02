@@ -2,8 +2,8 @@ import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Button } from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
-import Date from "../types/date";
-import Revenue from "../types/revenue";
+import Date from "../types/dateComponent";
+import Revenue from "../types/conditionalComponent";
 import TextComponent from "../types/textComponent";
 import {
   DEPARTURE_PORT,
