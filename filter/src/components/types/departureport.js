@@ -9,7 +9,7 @@ import Country from "./porttypes/country";
 const DeparturePort = (props) => {
   const [name, setName] = useState(props.name);
   const [type, setType] = useState();
-
+  const [enabled,setEnabled]=useState();
   useEffect(() => {
     if (props.name) {
       if (props.isReset === true) {
@@ -18,6 +18,7 @@ const DeparturePort = (props) => {
       } else if (props.name === DEPARTURE_PORT) {
         setName(props.name);
         setType(props.type);
+        setEnabled(props.enabled)
       }
       //condition necessary for showing filter resutls in right Drawer
       else if (props.filterInfoToShow !== undefined &&
@@ -55,6 +56,7 @@ const DeparturePort = (props) => {
         <Airport
           name={name}
           type={type}
+          enabled={enabled}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           airportToDisplay={airportToDisplay}
