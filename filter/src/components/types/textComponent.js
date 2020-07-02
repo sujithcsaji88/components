@@ -60,7 +60,7 @@ export default function TextComponent(props) {
     const [serviceRecoveryName, setServiceRecoveryName] = useState("none")
     const [weightName, setWeightName] = useState("none");
     const [volumeName, setVolumeName] = useState("none");
-    const [airCraftName, setAirCraftName] = useState("none");
+    const [aircraftName, setAircraftName] = useState("none");
     const [queuedBookingsName, setQueuedBookingsName] = useState("none");
     const [aircraftClassificationName, setAircraftClassificationName] = useState("none")
     const [flightTypeName, setFlightTypeName] = useState("none");
@@ -74,11 +74,11 @@ export default function TextComponent(props) {
     const [serviceRecoveryTextStatus, setServiceRecoveryTextStatus] = useState(true)
     const [weightTextStatus, setWeightTextStatus] = useState(true)
     const [volumeTextStatus, setVolumeTextStatus] = useState(true)
-    const [airCraftTextStatus, setAirCraftTextStatus] = useState(true)
+    const [aircraftTextStatus, setAircraftTextStatus] = useState(true)
     const [queuedBookingsTextStatus, setQueuedBookingsTextStatus] = useState(true)
     const [aircraftClassificationTextStatus, setAircraftClassificationTextStatus] = useState(true)
     const [flightTypeTextStatus, setFlightTypeTextStatus] = useState(true)
-    const [flightStatusTextStatus, setflightStatusTextStatus] = useState(true)
+    const [flightStatusTextStatus, setFlightStatusTextStatus] = useState(true)
     const [segmentStatusTextStatus, setSegmentStatusTextStatus] = useState(true)
     const [milestoneStatusTextStatus, setMilestoneStatusTextStatus] = useState(true)
     const [bookingProfileEnabled, setBookingProfileEnabled] = useState();
@@ -88,7 +88,7 @@ export default function TextComponent(props) {
     const [serviceRecoveryEnabled, setServiceRecoveryEnabled] = useState()
     const [weightEnabled, setWeightEnabled] = useState()
     const [volumeEnabled, setVolumeEnabled] = useState()
-    const [airCraftEnabled, setAirCraftEnabled] = useState()
+    const [aircraftEnabled, setAircraftEnabled] = useState()
     const [queuedBookingsEnabled, setQueuedBookingsEnabled] = useState()
     const [aircraftClassificationEnabled, setAircraftClassificationEnabled] = useState()
     const [flightTypeEnabled, setFlightTypeEnabled] = useState()
@@ -102,23 +102,26 @@ export default function TextComponent(props) {
     const [serviceRecoverySwitchId, setServiceRecoverySwitchId] = useState('')
     const [weightSwitchId, setWeightSwitchId] = useState('')
     const [volumeSwitchId, setVolumeSwitchId] = useState('')
-    const [airCraftSwitchId, setAirCraftSwitchId] = useState('')
+    const [aircraftSwitchId, setAircraftSwitchId] = useState('')
     const [queuedBookingsSwitchId, setQueuedBookingsSwitchId] = useState('')
     const [aircraftClassificationSwitchId, setAircraftClassificationSwitchId] = useState('')
     const [flightTypeSwitchId, setFlightTypeSwitchId] = useState('')
     const [flightStatusSwitchId, setFlightStatusSwitchId] = useState('')
     const [segmentStatusSwitchId, setSegmentStatusSwitchId] = useState('')
     const [milestoneStatusSwitchId, setMilestoneStatusSwitchId] = useState('')
+    // stores the props passing the labelName
     const [name, setName] = useState();
     useEffect(
         () => {
-            if(textComponentArray.includes(props.name)){
+            // Set the name state when only a particular attribute in the array is passed as props
+            if (textComponentArray.includes(props.name)) {
                 setName(props.name)
             }
             if (props.name === bookingProfile) {
                 setBookingProfileEnabled(props.enabled)
                 setBookingProfileName("")
                 setBookingProfileSwitchId(bookingProfile)
+                //setBookingProfileValue("")
             }
             if (props.name === flightGroup) {
                 setFlightGroupEnabled(props.enabled)
@@ -156,9 +159,9 @@ export default function TextComponent(props) {
                 setVolumeSwitchId(volume)
             }
             if (props.name === aircraft) {
-                setAirCraftEnabled(props.enabled)
-                setAirCraftName("");
-                setAirCraftSwitchId(aircraft)
+                setAircraftEnabled(props.enabled)
+                setAircraftName("");
+                setAircraftSwitchId(aircraft)
             }
             if (props.name === aircraftClassification) {
                 setAircraftClassificationEnabled(props.enabled)
@@ -187,168 +190,188 @@ export default function TextComponent(props) {
             }
         }
         , [props]);
-
+    // All functions below manage the enabled attribute
     const enableSwitchChange = (e) => {
         if (e.target.id === BOOKING_PROFILE) {
             setBookingProfileEnabled(e.target.checked);
-            if (!bookingProfileEnabled) {
-                setBookingProfileTextStatus(false);
-            } else {
-                setBookingProfileTextStatus(true);
-            }
+            setBookingProfileTextStatus(!e.target.checked)
         }
         else if (e.target.id === FLIGHT_GROUP) {
             setFlightGroupEnabled(e.target.checked);
-            if (!flightGroupEnabled) {
-                setFlightGroupTextStatus(false);
-            } else {
-                setFlightGroupTextStatus(true);
-            }
+            setFlightGroupTextStatus(!e.target.checked)
         }
         else if (e.target.id === FLIGHT_NO) {
             setFlightNoEnabled(e.target.checked);
-            if (!flightNoEnabled) {
-                setFlightNoTextStatus(false);
-            } else {
-                setFlightNoTextStatus(true);
-            }
+            setFlightNoTextStatus(!e.target.checked)
         }
         else if (e.target.id === YEILD) {
             setYieldEnabled(e.target.checked);
-            if (!yieldEnabled) {
-                setYieldTextStatus(false);
-            } else {
-                setYieldTextStatus(true);
-            }
+             setYieldTextStatus(!e.target.checked)
         }
         else if (e.target.id === SERVICE_RECOVERY) {
             setServiceRecoveryEnabled(e.target.checked);
-            if (!serviceRecoveryEnabled) {
-                setServiceRecoveryTextStatus(false);
-            } else {
-                setServiceRecoveryTextStatus(true);
-            }
-        }
+            setServiceRecoveryTextStatus(!e.target.checked)
+        }        
         else if (e.target.id === QUEUED_BOOKINGS) {
             setQueuedBookingsEnabled(e.target.checked);
-            if (!queuedBookingsEnabled) {
-                setQueuedBookingsTextStatus(false);
-            } else {
-                setQueuedBookingsTextStatus(true);
-            }
+            setQueuedBookingsTextStatus(!e.target.checked)
         }
         else if (e.target.id === WEIGHT) {
             setWeightEnabled(e.target.checked);
-            if (!weightEnabled) {
-                setWeightTextStatus(false);
-            } else {
-                setWeightTextStatus(true);
-            }
+            setWeightTextStatus(!e.target.checked)
         }
         else if (e.target.id === VOLUME) {
             setVolumeEnabled(e.target.checked);
-            if (!volumeEnabled) {
-                setVolumeTextStatus(false);
-            } else {
-                setVolumeTextStatus(true);
-            }
+            setVolumeTextStatus(!e.target.checked)
         }
         else if (e.target.id === AIRCRAFT) {
-            setAirCraftEnabled(e.target.checked);
-            if (!airCraftEnabled) {
-                setAirCraftTextStatus(false);
-            } else {
-                setAirCraftTextStatus(true);
-            }
+            setAircraftEnabled(e.target.checked);
+            setAircraftTextStatus(!e.target.checked)
         }
         else if (e.target.id === AIRCRAFT_CLASSIFICATION) {
             setAircraftClassificationEnabled(e.target.checked);
-            if (!aircraftClassificationEnabled) {
-                setAircraftClassificationTextStatus(false);
-            } else {
-                setAircraftClassificationTextStatus(true);
-            }
+            setAircraftClassificationTextStatus(!e.target.checked)
         }
         else if (e.target.id === FLIGHT_TYPE) {
             setFlightTypeEnabled(e.target.checked);
-            if (!flightTypeEnabled) {
-                setFlightTypeTextStatus(false);
-            } else {
-                setFlightTypeTextStatus(true);
-            }
+            setFlightTypeTextStatus(!e.target.checked)
         }
         else if (e.target.id === FLIGHT_STATUS) {
             setFlightStatusEnabled(e.target.checked);
-            if (!flightStatusEnabled) {
-                setflightStatusTextStatus(false);
-            } else {
-                setflightStatusTextStatus(true);
-            }
+            setFlightStatusTextStatus(!e.target.checked)
         }
         else if (e.target.id === SEGMENT_STATUS) {
             setSegmentStatusEnabled(e.target.checked);
-            if (!segmentStatusEnabled) {
-                setSegmentStatusTextStatus(false);
-            } else {
-                setSegmentStatusTextStatus(true);
-            }
+            setSegmentStatusTextStatus(!e.target.checked)
         }
         else if (e.target.id === MILESTONE_STATUS) {
             setMilestoneStatusEnabled(e.target.checked);
-            if (!milestoneStatusEnabled) {
-                setMilestoneStatusTextStatus(false);
-            } else {
-                setMilestoneStatusTextStatus(true);
-            }
+            setMilestoneStatusTextStatus(!e.target.checked)
         }
     }
-
-    const closeBookingProfileName = () => {
-        setBookingProfileName("none")
+    // Below are respective closing component event handlers
+     const  closeBookingProfileName = () => {
+        props.clearTextComponentName(bookingProfileSwitchId);
+        setBookingProfileName("none");
+        setBookingProfileEnabled(true);
+        setBookingProfileSwitchId('');
+        setBookingProfileTextStatus(true);
+        document.getElementById("bookingProfile").value="";
+    } 
+    const closeFlightGroupName = () => {
+        props.clearTextComponentName(flightGroupSwitchId);
+        setFlightGroupName("none");
+        setFlightGroupEnabled(true);
+        setFlightGroupSwitchId('');
+        setFlightGroupTextStatus(true)
+        document.getElementById("flightGroup").value="";
     }
     const closeAircraftClassificationName = () => {
+        props.clearTextComponentName(setAircraftClassificationSwitchId);
         setAircraftClassificationName("none");
+        setAircraftClassificationEnabled();
+        setAircraftClassificationSwitchId('');
+        setAircraftClassificationTextStatus(true);
+        document.getElementById("aircraftClassification").value="";
+
     }
-    const closeAirCraftName = () => {
-        setAirCraftName("none");
-    }
-    const closeFlightGroupName = () => {
-        setFlightGroupName("none");
+    const closeAircraftName = () => {
+        props.clearTextComponentName(aircraftSwitchId);
+        setAircraftName("none");
+        setAircraftEnabled();
+        setAircraftSwitchId('');
+        setAircraftTextStatus(true)
+        document.getElementById("aircraft").value=""
+        
     }
     const closeFlightNoName = () => {
+        props.clearTextComponentName(flightNoSwitchId);
         setFlightNoName("none");
+        setFlightNoEnabled();
+        setFlightNoSwitchId('');
+        setFlightNoTextStatus(true)
+        document.getElementById("flightNo").value=""
+        
     }
     const closeFlightStatusName = () => {
+        props.clearTextComponentName(flightStatusSwitchId);
         setFlightStatusName("none");
+        setFlightStatusEnabled();
+        setFlightStatusSwitchId('');
+        setFlightStatusTextStatus(true)
+        document.getElementById("flightStatus").value=""
+        
     }
     const closeFlightTypeName = () => {
+        props.clearTextComponentName(flightTypeSwitchId);
         setFlightTypeName("none")
+        setFlightTypeEnabled();
+        setFlightTypeSwitchId('');
+        setFlightTypeTextStatus(true)
+        document.getElementById("flightType").value=""
     }
     const closeMilestoneStatusName = () => {
+        props.clearTextComponentName(bookingProfileSwitchId);
         setMilestoneStatusName("none");
+        setMilestoneStatusEnabled();
+        setMilestoneStatusSwitchId('');
+        setMilestoneStatusTextStatus(true)
+        document.getElementById("milestoneStatus").value=""
     }
     const closeQueuedBookingsName = () => {
+        props.clearTextComponentName(queuedBookingsSwitchId);
         setQueuedBookingsName("none");
+        setQueuedBookingsEnabled();
+        setQueuedBookingsSwitchId('');
+        setQueuedBookingsTextStatus(true)
+        document.getElementById("queuedBookings").value=""
     }
     const closeSegmentStatusName = () => {
+        props.clearTextComponentName(segmentStatusSwitchId);
         setSegmentStatusName("none");
+        setSegmentStatusEnabled();
+        setSegmentStatusSwitchId('');
+        setSegmentStatusTextStatus(true)
+        document.getElementById("segmentStatus").value="";
     }
     const closeServiceRecoveryName = () => {
+        props.clearTextComponentName(serviceRecoverySwitchId);
         setServiceRecoveryName("none");
+        setServiceRecoveryEnabled();
+        setServiceRecoverySwitchId('');
+        setServiceRecoveryTextStatus(true)
+        document.getElementById("serviceRecovery").value="";
+       
     }
     const closeVolumeName = () => {
+        props.clearTextComponentName(volumeSwitchId);
         setVolumeName("none");
+        setVolumeEnabled();
+        setVolumeSwitchId('');
+        setVolumeTextStatus(true)
+        document.getElementById("volume").value="";
+        
     }
     const closeWeightName = () => {
+        props.clearTextComponentName(weightSwitchId);
         setWeightName("none");
+        setWeightEnabled();
+        setWeightSwitchId('');
+        setWeightTextStatus(true)
+        document.getElementById("weight").value="";
     }
     const closeYieldName = () => {
+        props.clearTextComponentName(yieldSwitchId);
         setYieldName("none");
+        setYieldEnabled();
+        setYieldSwitchId('');
+        setYieldTextStatus(true)
+        document.getElementById("yield").value="";
     }
     if (textComponentArray.includes(name)) {
         return (
             <div>
-                <div style={{ display: bookingProfileName }} >
+                <div style={{ display: bookingProfileName }}>
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
@@ -362,13 +385,13 @@ export default function TextComponent(props) {
                                     defaultChecked={bookingProfileEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e);
+                                        props.textComponentSetEnabled(bookingProfileSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
                                     icon={faTimes}
                                     type="button"
                                     onClick={(e) => {
-                                        //props.closeTextComponent();
                                         closeBookingProfileName();
                                     }}
                                 />
@@ -376,17 +399,20 @@ export default function TextComponent(props) {
                         </div>
                         <div className="displayFlex">
                             <input
+                                id="bookingProfile" 
                                 disabled={bookingProfileTextStatus}
                                 type="text"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                
+                                    props.textComponentSave(e.target.value,bookingProfileSwitchId); 
                                 }}
                             ></input>
                         </div>
                     </div>
                 </div>
-                <div style={{ display: flightGroupName }} ><div className="filter__input">
+                <div style={{ display: flightGroupName }} >
+                    <div className="filter__input">
                     <div className="filter__input-title">
                         <div className="filter__label">
                             <span>{flightGroupSwitchId}</span>
@@ -399,6 +425,7 @@ export default function TextComponent(props) {
                                 defaultChecked={flightGroupEnabled}
                                 onClick={(e) => {
                                     enableSwitchChange(e)
+                                    props.textComponentSetEnabled(flightGroupSwitchId,e.target.checked)
                                 }}
                             />
                             <FontAwesomeIcon
@@ -412,11 +439,13 @@ export default function TextComponent(props) {
                     </div>
                     <div className="displayFlex">
                         <input
+                            id="flightGroup"
                             disabled={flightGroupTextStatus}
                             type="text"
                             className="form-control"
                             onChange={(e) => {
-                                console.log(e.target.value)
+                              
+                                props.textComponentSave(e.target.value, flightGroupSwitchId)
                             }}
                         ></input>
                     </div>
@@ -435,6 +464,7 @@ export default function TextComponent(props) {
                                     defaultChecked={flightNoEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(flightNoSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -450,9 +480,11 @@ export default function TextComponent(props) {
                             <input
                                 disabled={flightNoTextStatus}
                                 type="text"
+                                id="flightNo"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                    
+                                    props.textComponentSave(e.target.value, flightNoSwitchId)
                                 }}
                             ></input>
                         </div>
@@ -472,6 +504,7 @@ export default function TextComponent(props) {
                                     defaultChecked={yieldEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(yieldSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -487,9 +520,11 @@ export default function TextComponent(props) {
                             <input
                                 disabled={yieldTextStatus}
                                 type="text"
+                                id="yield"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                    
+                                    props.textComponentSave(e.target.value, yieldSwitchId)
                                 }}
                             ></input>
                         </div>
@@ -509,6 +544,7 @@ export default function TextComponent(props) {
                                     defaultChecked={serviceRecoveryEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(serviceRecoverySwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -524,9 +560,10 @@ export default function TextComponent(props) {
                             <input
                                 disabled={serviceRecoveryTextStatus}
                                 type="text"
+                                id="serviceRecovery"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                    props.textComponentSave(e.target.value, serviceRecoverySwitchId)
                                 }}
                             ></input>
                         </div>
@@ -546,6 +583,7 @@ export default function TextComponent(props) {
                                     defaultChecked={queuedBookingsEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(queuedBookingsSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -561,15 +599,17 @@ export default function TextComponent(props) {
                             <input
                                 disabled={queuedBookingsTextStatus}
                                 type="text"
+                                id="queuedBookings"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                    
+                                    props.textComponentSave(e.target.value, queuedBookingsSwitchId)
                                 }}
                             ></input>
                         </div>
                     </div>
                 </div>
-                <div style={{ display: weightName }} >
+                <div style={{ display: weightName }}>
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
@@ -583,6 +623,7 @@ export default function TextComponent(props) {
                                     defaultChecked={weightEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(weightSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -598,15 +639,17 @@ export default function TextComponent(props) {
                             <input
                                 disabled={weightTextStatus}
                                 type="text"
+                                id="weight"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                    
+                                    props.textComponentSave(e.target.value, weightSwitchId)
                                 }}
                             ></input>
                         </div>
                     </div>
                 </div>
-                <div style={{ display: volumeName }} >
+                <div style={{ display: volumeName }}>
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
@@ -620,6 +663,7 @@ export default function TextComponent(props) {
                                     defaultChecked={volumeEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(volumeSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -635,46 +679,50 @@ export default function TextComponent(props) {
                             <input
                                 disabled={volumeTextStatus}
                                 type="text"
+                                id="volume"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                   
+                                    props.textComponentSave(e.target.value, volumeSwitchId)
                                 }}
                             ></input>
                         </div>
                     </div>
                 </div>
-                <div style={{ display: airCraftName }} >
+                <div style={{ display: aircraftName }} >
                     <div className="filter__input">
                         <div className="filter__input-title">
                             <div className="filter__label">
-                                <span>{airCraftSwitchId}</span>
+                                <span>{aircraftSwitchId}</span>
                             </div>
                             <div className="filter__control">
                                 <Form.Check
                                     type="switch"
-                                    id={airCraftSwitchId}
+                                    id={aircraftSwitchId}
                                     label=""
-                                    defaultChecked={airCraftEnabled}
+                                    defaultChecked={aircraftEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(aircraftSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
                                     icon={faTimes}
                                     type="button"
                                     onClick={() => {
-                                        closeAirCraftName();
+                                        closeAircraftName();
                                     }}
                                 />
                             </div>
                         </div>
                         <div className="displayFlex">
                             <input
-                                disabled={airCraftTextStatus}
+                                disabled={aircraftTextStatus}
                                 type="text"
+                                id="aircraft"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                    props.textComponentSave(e.target.value, aircraftSwitchId)
                                 }}
                             ></input>
                         </div>
@@ -694,6 +742,7 @@ export default function TextComponent(props) {
                                     defaultChecked={aircraftClassificationEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(aircraftClassificationSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -709,9 +758,11 @@ export default function TextComponent(props) {
                             <input
                                 disabled={aircraftClassificationTextStatus}
                                 type="text"
+                                id="aircraftClassification"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                    
+                                    props.textComponentSave(e.target.value, aircraftClassificationSwitchId)
                                 }}
                             ></input>
                         </div>
@@ -731,6 +782,7 @@ export default function TextComponent(props) {
                                     defaultChecked={flightTypeEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(flightTypeSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -746,9 +798,11 @@ export default function TextComponent(props) {
                             <input
                                 disabled={flightTypeTextStatus}
                                 type="text"
+                                id="flightType"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                   
+                                    props.textComponentSave(e.target.value, flightTypeSwitchId)
                                 }}
                             ></input>
                         </div>
@@ -768,6 +822,7 @@ export default function TextComponent(props) {
                                     defaultChecked={flightStatusEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(flightStatusSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -783,9 +838,11 @@ export default function TextComponent(props) {
                             <input
                                 disabled={flightStatusTextStatus}
                                 type="text"
+                                id="flightStatus"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                   
+                                    props.textComponentSave(e.target.value, flightStatusSwitchId)
                                 }}
                             ></input>
                         </div>
@@ -805,6 +862,7 @@ export default function TextComponent(props) {
                                     defaultChecked={segmentStatusEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(segmentStatusSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -820,9 +878,11 @@ export default function TextComponent(props) {
                             <input
                                 disabled={segmentStatusTextStatus}
                                 type="text"
+                                id="segmentStatus"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                  
+                                    props.textComponentSave(e.target.value, segmentStatusSwitchId)
                                 }}
                             ></input>
                         </div>
@@ -842,6 +902,7 @@ export default function TextComponent(props) {
                                     defaultChecked={milestoneStatusEnabled}
                                     onClick={(e) => {
                                         enableSwitchChange(e)
+                                        props.textComponentSetEnabled(milestoneStatusSwitchId,e.target.checked)
                                     }}
                                 />
                                 <FontAwesomeIcon
@@ -857,9 +918,11 @@ export default function TextComponent(props) {
                             <input
                                 disabled={milestoneStatusTextStatus}
                                 type="text"
+                                id="milestoneStatus"
                                 className="form-control"
                                 onChange={(e) => {
-                                    console.log(e.target.value)
+                                   
+                                    props.textComponentSave(e.target.value, milestoneStatusSwitchId)
                                 }}
                             ></input>
                         </div>

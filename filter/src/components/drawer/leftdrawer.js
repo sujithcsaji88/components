@@ -160,7 +160,8 @@ const LeftDrawer = (props) => {
         filterData.name,
         filterData.dataType,
         filterData.enabled
-      );}}>{filterData.name}</li>;
+      );
+      props.addedFilterCount();}}>{filterData.name}</li>;
     }
   });
 
