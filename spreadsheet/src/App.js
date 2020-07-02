@@ -3,6 +3,8 @@ import Grid from "./components/datagrid/datagrid";
 import CargoData from "./stubs/CargoData.json";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import ColumnReordering from "./components/column/column-reorder/column-reorder";
+import ExportData from './components/column/exportData/exportData';
+
 
 let searchKey;
 export default function App() {
@@ -109,7 +111,8 @@ export default function App() {
           status={status}
           count={data.length}
         />
-        <ColumnReordering />
+        {/* <ColumnReordering /> */}
+        <ExportData/>
       </div>
     );
   } else return <LoadingSpinner />;
