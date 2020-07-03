@@ -67,13 +67,13 @@ function App() {
   const addedFilterCount = () => {
     setAddedFilter(addedFilter + 1);
   };
-  const passValues = (filterName, dataType, enabled) => {
+  const passTextComponent = (filterName, dataType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
     setDataType(dataType);
     setEnabled(enabled);
     setFilterInfoToShow(undefined);
-  };
+  }
   const passPortValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
@@ -191,9 +191,6 @@ function App() {
   };
 
   const handleFilterViewInRightDrawer = (filterInfo) => {
-    //krishna's change here*****
-    setApplyFilter(true);
-
     setLabelName("");
     setLabelType("");
     setApplyFilter(true);
@@ -259,7 +256,7 @@ function App() {
                 handlePortValue={passPortValues}
                 handleRevenue={passRevenue}
                 addedFilterCount={addedFilterCount}
-                handleValue={passValues}
+                handleValue={passTextComponent}
               />
             </div>
             <div className="filter__inputwrap">

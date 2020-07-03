@@ -929,6 +929,7 @@ const RightDrawer = forwardRef((props, ref) => {
           textComponentSave={textComponentSave}
           clearTextComponentName={props.clearTextComponentName}
           textComponentSetEnabled={textComponentSetEnabled}
+          filterInfoToShow={props.filterInfoToShow}
         />
       </div>
       <div className="filter__btn">
