@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
 import {
   DEPARTURE_PORT,
-  ARRIVAL_PORT,
+  ARRIVAL_PORT
 } from "../../../constants/filtertypeconstants";
 
 export default function Airport(props) {
@@ -18,14 +18,17 @@ export default function Airport(props) {
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
+      setLabelName(props.name);
       setSwitchId("departureAirport");
     } else if (props.name === ARRIVAL_PORT) {
+      setLabelName(props.name);
       setSwitchId("arrivalAirport");
     }
     if (props.type === "Airport") {
       setLabelName(props.name);
       setLabelType(props.type);
-    } if (props.airportToDisplay !== "") {
+      setEnabled(props.enabled)
+    } if (props.airportToDisplay !== "" && props.type === "Airport" ) {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
@@ -99,7 +102,8 @@ export default function Airport(props) {
     );
   } else if (props.isReset === true) {
     return <div></div>;
-  } else {
+  } 
+  else {
     return <div></div>;
   }
 }

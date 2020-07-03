@@ -50,16 +50,31 @@ function App() {
   const [enabled, setEnabled] = useState();
   //holding the state of the reset function
   const [isReset, setIsReset] = useState(false);
-
+  //dataType of the attribute fields
+  const [dataType, setDataType] = useState();
   const [filterMap, setFilterMap] = useState();
   const [filterKeys, setFilterKeys] = useState();
   const [filterInfoToShow, setFilterInfoToShow] = useState();
   const childRefs = useRef(null);
 
+
+  const clearTextComponentName = (name) => {
+    setAddedFilter(addedFilter - 1);
+    if (name === labelName) {
+      setLabelName("")
+    }
+  }
   const addedFilterCount = () => {
     setAddedFilter(addedFilter + 1);
   };
-  const passValues = (filterName, filterType, enabled) => {
+  const passValues = (filterName, dataType, enabled) => {
+    setIsResetFalse();
+    setLabelName(filterName);
+    setDataType(dataType);
+    setEnabled(enabled);
+    setFilterInfoToShow(undefined);
+  };
+  const passPortValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
     setLabelType(filterType);
@@ -91,7 +106,7 @@ function App() {
   };
   const onSelectSavedFilter = (savedFilter, name) => {
     let filterArray = [];
-    if(savedFilter!==[] && name!==""){
+    if (savedFilter !== [] && name !== "") {
       savedFilter[name].forEach(filter => {
         filterArray.push(filter)
       })
@@ -110,20 +125,20 @@ function App() {
             setEnabled(filter.enabled)
           })
         }
-        if(filters.column===DATE){
+        if (filters.column === DATE) {
           filters.field.forEach(field => {
             setLabelName(filters.column)
             setField(field.column)
             setEnabled(field.enabled)
           })
         }
-        if(filters.column===REVENUE){
+        if (filters.column === REVENUE) {
           setLabelName(filters.column)
           console.log(FilterData)
-          let conditions=[];
-          FilterData.filter.forEach(filters=>{
-            if(filters.name===REVENUE){
-              if(filters.condition!==undefined){
+          let conditions = [];
+          FilterData.filter.forEach(filters => {
+            if (filters.name === REVENUE) {
+              if (filters.condition !== undefined) {
                 conditions.push(filters.condition)
               }
             }
@@ -143,14 +158,14 @@ function App() {
       setAddedFilter(addedFilter - 1);
     }
   };
- // this function clears the rightDrawer
+  // this function clears the rightDrawer
   const clearAllFilter = () => {
     //set the state of isReset state to true that means to clear all the labelNames and labelTypes
     setIsReset(true);
     //set filter count state to 0
     setAddedFilter(0);
     //clears all saved filter list selected
-    onSelectSavedFilter([],"");
+    onSelectSavedFilter([], "");
     //Clear the chip values
     captureFilterMap([]);
     //revert back the filters applied on the spreadsheet or table
@@ -162,8 +177,8 @@ function App() {
   };
 
   const captureFilterMap = (map) => {
-    if(filterMap !== undefined){
-      map=checkAndMergeFilterLists(filterMap.applyFilter, map.applyFilter);
+    if (filterMap !== undefined) {
+      map = checkAndMergeFilterLists(filterMap.applyFilter, map.applyFilter);
     }
     setFilterMap(map);
   };
@@ -198,20 +213,20 @@ function App() {
    * 
    * @returns a map with key as applyFilter and value as Updated filter List
    */
-  const checkAndMergeFilterLists=(oldList, newList)=>{
-    var returnList=oldList,newListColumnName = "", 
+  const checkAndMergeFilterLists = (oldList, newList) => {
+    var returnList = oldList, newListColumnName = "",
       isColumnPresentInOldList, oldListTypeArray, dummyOldListTypeArray, isNewItemInOldTypeList;
-    for(var newListIndex=0; newListIndex<newList.length; newListIndex++){
+    for (var newListIndex = 0; newListIndex < newList.length; newListIndex++) {
       newListColumnName = newList[newListIndex].column;
-      isColumnPresentInOldList = oldList.some(item=>(item.column === newListColumnName))
-      if(isColumnPresentInOldList === false){
+      isColumnPresentInOldList = oldList.some(item => (item.column === newListColumnName))
+      if (isColumnPresentInOldList === false) {
         returnList.push(newList[newListIndex]);
       }
       else {
-        if(newListColumnName === "Departure Port" || newListColumnName === "Arrival Port"){
+        if (newListColumnName === "Departure Port" || newListColumnName === "Arrival Port") {
           oldListTypeArray = oldList.filter(item =>
             (item.column === newListColumnName))[0].types;
-           dummyOldListTypeArray = oldListTypeArray;
+          dummyOldListTypeArray = oldListTypeArray;
           for (var newItemType of newList[newListIndex].types) {
             isNewItemInOldTypeList = oldListTypeArray.some(item =>
               (item.column === newItemType.column))
@@ -228,7 +243,7 @@ function App() {
         }
       }
     }
-    return {"applyFilter" : returnList};
+    return { "applyFilter": returnList };
   }
 
   const { ref, showApplyFilter, setApplyFilter } = useComponentVisible(true);
@@ -241,9 +256,10 @@ function App() {
             <div className="filter__list">
               <LeftDrawer
                 handleDate={passDate}
-                handleValue={passValues}
+                handlePortValue={passPortValues}
                 handleRevenue={passRevenue}
                 addedFilterCount={addedFilterCount}
+                handleValue={passValues}
               />
             </div>
             <div className="filter__inputwrap">
@@ -257,6 +273,7 @@ function App() {
                 enabled={enabled}
                 name={labelName}
                 type={labelType}
+                dataType={dataType}
                 clearValues={(resetStateVariableMap) => clearType(resetStateVariableMap)}
                 clearValue={clearName}
                 addedFilter={addedFilter}
@@ -264,6 +281,7 @@ function App() {
                 filterInfoToShow={filterInfoToShow}
                 applyFilterClose={applyFilterClose}
                 ref={childRefs}
+                clearTextComponentName={clearTextComponentName}
               />
             </div>
           </div>

@@ -26,13 +26,6 @@ const Revenue = (props) => {
 
         props.filterInfoToShow.filter(item => item.column === "Revenue").map(() =>
           setCondition(props.condition));
-
-
-        //       props.filterInfoToShow.map(item=>{
-        //         if(item.column === "Revenue"){
-        //            setCondition(props.condition)
-        // }
-        //       })
       }
     }
   }, [props]);

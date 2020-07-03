@@ -15,6 +15,7 @@ import RowSelector from "./Functions/RowSelector";
 import DefaultColumnFilter from "./Functions/DefaultColumnFilter";
 import GlobalFilter from "./Functions/GlobalFilter";
 import "./tablestyles.css";
+import { CSVLink } from "react-csv";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -22,6 +23,8 @@ import "jspdf-autotable";
 const listRef = createRef();
 
 const Grid = memo((props) => {
+    
+    const [arrValue, setArrValue] = useState([]);
     const {
         title,
         gridHeight,
@@ -175,6 +178,30 @@ const Grid = memo((props) => {
         }
     });
 
+    const dataRearranging = () => {
+        const arrValue = [];
+         data.filter((row) => {
+            const { flight, segment, details, weight, volume, revenue, queuedBooking, uldPositions, sr } = row;
+            const { date, flightno } = flight;
+            const { from, to } = segment;
+            const { flightModel, bodyType, type, startTime, endTime, status, additionalStatus, timeStatus } = details;
+            arrValue.push ({'flight': date + flightno,
+             "segment": from + to,
+             "details": flightModel + bodyType + type + startTime + endTime + status + additionalStatus + timeStatus,
+             "weight": weight.percentage + weight.value,
+             "volume": volume.percentage + volume.value,
+             "revenue": revenue.revenue + revenue.yield,
+             "sr": sr,
+             "queuedBooking": queuedBooking.sr + queuedBooking.volume,
+             "uldPositions": uldPositions.map((item) => {
+                return (item.position + " " + item.value);
+            })
+            });
+        });
+        setArrValue(arrValue);
+};
+
+
     return (
         <div className="wrapper">
             <div className="table-filter">
@@ -191,6 +218,11 @@ const Grid = memo((props) => {
                     </div>
                     <div className="filter-icon bulk-select" onClick={bulkSelector}>
                         <i className="fa fa-pencil-square-o"></i>
+                    </div>
+                    <div className="filter-icon bulk-select" onClick={dataRearranging}>
+                        <CSVLink columns={columns} data={arrValue} filename={"ExportToCsv_file.csv"}>
+                            <i className="fa fa-file"></i>
+                        </CSVLink>
                     </div>
                     <div className="filter-icon bulk-select" onClick={exportPDF}>
                         <i className="fa fa-file"></i>

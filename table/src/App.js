@@ -1,4 +1,4 @@
-import React, { useMemo, memo } from "react";
+import React, { useMemo, memo,  useState, useEffect } from "react";
 import data from "./data.json";
 import RowOptions from "./cells/RowOptions";
 import Grid from "./components/Grid";
@@ -450,6 +450,7 @@ const App = memo(() => {
         }
         return rows;
     };
+
 
     //Add logic to calculate height of each row, based on the content of  or more columns
     const calculateRowHeight = (rows, index, headerCells) => {
