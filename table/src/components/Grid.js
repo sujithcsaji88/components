@@ -17,6 +17,9 @@ import GlobalFilter from "./Functions/GlobalFilter";
 import "./tablestyles.css";
 import { CSVLink } from "react-csv";
 
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+
 const listRef = createRef();
 
 const Grid = memo((props) => {
@@ -127,6 +130,48 @@ const Grid = memo((props) => {
         }
     };
 
+    const [isLoader , setLoader] = useState(false)
+    const exportPDF = async () => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "landscape"; // portrait or landscape
+    
+        const marginLeft = 300;
+        const doc = new jsPDF(orientation, unit, size);
+    
+        doc.setFontSize(15);
+        
+        const title = "Multiline Grid Data Export To PDF";
+        const headers = [["Id", "Flight", "Segment", "Details", "Weight", "Volume", "ULD Positions", "Revenue/Yield", "SR", "Queued Booking"]];
+        const dataValues = await data.map(row=> [
+            row.travelId,
+            row.flight.date + ' ' + row.flight.flightno, 
+            row.segment.from + ' ' + row.segment.to,
+            row.details.flightModel + ' | ' + row.details.bodyType + ' | ' +row.details.type + ' | ' + row.details.startTime
+            + ' | ' +row.details.endTime + ' | ' + row.details.status + ' | ' +row.details.additionalStatus + ' | ' + row.details.timeStatus,
+            row.weight.percentage + ' '+row.weight.value,
+            row.volume.percentage + ' '+row.volume.value,
+            row.uldPositions.map((item) => {
+                
+                var returnVal = item.position + " " + item.value
+                return returnVal;
+            }),
+            row.revenue.revenue + ' ' + row.revenue.yeild,
+            row.sr,
+            row.queuedBooking.sr + ' ' + row.queuedBooking.volume
+        ]);
+    
+        let content = {
+          startY: 50,
+          head: headers,
+          body: dataValues
+        };
+    
+        doc.text(title, marginLeft, 40);
+        doc.autoTable(content);
+        doc.save("report.pdf")
+      }
+
     useEffect(() => {
         if (listRef && listRef.current) {
             listRef.current.resetAfterIndex(0, true);
@@ -179,6 +224,10 @@ const Grid = memo((props) => {
                             <i className="fa fa-file"></i>
                         </CSVLink>
                     </div>
+                    <div className="filter-icon bulk-select" onClick={exportPDF}>
+                        <i className="fa fa-file"></i>
+                    </div>
+                    <div></div>
                 </div>
             </div>
             <div className="tableContainer table-outer" style={{ height: gridHeight ? gridHeight : "50vh" }}>
