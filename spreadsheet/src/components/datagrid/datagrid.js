@@ -8,9 +8,17 @@ import {
   faFilter,
   faSortAmountDown,
   faTimes,
+  faFileExcel,
+  faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "../common/ErrorMessage";
+
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+//import { CSVLink } from "react-csv";
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 const {
   DraggableHeader: { DraggableContainer },
@@ -41,8 +49,8 @@ class Grid extends Component {
       selectedIndexes: [],
       junk: {},
       topLeft: {},
-      status:'',
-      textValue:'',
+      status: "",
+      textValue: "",
       columns: [
         {
           key: "flightno",
@@ -248,11 +256,88 @@ class Grid extends Component {
           filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
-      ].map((c) => ({ ...c, ...defaultColumnProperties })),
+      ].map((c) => ({
+        ...c,
+        ...defaultColumnProperties,
+      })),
     };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
-    this.handletextValue=this.handletextValue.bind(this);
+    this.handletextValue = this.handletextValue.bind(this);
+  }
+
+  exportPDF = () => {
+    const unit = "pt";
+    const size = "A4"; // Use A1, A2, A3 or A4
+    const orientation = "landscape"; // portrait or landscape
+
+    const marginLeft = 300;
+    const doc = new jsPDF(orientation, unit, size);
+
+    doc.setFontSize(15);
+
+    const title = "Multiline Grid Data Export To PDF";
+    const headers = [
+      [
+        "Id",
+        "Flight",
+        "Date",
+        "Segment From",
+        "Revenue",
+        "Segment TO",
+        "Flight Model",
+        "Body Type",
+        "Type",
+        "Start Time",
+        "End Time",
+      ],
+    ];
+
+    const dataValues = this.state.rows.map((row) => [
+      row.travelId,
+      row.flightno,
+      row.date,
+      row.segmentfrom,
+      row.revenue,
+      row.segmentto,
+      row.flightModel,
+      row.bodyType,
+      row.type,
+      row.startTime,
+      row.endTime,
+    ]);
+
+    let content = {
+      startY: 50,
+      head: headers,
+      body: dataValues,
+    };
+
+    doc.text(title, marginLeft, 40);
+    doc.autoTable(content);
+    doc.save("report.pdf");
+  };
+
+  downloadCSVFile = () => {
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.csv';
+    const fileName = 'CSVDownload'
+    const ws = XLSX.utils.json_to_sheet(this.state.rows);
+    const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'csv', type: 'array' });
+    const data = new Blob([excelBuffer], {type: fileType});
+    FileSaver.saveAs(data, fileName + fileExtension);
+  }
+
+  downloadXLSFile = () => {
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+    const fileName = 'XLSXDownload'
+    const ws = XLSX.utils.json_to_sheet(this.state.rows);
+    const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], {type: fileType});
+    FileSaver.saveAs(data, fileName + fileExtension);
   }
 
   updateRows = (startIdx, newRows) => {
@@ -260,10 +345,15 @@ class Grid extends Component {
       const rows = state.rows.slice();
       for (let i = 0; i < newRows.length; i++) {
         if (startIdx + i < rows.length) {
-          rows[startIdx + i] = { ...rows[startIdx + i], ...newRows[i] };
+          rows[startIdx + i] = {
+            ...rows[startIdx + i],
+            ...newRows[i],
+          };
         }
       }
-      return { rows };
+      return {
+        rows,
+      };
     });
   };
 
@@ -325,14 +415,22 @@ class Grid extends Component {
         return a[sortColumn] < b[sortColumn] ? 1 : -1;
       }
     };
-    this.setState({ rows: [...this.state.rows].sort(comparer) });
+    this.setState({
+      rows: [...this.state.rows].sort(comparer),
+    });
     return sortDirection === "NONE" ? data : this.state.rows;
   };
 
   componentWillReceiveProps(props) {
-    this.setState({ rows: props.rows })
-    this.setState({status:props.status})
-    this.setState({textValue:props.textValue})
+    this.setState({
+      rows: props.rows,
+    });
+    this.setState({
+      status: props.status,
+    });
+    this.setState({
+      textValue: props.textValue,
+    });
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     if (
@@ -351,9 +449,14 @@ class Grid extends Component {
       this.setState((state) => {
         const rows = state.rows.slice();
         for (let i = fromRow; i <= toRow; i++) {
-          rows[i] = { ...rows[i], ...updated };
+          rows[i] = {
+            ...rows[i],
+            ...updated,
+          };
         }
-        return { rows };
+        return {
+          rows,
+        };
       });
     }
   };
@@ -375,8 +478,10 @@ class Grid extends Component {
     });
   };
 
-  handleFilterChange =  (value) => {
-    newFilters = { ...value };
+  handleFilterChange = (value) => {
+    newFilters = {
+      ...value,
+    };
     let { junk } = this.state;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
       newFilters[value.column.key] = value;
@@ -385,9 +490,14 @@ class Grid extends Component {
       delete newFilters[value.column.key];
       delete junk[value.column.key];
     }
-    this.setState({ filter: newFilters, junk });
+    this.setState({
+      filter: newFilters,
+      junk,
+    });
     const data = this.getrows(this.props.rows, junk);
-    this.setState({ rows: data });
+    this.setState({
+      rows: data,
+    });
   };
   getrows = (rows, junk) => {
     if (Object.keys(junk).length <= 0) {
@@ -415,7 +525,9 @@ class Grid extends Component {
         return a[sortColumn] < b[sortColumn] ? 1 : -1;
       }
     };
-    this.setState({ rows: [...data].sort(comparer) });
+    this.setState({
+      rows: [...data].sort(comparer),
+    });
     return sortDirection === "NONE" ? data : this.state.rows;
   };
   onHeaderDrop = (source, target) => {
@@ -433,7 +545,9 @@ class Grid extends Component {
       stateCopy.columns.splice(columnSourceIndex, 1)[0]
     );
 
-    const emptyColumns = Object.assign({}, this.state, { columns: [] });
+    const emptyColumns = Object.assign({}, this.state, {
+      columns: [],
+    });
     this.setState(emptyColumns);
 
     const reorderedColumns = Object.assign({}, this.state, {
@@ -442,9 +556,13 @@ class Grid extends Component {
     this.setState(reorderedColumns);
   };
 
-  handletextValue(){
-    this.setState({textValue:''})
-    this.setState({status:''})
+  handletextValue() {
+    this.setState({
+      textValue: "",
+    });
+    this.setState({
+      status: "",
+    });
   }
   render() {
     return (
@@ -461,12 +579,22 @@ class Grid extends Component {
               value={this.props.value}
             />
             <span className="crossSearchIcon">
-              <FontAwesomeIcon icon={faTimes} onClick={this.onClose}/>
+              <FontAwesomeIcon icon={faTimes} onClick={this.onClose} />
             </span>
           </div>
           <FontAwesomeIcon className="filterIcons" icon={faFilter} />
           <FontAwesomeIcon className="filterIcons" icon={faSortAmountDown} />
-        </div>
+          <FontAwesomeIcon
+            className="filterIcons"
+            icon={faFilePdf}
+            onClick={this.exportPDF}
+          />
+          {/* <CSVLink data={this.state.rows} >
+            <FontAwesomeIcon className="filterIcons" icon={faFileExcel} />
+          </CSVLink> */}
+          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadCSVFile}/>
+          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadXLSFile}/>
+          </div>
         <ErrorMessage className="errorDiv" status={this.props.status} />
         <DraggableContainer
           className="gridDiv"
@@ -474,7 +602,9 @@ class Grid extends Component {
         >
           <ReactDataGrid
             toolbar={<Toolbar enableFilter={true} />}
-            getValidFilterValues={columnKey => this.getValidFilterValues(this.props.rows, columnKey)}
+            getValidFilterValues={(columnKey) =>
+              this.getValidFilterValues(this.props.rows, columnKey)
+            }
             minHeight={680}
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
