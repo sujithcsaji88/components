@@ -112,8 +112,10 @@ export default function App() {
           count={data.length}
         />
         {/* <ColumnReordering /> */}
-        {/* <ExportData/> */}
-        <Sorting/>
+        <ExportData
+          rows={data}
+        />
+        {/* <Sorting/> */}
       </div>
     );
   } else return <LoadingSpinner />;
