@@ -142,6 +142,7 @@ const RightDrawer = forwardRef((props, ref) => {
   }
 
   const textComponentSetEnabled = (name,enabled) => {
+    console.log(name,enabled)
     if (name === BOOKING_PROFILE) {
       setBookingProfileEnabled(enabled);
     }
@@ -211,6 +212,7 @@ const RightDrawer = forwardRef((props, ref) => {
     }
   }
   const textComponentSave = (value, name) => {
+    console.log(value,name)
     if (name === BOOKING_PROFILE && value !== "on") {
       setBookingProfileName(name);
       setBookingProfileValue(value);
@@ -930,6 +932,7 @@ const RightDrawer = forwardRef((props, ref) => {
           clearTextComponentName={props.clearTextComponentName}
           textComponentSetEnabled={textComponentSetEnabled}
           filterInfoToShow={props.filterInfoToShow}
+          clearFilterInfoToShow={props.clearFilterInfoToShow}
         />
       </div>
       <div className="filter__btn">
@@ -950,6 +953,7 @@ const RightDrawer = forwardRef((props, ref) => {
               (e) => {
                 saveApplyFilterMap("applyFilter");
                 props.applyFilterClose();
+                props.textComponentClutter();
               }
             }
           >
