@@ -17,32 +17,35 @@ export default function AirportGroup(props) {
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
+      setLabelName(DEPARTURE_PORT)
       setSwitchId("departureAirportGroup");
     } else if (props.name === ARRIVAL_PORT) {
+      setLabelName(ARRIVAL_PORT)
       setSwitchId("arrivalAirportGroup");
     }
     if (props.type === "Airport Group") {
-      setLabelName(props.name);
       setLabelType(props.type);
-    }  if (props.airportGroupToDisplay !== "") {
+    } 
+  }, [props]);
+
+  useEffect(() => {
+    if (props.airportGroupToDisplay !=='') {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
       setLabelType("Airport Group");
+      setEnabled(true);
     }
-  }, [props]);
+  }, [props.airportGroupToDisplay]);
 
   const closeAirportGroup = () => {
+    props.closeAirport(labelName,labelType);
     setLabelName("");
     setLabelType("");
   };
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
-    if (!enabled) {
-      setTextStatus(false);
-    } else {
-      setTextStatus(true);
-    }
+    setTextStatus(!e.target.checked);
   };
 
   if (labelType === "Airport Group") {
@@ -88,7 +91,7 @@ export default function AirportGroup(props) {
               setAllowEdit(false);
               props.valueToSave(e.target.value, labelName, labelType, enabled);
             }}
-            defaultValue={
+            value={
               allowEdit && props.airportGroupToDisplay !== ""
                 ? props.airportGroupToDisplay
                 : null

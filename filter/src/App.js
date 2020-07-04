@@ -161,7 +161,18 @@ const textComponentClutter=()=>{
     setCondition(condition);
     setEnabled(enabled);
   };
-
+const clearDepartureAirport=(name,type)=>{
+if(name===DEPARTURE_PORT){
+setLabelName('');
+setLabelType('');
+}
+}
+const clearArrivalPort =(name,type)=>{
+  if(name===ARRIVAL_PORT){
+    setLabelType('');
+    setLabelType('');
+  }
+}
   const clearType = (resetStateVariableMap) => {
     setLabelType("");
     if (addedFilter !== 0) {
@@ -348,6 +359,8 @@ const clearFilterInfoToShow=()=>{
                 textComponentClutter={textComponentClutter}
                 clearTextComponentName={clearTextComponentName}
                 clearFilterInfoToShow={clearFilterInfoToShow}
+                clearDepartureAirport={clearDepartureAirport}
+                clearArrivalPort={clearArrivalPort}
               />
             </div>
           </div>

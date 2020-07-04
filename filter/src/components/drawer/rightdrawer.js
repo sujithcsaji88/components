@@ -212,7 +212,6 @@ const RightDrawer = forwardRef((props, ref) => {
     }
   }
   const textComponentSave = (value, name) => {
-    console.log(value,name)
     if (name === BOOKING_PROFILE && value !== "on") {
       setBookingProfileName(name);
       setBookingProfileValue(value);
@@ -867,7 +866,6 @@ const RightDrawer = forwardRef((props, ref) => {
     setSaveFilterWarning("")
     setWarningLabel("")
   }
-
   return (
     <React.Fragment>
       <div className="filter__title">
@@ -888,6 +886,7 @@ const RightDrawer = forwardRef((props, ref) => {
           departureCityGroupEnabledSave={departureCityGroupEnabledSave}
           departureCountryEnabledSave={departureCountryEnabledSave}
           filterInfoToShow={props.filterInfoToShow}
+          clearDepartureAirport={props.clearDepartureAirport}
         />
         <ArrivalPort
           isReset={props.isReset}
@@ -902,6 +901,7 @@ const RightDrawer = forwardRef((props, ref) => {
           arrivalCityGroupEnabledSave={arrivalCityGroupEnabledSave}
           arrivalCountryEnabledSave={arrivalCountryEnabledSave}
           filterInfoToShow={props.filterInfoToShow}
+          clearArrivalPort={props.clearArrivalPort}
         />
         <Date
           isReset={props.isReset}

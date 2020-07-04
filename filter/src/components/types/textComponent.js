@@ -66,7 +66,6 @@ filterData.filter.forEach(item => {
         milestoneStatus = MILESTONE_STATUS;
         textComponentArray.push(milestoneStatus);
     }
-    console.log(textComponentArray)
 })
 export default function TextComponent(props) {
 
@@ -204,8 +203,6 @@ export default function TextComponent(props) {
                 setMilestoneStatusName("");
                 setMilestoneStatusSwitchId(milestoneStatus)
             }
-
-
         }
         , [props.name]);
 
@@ -227,84 +224,112 @@ export default function TextComponent(props) {
                             setBookingProfileName("")
                             setBookingProfileSwitchId(bookingProfile);
                             setBookingProfileValue(item.value);
+                            setBookingProfileEnabled(true);
+                            setBookingProfileTextStatus(false)
                             props.textComponentSave(item.value, bookingProfile)
                         }
                         else if (item.column === flightGroup) {
                             setFlightGroupName("")
                             setFlightGroupSwitchId(flightGroup);
                             setFlightGroupValue(item.value)
+                            setFlightGroupEnabled(true);
+                            setFlightGroupTextStatus(false)
                             props.textComponentSave(item.value, flightGroup)
                         }
                         else if (item.column === flightNo) {
                             setFlightNoName("")
                             setFlightNoValue(item.value)
                             setFlightNoSwitchId(flightNo)
+                            setFlightNoEnabled(true);
+                            setFlightNoTextStatus(false)
                             props.textComponentSave(item.value, flightNo)
                         }
                         else if (item.column === yielD) {
                             setYieldValue(item.value)
                             setYieldName("")
                             setYieldSwitchId(yielD)
+                            setYieldEnabled(true);
+                            setYieldTextStatus(false)
                             props.textComponentSave(item.value, yielD)
                         }
                         else if (item.column === queuedBookings) {
                             setQueuedBookingsValue(item.value)
                             setQueuedBookingsName("")
                             setQueuedBookingsSwitchId(queuedBookings)
+                            setQueuedBookingsEnabled(true);
+                            setQueuedBookingsTextStatus(false)
                             props.textComponentSave(item.value, queuedBookings)
                         }
                         else if(item.column === serviceRecovery){
                             setServiceRecoveryValue(item.value)
                             setServiceRecoveryName("")
                             setServiceRecoverySwitchId(serviceRecovery)
+                            setServiceRecoveryEnabled(true);
+                            setServiceRecoveryTextStatus(false)
                             props.textComponentSave(item.value, serviceRecovery)
                         }
                         else if(item.column === aircraft){
                             setAircraftValue(item.value)
                             setAircraftName("")
                             setAircraftSwitchId(aircraft)
+                            setAircraftEnabled(true);
+                            setAircraftTextStatus(false)
                             props.textComponentSave(item.value, aircraft)
                         }
                         else if(item.column === aircraftClassification){
                             setAircraftClassificationValue(item.value)
                             setAircraftClassificationName("")
                             setAircraftClassificationSwitchId(aircraftClassification)
+                            setAircraftClassificationEnabled(true);
+                            setAircraftClassificationTextStatus(false)
                             props.textComponentSave(item.value, aircraftClassification)
                         }
                         else if(item.column === weight){
                             setWeightValue(item.value)
                             setWeightName("")
                             setWeightSwitchId(weight)
+                            setWeightEnabled(true);
+                            setWeightTextStatus(false)
                             props.textComponentSave(item.value, weight)
                         }
                         else if(item.column === volume){
                             setVolumeValue(item.value)
                             setVolumeName("")
                             setVolumeSwitchId(volume)
+                            setVolumeEnabled(true);
+                            setVolumeTextStatus(false)
                             props.textComponentSave(item.value, volume)
                         }
                         else if(item.column === flightType){
                             setFlightTypeValue(item.value)
                             setFlightTypeName("")
                             setFlightTypeSwitchId(flightType)
+                            setFlightTypeEnabled(true);
+                            setFlightTypeTextStatus(false)
                             props.textComponentSave(item.value, flightType)
                         }
                         else if(item.column === flightStatus){
                             setFlightStatusValue(item.value)
                             setFlightStatusName("")
                             setFlightStatusSwitchId(flightStatus)
+                            setFlightStatusEnabled(true);
+                            setFlightStatusTextStatus(false)
                             props.textComponentSave(item.value, flightStatus)
                         }
                         else if(item.column === segmentStatus){
                             setSegmentStatusValue(item.value)
                             setSegmentStatusName("")
                             setSegmentStatusSwitchId(segmentStatus)
+                            setSegmentStatusEnabled(true);
+                            setSegmentStatusTextStatus(false)
                             props.textComponentSave(item.value, segmentStatus)
                         }
                         else if(item.column === milestoneStatus){
                             setMilestoneStatusValue(item.value)
                             setMilestoneStatusName("")
                             setMilestoneStatusSwitchId(milestoneStatus)
+                            setMilestoneStatusEnabled(true);
+                            setMilestoneStatusTextStatus(false)
                             props.textComponentSave(item.value, milestoneStatus)
                         }
 
