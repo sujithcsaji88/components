@@ -22,14 +22,41 @@ const DateComponent = (props) => {
         setLabelName(props.name);
         setField(props.field);
       }
+
+    }
+  }, [props.name, props.isReset, props.field]);
+
+  useEffect(
+    () => {
       if (props.filterInfoToShow !== undefined && props.filterInfoToShow.some(item => (item.column === "Date"))) {
         setLabelName("Date");
         props.filterInfoToShow.filter(item => item.column === "Date").map(item =>
           setField(item.field))
       }
     }
-  }, [props]);
-
+    , [props.filterInfoToShow]);
+  useEffect(
+    () => {
+      if (props.filterInfoToShow !== undefined) {
+        props.filterInfoToShow.forEach(item => {
+          if (item.column === "Date") {
+            item.field.forEach(subItem => {
+              if (subItem.column === "From Date & Time") {
+                fromDateValue = subItem.value;
+                fromDate = subItem.value;
+                props.dateSave(fromDateValue, subItem.column, labelName, enabled);
+              }
+              if (subItem.column === "To Date & Time") {
+                toDateValue = subItem.value;
+                toDate = subItem.value
+                props.dateSave(toDateValue, subItem.column, labelName, enabled);
+              }
+            })
+          }
+        })
+      }
+    }
+    , []);
   const closeDate = () => {
     setLabelName("");
     setField("");
@@ -134,27 +161,7 @@ const DateComponent = (props) => {
     }
 
   }
-  //let index=0;
   if (labelName === DATE) {
-
-    if (props.filterInfoToShow !== undefined) {
-      props.filterInfoToShow.forEach(item => {
-        if (item.column === "Date") {
-          item.field.forEach(subItem => {
-            if (subItem.column === "From Date & Time") {
-              fromDateValue = subItem.value;
-              fromDate = subItem.value;
-              props.dateSave(fromDateValue, subItem.column, labelName, enabled);
-            }
-            if (subItem.column === "To Date & Time") {
-              toDateValue = subItem.value;
-              toDate = subItem.value
-              props.dateSave(toDateValue, subItem.column, labelName, enabled);
-            }
-          })
-        }
-      })
-    }
     return (
       <div className="filter__input">
         <div className="filter__input-title" key={1}>
@@ -197,7 +204,7 @@ const DateComponent = (props) => {
                     disabled={textStatus}
                     required
                     type="date"
-                    defaultValue={field.name === "From Date & Time" || field.column === "From Date & Time" ? fromDateValue : toDateValue}
+                    value={field.name === "From Date & Time" || field.column === "From Date & Time" ? fromDateValue : toDateValue}
                     className="date"
                     onChange={(e) => {
                       handleDateSave(e.target.value, field.column);
