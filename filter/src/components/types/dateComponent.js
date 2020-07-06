@@ -12,7 +12,6 @@ const DateComponent = (props) => {
   const [field, setField] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
-
   useEffect(() => {
     if (props.name) {
       if (props.isReset === true) {
@@ -161,6 +160,30 @@ const DateComponent = (props) => {
     }
 
   }
+  const nextDayChange =(value)=>{
+    fromDate = new Date();
+    toDate = new Date();
+    fromDate.setDate(fromDate.getDate() + 1);
+    toDate.setDate(toDate.getDate() + parseInt(value));
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const lastDayChange=(value)=>{
+    fromDate = new Date();
+    toDate = new Date();
+    fromDate.setDate(fromDate.getDate() - parseInt(value))
+    toDate.setDate(toDate.getDate()-1)
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
   if (labelName === DATE) {
     return (
       <div className="filter__input">
@@ -229,6 +252,10 @@ const DateComponent = (props) => {
         <button type="button" onClick={(e) => { addForteeenDays() }}>Next 14 days</button>
         <button type="button" onClick={(e) => { addThisMonth() }}>This Month</button>
         <button type="button" onClick={(e) => { addThirtyDays() }}>Next 30 days</button>
+        <br/>
+        Next <input type="text" onChange={(e)=>{nextDayChange(e.target.value);}} /> Days
+        <br/>
+        Last <input type="text" onChange={(e)=>{lastDayChange(e.target.value);}}/> Days
       </div>
     );
   } else if (props.isReset === true) {
