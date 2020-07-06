@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, FormControl } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { DATE } from "../../constants/filtertypeconstants";
-import moment from "moment";
 
+let fromDate, toDate;
+let toDateValue = "", fromDateValue = "";
+let dateFormat = require('dateformat');
 const DateComponent = (props) => {
   const [labelName, setLabelName] = useState();
   const [field, setField] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
-  const [starts, setStart] = useState();
-  const [ends, setEnd] = useState();
 
   useEffect(() => {
     if (props.name) {
@@ -42,20 +42,113 @@ const DateComponent = (props) => {
     } else {
       setTextStatus(true);
     }
-  };
+  }
+  const addThisMonth = () => {
+    let today = new Date();
+    fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
+    toDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const addForteeenDays = () => {
+    fromDate = new Date();
+    toDate = new Date();
+    fromDate.setDate(fromDate.getDate() + 1)
+    toDate.setDate(toDate.getDate() + 14)
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const addSevenDays = () => {
+    fromDate = new Date();
+    toDate = new Date();
+    fromDate.setDate(fromDate.getDate() + 1)
+    toDate.setDate(toDate.getDate() + 7)
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const addTomorrow = () => {
+    fromDate = new Date();
+    toDate = new Date();
+    fromDate.setDate(fromDate.getDate() + 1)
+    toDate.setDate(toDate.getDate() + 1)
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const addToday = () => {
+    fromDate = new Date();
+    toDate = new Date();
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const addThisWeek = () => {
+    let today = new Date();
+    let from = today.getDate() - today.getDay();
+    let to = from + 6;
+    fromDate = new Date(today.setDate(from)).toUTCString();
+    toDate = new Date(today.setDate(to)).toUTCString();
+    fromDate = dateFormat(fromDate, "yyyy-mm-dd")
+    toDate = dateFormat(toDate, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const addThirtyDays = () => {
+    let from = new Date();
+    let to = new Date();
+    from.setDate(from.getDate() + 1);
+    to.setDate(to.getDate() + 30);
+    fromDate = dateFormat(from, "yyyy-mm-dd")
+    toDate = dateFormat(to, "yyyy-mm-dd")
+    props.dateSave(fromDate, "From Date & Time", "Date", true);
+    props.dateSave(toDate, "To Date & Time", "Date", true);
+    fromDateValue = fromDate;
+    toDateValue = toDate;
+  }
+  const handleDateSave = (value, name) => {
+    if (name === "From Date & Time") {
+      fromDateValue = value;
+    }
+    else {
+      toDateValue = value;
+    }
 
+  }
+  //let index=0;
   if (labelName === DATE) {
-    var toDateValue = "", fromDateValue = "";
+
     if (props.filterInfoToShow !== undefined) {
       props.filterInfoToShow.forEach(item => {
         if (item.column === "Date") {
           item.field.forEach(subItem => {
             if (subItem.column === "From Date & Time") {
-              fromDateValue = subItem.value
+              fromDateValue = subItem.value;
+              fromDate = subItem.value;
               props.dateSave(fromDateValue, subItem.column, labelName, enabled);
             }
             if (subItem.column === "To Date & Time") {
-              toDateValue = subItem.value
+              toDateValue = subItem.value;
+              toDate = subItem.value
               props.dateSave(toDateValue, subItem.column, labelName, enabled);
             }
           })
@@ -92,8 +185,8 @@ const DateComponent = (props) => {
             />
           </div>
         </div>
-        {field.map((field, index) => { 
-           return (
+        {field.map((field, index) => {
+          return (
             <div key={`${index}-${field.name}`}>
               <div className="displayFlex" key={`${index},${field.name}`}>
                 <Form.Text>{field.name}</Form.Text>
@@ -107,20 +200,28 @@ const DateComponent = (props) => {
                     defaultValue={field.name === "From Date & Time" || field.column === "From Date & Time" ? fromDateValue : toDateValue}
                     className="date"
                     onChange={(e) => {
+                      handleDateSave(e.target.value, field.column);
                       props.dateSave(e.target.value, field.column, labelName, enabled);
                     }}
                   />
-                  {/* <span className="date-button">
+                  <span className="date-button">
                     <button type="button"></button>
-                  </span> */}
+                  </span>
                 </div>
                 <div className="time-wrap">
                   <input className="time" type="time" />
                 </div>
               </div>
             </div>
-           ); 
-         })} 
+          );
+        })}
+        <button type="button" onClick={(e) => { addToday() }}>Today</button>
+        <button type="button" onClick={(e) => { addTomorrow() }}>Tomorrow</button>
+        <button type="button" onClick={(e) => { addThisWeek() }}>This Week</button>
+        <button type="button" onClick={(e) => { addSevenDays() }}>Next 7 days</button>
+        <button type="button" onClick={(e) => { addForteeenDays() }}>Next 14 days</button>
+        <button type="button" onClick={(e) => { addThisMonth() }}>This Month</button>
+        <button type="button" onClick={(e) => { addThirtyDays() }}>Next 30 days</button>
       </div>
     );
   } else if (props.isReset === true) {
