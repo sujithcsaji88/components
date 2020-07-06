@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form } from "react-bootstrap";
+import { Form, FormControl } from "react-bootstrap";
 import { DATE } from "../../constants/filtertypeconstants";
+import moment from "moment";
 
-const Date = (props) => {
+const DateComponent = (props) => {
   const [labelName, setLabelName] = useState();
   const [field, setField] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
+  const [starts, setStart] = useState();
+  const [ends, setEnd] = useState();
 
   useEffect(() => {
     if (props.name) {
@@ -21,8 +24,8 @@ const Date = (props) => {
       }
       if (props.filterInfoToShow !== undefined && props.filterInfoToShow.some(item => (item.column === "Date"))) {
         setLabelName("Date");
-        props.filterInfoToShow.filter(item => item.column === "Date" ).map(item =>
-             setField(item.field))
+        props.filterInfoToShow.filter(item => item.column === "Date").map(item =>
+          setField(item.field))
       }
     }
   }, [props]);
@@ -59,7 +62,6 @@ const Date = (props) => {
         }
       })
     }
-
     return (
       <div className="filter__input">
         <div className="filter__input-title" key={1}>
@@ -90,8 +92,8 @@ const Date = (props) => {
             />
           </div>
         </div>
-        {field.map((field, index) => {
-          return (
+        {field.map((field, index) => { 
+           return (
             <div key={`${index}-${field.name}`}>
               <div className="displayFlex" key={`${index},${field.name}`}>
                 <Form.Text>{field.name}</Form.Text>
@@ -108,17 +110,17 @@ const Date = (props) => {
                       props.dateSave(e.target.value, field.column, labelName, enabled);
                     }}
                   />
-                  <span className="date-button">
+                  {/* <span className="date-button">
                     <button type="button"></button>
-                  </span>
+                  </span> */}
                 </div>
                 <div className="time-wrap">
                   <input className="time" type="time" />
                 </div>
               </div>
             </div>
-          );
-        })}
+           ); 
+         })} 
       </div>
     );
   } else if (props.isReset === true) {
@@ -128,4 +130,4 @@ const Date = (props) => {
   }
 };
 
-export default Date;
+export default DateComponent;

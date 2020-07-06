@@ -69,20 +69,20 @@ filterData.filter.forEach(item => {
 })
 export default function TextComponent(props) {
 
-    const [bookingProfileValue, setBookingProfileValue] = useState();
-    const [flightGroupValue, setFlightGroupValue] = useState();
-    const [flightNoValue, setFlightNoValue] = useState()
-    const [yieldValue, setYieldValue] = useState();
-    const [serviceRecoveryValue, setServiceRecoveryValue] = useState()
-    const [weightValue, setWeightValue] = useState();
-    const [volumeValue, setVolumeValue] = useState();
-    const [aircraftValue, setAircraftValue] = useState();
-    const [queuedBookingsValue, setQueuedBookingsValue] = useState();
-    const [aircraftClassificationValue, setAircraftClassificationValue] = useState()
-    const [flightTypeValue, setFlightTypeValue] = useState();
-    const [flightStatusValue, setFlightStatusValue] = useState();
-    const [segmentStatusValue, setSegmentStatusValue] = useState()
-    const [milestoneStatusValue, setMilestoneStatusValue] = useState()
+    const [bookingProfileValue, setBookingProfileValue] = useState('');
+    const [flightGroupValue, setFlightGroupValue] = useState('');
+    const [flightNoValue, setFlightNoValue] = useState('')
+    const [yieldValue, setYieldValue] = useState('');
+    const [serviceRecoveryValue, setServiceRecoveryValue] = useState('')
+    const [weightValue, setWeightValue] = useState('');
+    const [volumeValue, setVolumeValue] = useState('');
+    const [aircraftValue, setAircraftValue] = useState('');
+    const [queuedBookingsValue, setQueuedBookingsValue] = useState('');
+    const [aircraftClassificationValue, setAircraftClassificationValue] = useState('')
+    const [flightTypeValue, setFlightTypeValue] = useState('');
+    const [flightStatusValue, setFlightStatusValue] = useState('');
+    const [segmentStatusValue, setSegmentStatusValue] = useState('')
+    const [milestoneStatusValue, setMilestoneStatusValue] = useState('')
     const [bookingProfileName, setBookingProfileName] = useState("none");
     const [flightGroupName, setFlightGroupName] = useState("none");
     const [flightNoName, setFlightNoName] = useState("none")
@@ -207,6 +207,7 @@ export default function TextComponent(props) {
         , [props.name]);
 
     useEffect(
+        //Initializes the states when the apply filter is triggered
         () => {
             if (props.filterInfoToShow !== undefined) {
                 applyFilterArray = []
@@ -260,7 +261,7 @@ export default function TextComponent(props) {
                             setQueuedBookingsTextStatus(false)
                             props.textComponentSave(item.value, queuedBookings)
                         }
-                        else if(item.column === serviceRecovery){
+                        else if (item.column === serviceRecovery) {
                             setServiceRecoveryValue(item.value)
                             setServiceRecoveryName("")
                             setServiceRecoverySwitchId(serviceRecovery)
@@ -268,7 +269,7 @@ export default function TextComponent(props) {
                             setServiceRecoveryTextStatus(false)
                             props.textComponentSave(item.value, serviceRecovery)
                         }
-                        else if(item.column === aircraft){
+                        else if (item.column === aircraft) {
                             setAircraftValue(item.value)
                             setAircraftName("")
                             setAircraftSwitchId(aircraft)
@@ -276,7 +277,7 @@ export default function TextComponent(props) {
                             setAircraftTextStatus(false)
                             props.textComponentSave(item.value, aircraft)
                         }
-                        else if(item.column === aircraftClassification){
+                        else if (item.column === aircraftClassification) {
                             setAircraftClassificationValue(item.value)
                             setAircraftClassificationName("")
                             setAircraftClassificationSwitchId(aircraftClassification)
@@ -284,7 +285,7 @@ export default function TextComponent(props) {
                             setAircraftClassificationTextStatus(false)
                             props.textComponentSave(item.value, aircraftClassification)
                         }
-                        else if(item.column === weight){
+                        else if (item.column === weight) {
                             setWeightValue(item.value)
                             setWeightName("")
                             setWeightSwitchId(weight)
@@ -292,7 +293,7 @@ export default function TextComponent(props) {
                             setWeightTextStatus(false)
                             props.textComponentSave(item.value, weight)
                         }
-                        else if(item.column === volume){
+                        else if (item.column === volume) {
                             setVolumeValue(item.value)
                             setVolumeName("")
                             setVolumeSwitchId(volume)
@@ -300,7 +301,7 @@ export default function TextComponent(props) {
                             setVolumeTextStatus(false)
                             props.textComponentSave(item.value, volume)
                         }
-                        else if(item.column === flightType){
+                        else if (item.column === flightType) {
                             setFlightTypeValue(item.value)
                             setFlightTypeName("")
                             setFlightTypeSwitchId(flightType)
@@ -308,7 +309,7 @@ export default function TextComponent(props) {
                             setFlightTypeTextStatus(false)
                             props.textComponentSave(item.value, flightType)
                         }
-                        else if(item.column === flightStatus){
+                        else if (item.column === flightStatus) {
                             setFlightStatusValue(item.value)
                             setFlightStatusName("")
                             setFlightStatusSwitchId(flightStatus)
@@ -316,7 +317,7 @@ export default function TextComponent(props) {
                             setFlightStatusTextStatus(false)
                             props.textComponentSave(item.value, flightStatus)
                         }
-                        else if(item.column === segmentStatus){
+                        else if (item.column === segmentStatus) {
                             setSegmentStatusValue(item.value)
                             setSegmentStatusName("")
                             setSegmentStatusSwitchId(segmentStatus)
@@ -324,7 +325,7 @@ export default function TextComponent(props) {
                             setSegmentStatusTextStatus(false)
                             props.textComponentSave(item.value, segmentStatus)
                         }
-                        else if(item.column === milestoneStatus){
+                        else if (item.column === milestoneStatus) {
                             setMilestoneStatusValue(item.value)
                             setMilestoneStatusName("")
                             setMilestoneStatusSwitchId(milestoneStatus)
@@ -333,828 +334,826 @@ export default function TextComponent(props) {
                             props.textComponentSave(item.value, milestoneStatus)
                         }
 
-                   })                  
-}
+                    })
+                }
             }
             //props.clearFilterInfoToShow();
         }
         , []);
-// All functions below manage the enabled attribute
-const enableSwitchChange = (e) => {
-    if (e.target.id === bookingProfile) {
-        setBookingProfileEnabled(e.target.checked);
-        setBookingProfileTextStatus(!e.target.checked)
+    // All functions below manage the enabled attribute
+    const enableSwitchChange = (e) => {
+        if (e.target.id === bookingProfile) {
+            setBookingProfileEnabled(e.target.checked);
+            setBookingProfileTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === flightGroup) {
+            setFlightGroupEnabled(e.target.checked);
+            setFlightGroupTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === FLIGHT_NO) {
+            setFlightNoEnabled(e.target.checked);
+            setFlightNoTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === YEILD) {
+            setYieldEnabled(e.target.checked);
+            setYieldTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === SERVICE_RECOVERY) {
+            setServiceRecoveryEnabled(e.target.checked);
+            setServiceRecoveryTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === QUEUED_BOOKINGS) {
+            setQueuedBookingsEnabled(e.target.checked);
+            setQueuedBookingsTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === WEIGHT) {
+            setWeightEnabled(e.target.checked);
+            setWeightTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === VOLUME) {
+            setVolumeEnabled(e.target.checked);
+            setVolumeTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === AIRCRAFT) {
+            setAircraftEnabled(e.target.checked);
+            setAircraftTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === AIRCRAFT_CLASSIFICATION) {
+            setAircraftClassificationEnabled(e.target.checked);
+            setAircraftClassificationTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === FLIGHT_TYPE) {
+            setFlightTypeEnabled(e.target.checked);
+            setFlightTypeTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === FLIGHT_STATUS) {
+            setFlightStatusEnabled(e.target.checked);
+            setFlightStatusTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === SEGMENT_STATUS) {
+            setSegmentStatusEnabled(e.target.checked);
+            setSegmentStatusTextStatus(!e.target.checked)
+        }
+        else if (e.target.id === MILESTONE_STATUS) {
+            setMilestoneStatusEnabled(e.target.checked);
+            setMilestoneStatusTextStatus(!e.target.checked)
+        }
     }
-    else if (e.target.id === flightGroup) {
-        setFlightGroupEnabled(e.target.checked);
-        setFlightGroupTextStatus(!e.target.checked)
+
+    //function to set the value of all the corresponding fields
+    const handleBookingProfileValue = (value) => {
+        setBookingProfileValue(value);
     }
-    else if (e.target.id === FLIGHT_NO) {
-        setFlightNoEnabled(e.target.checked);
-        setFlightNoTextStatus(!e.target.checked)
+    const handleFlightGroupValue = (value) => {
+        setFlightGroupValue(value);
+
     }
-    else if (e.target.id === YEILD) {
-        setYieldEnabled(e.target.checked);
-        setYieldTextStatus(!e.target.checked)
+    const handleFlightNoValue = (value) => {
+        setFlightNoValue(value);
+
     }
-    else if (e.target.id === SERVICE_RECOVERY) {
-        setServiceRecoveryEnabled(e.target.checked);
-        setServiceRecoveryTextStatus(!e.target.checked)
+    const handleYieldValue = (value) => {
+        setYieldValue(value);
+
     }
-    else if (e.target.id === QUEUED_BOOKINGS) {
-        setQueuedBookingsEnabled(e.target.checked);
-        setQueuedBookingsTextStatus(!e.target.checked)
+    const handleServiceRecoveryValue = (value) => {
+        setServiceRecoveryValue(value);
+
     }
-    else if (e.target.id === WEIGHT) {
-        setWeightEnabled(e.target.checked);
-        setWeightTextStatus(!e.target.checked)
+    const handleQueuedBookingsValue = (value) => {
+        setQueuedBookingsValue(value);
+
     }
-    else if (e.target.id === VOLUME) {
-        setVolumeEnabled(e.target.checked);
-        setVolumeTextStatus(!e.target.checked)
+    const handleWeightValue = (value) => {
+        setWeightValue(value);
+
     }
-    else if (e.target.id === AIRCRAFT) {
-        setAircraftEnabled(e.target.checked);
-        setAircraftTextStatus(!e.target.checked)
+    const handleVolumeValue = (value) => {
+        setVolumeValue(value);
+
     }
-    else if (e.target.id === AIRCRAFT_CLASSIFICATION) {
-        setAircraftClassificationEnabled(e.target.checked);
-        setAircraftClassificationTextStatus(!e.target.checked)
+    const handleAircraftValue = (value) => {
+        setAircraftValue(value);
+
     }
-    else if (e.target.id === FLIGHT_TYPE) {
-        setFlightTypeEnabled(e.target.checked);
-        setFlightTypeTextStatus(!e.target.checked)
+    const handleAircraftClassificationValue = (value) => {
+        setAircraftClassificationValue(value);
+
     }
-    else if (e.target.id === FLIGHT_STATUS) {
-        setFlightStatusEnabled(e.target.checked);
-        setFlightStatusTextStatus(!e.target.checked)
+    const handleFlightTypeValue = (value) => {
+        setFlightTypeValue(value);
+
     }
-    else if (e.target.id === SEGMENT_STATUS) {
-        setSegmentStatusEnabled(e.target.checked);
-        setSegmentStatusTextStatus(!e.target.checked)
+    const handleFlightStatusValue = (value) => {
+        setFlightStatusValue(value);
+
     }
-    else if (e.target.id === MILESTONE_STATUS) {
-        setMilestoneStatusEnabled(e.target.checked);
-        setMilestoneStatusTextStatus(!e.target.checked)
+    const handleSegmentStatusValue = (value) => {
+        setSegmentStatusValue(value);
+
     }
-}
+    const handleMilestoneStatusValue = (value) => {
+        setMilestoneStatusValue(value);
 
-//function to set the value of all the corresponding fields
-const handleBookingProfileValue = (value) => {
-    setBookingProfileValue(value);
-}
-const handleFlightGroupValue = (value) => {
-    setFlightGroupValue(value);
-
-}
-const handleFlightNoValue = (value) => {
-    setFlightNoValue(value);
-
-}
-const handleYieldValue = (value) => {
-    setYieldValue(value);
-
-}
-const handleServiceRecoveryValue = (value) => {
-    setServiceRecoveryValue(value);
-
-}
-const handleQueuedBookingsValue = (value) => {
-    setQueuedBookingsValue(value);
-
-}
-const handleWeightValue = (value) => {
-    setWeightValue(value);
-
-}
-const handleVolumeValue = (value) => {
-    setVolumeValue(value);
-
-}
-const handleAircraftValue = (value) => {
-    setAircraftValue(value);
-
-}
-const handleAircraftClassificationValue = (value) => {
-    setAircraftClassificationValue(value);
-
-}
-const handleFlightTypeValue = (value) => {
-    setFlightTypeValue(value);
-
-}
-const handleFlightStatusValue = (value) => {
-    setFlightStatusValue(value);
-
-}
-const handleSegmentStatusValue = (value) => {
-    setSegmentStatusValue(value);
-
-}
-const handleMilestoneStatusValue = (value) => {
-    setMilestoneStatusValue(value);
-
-}
+    }
 
 
-// Below are respective closing component event handlers
-const closeBookingProfileName = () => {
-    props.clearTextComponentName(bookingProfileSwitchId);
-    setBookingProfileName("none");
-    setBookingProfileEnabled(false);
-    //setBookingProfileSwitchId(bookingProfileSwitchId);
-    setBookingProfileTextStatus(true);
-    setBookingProfileValue("")
-    // document.getElementById("bookingProfile").value = "";
-    // document.getElementById(bookingProfileSwitchId).checked = '';
-}
-const closeFlightGroupName = () => {
-    props.clearTextComponentName(flightGroupSwitchId);
-    setFlightGroupName("none");
-    setFlightGroupEnabled(false);
-    //setFlightGroupSwitchId('');
-    setFlightGroupTextStatus(true)
-    setFlightGroupValue('');
-}
-const closeFlightNoName = () => {
-    props.clearTextComponentName(flightNoSwitchId);
-    setFlightNoName("none");
-    setFlightNoEnabled(false);
-    //setFlightNoSwitchId('');
-    setFlightNoTextStatus(true)
-    setFlightNoValue('')
-}
-const closeYieldName = () => {
-    props.clearTextComponentName(yieldSwitchId);
-    setYieldName("none");
-    setYieldEnabled(false);
-    //setYieldSwitchId('');
-    setYieldTextStatus(true)
-    setYieldValue('');
-}
-const closeQueuedBookingsName = () => {
-    props.clearTextComponentName(queuedBookingsSwitchId);
-    setQueuedBookingsName("none");
-    setQueuedBookingsEnabled(false);
-    //setQueuedBookingsSwitchId('');
-    setQueuedBookingsTextStatus(true)
-    setQueuedBookingsValue('')
-}
+    // Below are respective closing component event handlers
+    const closeBookingProfileName = () => {
+        props.clearTextComponentName(bookingProfileSwitchId);
+        setBookingProfileName("none");
+        setBookingProfileEnabled(false);
+        setBookingProfileTextStatus(true);
+        setBookingProfileValue("");
+        //props.clearFilterInfoToShow();
+    }
+    const closeFlightGroupName = () => {
+        props.clearTextComponentName(flightGroupSwitchId);
+        setFlightGroupName("none");
+        setFlightGroupEnabled(false);
+        //setFlightGroupSwitchId('');
+        setFlightGroupTextStatus(true)
+        setFlightGroupValue('');
+    }
+    const closeFlightNoName = () => {
+        props.clearTextComponentName(flightNoSwitchId);
+        setFlightNoName("none");
+        setFlightNoEnabled(false);
+        //setFlightNoSwitchId('');
+        setFlightNoTextStatus(true)
+        setFlightNoValue('')
+    }
+    const closeYieldName = () => {
+        props.clearTextComponentName(yieldSwitchId);
+        setYieldName("none");
+        setYieldEnabled(false);
+        //setYieldSwitchId('');
+        setYieldTextStatus(true)
+        setYieldValue('');
+    }
+    const closeQueuedBookingsName = () => {
+        props.clearTextComponentName(queuedBookingsSwitchId);
+        setQueuedBookingsName("none");
+        setQueuedBookingsEnabled(false);
+        //setQueuedBookingsSwitchId('');
+        setQueuedBookingsTextStatus(true)
+        setQueuedBookingsValue('')
+    }
 
-const closeServiceRecoveryName = () => {
-    props.clearTextComponentName(serviceRecoverySwitchId);
-    setServiceRecoveryName("none");
-    setServiceRecoveryEnabled(false);
-    //setServiceRecoverySwitchId('');
-    setServiceRecoveryTextStatus(true)
-    setServiceRecoveryValue('')
-}
-const closeVolumeName = () => {
-    props.clearTextComponentName(volumeSwitchId);
-    setVolumeName("none");
-    setVolumeEnabled(false);
-    //setVolumeSwitchId('');
-    setVolumeTextStatus(true)
-    setVolumeValue('');
-}
-const closeWeightName = () => {
-    props.clearTextComponentName(weightSwitchId);
-    setWeightName("none");
-    setWeightEnabled(false);
-    //setWeightSwitchId('');
-    setWeightTextStatus(true)
-    setWeightValue('');
-}
-const closeAircraftName = () => {
-    props.clearTextComponentName(aircraftSwitchId);
-    setAircraftName("none");
-    setAircraftEnabled(false);
-    //setAircraftSwitchId('');
-    setAircraftTextStatus(true)
-    setAircraftValue('');
-}
-const closeAircraftClassificationName = () => {
-    props.clearTextComponentName(aircraftClassificationSwitchId);
-    setAircraftClassificationName("none");
-    setAircraftClassificationEnabled(false);
-    //setAircraftClassificationSwitchId('');
-    setAircraftClassificationTextStatus(true);
-    setAircraftClassificationValue('')
-}
-const closeFlightTypeName = () => {
-    props.clearTextComponentName(flightTypeSwitchId);
-    setFlightTypeName("none")
-    setFlightTypeEnabled(false);
-    //setFlightTypeSwitchId('');
-    setFlightTypeTextStatus(true)
-    setFlightTypeValue('');
-}
-const closeFlightStatusName = () => {
-    props.clearTextComponentName(flightStatusSwitchId);
-    setFlightStatusName("none");
-    setFlightStatusEnabled(false);
-    //setFlightStatusSwitchId('');
-    setFlightStatusTextStatus(true)
-    setFlightStatusValue('');
-}
-const closeSegmentStatusName = () => {
-    props.clearTextComponentName(segmentStatusSwitchId);
-    setSegmentStatusName("none");
-    setSegmentStatusEnabled(false);
-    //setSegmentStatusSwitchId('');
-    setSegmentStatusTextStatus(true);
-    setSegmentStatusValue('');
-}
-const closeMilestoneStatusName = () => {
-    props.clearTextComponentName(milestoneStatusSwitchId);
-    setMilestoneStatusName("none");
-    setMilestoneStatusEnabled(false);
-    //setMilestoneStatusSwitchId('');
-    setMilestoneStatusTextStatus(true);
-    setMilestoneStatusValue('');
-}
-if (name != undefined || applyFilterArray.length > 0) {
-    return (
-        <div>
-            <div style={{ display: bookingProfileName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{bookingProfileSwitchId}</span>
+    const closeServiceRecoveryName = () => {
+        props.clearTextComponentName(serviceRecoverySwitchId);
+        setServiceRecoveryName("none");
+        setServiceRecoveryEnabled(false);
+        //setServiceRecoverySwitchId('');
+        setServiceRecoveryTextStatus(true)
+        setServiceRecoveryValue('')
+    }
+    const closeVolumeName = () => {
+        props.clearTextComponentName(volumeSwitchId);
+        setVolumeName("none");
+        setVolumeEnabled(false);
+        //setVolumeSwitchId('');
+        setVolumeTextStatus(true)
+        setVolumeValue('');
+    }
+    const closeWeightName = () => {
+        props.clearTextComponentName(weightSwitchId);
+        setWeightName("none");
+        setWeightEnabled(false);
+        //setWeightSwitchId('');
+        setWeightTextStatus(true)
+        setWeightValue('');
+    }
+    const closeAircraftName = () => {
+        props.clearTextComponentName(aircraftSwitchId);
+        setAircraftName("none");
+        setAircraftEnabled(false);
+        //setAircraftSwitchId('');
+        setAircraftTextStatus(true)
+        setAircraftValue('');
+    }
+    const closeAircraftClassificationName = () => {
+        props.clearTextComponentName(aircraftClassificationSwitchId);
+        setAircraftClassificationName("none");
+        setAircraftClassificationEnabled(false);
+        //setAircraftClassificationSwitchId('');
+        setAircraftClassificationTextStatus(true);
+        setAircraftClassificationValue('')
+    }
+    const closeFlightTypeName = () => {
+        props.clearTextComponentName(flightTypeSwitchId);
+        setFlightTypeName("none")
+        setFlightTypeEnabled(false);
+        //setFlightTypeSwitchId('');
+        setFlightTypeTextStatus(true)
+        setFlightTypeValue('');
+    }
+    const closeFlightStatusName = () => {
+        props.clearTextComponentName(flightStatusSwitchId);
+        setFlightStatusName("none");
+        setFlightStatusEnabled(false);
+        //setFlightStatusSwitchId('');
+        setFlightStatusTextStatus(true)
+        setFlightStatusValue('');
+    }
+    const closeSegmentStatusName = () => {
+        props.clearTextComponentName(segmentStatusSwitchId);
+        setSegmentStatusName("none");
+        setSegmentStatusEnabled(false);
+        //setSegmentStatusSwitchId('');
+        setSegmentStatusTextStatus(true);
+        setSegmentStatusValue('');
+    }
+    const closeMilestoneStatusName = () => {
+        props.clearTextComponentName(milestoneStatusSwitchId);
+        setMilestoneStatusName("none");
+        setMilestoneStatusEnabled(false);
+        //setMilestoneStatusSwitchId('');
+        setMilestoneStatusTextStatus(true);
+        setMilestoneStatusValue('');
+    }
+    if (name !== undefined || applyFilterArray.length > 0) {
+        return (
+            <div>
+                <div style={{ display: bookingProfileName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{bookingProfileSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    label=""
+                                    id={bookingProfileSwitchId}
+                                    checked={bookingProfileEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e);
+                                        props.textComponentSetEnabled(bookingProfileSwitchId, e.target.checked);
+                                    }}
+                                >
+                                </Form.Check>
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={(e) => {
+                                        closeBookingProfileName();
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                label=""
-                                id={bookingProfileSwitchId}
-                                checked={bookingProfileEnabled}
+                        <div className="displayFlex">
+                            <input
+                                id="bookingProfile"
+                                disabled={bookingProfileTextStatus}
+                                type="text"
+                                className="form-control"
+                                value={bookingProfileValue}
                                 onChange={(e) => {
-                                    enableSwitchChange(e);
-                                    props.textComponentSetEnabled(bookingProfileSwitchId, e.target.checked);
+                                    handleBookingProfileValue(e.target.value)
+                                    props.textComponentSave(e.target.value, bookingProfileSwitchId)
                                 }}
-                            >
-                            </Form.Check>
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={(e) => {
-                                    closeBookingProfileName();
-                                }}
-                            />
+                            ></input>
                         </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            id="bookingProfile"
-                            disabled={bookingProfileTextStatus}
-                            type="text"
-                            className="form-control"
-                            value={bookingProfileValue}
-                            onChange={(e) => {
-                                handleBookingProfileValue(e.target.value)
-                                props.textComponentSave(e.target.value, bookingProfileSwitchId)
-                            }}
-                        ></input>
                     </div>
                 </div>
-            </div>
-            <div style={{ display: flightGroupName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{flightGroupSwitchId}</span>
+                <div style={{ display: flightGroupName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{flightGroupSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={flightGroupSwitchId}
+                                    label=""
+                                    checked={flightGroupEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(flightGroupSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeFlightGroupName();
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={flightGroupSwitchId}
-                                label=""
-                                checked={flightGroupEnabled}
+                        <div className="displayFlex">
+                            <input
+                                id="flightGroup"
+                                disabled={flightGroupTextStatus}
+                                type="text"
+                                className="form-control"
+                                value={flightGroupValue}
                                 onChange={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(flightGroupSwitchId, e.target.checked)
+                                    handleFlightGroupValue(e.target.value)
+                                    props.textComponentSave(e.target.value, flightGroupSwitchId)
                                 }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeFlightGroupName();
-                                }}
-                            />
+                            ></input>
                         </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            id="flightGroup"
-                            disabled={flightGroupTextStatus}
-                            type="text"
-                            className="form-control"
-                            value={flightGroupValue}
-                            onChange={(e) => {
-                                handleFlightGroupValue(e.target.value)
-                                props.textComponentSave(e.target.value, flightGroupSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div></div>
-            <div style={{ display: flightNoName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{flightNoSwitchId}</span>
+                    </div></div>
+                <div style={{ display: flightNoName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{flightNoSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={flightNoSwitchId}
+                                    label=""
+                                    checked={flightNoEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(flightNoSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeFlightNoName();
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={flightNoSwitchId}
-                                label=""
-                                checked={flightNoEnabled}
+                        <div className="displayFlex">
+                            <input
+                                disabled={flightNoTextStatus}
+                                type="text"
+                                id="flightNo"
+                                value={flightNoValue}
+                                className="form-control"
                                 onChange={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(flightNoSwitchId, e.target.checked)
+                                    handleFlightNoValue(e.target.value)
+                                    props.textComponentSave(e.target.value, flightNoSwitchId)
                                 }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeFlightNoName();
-                                }}
-                            />
+                            ></input>
                         </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={flightNoTextStatus}
-                            type="text"
-                            id="flightNo"
-                            value={flightNoValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleFlightNoValue(e.target.value)
-                                props.textComponentSave(e.target.value, flightNoSwitchId)
-                            }}
-                        ></input>
                     </div>
                 </div>
-            </div>
-            <div style={{ display: yieldName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{yieldSwitchId}</span>
+                <div style={{ display: yieldName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{yieldSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={yieldSwitchId}
+                                    label=""
+                                    checked={yieldEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(yieldSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeYieldName();
+                                    }}
+                                />
+                            </div>
                         </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={yieldSwitchId}
-                                label=""
-                                checked={yieldEnabled}
+                        <div className="displayFlex">
+                            <input
+                                disabled={yieldTextStatus}
+                                type="text"
+                                id="yield"
+                                className="form-control"
+                                value={yieldValue}
                                 onChange={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(yieldSwitchId, e.target.checked)
+                                    handleYieldValue(e.target.value)
+                                    props.textComponentSave(e.target.value, yieldSwitchId)
                                 }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeYieldName();
-                                }}
-                            />
+                            ></input>
                         </div>
                     </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={yieldTextStatus}
-                            type="text"
-                            id="yield"
-                            className="form-control"
-                            value={yieldValue}
-                            onChange={(e) => {
-                                handleYieldValue(e.target.value)
-                                props.textComponentSave(e.target.value, yieldSwitchId)
-                            }}
-                        ></input>
+                </div>
+                <div style={{ display: serviceRecoveryName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{serviceRecoverySwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={serviceRecoverySwitchId}
+                                    label=""
+                                    checked={serviceRecoveryEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(serviceRecoverySwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeServiceRecoveryName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={serviceRecoveryTextStatus}
+                                type="text"
+                                id="serviceRecovery"
+                                className="form-control"
+                                value={serviceRecoveryValue}
+                                onChange={(e) => {
+                                    handleServiceRecoveryValue(e.target.value)
+                                    props.textComponentSave(e.target.value, serviceRecoverySwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: queuedBookingsName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{queuedBookingsSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={queuedBookingsSwitchId}
+                                    label=""
+                                    checked={queuedBookingsEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(queuedBookingsSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeQueuedBookingsName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={queuedBookingsTextStatus}
+                                type="text"
+                                id="queuedBookings"
+                                className="form-control"
+                                value={queuedBookingsValue}
+                                onChange={(e) => {
+                                    handleQueuedBookingsValue(e.target.value)
+                                    props.textComponentSave(e.target.value, queuedBookingsSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: weightName }}>
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{weightSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={weightSwitchId}
+                                    label=""
+                                    checked={weightEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(weightSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeWeightName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={weightTextStatus}
+                                type="text"
+                                id="weight"
+                                className="form-control"
+                                value={weightValue}
+                                onChange={(e) => {
+                                    handleWeightValue(e.target.value)
+                                    props.textComponentSave(e.target.value, weightSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: volumeName }}>
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{volumeSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={volumeSwitchId}
+                                    label=""
+                                    checked={volumeEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(volumeSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeVolumeName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={volumeTextStatus}
+                                type="text"
+                                id="volume"
+                                value={volumeValue}
+                                className="form-control"
+                                onChange={(e) => {
+                                    handleVolumeValue(e.target.value);
+                                    props.textComponentSave(e.target.value, volumeSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: aircraftName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{aircraftSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={aircraftSwitchId}
+                                    label=""
+                                    checked={aircraftEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(aircraftSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeAircraftName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={aircraftTextStatus}
+                                type="text"
+                                id="aircraft"
+                                value={aircraftValue}
+                                className="form-control"
+                                onChange={(e) => {
+                                    handleAircraftValue(e.target.value);
+                                    props.textComponentSave(e.target.value, aircraftSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: aircraftClassificationName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{aircraftClassificationSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={aircraftClassificationSwitchId}
+                                    label=""
+                                    checked={aircraftClassificationEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(aircraftClassificationSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeAircraftClassificationName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={aircraftClassificationTextStatus}
+                                type="text"
+                                id="aircraftClassification"
+                                value={aircraftClassificationValue}
+                                className="form-control"
+                                onChange={(e) => {
+                                    handleAircraftClassificationValue(e.target.value);
+                                    props.textComponentSave(e.target.value, aircraftClassificationSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: flightTypeName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{flightTypeSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={flightTypeSwitchId}
+                                    label=""
+                                    checked={flightTypeEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(flightTypeSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeFlightTypeName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={flightTypeTextStatus}
+                                type="text"
+                                id="flightType"
+                                value={flightTypeValue}
+                                className="form-control"
+                                onChange={(e) => {
+                                    handleFlightTypeValue(e.target.value);
+                                    props.textComponentSave(e.target.value, flightTypeSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: flightStatusName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{flightStatusSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={flightStatusSwitchId}
+                                    label=""
+                                    checked={flightStatusEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(flightStatusSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeFlightStatusName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={flightStatusTextStatus}
+                                type="text"
+                                id="flightStatus"
+                                value={flightStatusValue}
+                                className="form-control"
+                                onChange={(e) => {
+                                    handleFlightStatusValue(e.target.value);
+                                    props.textComponentSave(e.target.value, flightStatusSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: segmentStatusName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{segmentStatusSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={segmentStatusSwitchId}
+                                    label=""
+                                    checked={segmentStatusEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(segmentStatusSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeSegmentStatusName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={segmentStatusTextStatus}
+                                type="text"
+                                id="segmentStatus"
+                                value={segmentStatusValue}
+                                className="form-control"
+                                onChange={(e) => {
+                                    handleSegmentStatusValue(e.target.value);
+                                    props.textComponentSave(e.target.value, segmentStatusSwitchId)
+                                }}
+                            ></input>
+                        </div>
+                    </div>
+                </div>
+                <div style={{ display: milestoneStatusName }} >
+                    <div className="filter__input">
+                        <div className="filter__input-title">
+                            <div className="filter__label">
+                                <span>{milestoneStatusSwitchId}</span>
+                            </div>
+                            <div className="filter__control">
+                                <Form.Check
+                                    type="switch"
+                                    id={milestoneStatusSwitchId}
+                                    label=""
+                                    checked={milestoneStatusEnabled}
+                                    onChange={(e) => {
+                                        enableSwitchChange(e)
+                                        props.textComponentSetEnabled(milestoneStatusSwitchId, e.target.checked)
+                                    }}
+                                />
+                                <FontAwesomeIcon
+                                    icon={faTimes}
+                                    type="button"
+                                    onClick={() => {
+                                        closeMilestoneStatusName();
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="displayFlex">
+                            <input
+                                disabled={milestoneStatusTextStatus}
+                                type="text"
+                                id="milestoneStatus"
+                                value={milestoneStatusValue}
+                                className="form-control"
+                                onChange={(e) => {
+                                    handleMilestoneStatusValue(e.target.value);
+                                    props.textComponentSave(e.target.value, milestoneStatusSwitchId)
+                                }}
+                            ></input>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div style={{ display: serviceRecoveryName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{serviceRecoverySwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={serviceRecoverySwitchId}
-                                label=""
-                                checked={serviceRecoveryEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(serviceRecoverySwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeServiceRecoveryName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={serviceRecoveryTextStatus}
-                            type="text"
-                            id="serviceRecovery"
-                            className="form-control"
-                            value={serviceRecoveryValue}
-                            onChange={(e) => {
-                                handleServiceRecoveryValue(e.target.value)
-                                props.textComponentSave(e.target.value, serviceRecoverySwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: queuedBookingsName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{queuedBookingsSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={queuedBookingsSwitchId}
-                                label=""
-                                checked={queuedBookingsEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(queuedBookingsSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeQueuedBookingsName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={queuedBookingsTextStatus}
-                            type="text"
-                            id="queuedBookings"
-                            className="form-control"
-                            value={queuedBookingsValue}
-                            onChange={(e) => {
-                                handleQueuedBookingsValue(e.target.value)
-                                props.textComponentSave(e.target.value, queuedBookingsSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: weightName }}>
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{weightSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={weightSwitchId}
-                                label=""
-                                checked={weightEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(weightSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeWeightName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={weightTextStatus}
-                            type="text"
-                            id="weight"
-                            className="form-control"
-                            value={weightValue}
-                            onChange={(e) => {
-                                handleWeightValue(e.target.value)
-                                props.textComponentSave(e.target.value, weightSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: volumeName }}>
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{volumeSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={volumeSwitchId}
-                                label=""
-                                checked={volumeEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(volumeSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeVolumeName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={volumeTextStatus}
-                            type="text"
-                            id="volume"
-                            value={volumeValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleVolumeValue(e.target.value);
-                                props.textComponentSave(e.target.value, volumeSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: aircraftName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{aircraftSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={aircraftSwitchId}
-                                label=""
-                                checked={aircraftEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(aircraftSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeAircraftName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={aircraftTextStatus}
-                            type="text"
-                            id="aircraft"
-                            value={aircraftValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleAircraftValue(e.target.value);
-                                props.textComponentSave(e.target.value, aircraftSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: aircraftClassificationName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{aircraftClassificationSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={aircraftClassificationSwitchId}
-                                label=""
-                                checked={aircraftClassificationEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(aircraftClassificationSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeAircraftClassificationName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={aircraftClassificationTextStatus}
-                            type="text"
-                            id="aircraftClassification"
-                            value={aircraftClassificationValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleAircraftClassificationValue(e.target.value);
-                                props.textComponentSave(e.target.value, aircraftClassificationSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: flightTypeName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{flightTypeSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={flightTypeSwitchId}
-                                label=""
-                                checked={flightTypeEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(flightTypeSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeFlightTypeName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={flightTypeTextStatus}
-                            type="text"
-                            id="flightType"
-                            value={flightTypeValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleFlightTypeValue(e.target.value);
-                                props.textComponentSave(e.target.value, flightTypeSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: flightStatusName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{flightStatusSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={flightStatusSwitchId}
-                                label=""
-                                checked={flightStatusEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(flightStatusSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeFlightStatusName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={flightStatusTextStatus}
-                            type="text"
-                            id="flightStatus"
-                            value={flightStatusValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleFlightStatusValue(e.target.value);
-                                props.textComponentSave(e.target.value, flightStatusSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: segmentStatusName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{segmentStatusSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={segmentStatusSwitchId}
-                                label=""
-                                checked={segmentStatusEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(segmentStatusSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeSegmentStatusName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={segmentStatusTextStatus}
-                            type="text"
-                            id="segmentStatus"
-                            value={segmentStatusValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleSegmentStatusValue(e.target.value);
-                                props.textComponentSave(e.target.value, segmentStatusSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-            <div style={{ display: milestoneStatusName }} >
-                <div className="filter__input">
-                    <div className="filter__input-title">
-                        <div className="filter__label">
-                            <span>{milestoneStatusSwitchId}</span>
-                        </div>
-                        <div className="filter__control">
-                            <Form.Check
-                                type="switch"
-                                id={milestoneStatusSwitchId}
-                                label=""
-                                checked={milestoneStatusEnabled}
-                                onClick={(e) => {
-                                    enableSwitchChange(e)
-                                    props.textComponentSetEnabled(milestoneStatusSwitchId, e.target.checked)
-                                }}
-                            />
-                            <FontAwesomeIcon
-                                icon={faTimes}
-                                type="button"
-                                onClick={() => {
-                                    closeMilestoneStatusName();
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="displayFlex">
-                        <input
-                            disabled={milestoneStatusTextStatus}
-                            type="text"
-                            id="milestoneStatus"
-                            value={milestoneStatusValue}
-                            className="form-control"
-                            onChange={(e) => {
-                                handleMilestoneStatusValue(e.target.value);
-                                props.textComponentSave(e.target.value, milestoneStatusSwitchId)
-                            }}
-                        ></input>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-else {
-    return <div></div>
-}
+        );
+    }
+    else {
+        return <div></div>
+    }
 
 }

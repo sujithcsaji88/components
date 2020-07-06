@@ -36,7 +36,7 @@ export default function AirportGroup(props) {
       setLabelType("Airport Group");
       setEnabled(true);
     }
-  }, [props.airportGroupToDisplay]);
+  }, [props.airportGroupToDisplay,props.name]);
 
   const closeAirportGroup = () => {
     props.closeAirport(labelName,labelType);

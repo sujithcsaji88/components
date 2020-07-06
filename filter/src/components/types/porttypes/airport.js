@@ -31,7 +31,7 @@ export default function Airport(props) {
     , [props]);
 
   useEffect(() => {
-    if (props.airportToDisplay !=='') {
+    if (props.airportToDisplay !== '') {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
@@ -45,7 +45,7 @@ export default function Airport(props) {
     setTextStatus(!e.target.checked);
   };
   const closeAirport = () => {
-    props.closeAirport(labelName,labelType);
+    props.closeAirport(labelName, labelType);
     setLabelName("");
     setLabelType("");
 

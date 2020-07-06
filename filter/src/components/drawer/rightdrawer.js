@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Button } from "react-bootstrap";
 import ArrivalPort from "../types/arrivalport";
 import DeparturePort from "../types/departureport";
-import Date from "../types/dateComponent";
+import DateComponent from "../types/dateComponent";
 import Revenue from "../types/conditionalComponent";
 import TextComponent from "../types/textComponent";
 import {
@@ -141,8 +141,8 @@ const RightDrawer = forwardRef((props, ref) => {
     // props.setIsResetFalse();
   }
 
-  const textComponentSetEnabled = (name,enabled) => {
-    console.log(name,enabled)
+  const textComponentSetEnabled = (name, enabled) => {
+    console.log(name, enabled)
     if (name === BOOKING_PROFILE) {
       setBookingProfileEnabled(enabled);
     }
@@ -153,7 +153,7 @@ const RightDrawer = forwardRef((props, ref) => {
     }
     else if (name === FLIGHT_NO) {
       setFlightNoEnabled(enabled);
- 
+
 
     }
     else if (name === YEILD) {
@@ -168,7 +168,7 @@ const RightDrawer = forwardRef((props, ref) => {
     }
     else if (name === WEIGHT) {
       setWeightEnabled(enabled);
- 
+
 
     }
     else if (name === VOLUME) {
@@ -635,7 +635,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (flightNoValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = flightNoName;
@@ -649,7 +649,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (yieldValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = yieldName;
@@ -663,7 +663,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (serviceRecoveryValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = serviceRecoveryName;
@@ -677,7 +677,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (queuedBookingsValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = queuedBookingsName;
@@ -691,7 +691,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (weightValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = weightName;
@@ -705,7 +705,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (volumeValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = volumeName;
@@ -719,7 +719,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (aircraftValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = aircraftName;
@@ -733,7 +733,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (aircraftClassificationValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = aircraftClassificationName;
@@ -747,7 +747,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (flightTypeValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = flightTypeName;
@@ -761,7 +761,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (flightStatusValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = flightStatusName;
@@ -775,7 +775,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (segmentStatusValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = segmentStatusName;
@@ -789,7 +789,7 @@ const RightDrawer = forwardRef((props, ref) => {
       filter.push(obj);
     }
     obj = {};
-    
+
     if (milestoneStatusValue !== undefined) {
       if (className !== "applyFilter") {
         obj["column"] = milestoneStatusName;
@@ -903,7 +903,7 @@ const RightDrawer = forwardRef((props, ref) => {
           filterInfoToShow={props.filterInfoToShow}
           clearArrivalPort={props.clearArrivalPort}
         />
-        <Date
+        <DateComponent
           isReset={props.isReset}
           name={props.name}
           field={props.field}
