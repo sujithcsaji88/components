@@ -15,38 +15,40 @@ export default function Airport(props) {
   const [switchId, setSwitchId] = useState();
   //purpose is to allow Edit of existing filters
   const [allowEdit, setAllowEdit] = useState(true);
+  useEffect(
+    () => {
+      if (props.name === DEPARTURE_PORT) {
+        setLabelName(DEPARTURE_PORT)
+        setSwitchId("departureAirport");
+      } else if (props.name === ARRIVAL_PORT) {
+        setLabelName(ARRIVAL_PORT)
+        setSwitchId("arrivalAirport");
+      }
+      if (props.type === "Airport") {
+        setLabelType("Airport");
+      }
+    }
+    , [props]);
 
   useEffect(() => {
-    if (props.name === DEPARTURE_PORT) {
-      setLabelName(props.name);
-      setSwitchId("departureAirport");
-    } else if (props.name === ARRIVAL_PORT) {
-      setLabelName(props.name);
-      setSwitchId("arrivalAirport");
-    }
-    if (props.type === "Airport") {
-      setLabelName(props.name);
-      setLabelType(props.type);
-      setEnabled(props.enabled)
-    } if (props.airportToDisplay !== "" && props.type === "Airport" ) {
+    if (props.airportToDisplay !== '') {
       setLabelName(
         props.name === "Departure Port" ? "Departure Port" : "Arrival Port"
       );
       setLabelType("Airport");
+      setEnabled(true);
     }
-  }, [props]);
+  }, [props.airportToDisplay]);
 
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
-    if (!enabled) {
-      setTextStatus(false);
-    } else {
-      setTextStatus(true);
-    }
+    setTextStatus(!e.target.checked);
   };
   const closeAirport = () => {
+    props.closeAirport(labelName, labelType);
     setLabelName("");
     setLabelType("");
+
   };
   if (labelType === "Airport") {
     return (
@@ -77,7 +79,7 @@ export default function Airport(props) {
               type="button"
               onClick={() => {
                 closeAirport();
-                props.clearValues({name:props.name, type:"Airport"});
+                props.clearValues({ name: props.name, type: "Airport" });
               }}
             />
           </div>
@@ -91,7 +93,7 @@ export default function Airport(props) {
               setAllowEdit(false);
               props.valueToSave(e.target.value, labelName, labelType, enabled);
             }}
-            defaultValue={
+            value={
               allowEdit && props.airportToDisplay !== ""
                 ? props.airportToDisplay
                 : null
@@ -100,9 +102,10 @@ export default function Airport(props) {
         </div>
       </div>
     );
-  } else if (props.isReset === true) {
+  }
+  else if (props.isReset === true) {
     return <div></div>;
-  } 
+  }
   else {
     return <div></div>;
   }
