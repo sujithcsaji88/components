@@ -5,7 +5,6 @@ import { Toolbar, Data, Filters, Editors } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../../utilities/utils";
 import { FormControl } from "react-bootstrap";
-import CargoData from "../../stubs/CargoData.json"
 
 
 import {
@@ -35,27 +34,31 @@ const defaultColumnProperties = {
   width: 120,
 };
 const { DropDownEditor } = Editors;
+// The DatePicker componenent to be used for editor functionality
 class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       value: '',
     };
-    this._input = null;
+    //the variable to store component reference
+    this.input = null;
 
     this.getInputNode = this.getInputNode.bind(this);
     this.getValue = this.getValue.bind(this);
-
     this.onValueChanged = this.onValueChanged.bind(this);
   }
 
+  //returning the component with the reference, input
   getInputNode() {
-    return this._input;
+    return this.input;
   }
 
   getValue() {
+    // date format library instance creation
     let dateFormat = require('dateformat');
     var updated = {};
+    //returning updated object with the date value in the required format
     updated[this.props.column.key] = dateFormat(this.state.value, "dd-mmm-yyyy");
     return updated;
   }
@@ -65,11 +68,13 @@ class DatePicker extends React.Component {
   }
 
   render() {
-    return (<div>
-      <FormControl type="date" ref={(ref) => { this._input = ref; }} value={this.state.value} onChange={this.onValueChanged} />
-    </div>);
+    return (
+      <div>
+        <FormControl type="date" ref={(ref) => { this.input = ref; }} value={this.state.value} onChange={this.onValueChanged} />
+      </div>);
   }
 }
+// The values required to be visible in the dropdown editor
 const segmentToAndFrom = [
   { id: "AAA", value: "AAA" },
   { id: "AAB", value: "AAB" },
