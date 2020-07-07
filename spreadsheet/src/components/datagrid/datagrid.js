@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import ReactDOM from "react-dom";
 import ReactDataGrid from "react-data-grid";
-import { Toolbar, Data, Filters } from "react-data-grid-addons";
+import { Toolbar, Data, Filters, Editors } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../../utilities/utils";
 import { FormControl } from "react-bootstrap";
+import CargoData from "../../stubs/CargoData.json"
+
+
 import {
   faFilter,
   faSortAmountDown,
@@ -30,7 +34,100 @@ const defaultColumnProperties = {
   filterable: true,
   width: 120,
 };
+const { DropDownEditor } = Editors;
+class DatePicker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
+    this._input = null;
 
+    this.getInputNode = this.getInputNode.bind(this);
+    this.getValue = this.getValue.bind(this);
+
+    this.onValueChanged = this.onValueChanged.bind(this);
+  }
+
+  getInputNode() {
+    return this._input;
+  }
+
+  getValue() {
+    let dateFormat = require('dateformat');
+    var updated = {};
+    updated[this.props.column.key] = dateFormat(this.state.value, "dd-mmm-yyyy");
+    return updated;
+  }
+
+  onValueChanged(ev) {
+    this.setState({ value: ev.target.value });
+  }
+
+  render() {
+    return (<div>
+      <FormControl type="date" ref={(ref) => { this._input = ref; }} value={this.state.value} onChange={this.onValueChanged} />
+    </div>);
+  }
+}
+const segmentToAndFrom = [
+  { id: "AAA", value: "AAA" },
+  { id: "AAB", value: "AAB" },
+  { id: "AAC", value: "AAC" },
+  { id: "ABA", value: "ABA" },
+  { id: "ABB", value: "ABB" },
+  { id: "ABC", value: "ABC" },
+  { id: "ACA", value: "ACA" },
+  { id: "ACB", value: "ACB" },
+  { id: "ACC", value: "ACC" },
+  { id: "BAA", value: "BAA" },
+  { id: "BAB", value: "BAB" },
+  { id: "BAC", value: "BAC" },
+  { id: "BBA", value: "BBA" },
+  { id: "BBB", value: "BBB" },
+  { id: "BBC", value: "BBC" },
+  { id: "BCA", value: "BCA" },
+  { id: "BCB", value: "BCB" },
+  { id: "BCC", value: "BCC" },
+  { id: "CAA", value: "CAA" },
+  { id: "CAB", value: "CAB" },
+  { id: "CAC", value: "CAC" },
+  { id: "CBA", value: "CBA" },
+  { id: "CBB", value: "CBB" },
+  { id: "CBC", value: "CBC" },
+  { id: "CCA", value: "CCA" },
+  { id: "CCB", value: "CCB" },
+  { id: "CCC", value: "CCC" },
+  { id: "XXX", value: "XXX" },
+  { id: "XXY", value: "XXY" },
+  { id: "XXZ", value: "XXZ" },
+  { id: "XYX", value: "XYX" },
+  { id: "XYY", value: "XYY" },
+  { id: "XYZ", value: "XYZ" },
+  { id: "XZX", value: "XZX" },
+  { id: "XZY", value: "XZY" },
+  { id: "XZZ", value: "XZZ" },
+  { id: "YXX", value: "YXX" },
+  { id: "YXY", value: "YXY" },
+  { id: "YXZ", value: "YXZ" },
+  { id: "YYX", value: "YYX" },
+  { id: "YYY", value: "YYY" },
+  { id: "YYZ", value: "YYZ" },
+  { id: "YZX", value: "YZX" },
+  { id: "YZY", value: "YZY" },
+  { id: "YZZ", value: "YZZ" },
+  { id: "ZXX", value: "ZXX" },
+  { id: "ZXY", value: "ZXY" },
+  { id: "ZXZ", value: "ZXZ" },
+  { id: "ZYX", value: "ZYX" },
+  { id: "ZYY", value: "ZYY" },
+  { id: "ZYZ", value: "ZYZ" },
+  { id: "ZZX", value: "ZZX" },
+  { id: "ZZY", value: "ZZY" },
+  { id: "ZZZ", value: "ZZZ" }
+]
+
+const SegmentToAndFrom = <DropDownEditor options={segmentToAndFrom} />;
 const defaultParsePaste = (str) =>
   str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
 
@@ -65,6 +162,7 @@ class Grid extends Component {
           editable: true,
           filterRenderer: SingleSelectFilter,
           draggable: true,
+          editor: DatePicker
         },
         {
           key: "segmentfrom",
@@ -72,6 +170,7 @@ class Grid extends Component {
           editable: true,
           filterRenderer: AutoCompleteFilter,
           draggable: true,
+          editor: SegmentToAndFrom
         },
         {
           key: "revenue",
@@ -93,6 +192,7 @@ class Grid extends Component {
           editable: true,
           filterRenderer: AutoCompleteFilter,
           draggable: true,
+          editor: SegmentToAndFrom
         },
         {
           key: "flightModel",
@@ -325,7 +425,7 @@ class Grid extends Component {
     const ws = XLSX.utils.json_to_sheet(this.state.rows);
     const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'csv', type: 'array' });
-    const data = new Blob([excelBuffer], {type: fileType});
+    const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, fileName + fileExtension);
   }
 
@@ -336,7 +436,7 @@ class Grid extends Component {
     const ws = XLSX.utils.json_to_sheet(this.state.rows);
     const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], {type: fileType});
+    const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, fileName + fileExtension);
   }
 
@@ -592,9 +692,9 @@ class Grid extends Component {
           {/* <CSVLink data={this.state.rows} >
             <FontAwesomeIcon className="filterIcons" icon={faFileExcel} />
           </CSVLink> */}
-          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadCSVFile}/>
-          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadXLSFile}/>
-          </div>
+          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadCSVFile} />
+          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadXLSFile} />
+        </div>
         <ErrorMessage className="errorDiv" status={this.props.status} />
         <DraggableContainer
           className="gridDiv"
