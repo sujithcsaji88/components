@@ -202,7 +202,7 @@ class Grid extends Component {
         {
           key: "flightModel",
           name: "Flight Model",
-          editable: true,
+          editable: false,
           filterRenderer: AutoCompleteFilter,
           draggable: true,
         },
