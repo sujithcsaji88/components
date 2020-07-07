@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "../common/ErrorMessage";
+import ColumnReordering from "../column/column-reorder/column-reorder";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -51,6 +52,7 @@ class Grid extends Component {
       topLeft: {},
       status: "",
       textValue: "",
+      columnReorderingComponent: null,
       columns: [
         {
           key: "flightno",
@@ -564,6 +566,29 @@ class Grid extends Component {
       status: "",
     });
   }
+
+  columnReorderingPannel = () => {
+    var headerNameList = [];
+    this.state.columns.map((item) =>
+      headerNameList.push(item.name)
+    );
+    console.log("columnReorderingPannel Open ");
+    this.setState({
+      columnReorderingComponent: 
+        <ColumnReordering
+          headerKeys={headerNameList}
+          closeColumnReOrdering={this.closeColumnReOrdering}
+        />
+    });
+  };
+
+  closeColumnReOrdering = () => {
+    console.log("columnReorderingPannel Closed ");
+    this.setState({
+      columnReorderingComponent: null,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -583,7 +608,12 @@ class Grid extends Component {
             </span>
           </div>
           <FontAwesomeIcon className="filterIcons" icon={faFilter} />
-          <FontAwesomeIcon className="filterIcons" icon={faSortAmountDown} />
+          <FontAwesomeIcon
+            className="filterIcons"
+            onClick={this.columnReorderingPannel}
+            icon={faSortAmountDown}
+          />
+          {this.state.columnReorderingComponent}
           <FontAwesomeIcon
             className="filterIcons"
             icon={faFilePdf}
