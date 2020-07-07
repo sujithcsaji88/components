@@ -113,7 +113,7 @@ export default function App() {
         />
         {/* <ColumnReordering /> */}
         {/* <ExportData/> */}
-        <Sorting/>
+        {/* <Sorting/> */}
       </div>
     );
   } else return <LoadingSpinner />;
