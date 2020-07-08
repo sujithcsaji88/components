@@ -4,6 +4,7 @@ import { Toolbar, Data, Filters, Editors } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../utilities/utils";
 import { FormControl } from "react-bootstrap";
+import DatePicker from "./functions/DatePicker.js";
 import {
   faSortAmountDown,
   faColumns,
@@ -24,56 +25,7 @@ const {
 } = require("react-data-grid-addons");
 
 const { DropDownEditor } = Editors;
-// The DatePicker componenent to be used for editor functionality
-class DatePicker extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: new Date(),
-    };
-    //the variable to store component reference
-    this.input = null;
 
-    this.getInputNode = this.getInputNode.bind(this);
-    this.getValue = this.getValue.bind(this);
-    this.onValueChanged = this.onValueChanged.bind(this);
-  }
-
-  //returning the component with the reference, input
-  getInputNode() {
-    return this.input;
-  }
-  //returning updated object with the date value in the required format
-  getValue() {
-    var updated = {};
-    let date;
-    date = new Date(this.state.value);
-    const dateTimeFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "2-digit" });
-    const [{ value: month }, , { value: day }, , { value: year }] = dateTimeFormat.formatToParts(date);
-    updated[this.props.column.key] = `${day}-${month}-${year}`;
-    return updated;
-
-  }
-
-  onValueChanged(ev) {
-    this.setState({ value: ev.target.value });
-  }
-
-  render() {
-    return (
-      <div>
-        <input
-          type="date"
-          ref={(ref) => {
-            this.input = ref;
-          }}
-          value={this.state.value}
-          onChange={this.onValueChanged}
-        />
-      </div>
-    );
-  }
-}
 
 const defaultParsePaste = (str) =>
   str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
@@ -87,6 +39,10 @@ const { AutoCompleteFilter } = Filters;
 class SpreadSheet extends Component {
   constructor(props) {
     super(props);
+    const airportCodes=[];
+    this.props.airportCodes.forEach((item)=>{
+    airportCodes.push({"id":item,"value":item})
+    })
     this.state = {
       searchValue: "",
       filter: {},
@@ -101,19 +57,17 @@ class SpreadSheet extends Component {
       filteringRows: this.props.rows,
       sortingPanelComponent: null,
       columns: this.props.columns.map((item) => {
-        if(item.editable){
         if (item.editor === "DatePicker") {
           item.editor = DatePicker;
         } else if (item.editor === "DropDown") {
-          item.editor = <DropDownEditor options={this.props.airportCodes} />;
+          item.editor = <DropDownEditor options={airportCodes} />;
         }
-        else{
+        else if(item.editor==="Text"){
           item.editor="text";
         }
-      }
-      else{
-        item.editor=null;
-      }
+        else{
+          item.editor=null;
+        }
         item.filterRenderer = AutoCompleteFilter;
         return item;
       }),
@@ -288,7 +242,7 @@ class SpreadSheet extends Component {
   };
 
   handleFilterChange = (value) => {
-    let filteredRows = {};
+    let filteredRows = null;
     let  junk = this.state.junk;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
       junk[value.column.key] = value;
@@ -299,7 +253,8 @@ class SpreadSheet extends Component {
       filteredRows = this.state.filteringRows;
     }
     this.setState({ junk });
-    const data = this.getrows(filteredRows, this.state.junk);
+    const data = this.getrows(this.state.filteringRows, this.state.junk);
+    debugger
     this.setState({
       rows: data,
     });
@@ -308,8 +263,9 @@ class SpreadSheet extends Component {
     if (Object.keys(filters).length <= 0) {
       filters = {};
     }
-    const data = selectors.getRows({ rows, filters });
-    return data;
+    const value=selectors.getRows({ rows:[], filters:filters });
+    return selectors.getRows({ rows:rows, filters:filters });
+    //return data;
   };
 
   getValidFilterValues(rows, columnId) {
