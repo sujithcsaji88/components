@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faAlignJustify } from "@fortawesome/free-solid-svg-icons";
-import "../column-reorder/column-reorder.scss";
 
 class ColumnReordering extends React.Component {
   constructor(props) {
