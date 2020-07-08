@@ -98,7 +98,7 @@ class ExportData extends React.Component {
 
     doc.setFontSize(15);
 
-    const title = "Multiline Grid Data Export To PDF";
+    const title = "iCargo Report";
     const headers = [
       this.state.columnEntityList.map((column) => {
         return column.name;
