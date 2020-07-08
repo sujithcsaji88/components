@@ -1,93 +1,113 @@
-/* sorting CSS begins @author Krishna */
+/* sorting CSS begins here... @author Krishna */
 .sorts--grid {
-    z-index: 9;
-    box-shadow: 0px 0px 30px rgba(32, 77, 111, 0.4);
-    position: fixed;
-    font-size: 14px;
-    color: #1f567e;
-    line-height: 32px;
-    top: 0px;
-    left: 0px;
-    transition: 0.5s;
-    background: #fff;
+  z-index: 9;
+  box-shadow: 0px 15px 30px rgba(32, 77, 111, 0.2);
+  position: absolute;
+  font-size: 14px;
+  color: #1f567e;
+  line-height: 32px;
+  top: 50px;
+  right: 50px;
+  transition: 0.5s;
+  background: #fff;
+  border: 1px solid #ddd;
 }
 .sorts--grid ::-webkit-scrollbar {
-    width: 6px;
+  width: 6px;
 }
 .sorts--grid ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 .sorts--grid ::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
+  background: #c1c1c1;
 }
 .sorts--grid ::-webkit-scrollbar-thumb:hover {
-    background: #ccc;
+  background: #ccc;
 }
 .sorts--grid .sort__grid {
-    display: flex;
+  display: flex;
 }
 .sorts--grid .sort__grid .sort__settings {
-    width: 667px;
+  width: 667px;
 }
 .sorts--grid .sort__grid .sort__settings .sort__header {
-    display: flex;
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
 }
 .sorts--grid .sort__grid .sort__settings .sort__header .sort__close {
-    margin-left: auto;
+  margin-left: auto;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body {
-    padding: 10px;
-    height: 250px;
-    overflow-y: scroll;
+  padding: 10px;
+  height: 250px;
+  overflow-y: scroll;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__bodyContent {
-    display: flex;
+  display: flex;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__new {
-    display: flex;
-    align-items: center;
-    margin-left: 60px;
+  margin-left: 60px;
+}
+.sorts--grid .sort__grid .sort__settings .sort__body .sort__new .sort__section {
+  font-size: 18px;
+  color: #98a3ac;
+  display: flex;
+  align-items: center;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__new .sort__txt {
-    font-size: 18px;
-    color: #98a3ac;
-    margin-right: 5px;
+  margin-left: 5px;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__reorder {
-    padding: 15px;
+  padding: 0px 15px 0px 15px;
 }
-.sorts--grid .sort__grid .sort__settings .sort__body .sort__reorder .sort__icon {
-    font-size: 18px;
-    color: #98a3ac;
+.sorts--grid
+  .sort__grid
+  .sort__settings
+  .sort__body
+  .sort__reorder
+  .sort__icon {
+  font-size: 18px;
+  color: #98a3ac;
 }
-.sorts--grid .sort__grid .sort__settings .sort__body .sort__reorder .sort__file .custom__ctrl {
-    width: 135px;
-    height: 35px;
-    border-radius: 5px;
+.sorts--grid
+  .sort__grid
+  .sort__settings
+  .sort__body
+  .sort__reorder
+  .sort__file
+  .custom__ctrl {
+  width: 135px;
+  height: 35px;
+  border-radius: 5px;
 }
-.sorts--grid .sort__grid .sort__settings .sort__body .sort__reorder .sort__file .temp {
-    font-size: 50px;
+.sorts--grid
+  .sort__grid
+  .sort__settings
+  .sort__body
+  .sort__reorder
+  .sort__file
+  .temp {
+  font-size: 50px;
 }
 .sorts--grid .sort__grid .sort__settings .sort__footer {
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
 }
 .sorts--grid .sort__grid .sort__settings .sort__footer .sort__btns {
-    margin-left: auto;
+  margin-left: auto;
 }
 .sorts--grid .sort__grid .sort__settings .sort__footer .sort__btns .btns {
-    border: 1px solid #0e4bda;
-    background: #fff;
-    border-radius: 5px;
-    width: 100px;
-    margin-left: 10px;
-    color: #0e4bda;
+  border: 1px solid #0e4bda;
+  background: #fff;
+  border-radius: 5px;
+  width: 100px;
+  margin-left: 10px;
+  color: #0e4bda;
 }
 .sorts--grid .sort__grid .sort__settings .sort__footer .sort__btns .btns__save {
-    color: #fff;
-    background: #034bda;
+  color: #fff;
+  background: #034bda;
 }
-/* sort to PDF/Excel CSS ends here... @author Krishna */
+/* Sorting CSS ends here... @author Krishna */
