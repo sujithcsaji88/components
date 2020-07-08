@@ -33,7 +33,7 @@ class DatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: "",
+      value: new Date(),
     };
     //the variable to store component reference
     this.input = null;
@@ -47,17 +47,16 @@ class DatePicker extends React.Component {
   getInputNode() {
     return this.input;
   }
-
+  //returning updated object with the date value in the required format
   getValue() {
-    // date format library instance creation
-    let dateFormat = require("dateformat");
     var updated = {};
-    //returning updated object with the date value in the required format
-    updated[this.props.column.key] = dateFormat(
-      this.state.value,
-      "dd-mmm-yyyy"
-    );
+    let date;
+    date = new Date(this.state.value);
+    const dateTimeFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "2-digit" });
+    const [{ value: month }, , { value: day }, , { value: year }] = dateTimeFormat.formatToParts(date);
+    updated[this.props.column.key] = `${day}-${month}-${year}`;
     return updated;
+
   }
 
   onValueChanged(ev) {
@@ -67,7 +66,7 @@ class DatePicker extends React.Component {
   render() {
     return (
       <div>
-        <FormControl
+        <input
           type="date"
           ref={(ref) => {
             this.input = ref;
@@ -93,6 +92,7 @@ class SpreadSheet extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchValue: "",
       filter: {},
       rows: this.props.rows,
       selectedIndexes: [],
@@ -101,13 +101,22 @@ class SpreadSheet extends Component {
       status: "",
       textValue: "",
       columnReorderingComponent: null,
+      filteringRows: this.props.rows,
       sortingPanelComponent: null,
       columns: this.props.columns.map((item) => {
+        if(item.editable){
         if (item.editor === "DatePicker") {
           item.editor = DatePicker;
         } else if (item.editor === "DropDown") {
           item.editor = <DropDownEditor options={this.props.airportCodes} />;
         }
+        else{
+          item.editor="text";
+        }
+      }
+      else{
+        item.editor=null;
+      }
         item.filterRenderer = AutoCompleteFilter;
         return item;
       }),
@@ -115,6 +124,9 @@ class SpreadSheet extends Component {
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
     this.handletextValue = this.handletextValue.bind(this);
+    this.handleSearchValue = this.handleSearchValue.bind(this);
+    this.clearSearchValue = this.clearSearchValue.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
 
     this.formulaAppliedCols = this.props.columns.filter((item) => {
       return item.formaulaApplicable;
@@ -311,8 +323,22 @@ class SpreadSheet extends Component {
             ...updated,
           };
         }
+
         return {
           rows,
+        };
+      });
+      this.setState((state) => {
+        const filteringRows = state.filteringRows.slice();
+        for (let i = fromRow; i <= toRow; i++) {
+          filteringRows[i] = {
+            ...filteringRows[i],
+            ...updated,
+          };
+        }
+
+        return {
+          filteringRows,
         };
       });
     }
@@ -320,6 +346,7 @@ class SpreadSheet extends Component {
     if (this.props.updateCellData) {
       //this.props.updateCellData(passRow);
     }
+
   };
 
   onRowsSelected = (rows) => {
@@ -340,34 +367,27 @@ class SpreadSheet extends Component {
   };
 
   handleFilterChange = (value) => {
-    newFilters = {
-      ...value,
-    };
-    let { junk } = this.state;
+    let filteredRows = {};
+    let  junk = this.state.junk;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
-      newFilters[value.column.key] = value;
       junk[value.column.key] = value;
-    } else if (value.filterTerm == null || value.filterTerm.length <= 0) {
-      delete newFilters[value.column.key];
+      filteredRows = this.state.rows;
+    } 
+      else{
       delete junk[value.column.key];
+      filteredRows = this.state.filteringRows;
     }
-    this.setState({
-      filter: newFilters,
-      junk,
-    });
-    const data = this.getrows(this.props.rows, junk);
+    this.setState({ junk });
+    const data = this.getrows(filteredRows, this.state.junk);
     this.setState({
       rows: data,
     });
   };
-  getrows = (rows, junk) => {
-    if (Object.keys(junk).length <= 0) {
-      junk = {};
+  getrows = (rows, filters) => {
+    if (Object.keys(filters).length <= 0) {
+      filters = {};
     }
-    const data = selectors.getRows({
-      rows: rows,
-      filters: junk,
-    });
+    const data = selectors.getRows({ rows, filters });
     return data;
   };
 
@@ -465,6 +485,12 @@ class SpreadSheet extends Component {
       columnReorderingComponent: null,
     });
   };
+  handleSearchValue = (value) => {
+    this.setState({ searchValue: value })
+  }
+  clearSearchValue = () => {
+    this.setState({ searchValue: "" })
+  }
 
   sortingPanel = () => {
     let columnField = [];
@@ -496,34 +522,37 @@ class SpreadSheet extends Component {
             <FormControl
               type="text"
               placeholder="Search a screen"
-              onChange={this.props.globalSearchLogic}
-              value={this.props.value}
+              onChange={(e) => {
+                this.handleSearchValue(e.target.value)
+                this.props.globalSearchLogic(e, this.state.filteringRows)
+              }}
+              value={this.state.searchValue}
             />
           </div>
-          <div className="filterIcons">
+          {/* <div className="filterIcons">
             <FontAwesomeIcon icon={faFilter} />
-          </div>
+          </div> */}
           <div className="filterIcons" onClick={this.sortingPanel}>
-            <FontAwesomeIcon icon={faSortAmountDown} />
-            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
+           <FontAwesomeIcon title="Group Sort" icon={faSortAmountDown} />
+            <FontAwesomeIcon  icon={faSortDown} className="filterArrow" />
           </div>
           {this.state.sortingPanelComponent}
           <div className="filterIcons" onClick={this.columnReorderingPannel}>
-            <FontAwesomeIcon icon={faColumns} />
+            <FontAwesomeIcon title="Column Chooser" icon={faColumns} />
             <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
           </div>
           {this.state.columnReorderingComponent}
+          {/* <div className="filterIcons">
+            <FontAwesomeIcon title="Reload" icon={faSyncAlt} />
+          </div> */}
           <div className="filterIcons">
-            <FontAwesomeIcon icon={faSyncAlt} />
+            <FontAwesomeIcon title="Export" icon={faShareAlt} onClick={this.exportPDF} />
           </div>
-          <div className="filterIcons">
-            <FontAwesomeIcon icon={faShareAlt} onClick={this.exportPDF} />
-          </div>
-          <div className="filterIcons">
+          {/* <div className="filterIcons">
             <FontAwesomeIcon icon={faAlignLeft} />
-          </div>
+          </div> */}
         </div>
-        <ErrorMessage className="errorDiv" status={this.props.status} />
+        <ErrorMessage className="errorDiv" status={this.props.status} closeWarningStatus={this.props.closeWarningStatus} clearSearchValue={this.clearSearchValue} />
         <DraggableContainer
           className="gridDiv"
           onHeaderDrop={this.onHeaderDrop}
@@ -531,7 +560,7 @@ class SpreadSheet extends Component {
           <ReactDataGrid
             toolbar={<Toolbar enableFilter={true} />}
             getValidFilterValues={(columnKey) =>
-              this.getValidFilterValues(this.props.rows, columnKey)
+              this.getValidFilterValues(this.state.filteringRows, columnKey)
             }
             minHeight={680}
             columns={this.state.columns}
@@ -539,13 +568,11 @@ class SpreadSheet extends Component {
             rowsCount={this.state.rows.length}
             onGridRowsUpdated={this.onGridRowsUpdated}
             enableCellSelect={true}
+            onClearFilters={() => { this.setState({ junk: {} }) }}
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)
             }
             toolbar={<Toolbar enableFilter={true} />}
-            getValidFilterValues={(columnKey) =>
-              this.getValidFilterValues(this.props.rows, columnKey)
-            }
             onAddFilter={(filter) => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,
@@ -557,7 +584,7 @@ class SpreadSheet extends Component {
               },
             }}
             onGridSort={(sortColumn, sortDirection) =>
-              this.sortRows(this.props.rows, sortColumn, sortDirection)
+              this.sortRows(this.state.rows, sortColumn, sortDirection)
             }
           />
         </DraggableContainer>

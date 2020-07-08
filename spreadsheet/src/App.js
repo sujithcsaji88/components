@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import SpreadSheet from "./components/SpreadSheet";
 import CargoData from "./data.json";
+import { Filters } from "react-data-grid-addons";
 import { fetchData } from "./getData";
 
 const App = () => {
@@ -426,11 +427,10 @@ const App = () => {
     { id: "ZZY", value: "ZZY" },
     { id: "ZZZ", value: "ZZZ" },
   ];
-
   //Add logic for doing global search in the spreadsheet
-  const globalSearchLogic = (e) => {
+  const globalSearchLogic = (e, updatedRows) => {
     searchKey = String(e.target.value).toLowerCase();
-    let filteredRows = rows.filter((item) => {
+    let filteredRows = updatedRows.filter((item) => {
       return (
         (item.flightno && item.flightno.toLowerCase().includes(searchKey)) ||
         (item.date && item.date.toLowerCase().includes(searchKey)) ||
@@ -489,7 +489,9 @@ const App = () => {
   const selectBulkData = (selectedRows) => {
     console.log(selectedRows);
   };
-
+  const closeWarningStatus = () => {
+    setStatus("")
+  }
   useEffect(() => {
     //Make API call to fetch initial set of data, uncomment below code to use API call
     // fetchData(0).then((data) => {
@@ -506,6 +508,7 @@ const App = () => {
           textValue={searchKey}
           globalSearchLogic={globalSearchLogic}
           status={status}
+          closeWarningStatus={closeWarningStatus}
           count={data.length}
           columns={columns}
           airportCodes={airportCodes}
