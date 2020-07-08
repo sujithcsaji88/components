@@ -93,12 +93,15 @@ class ColumnReordering extends React.Component {
                 <strong>Column Setting</strong>
               </div>
               <div className="column__close">
-                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  onClick={() => this.props.closeColumnReOrdering()}
+                ></FontAwesomeIcon>
               </div>
             </div>
             <div className="column__headerTxt">
               <strong>
-               &nbsp; &nbsp; Selected Column Count :{" "}
+                &nbsp; &nbsp; Selected Column Count :{" "}
                 {this.state.columnReorderEntityList.length}
               </strong>
             </div>

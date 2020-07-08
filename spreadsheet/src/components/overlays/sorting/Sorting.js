@@ -1,18 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimes,
-  faFilePdf,
-  faFileExcel,
-  faFileCsv,
   faAlignJustify,
   faSave,
   faTrash,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import "./sorting.scss";
 
-const sorting = (props) => {
+const AddedElement = (props) => {
+  return (
+    <div className="sort__bodyContent">
+      <div className="sort__reorder">
+        <div className="">
+          <div>&nbsp;</div>
+        </div>
+        <div className="sort__icon">
+          <FontAwesomeIcon icon={faAlignJustify}></FontAwesomeIcon>
+        </div>
+      </div>
+      <div className="sort__reorder">
+        <div className="">
+          <div>Sort by</div>
+        </div>
+        <div className="sort__file">
+          <select className="custom__ctrl">
+            {props.newColumnValue.map((item) => (
+              <option>{item}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+      <div className="sort__reorder">
+        <div className="">
+          <div>Sort on</div>
+        </div>
+        <div className="sort__file">
+          <select className="custom__ctrl">
+            <option>Value</option>
+          </select>
+        </div>
+      </div>
+      <div className="sort__reorder">
+        <div className="">
+          <div>Order</div>
+        </div>
+        <div className="sort__file">
+          <select className="custom__ctrl">
+            <option>Ascending</option>
+            <option>Descending</option>
+          </select>
+        </div>
+      </div>
+      <div className="sort__reorder">
+        <div className="">
+          <div>&nbsp;</div>
+        </div>
+        <div className="sort__icon">
+          <FontAwesomeIcon icon={faSave}></FontAwesomeIcon>
+        </div>
+      </div>
+      <div className="sort__reorder">
+        <div className="">
+          <div>&nbsp;</div>
+        </div>
+        <div className="sort__icon">
+          <FontAwesomeIcon
+            icon={faTrash}
+            onClick={deleteHandler}
+          ></FontAwesomeIcon>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const deleteHandler = (index) => {
+  console.log("deleted", index);
+};
+
+const Sorting = (props) => {
+  const [count, setCount] = useState(0);
+
   return (
     <div className="sorts--grid">
       <div className="sort__grid">
@@ -22,7 +91,10 @@ const sorting = (props) => {
               <strong>Sort </strong>
             </div>
             <div className="sort__close">
-              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+              <FontAwesomeIcon
+                icon={faTimes}
+                onClick={() => props.closeSorting()}
+              ></FontAwesomeIcon>
             </div>
           </div>
           <div className="sort__body">
@@ -41,8 +113,9 @@ const sorting = (props) => {
                 </div>
                 <div className="sort__file">
                   <select className="custom__ctrl">
-                    <option>AWB</option>
-                    <option>AWB</option>
+                    {props.columnFieldValue.map((item, index) => (
+                      <option key={index}>{item}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -53,7 +126,6 @@ const sorting = (props) => {
                 <div className="sort__file">
                   <select className="custom__ctrl">
                     <option>Value</option>
-                    <option>Value</option>
                   </select>
                 </div>
               </div>
@@ -63,8 +135,8 @@ const sorting = (props) => {
                 </div>
                 <div className="sort__file">
                   <select className="custom__ctrl">
-                    <option>Order</option>
-                    <option>Order</option>
+                    <option>Ascending</option>
+                    <option>Descending</option>
                   </select>
                 </div>
               </div>
@@ -81,15 +153,27 @@ const sorting = (props) => {
                   <div>&nbsp;</div>
                 </div>
                 <div className="sort__icon">
-                  <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    onClick={deleteHandler}
+                  ></FontAwesomeIcon>
                 </div>
               </div>
             </div>
+            {Array(count).fill(
+              <AddedElement newColumnValue={props.columnFieldValue} />
+            )}
             <div className="sort__new">
-              <div className="sort__txt">
-                <FontAwesomeIcon icon={faPlus} className="sort__icon"></FontAwesomeIcon>
+              <div
+                className="sort__section"
+                onClick={() => setCount(count + 1)}
+              >
+                <FontAwesomeIcon
+                  icon={faPlus}
+                  className="sort__icon"
+                ></FontAwesomeIcon>
+                <div className="sort__txt">New Sort</div>
               </div>
-              <div>New Sort</div>
             </div>
           </div>
           <div className="sort__footer">
@@ -104,4 +188,4 @@ const sorting = (props) => {
   );
 };
 
-export default sorting;
+export default Sorting;
