@@ -22,7 +22,6 @@ const App = () => {
     {
       key: "flightno",
       name: "Flight #",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -34,7 +33,6 @@ const App = () => {
     {
       key: "date",
       name: "Date",
-      editable: true,
       draggable: true,
       editor: "DatePicker",
       formaulaApplicable: false,
@@ -46,7 +44,6 @@ const App = () => {
     {
       key: "segmentfrom",
       name: "Segment From",
-      editable: true,
       draggable: true,
       editor: "DropDown",
       formaulaApplicable: false,
@@ -58,7 +55,6 @@ const App = () => {
     {
       key: "revenue",
       name: "Revenue",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: true,
@@ -70,7 +66,6 @@ const App = () => {
     {
       key: "yeild",
       name: "Yeild",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: true,
@@ -82,7 +77,6 @@ const App = () => {
     {
       key: "segmentto",
       name: "Segment To",
-      editable: true,
       draggable: true,
       editor: "DropDown",
       formaulaApplicable: false,
@@ -94,9 +88,7 @@ const App = () => {
     {
       key: "flightModel",
       name: "Flight Model",
-      editable: false,
       draggable: true,
-      editor: "Text",
       formaulaApplicable: false,
       sortable: true,
       resizable: true,
@@ -106,7 +98,6 @@ const App = () => {
     {
       key: "bodyType",
       name: "Body Type",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -118,7 +109,6 @@ const App = () => {
     {
       key: "type",
       name: "Type",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -130,7 +120,6 @@ const App = () => {
     {
       key: "startTime",
       name: "Start Time",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -142,7 +131,6 @@ const App = () => {
     {
       key: "endTime",
       name: "End Time",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -154,7 +142,6 @@ const App = () => {
     {
       key: "status",
       name: "Status",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -166,7 +153,6 @@ const App = () => {
     {
       key: "additionalStatus",
       name: "Additional Status",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -178,7 +164,6 @@ const App = () => {
     {
       key: "timeStatus",
       name: "Time Status",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -190,7 +175,6 @@ const App = () => {
     {
       key: "weightpercentage",
       name: "Weight Percentage",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -202,7 +186,6 @@ const App = () => {
     {
       key: "weightvalue",
       name: "Weight Value",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: true,
@@ -214,7 +197,6 @@ const App = () => {
     {
       key: "volumepercentage",
       name: "Volume Percentage",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: true,
@@ -226,7 +208,6 @@ const App = () => {
     {
       key: "volumevalue",
       name: "Volume Value",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -238,7 +219,6 @@ const App = () => {
     {
       key: "uldposition1",
       name: "uldposition1",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -250,7 +230,6 @@ const App = () => {
     {
       key: "uldvalue1",
       name: "uldvalue1",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -262,7 +241,6 @@ const App = () => {
     {
       key: "uldposition2",
       name: "uldposition2",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -274,7 +252,6 @@ const App = () => {
     {
       key: "uldvalue2",
       name: "uldvalue2",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -286,7 +263,6 @@ const App = () => {
     {
       key: "uldposition3",
       name: "uldposition3",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -298,7 +274,6 @@ const App = () => {
     {
       key: "uldvalue3",
       name: "uldvalue3",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -310,7 +285,6 @@ const App = () => {
     {
       key: "uldposition4",
       name: "uldposition4",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -322,7 +296,6 @@ const App = () => {
     {
       key: "uldvalue4",
       name: "uldvalue4",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -335,7 +308,6 @@ const App = () => {
     {
       key: "sr",
       name: "SR",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -347,7 +319,6 @@ const App = () => {
     {
       key: "queuedBookingSR",
       name: "Queued Booking SR",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -359,7 +330,6 @@ const App = () => {
     {
       key: "queuedBookingvolume",
       name: "Queued Booking Volume",
-      editable: true,
       draggable: true,
       editor: "Text",
       formaulaApplicable: false,
@@ -371,62 +341,62 @@ const App = () => {
   ];
 
   //Configure columns and its related functions
-  const airportCodes = [
-    { id: "AAA", value: "AAA" },
-    { id: "AAB", value: "AAB" },
-    { id: "AAC", value: "AAC" },
-    { id: "ABA", value: "ABA" },
-    { id: "ABB", value: "ABB" },
-    { id: "ABC", value: "ABC" },
-    { id: "ACA", value: "ACA" },
-    { id: "ACB", value: "ACB" },
-    { id: "ACC", value: "ACC" },
-    { id: "BAA", value: "BAA" },
-    { id: "BAB", value: "BAB" },
-    { id: "BAC", value: "BAC" },
-    { id: "BBA", value: "BBA" },
-    { id: "BBB", value: "BBB" },
-    { id: "BBC", value: "BBC" },
-    { id: "BCA", value: "BCA" },
-    { id: "BCB", value: "BCB" },
-    { id: "BCC", value: "BCC" },
-    { id: "CAA", value: "CAA" },
-    { id: "CAB", value: "CAB" },
-    { id: "CAC", value: "CAC" },
-    { id: "CBA", value: "CBA" },
-    { id: "CBB", value: "CBB" },
-    { id: "CBC", value: "CBC" },
-    { id: "CCA", value: "CCA" },
-    { id: "CCB", value: "CCB" },
-    { id: "CCC", value: "CCC" },
-    { id: "XXX", value: "XXX" },
-    { id: "XXY", value: "XXY" },
-    { id: "XXZ", value: "XXZ" },
-    { id: "XYX", value: "XYX" },
-    { id: "XYY", value: "XYY" },
-    { id: "XYZ", value: "XYZ" },
-    { id: "XZX", value: "XZX" },
-    { id: "XZY", value: "XZY" },
-    { id: "XZZ", value: "XZZ" },
-    { id: "YXX", value: "YXX" },
-    { id: "YXY", value: "YXY" },
-    { id: "YXZ", value: "YXZ" },
-    { id: "YYX", value: "YYX" },
-    { id: "YYY", value: "YYY" },
-    { id: "YYZ", value: "YYZ" },
-    { id: "YZX", value: "YZX" },
-    { id: "YZY", value: "YZY" },
-    { id: "YZZ", value: "YZZ" },
-    { id: "ZXX", value: "ZXX" },
-    { id: "ZXY", value: "ZXY" },
-    { id: "ZXZ", value: "ZXZ" },
-    { id: "ZYX", value: "ZYX" },
-    { id: "ZYY", value: "ZYY" },
-    { id: "ZYZ", value: "ZYZ" },
-    { id: "ZZX", value: "ZZX" },
-    { id: "ZZY", value: "ZZY" },
-    { id: "ZZZ", value: "ZZZ" },
-  ];
+  const airportCodeList =  [
+        "AAA",
+        "AAB",
+        "AAC",
+        "ABA",
+        "ABB",
+        "ABC",
+        "ACA",
+        "ACB",
+        "ACC",
+        "BAA",
+        "BAB",
+        "BAC",
+        "BBA",
+        "BBB",
+        "BBC",
+        "BCA",
+        "BCB",
+        "BCC",
+        "CAA",
+        "CAB",
+        "CAC",
+        "CBA",
+        "CBB",
+        "CBC",
+        "CCA",
+        "CCB",
+        "CCC",
+        "XXX",
+        "XXY",
+        "XXZ",
+        "XYX",
+        "XYY",
+        "XYZ",
+        "XZX",
+        "XZY",
+        "XZZ",
+        "YXX",
+        "YXY",
+        "YXZ",
+        "YYX",
+        "YYY",
+        "YYZ",
+        "YZX",
+        "YZY",
+        "YZZ",
+        "ZXX",
+        "ZXY",
+        "ZXZ",
+        "ZYX",
+        "ZYY",
+        "ZYZ",
+        "ZZX",
+        "ZZY",
+        "ZZZ"
+    ];
   //Add logic for doing global search in the spreadsheet
   const globalSearchLogic = (e, updatedRows) => {
     searchKey = String(e.target.value).toLowerCase();
@@ -511,7 +481,7 @@ const App = () => {
           closeWarningStatus={closeWarningStatus}
           count={data.length}
           columns={columns}
-          airportCodes={airportCodes}
+          airportCodes={airportCodeList}
           gridHeight={gridHeight}
           updateCellData={updateCellData}
           selectBulkData={selectBulkData}
