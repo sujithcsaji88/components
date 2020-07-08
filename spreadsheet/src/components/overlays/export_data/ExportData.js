@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimes,
@@ -68,7 +68,6 @@ class ExportData extends React.Component {
   };
 
   exportRowData = () => {
-    debugger;
     const columnVlaueList = this.state.columnEntityList;
     if (columnVlaueList.length > 0 && this.state.downLaodFileType.length > 0) {
       const rowValues = this.props.rows.filter((row) => {
@@ -90,7 +89,6 @@ class ExportData extends React.Component {
     }
   };
   downloadPDF = () => {
-    debugger;
     const unit = "pt";
     const size = "A4"; // Use A1, A2, A3 or A4
     const orientation = "landscape"; // portrait or landscape
@@ -215,7 +213,7 @@ class ExportData extends React.Component {
             <div className="export__header">
               <div className="export__headerTxt"></div>
               <div className="export__close">
-                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                <FontAwesomeIcon icon={faTimes} onClick={this.props.closeExport}></FontAwesomeIcon>
               </div>
             </div>
             <div className="export__as">Export as</div>
