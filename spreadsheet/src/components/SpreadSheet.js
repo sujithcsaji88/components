@@ -39,9 +39,9 @@ const { AutoCompleteFilter } = Filters;
 class SpreadSheet extends Component {
   constructor(props) {
     super(props);
-    const airportCodes=[];
-    this.props.airportCodes.forEach((item)=>{
-    airportCodes.push({"id":item,"value":item})
+    const airportCodes = [];
+    this.props.airportCodes.forEach((item) => {
+      airportCodes.push({ "id": item, "value": item })
     })
     this.state = {
       searchValue: "",
@@ -62,11 +62,11 @@ class SpreadSheet extends Component {
         } else if (item.editor === "DropDown") {
           item.editor = <DropDownEditor options={airportCodes} />;
         }
-        else if(item.editor==="Text"){
-          item.editor="text";
+        else if (item.editor === "Text") {
+          item.editor = "text";
         }
-        else{
-          item.editor=null;
+        else {
+          item.editor = null;
         }
         item.filterRenderer = AutoCompleteFilter;
         return item;
@@ -243,12 +243,12 @@ class SpreadSheet extends Component {
 
   handleFilterChange = (value) => {
     let filteredRows = null;
-    let  junk = this.state.junk;
+    let junk = this.state.junk;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
       junk[value.column.key] = value;
       filteredRows = this.state.rows;
-    } 
-      else{
+    }
+    else {
       delete junk[value.column.key];
       filteredRows = this.state.filteringRows;
     }
@@ -263,8 +263,8 @@ class SpreadSheet extends Component {
     if (Object.keys(filters).length <= 0) {
       filters = {};
     }
-    const value=selectors.getRows({ rows:[], filters:filters });
-    return selectors.getRows({ rows:rows, filters:filters });
+    const value = selectors.getRows({ rows: [], filters: {} });
+    return selectors.getRows({ rows: rows, filters: filters });
     //return data;
   };
 
@@ -328,12 +328,12 @@ class SpreadSheet extends Component {
     existingColumnsHeaderList = existingColumnsHeaderList.filter((item) => {
       return inComingColumnsHeaderList.includes(item.name);
     });
-    existingColumnsHeaderList.map((headerItem,index)=>{
-      if(pinnedColumnsList.includes(headerItem.name)){
+    existingColumnsHeaderList.map((headerItem, index) => {
+      if (pinnedColumnsList.includes(headerItem.name)) {
         existingColumnsHeaderList[index]["frozen"] = true;
       }
     })
-    console.log("existingColumnsHeaderList ",existingColumnsHeaderList)
+    console.log("existingColumnsHeaderList ", existingColumnsHeaderList)
     this.setState({
       columns: existingColumnsHeaderList,
     });
@@ -429,8 +429,8 @@ class SpreadSheet extends Component {
             <FontAwesomeIcon icon={faFilter} />
           </div> */}
           <div className="filterIcons" onClick={this.sortingPanel}>
-           <FontAwesomeIcon title="Group Sort" icon={faSortAmountDown} />
-            <FontAwesomeIcon  icon={faSortDown} className="filterArrow" />
+            <FontAwesomeIcon title="Group Sort" icon={faSortAmountDown} />
+            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
           </div>
           {this.state.sortingPanelComponent}
           <div className="filterIcons" onClick={this.columnReorderingPannel}>
@@ -469,7 +469,6 @@ class SpreadSheet extends Component {
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)
             }
-            toolbar={<Toolbar enableFilter={true} />}
             onAddFilter={(filter) => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,
