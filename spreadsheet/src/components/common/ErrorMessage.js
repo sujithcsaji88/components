@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import { SEARCH_NOT_FOUNT_ERROR } from "../constants/ErrorConstants";
+import { SEARCH_NOT_FOUNT_ERROR } from "./ErrorConstants";
 
 const ErrorMessage = (props) => {
   

@@ -10,7 +10,7 @@ import {
   faTrash,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import "../sorting/sorting.scss";
+import "./sorting.scss";
 
 const sorting = (props) => {
   return (

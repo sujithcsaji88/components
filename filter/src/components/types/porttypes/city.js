@@ -13,36 +13,39 @@ export default function City(props) {
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
   const [switchId, setSwitchId] = useState();
-  const [allowEdit, setAllowEdit] = useState(true); 
+  const [allowEdit, setAllowEdit] = useState(true);
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
+      setLabelName(DEPARTURE_PORT)
       setSwitchId("departureCity");
     } else if (props.name === ARRIVAL_PORT) {
+      setLabelName(ARRIVAL_PORT)
       setSwitchId("arrivalCity");
     }
     if (props.type === "City") {
-      setLabelName(props.name);
       setLabelType(props.type);
     }
-     if(props.cityToDisplay!==""){
-      setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
-      setLabelType("City");
-    }
-  }, [props]);
 
+  }, [props]);
+  useEffect(
+    () => {
+      if (props.cityToDisplay !== "") {
+        setLabelName(props.name === "Departure Port" ? "Departure Port" : "Arrival Port");
+        setLabelType("City");
+        setEnabled(true);
+      }
+    }
+    , [props.cityToDisplay]);
   const closeCity = () => {
+    props.closeAirport(labelName,labelType);
     setLabelName("");
     setLabelType("");
   };
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
-    if (!enabled) {
-      setTextStatus(false);
-    } else {
-      setTextStatus(true);
-    }
-  };
+    setTextStatus(!e.target.checked);
+  }
   if (labelType === "City") {
     return (
       <div className="filter__input">
@@ -72,7 +75,7 @@ export default function City(props) {
               type="button"
               onClick={(e) => {
                 closeCity();
-                props.clearValues({name:props.name, type:"City"});
+                props.clearValues({ name: props.name, type: "City" });
               }}
             />
           </div>
@@ -86,8 +89,8 @@ export default function City(props) {
               setAllowEdit(false);
               props.valueToSave(e.target.value, labelName, labelType, enabled);
             }}
-            defaultValue= { allowEdit && props.cityToDisplay!=="" ? 
-            props.cityToDisplay : null}
+            value={allowEdit && props.cityToDisplay !== "" ?
+              props.cityToDisplay : null}
           ></input>
         </div>
       </div>

@@ -17,31 +17,35 @@ export default function Country(props) {
 
   useEffect(() => {
     if (props.name === DEPARTURE_PORT) {
+      setLabelName(DEPARTURE_PORT)
       setSwitchId("departureCountry");
     } else if (props.name === ARRIVAL_PORT) {
+      setLabelName(ARRIVAL_PORT)
       setSwitchId("ArrivalCountry");
     }
     if (props.type === "Country") {
-      setLabelName(props.name);
       setLabelType(props.type);
     }
-    if(props.countryToDisplay!==""){
-      setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
-      setLabelType("Country");
-    }
+    
   }, [props]);
 
+  useEffect(
+    ()=>{
+      if(props.countryToDisplay!==""){
+        setLabelName(props.name === "Departure Port" ? "Departure Port": "Arrival Port");
+        setLabelType("Country");
+        setEnabled(true);
+      }
+    }
+  ,[props.countryToDisplay]);
   const closeCountry = () => {
+    props.closeAirport(labelName,labelType);
     setLabelName("");
     setLabelType("");
   };
   const enableSwitchChange = (e) => {
     setEnabled(e.target.checked);
-    if (!enabled) {
-      setTextStatus(false);
-    } else {
-      setTextStatus(true);
-    }
+    setTextStatus(!e.target.checked);
   };
   if (labelType === "Country") {
     return (
@@ -86,7 +90,7 @@ export default function Country(props) {
               setAllowEdit(false);
               props.valueToSave(e.target.value, labelName, labelType, enabled);
             }}
-            defaultValue= { allowEdit && props.countryToDisplay !== "" ? 
+            value= { allowEdit && props.countryToDisplay !== "" ? 
             props.countryToDisplay : null}
           ></input>
         </div>
