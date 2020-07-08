@@ -15,6 +15,7 @@ const App = () => {
   const [status, setStatus] = useState("");
   const rows = CargoData;
 
+  const maxLeftPinnedColumn = 5;
   //Configure columns and its related featues such as editor(Text/DropDown), FormulaApplicable(True/False)
   //Editable, Draggable, sortable, resizable, filterable, default width
   const columns = [
@@ -514,6 +515,7 @@ const App = () => {
           gridHeight={gridHeight}
           updateCellData={updateCellData}
           selectBulkData={selectBulkData}
+          maxLeftPinnedColumn={maxLeftPinnedColumn}
         />
       </div>
     );
