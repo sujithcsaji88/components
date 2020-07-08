@@ -44,7 +44,7 @@ class ColumnReordering extends React.Component {
         existingLeftPinnedList = existingLeftPinnedList.filter(
           (item) => item !== typeToBeAdded
         );
-    }
+      }
     }
     this.setState({
       columnReorderEntityList: existingColumnReorderEntityList,
@@ -159,7 +159,7 @@ class ColumnReordering extends React.Component {
             </div>
             <div className="column__headerTxt">
               <strong>
-               &nbsp; &nbsp; Selected Column Count :{" "}
+                &nbsp; &nbsp; Selected Column Count :{" "}
                 {this.state.columnReorderEntityList.length}
               </strong>
             </div>

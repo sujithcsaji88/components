@@ -5,14 +5,18 @@ import { range } from "lodash";
 import { applyFormula } from "../utilities/utils";
 import { FormControl } from "react-bootstrap";
 import {
-  faFilter,
   faSortAmountDown,
-  faTimes,
-  faFilePdf,
+  faColumns,
+  faSyncAlt,
+  faShareAlt,
+  faAlignLeft,
+  faFilter,
+  faSortDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "./common/ErrorMessage";
 import ColumnReordering from "./overlays/column_chooser/Chooser";
+import Sorting from "./overlays/sorting/Sorting";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -98,6 +102,7 @@ class SpreadSheet extends Component {
       textValue: "",
       columnReorderingComponent: null,
       filteringRows: this.props.rows,
+      sortingPanelComponent: null,
       columns: this.props.columns.map((item) => {
         if(item.editable){
         if (item.editor === "DatePicker") {
@@ -486,6 +491,26 @@ class SpreadSheet extends Component {
   clearSearchValue = () => {
     this.setState({ searchValue: "" })
   }
+
+  sortingPanel = () => {
+    let columnField = [];
+    this.state.columns.map((item) => columnField.push(item.name));
+    this.setState({
+      sortingPanelComponent: (
+        <Sorting
+          columnFieldValue={columnField}
+          closeSorting={this.closeSorting}
+        />
+      ),
+    });
+  };
+
+  closeSorting = () => {
+    this.setState({
+      sortingPanelComponent: null,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -504,18 +529,28 @@ class SpreadSheet extends Component {
               value={this.state.searchValue}
             />
           </div>
-          <FontAwesomeIcon className="filterIcons" icon={faFilter} />
-          <FontAwesomeIcon
-            className="filterIcons"
-            onClick={this.columnReorderingPannel}
-            icon={faSortAmountDown}
-          />
+          <div className="filterIcons">
+            <FontAwesomeIcon icon={faFilter} />
+          </div>
+          <div className="filterIcons" onClick={this.sortingPanel}>
+            <FontAwesomeIcon icon={faSortAmountDown} />
+            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
+          </div>
+          {this.state.sortingPanelComponent}
+          <div className="filterIcons" onClick={this.columnReorderingPannel}>
+            <FontAwesomeIcon icon={faColumns} />
+            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
+          </div>
           {this.state.columnReorderingComponent}
-          <FontAwesomeIcon
-            className="filterIcons"
-            icon={faFilePdf}
-            onClick={this.exportPDF}
-          />
+          <div className="filterIcons">
+            <FontAwesomeIcon icon={faSyncAlt} />
+          </div>
+          <div className="filterIcons">
+            <FontAwesomeIcon icon={faShareAlt} onClick={this.exportPDF} />
+          </div>
+          <div className="filterIcons">
+            <FontAwesomeIcon icon={faAlignLeft} />
+          </div>
         </div>
         <ErrorMessage className="errorDiv" status={this.props.status} closeWarningStatus={this.props.closeWarningStatus} clearSearchValue={this.clearSearchValue} />
         <DraggableContainer
