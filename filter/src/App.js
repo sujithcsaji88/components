@@ -5,7 +5,7 @@ import LeftDrawer from "./components/drawer/leftdrawer";
 import MainFilterPanel from "./components/panel/MainFilterPanel";
 import SpreadSheet from "./components/datagrid/speadsheet";
 import FilterData from "../src/stubs/FilterData.json";
-import { DEPARTURE_PORT, ARRIVAL_PORT, DATE, REVENUE } from "./constants/filtertypeconstants";
+import { DEPARTURE_PORT, ARRIVAL_PORT, DATE, REVENUE, BOOKING_PROFILE, FLIGHT_GROUP, FLIGHT_NO, YEILD, SERVICE_RECOVERY, WEIGHT, VOLUME, AIRCRAFT, QUEUED_BOOKINGS, AIRCRAFT_CLASSIFICATION, FLIGHT_TYPE, MILESTONE_STATUS, FLIGHT_STATUS, SEGMENT_STATUS } from "./constants/filtertypeconstants";
 
 function useComponentVisible() {
   const [showApplyFilter, setApplyFilter] = useState(false);
@@ -34,7 +34,8 @@ function useComponentVisible() {
 
   return { ref, showApplyFilter, setApplyFilter };
 }
-
+let bookingProfile, flightGroup, flightNo, yielD, serviceRecovery, weight, volume, aircraft, queuedBookings, aircraftClassification, flightType, flightStatus, segmentStatus, milestoneStatus;
+let textComponentArray = [];
 function App() {
   //to show the selected filter count on the rightdrawer of the filter component
   const [addedFilter, setAddedFilter] = useState(0);
@@ -57,23 +58,88 @@ function App() {
   const [filterInfoToShow, setFilterInfoToShow] = useState();
   const childRefs = useRef(null);
 
+  const textComponentClutter = () => {
+    textComponentArray = [];
+    FilterData.filter.forEach(item => {
+      if (item.name === BOOKING_PROFILE) {
+        bookingProfile = BOOKING_PROFILE;
+        textComponentArray.push(bookingProfile);
+      }
+      else if (item.name === FLIGHT_GROUP) {
+        flightGroup = FLIGHT_GROUP;
+        textComponentArray.push(flightGroup);
+      }
+      else if (item.name === FLIGHT_NO) {
+        flightNo = FLIGHT_NO;
+        textComponentArray.push(flightNo);
+      }
+      else if (item.name === YEILD) {
+        yielD = YEILD;
+        textComponentArray.push(yielD);
+      }
+      else if (item.name === SERVICE_RECOVERY) {
+        serviceRecovery = SERVICE_RECOVERY;
+        textComponentArray.push(serviceRecovery);
+      }
+      else if (item.name === WEIGHT) {
+        weight = WEIGHT;
+        textComponentArray.push(weight);
+      }
+      else if (item.name === VOLUME) {
+        volume = VOLUME;
+        textComponentArray.push(volume);
+      }
+      else if (item.name === AIRCRAFT) {
+        aircraft = AIRCRAFT;
+        textComponentArray.push(aircraft);
+      }
+      else if (item.name === QUEUED_BOOKINGS) {
+        queuedBookings = QUEUED_BOOKINGS;
+        textComponentArray.push(queuedBookings);
+      }
+      else if (item.name === AIRCRAFT_CLASSIFICATION) {
+        aircraftClassification = AIRCRAFT_CLASSIFICATION;
+        textComponentArray.push(aircraftClassification);
+      }
+      else if (item.name === FLIGHT_TYPE) {
+        flightType = FLIGHT_TYPE;
+        textComponentArray.push(flightType);
+      }
+      else if (item.name === FLIGHT_STATUS) {
+        flightStatus = FLIGHT_STATUS;
+        textComponentArray.push(flightStatus);
+      }
+      else if (item.name === SEGMENT_STATUS) {
+        segmentStatus = SEGMENT_STATUS;
+        textComponentArray.push(segmentStatus);
+      }
+      else if (item.name === MILESTONE_STATUS) {
+        milestoneStatus = MILESTONE_STATUS;
+        textComponentArray.push(milestoneStatus);
+      }
+    })
+    if (textComponentArray.includes(labelName)) {
+      setLabelName('');
+    }
 
+  }
   const clearTextComponentName = (name) => {
     setAddedFilter(addedFilter - 1);
-    if (name === labelName) {
-      setLabelName("")
+    if (name === labelName); {
+      setLabelName('');
     }
+
   }
   const addedFilterCount = () => {
     setAddedFilter(addedFilter + 1);
   };
-  const passValues = (filterName, dataType, enabled) => {
+  const passTextComponent = (filterName, dataType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
     setDataType(dataType);
     setEnabled(enabled);
     setFilterInfoToShow(undefined);
-  };
+  }
   const passPortValues = (filterName, filterType, enabled) => {
     setIsResetFalse();
     setLabelName(filterName);
@@ -95,7 +161,18 @@ function App() {
     setCondition(condition);
     setEnabled(enabled);
   };
-
+  const clearDepartureAirport = (name, type) => {
+    if (name === DEPARTURE_PORT) {
+      setLabelName('');
+      setLabelType('');
+    }
+  }
+  const clearArrivalPort = (name, type) => {
+    if (name === ARRIVAL_PORT) {
+      setLabelType('');
+      setLabelType('');
+    }
+  }
   const clearType = (resetStateVariableMap) => {
     setLabelType("");
     if (addedFilter !== 0) {
@@ -134,7 +211,6 @@ function App() {
         }
         if (filters.column === REVENUE) {
           setLabelName(filters.column)
-          console.log(FilterData)
           let conditions = [];
           FilterData.filter.forEach(filters => {
             if (filters.name === REVENUE) {
@@ -181,7 +257,7 @@ function App() {
       map = checkAndMergeFilterLists(filterMap.applyFilter, map.applyFilter);
     }
     setFilterMap(map);
-  };
+  }
   const onApplyFilter = (obj) => {
     setFilterKeys(obj);
   };
@@ -189,11 +265,10 @@ function App() {
   const applyFilterClose = () => {
     setApplyFilter(false);
   };
-
+  const clearFilterInfoToShow = () => {
+    setFilterInfoToShow(undefined);
+  }
   const handleFilterViewInRightDrawer = (filterInfo) => {
-    //krishna's change here*****
-    setApplyFilter(true);
-
     setLabelName("");
     setLabelType("");
     setApplyFilter(true);
@@ -259,7 +334,7 @@ function App() {
                 handlePortValue={passPortValues}
                 handleRevenue={passRevenue}
                 addedFilterCount={addedFilterCount}
-                handleValue={passValues}
+                handleValue={passTextComponent}
               />
             </div>
             <div className="filter__inputwrap">
@@ -281,7 +356,11 @@ function App() {
                 filterInfoToShow={filterInfoToShow}
                 applyFilterClose={applyFilterClose}
                 ref={childRefs}
+                textComponentClutter={textComponentClutter}
                 clearTextComponentName={clearTextComponentName}
+                clearFilterInfoToShow={clearFilterInfoToShow}
+                clearDepartureAirport={clearDepartureAirport}
+                clearArrivalPort={clearArrivalPort}
               />
             </div>
           </div>

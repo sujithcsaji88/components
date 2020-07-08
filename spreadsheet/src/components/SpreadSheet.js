@@ -1,35 +1,80 @@
 import React, { Component } from "react";
 import ReactDataGrid from "react-data-grid";
-import { Toolbar, Data, Filters } from "react-data-grid-addons";
+import { Toolbar, Data, Filters, Editors } from "react-data-grid-addons";
 import { range } from "lodash";
-import { applyFormula } from "../../utilities/utils";
+import { applyFormula } from "../utilities/utils";
 import { FormControl } from "react-bootstrap";
 import {
   faFilter,
   faSortAmountDown,
   faTimes,
-  faFileExcel,
   faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ErrorMessage from "../common/ErrorMessage";
+import ErrorMessage from "./common/ErrorMessage";
+import ColumnReordering from "./overlays/column_chooser/Chooser";
 
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-//import { CSVLink } from "react-csv";
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
 const {
   DraggableHeader: { DraggableContainer },
 } = require("react-data-grid-addons");
 
-const defaultColumnProperties = {
-  sortable: true,
-  resizable: true,
-  filterable: true,
-  width: 120,
-};
+const { DropDownEditor } = Editors;
+// The DatePicker componenent to be used for editor functionality
+class DatePicker extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: "",
+    };
+    //the variable to store component reference
+    this.input = null;
+
+    this.getInputNode = this.getInputNode.bind(this);
+    this.getValue = this.getValue.bind(this);
+    this.onValueChanged = this.onValueChanged.bind(this);
+  }
+
+  //returning the component with the reference, input
+  getInputNode() {
+    return this.input;
+  }
+
+  getValue() {
+    // date format library instance creation
+    let dateFormat = require("dateformat");
+    var updated = {};
+    //returning updated object with the date value in the required format
+    updated[this.props.column.key] = dateFormat(
+      this.state.value,
+      "dd-mmm-yyyy"
+    );
+    return updated;
+  }
+
+  onValueChanged(ev) {
+    this.setState({ value: ev.target.value });
+  }
+
+  render() {
+    return (
+      <div>
+        <FormControl
+          type="date"
+          ref={(ref) => {
+            this.input = ref;
+          }}
+          value={this.state.value}
+          onChange={this.onValueChanged}
+        />
+      </div>
+    );
+  }
+}
 
 const defaultParsePaste = (str) =>
   str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
@@ -38,9 +83,9 @@ let newFilters = {};
 
 const selectors = Data.Selectors;
 
-const { AutoCompleteFilter, SingleSelectFilter } = Filters;
+const { AutoCompleteFilter } = Filters;
 
-class Grid extends Component {
+class SpreadSheet extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -51,219 +96,24 @@ class Grid extends Component {
       topLeft: {},
       status: "",
       textValue: "",
-      columns: [
-        {
-          key: "flightno",
-          name: "Flight #",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
-          draggable: true,
-        },
-        {
-          key: "date",
-          name: "Date",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
-          draggable: true,
-        },
-        {
-          key: "segmentfrom",
-          name: "Segment From",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "revenue",
-          name: "Revenue",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
-          draggable: true,
-        },
-        {
-          key: "yeild",
-          name: "Yeild",
-          editable: true,
-          filterRenderer: SingleSelectFilter,
-          draggable: true,
-        },
-        {
-          key: "segmentto",
-          name: "Segment To",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "flightModel",
-          name: "Flight Model",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "bodyType",
-          name: "Body Type",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "type",
-          name: "Type",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "startTime",
-          name: "Start Time",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "endTime",
-          name: "End Time",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "status",
-          name: "Status",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "additionalStatus",
-          name: "Additional Status",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "timeStatus",
-          name: "Time Status",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "weightpercentage",
-          name: "Weight Percentage",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "weightvalue",
-          name: "Weight Value",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "volumepercentage",
-          name: "Volume Percentage",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "volumevalue",
-          name: "Volume Value",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition1",
-          name: "uldposition1",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue1",
-          name: "uldvalue1",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition2",
-          name: "uldposition2",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue2",
-          name: "uldvalue2",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition3",
-          name: "uldposition3",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue3",
-          name: "uldvalue3",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldposition4",
-          name: "uldposition4",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "uldvalue4",
-          name: "uldvalue4",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-
-        {
-          key: "sr",
-          name: "SR",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "queuedBookingSR",
-          name: "Queued Booking SR",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-        {
-          key: "queuedBookingvolume",
-          name: "Queued Booking Volume",
-          editable: true,
-          filterRenderer: AutoCompleteFilter,
-          draggable: true,
-        },
-      ].map((c) => ({
-        ...c,
-        ...defaultColumnProperties,
-      })),
+      columnReorderingComponent: null,
+      columns: this.props.columns.map((item) => {
+        if (item.editor === "DatePicker") {
+          item.editor = DatePicker;
+        } else if (item.editor === "DropDown") {
+          item.editor = <DropDownEditor options={this.props.airportCodes} />;
+        }
+        item.filterRenderer = AutoCompleteFilter;
+        return item;
+      }),
     };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
     this.handletextValue = this.handletextValue.bind(this);
+
+    this.formulaAppliedCols = this.props.columns.filter((item) => {
+      return item.formaulaApplicable;
+    });
   }
 
   exportPDF = () => {
@@ -319,26 +169,28 @@ class Grid extends Component {
   };
 
   downloadCSVFile = () => {
-    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    const fileExtension = '.csv';
-    const fileName = 'CSVDownload'
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".csv";
+    const fileName = "CSVDownload";
     const ws = XLSX.utils.json_to_sheet(this.state.rows);
-    const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
-    const excelBuffer = XLSX.write(wb, { bookType: 'csv', type: 'array' });
-    const data = new Blob([excelBuffer], {type: fileType});
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "csv", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, fileName + fileExtension);
-  }
+  };
 
   downloadXLSFile = () => {
-    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    const fileExtension = '.xlsx';
-    const fileName = 'XLSXDownload'
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const fileExtension = ".xlsx";
+    const fileName = "XLSXDownload";
     const ws = XLSX.utils.json_to_sheet(this.state.rows);
-    const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    const data = new Blob([excelBuffer], {type: fileType});
+    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+    const data = new Blob([excelBuffer], { type: fileType });
     FileSaver.saveAs(data, fileName + fileExtension);
-  }
+  };
 
   updateRows = (startIdx, newRows) => {
     this.setState((state) => {
@@ -433,18 +285,18 @@ class Grid extends Component {
     });
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
-    if (
-      updated.yeild !== null ||
-      updated.yeild !== undefined ||
-      updated.revenue !== null ||
-      updated.revenue !== undefined ||
-      updated.weightpercentage !== null ||
-      updated.weightpercentage !== undefined ||
-      updated.weightvalue !== null ||
-      updated.weightvalue !== undefined
-    ) {
-      updated = applyFormula(updated);
+    let columnName = "";
+    const filter = this.formulaAppliedCols.filter((item) => {
+      if (updated[item.key] !== null && updated[item.key] !== undefined) {
+        columnName = item.key;
+        return true;
+      }
+    });
+
+    if (filter.length > 0) {
+      updated = applyFormula(updated, columnName);
     }
+
     if (action !== "COPY_PASTE") {
       this.setState((state) => {
         const rows = state.rows.slice();
@@ -458,6 +310,10 @@ class Grid extends Component {
           rows,
         };
       });
+    }
+    //find row
+    if(this.props.updateCellData){
+      //this.props.updateCellData(passRow);
     }
   };
 
@@ -564,6 +420,26 @@ class Grid extends Component {
       status: "",
     });
   }
+
+  columnReorderingPannel = () => {
+    var headerNameList = [];
+    this.state.columns.map((item) => headerNameList.push(item.name));
+    this.setState({
+      columnReorderingComponent: (
+        <ColumnReordering
+          headerKeys={headerNameList}
+          closeColumnReOrdering={this.closeColumnReOrdering}
+        />
+      ),
+    });
+  };
+
+  closeColumnReOrdering = () => {
+    this.setState({
+      columnReorderingComponent: null,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -575,7 +451,7 @@ class Grid extends Component {
             <FormControl
               type="text"
               placeholder="Search a screen"
-              onChange={this.props.handleChange}
+              onChange={this.props.globalSearchLogic}
               value={this.props.value}
             />
             <span className="crossSearchIcon">
@@ -583,18 +459,18 @@ class Grid extends Component {
             </span>
           </div>
           <FontAwesomeIcon className="filterIcons" icon={faFilter} />
-          <FontAwesomeIcon className="filterIcons" icon={faSortAmountDown} />
+          <FontAwesomeIcon
+            className="filterIcons"
+            onClick={this.columnReorderingPannel}
+            icon={faSortAmountDown}
+          />
+          {this.state.columnReorderingComponent}
           <FontAwesomeIcon
             className="filterIcons"
             icon={faFilePdf}
             onClick={this.exportPDF}
           />
-          {/* <CSVLink data={this.state.rows} >
-            <FontAwesomeIcon className="filterIcons" icon={faFileExcel} />
-          </CSVLink> */}
-          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadCSVFile}/>
-          <FontAwesomeIcon className="filterIcons" icon={faFileExcel} onClick={this.downloadXLSFile}/>
-          </div>
+        </div>
         <ErrorMessage className="errorDiv" status={this.props.status} />
         <DraggableContainer
           className="gridDiv"
@@ -637,4 +513,4 @@ class Grid extends Component {
     );
   }
 }
-export default Grid;
+export default SpreadSheet;

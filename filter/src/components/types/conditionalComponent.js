@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { faTimes} from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Form } from "react-bootstrap";
 import { REVENUE } from "../../constants/filtertypeconstants";
 
+let amountValueOnEditFilter = "", conditionValueOnEditFilter = "";
 const Revenue = (props) => {
   const [labelName, setLabelName] = useState();
   const [condition, setCondition] = useState();
   const [enabled, setEnabled] = useState(true);
   const [textStatus, setTextStatus] = useState(false);
-  const [allowEdit, setAllowEdit] = useState(true); 
+  const [allowEdit, setAllowEdit] = useState(true);
 
   useEffect(() => {
     if (props.name) {
@@ -20,7 +21,7 @@ const Revenue = (props) => {
         setLabelName(props.name);
         setCondition(props.condition);
       }
-      if (props.filterInfoToShow!== undefined && 
+      if (props.filterInfoToShow !== undefined &&
         props.filterInfoToShow.some(item => (item.column === "Revenue"))) {
         setLabelName("Revenue");
 
@@ -29,7 +30,21 @@ const Revenue = (props) => {
       }
     }
   }, [props]);
+  useEffect(
+    () => {
+      if (props.filterInfoToShow !== undefined) {
+        props.filterInfoToShow.forEach(item => {
+          if (item.column === "Revenue") {
+            amountValueOnEditFilter = item.value
+            conditionValueOnEditFilter = item.condition
+            props.revenueAmountSave(amountValueOnEditFilter, item.column, enabled);
+            props.revenueConditionSave(conditionValueOnEditFilter);
+          }
+        })
 
+      }
+    }
+    , []);
   const closeRevenue = () => {
     setLabelName("");
   };
@@ -44,19 +59,6 @@ const Revenue = (props) => {
   };
 
   if (labelName === REVENUE) {
-    var amountValueOnEditFilter="", conditionValueOnEditFilter="";
-    if(props.filterInfoToShow!==undefined){
-      props.filterInfoToShow.forEach(item=>{
-        if(item.column === "Revenue"){
-          amountValueOnEditFilter = item.value
-          conditionValueOnEditFilter=item.condition
-          props.revenueAmountSave(amountValueOnEditFilter, item.column, enabled);
-          props.revenueConditionSave(conditionValueOnEditFilter);
-        }
-      })
-      
-    }
-    
     return (
       <div className="filter__input">
         <div className="filter__input-title">
@@ -92,7 +94,7 @@ const Revenue = (props) => {
             <Form.Control
               disabled={textStatus}
               as="select"
-              defaultValue={conditionValueOnEditFilter !=="" ? conditionValueOnEditFilter : null}
+              defaultValue={conditionValueOnEditFilter !== "" ? conditionValueOnEditFilter : null}
               onChange={(e) => {
                 props.revenueConditionSave(e.target.value);
               }}
@@ -110,7 +112,7 @@ const Revenue = (props) => {
               disabled={textStatus}
               required
               type="text"
-              defaultValue= {allowEdit && 
+              defaultValue={allowEdit &&
                 amountValueOnEditFilter !== "" ? amountValueOnEditFilter : null}
               onChange={(e) => {
                 setAllowEdit(false);

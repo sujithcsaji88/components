@@ -5,11 +5,12 @@ import AirportGroup from "./porttypes/airportGroup";
 import City from "./porttypes/city";
 import CityGroup from "./porttypes/cityGroup";
 import Country from "./porttypes/country";
-
+let airportToDisplay = "", airportGroupToDisplay = "",
+  cityToDisplay = "", cityGroupToDisplay = "", countryToDisplay = "";
 const DeparturePort = (props) => {
-  const [name, setName] = useState(props.name);
+  const [name, setName] = useState();
   const [type, setType] = useState();
-  const [enabled,setEnabled]=useState();
+  const [enabled, setEnabled] = useState();
   useEffect(() => {
     if (props.name) {
       if (props.isReset === true) {
@@ -20,37 +21,42 @@ const DeparturePort = (props) => {
         setType(props.type);
         setEnabled(props.enabled)
       }
-      //condition necessary for showing filter resutls in right Drawer
-      else if (props.filterInfoToShow !== undefined &&
-        props.filterInfoToShow.some(item => (item.column === "Departure Port"))) {
-        setName("Departure Port");
-        setType("Airport")
+    }
+  }, [props.name, props.type, props.enabled, props.isReset]);
+  const closeAirport = () => {
+    setType('');
+  }
+
+  useEffect(
+    () => {
+      if (props.filterInfoToShow !== undefined) {
+        props.filterInfoToShow.filter((item) => item.column === "Departure Port" &&
+          item.types !== undefined && Array.isArray(item.types)).map(item => (
+            item.types.map(subItem =>
+              subItem.column === "Airport" ? airportToDisplay = subItem.value :
+                subItem.column === "Airport Group" ? airportGroupToDisplay = subItem.value :
+                  subItem.column === "City" ? cityToDisplay = subItem.value :
+                    subItem.column === "City Group" ? cityGroupToDisplay = subItem.value :
+                      subItem.column === "Country" ? countryToDisplay = subItem.value : ""
+            )
+          ));
+        props.filterInfoToShow.forEach(item => {
+          if (item.column === DEPARTURE_PORT && item.types !== undefined) {
+            item.types.forEach(type => {
+              setName(item.column)
+              setType(type.column)
+              setEnabled(true)
+              props.PortvalueToSave(type.value, item.column, type.column, true)
+            })
+          }
+        })
+
+
       }
     }
-  }, [props]);
+    , []);
 
   if (name === DEPARTURE_PORT) {
-    var airportToDisplay = "", airportGroupToDisplay = "",
-      cityToDisplay = "", cityGroupToDisplay = "", countryToDisplay = "";
-    if (props.filterInfoToShow !== undefined) {
-      props.filterInfoToShow.filter((item) => item.column === "Departure Port" &&
-        item.types !== undefined && Array.isArray(item.types)).map(item => (
-          item.types.map(subItem =>
-            subItem.column === "Airport" ? airportToDisplay = subItem.value :
-              subItem.column === "Airport Group" ? airportGroupToDisplay = subItem.value :
-                subItem.column === "City" ? cityToDisplay = subItem.value :
-                  subItem.column === "City Group" ? cityGroupToDisplay = subItem.value :
-                    subItem.column === "Country" ? countryToDisplay = subItem.value : ""
-          )
-        ));
-      props.filterInfoToShow.forEach(item=>{
-        if(item.column===DEPARTURE_PORT && item.types!== undefined){
-          item.types.forEach(type=>{
-             props.PortvalueToSave(type.value,item.column,type.column,type.enabled)
-          })
-        }
-      })
-    }
     return (
       <React.Fragment>
         <Airport
@@ -62,10 +68,13 @@ const DeparturePort = (props) => {
           airportToDisplay={airportToDisplay}
           departureAirportEnabledSave={props.departureAirportEnabledSave}
           isReset={props.isReset}
+          clearAirport={props.clearDepartureAirport}
+          closeAirport={closeAirport}
         />
         <AirportGroup
           name={name}
           type={type}
+          enabled={enabled}
           clearValues={props.clearValues}
           valueToSave={props.PortvalueToSave}
           airportGroupToDisplay={airportGroupToDisplay}
@@ -73,6 +82,7 @@ const DeparturePort = (props) => {
             props.departureAirportGroupEnabledSave
           }
           isReset={props.isReset}
+          closeAirport={closeAirport}
         />
         <City
           name={name}
@@ -82,6 +92,7 @@ const DeparturePort = (props) => {
           cityToDisplay={cityToDisplay}
           departureCityEnabledSave={props.departureCityEnabledSave}
           isReset={props.isReset}
+          closeAirport={closeAirport}
         />
         <CityGroup
           name={name}
@@ -91,6 +102,7 @@ const DeparturePort = (props) => {
           cityGroupToDisplay={cityGroupToDisplay}
           departureCityGroupEnabledSave={props.departureCityGroupEnabledSave}
           isReset={props.isReset}
+          closeAirport={closeAirport}
         />
         <Country
           name={name}
@@ -100,6 +112,7 @@ const DeparturePort = (props) => {
           countryToDisplay={countryToDisplay}
           departureCountryEnabledSave={props.departureCountryEnabledSave}
           isReset={props.isReset}
+          closeAirport={closeAirport}
         />
       </React.Fragment>
     );

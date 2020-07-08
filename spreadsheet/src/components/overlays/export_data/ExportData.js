@@ -7,7 +7,7 @@ import {
   faFileExcel,
   faFileCsv,
 } from "@fortawesome/free-solid-svg-icons";
-import "../exportData/exportData.scss";
+import "./exportData.scss";
 
 const exportData = (props) => {
   return (

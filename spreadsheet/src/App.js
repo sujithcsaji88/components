@@ -1,56 +1,433 @@
-import React, { useState, useEffect, Suspense } from "react";
-import Grid from "./components/datagrid/datagrid";
-import CargoData from "./stubs/CargoData.json";
-import LoadingSpinner from "./components/common/LoadingSpinner";
-import ColumnReordering from "./components/column/column-reorder/column-reorder";
-import ExportData from './components/column/exportData/exportData';
-import Sorting from './components/column/sorting/sorting';
+import React, { useState, useEffect } from "react";
+import SpreadSheet from "./components/SpreadSheet";
+import CargoData from "./data.json";
+import { fetchData } from "./getData";
 
-let searchKey;
-export default function App() {
+const App = () => {
+  //Get spreadsheet height value, which is a required value
+  const gridHeight = "90vh";
+
+  let searchKey = "";
+  //Set state value for variable to hold grid data
   const [data, setData] = useState();
+  //Set state value for variable to hold grid record status
   const [status, setStatus] = useState("");
-  const rows = CargoData.map((CargoData) => {
-    return {
-      key: CargoData.travelId,
-      travelId: CargoData.travelId,
-      flightno: CargoData.flightno,
-      date: CargoData.date,
-      segmentfrom: CargoData.segmentfrom,
-      segmentto: CargoData.segmentto,
-      flightModel: CargoData.flightModel,
-      bodyType: CargoData.bodyType,
-      type: CargoData.type,
-      startTime: CargoData.startTime,
-      endTime: CargoData.endTime,
-      status: CargoData.status,
-      additionalStatus: CargoData.additionalStatus,
-      timeStatus: CargoData.timeStatus,
-      weightpercentage: CargoData.weightpercentage,
-      weightvalue: CargoData.weightvalue,
-      volumepercentage: CargoData.volumepercentage,
-      volumevalue: CargoData.volumevalue,
-      uldposition1: CargoData.uldposition1,
-      uldvalue1: CargoData.uldvalue1,
-      uldposition2: CargoData.uldposition2,
-      uldvalue2: CargoData.uldvalue2,
-      uldposition3: CargoData.uldposition3,
-      uldvalue3: CargoData.uldvalue3,
-      uldposition4: CargoData.uldposition4,
-      uldvalue4: CargoData.uldvalue4,
-      revenue: CargoData.revenue,
-      yeild: CargoData.yeild,
-      sr: CargoData.sr,
-      queuedBookingSR: CargoData.queuedBookingSR,
-      queuedBookingvolume: CargoData.queuedBookingvolume,
-    };
-  });
+  const rows = CargoData;
 
-  useEffect(() => {
-    setData(rows);
-  }, []);
+  //Configure columns and its related featues such as editor(Text/DropDown), FormulaApplicable(True/False)
+  //Editable, Draggable, sortable, resizable, filterable, default width
+  const columns = [
+    {
+      key: "flightno",
+      name: "Flight #",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "date",
+      name: "Date",
+      editable: true,
+      draggable: true,
+      editor: "DatePicker",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "segmentfrom",
+      name: "Segment From",
+      editable: true,
+      draggable: true,
+      editor: "DropDown",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "revenue",
+      name: "Revenue",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: true,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "yeild",
+      name: "Yeild",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: true,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "segmentto",
+      name: "Segment To",
+      editable: true,
+      draggable: true,
+      editor: "DropDown",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "flightModel",
+      name: "Flight Model",
+      editable: false,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "bodyType",
+      name: "Body Type",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "type",
+      name: "Type",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "startTime",
+      name: "Start Time",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "endTime",
+      name: "End Time",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "status",
+      name: "Status",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "additionalStatus",
+      name: "Additional Status",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "timeStatus",
+      name: "Time Status",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "weightpercentage",
+      name: "Weight Percentage",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "weightvalue",
+      name: "Weight Value",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: true,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "volumepercentage",
+      name: "Volume Percentage",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: true,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "volumevalue",
+      name: "Volume Value",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldposition1",
+      name: "uldposition1",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldvalue1",
+      name: "uldvalue1",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldposition2",
+      name: "uldposition2",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldvalue2",
+      name: "uldvalue2",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldposition3",
+      name: "uldposition3",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldvalue3",
+      name: "uldvalue3",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldposition4",
+      name: "uldposition4",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "uldvalue4",
+      name: "uldvalue4",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
 
-  const getSearchWord = (e) => {
+    {
+      key: "sr",
+      name: "SR",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "queuedBookingSR",
+      name: "Queued Booking SR",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+    {
+      key: "queuedBookingvolume",
+      name: "Queued Booking Volume",
+      editable: true,
+      draggable: true,
+      editor: "Text",
+      formaulaApplicable: false,
+      sortable: true,
+      resizable: true,
+      filterable: true,
+      width: 120,
+    },
+  ];
+
+  //Configure columns and its related functions
+  const airportCodes = [
+    { id: "AAA", value: "AAA" },
+    { id: "AAB", value: "AAB" },
+    { id: "AAC", value: "AAC" },
+    { id: "ABA", value: "ABA" },
+    { id: "ABB", value: "ABB" },
+    { id: "ABC", value: "ABC" },
+    { id: "ACA", value: "ACA" },
+    { id: "ACB", value: "ACB" },
+    { id: "ACC", value: "ACC" },
+    { id: "BAA", value: "BAA" },
+    { id: "BAB", value: "BAB" },
+    { id: "BAC", value: "BAC" },
+    { id: "BBA", value: "BBA" },
+    { id: "BBB", value: "BBB" },
+    { id: "BBC", value: "BBC" },
+    { id: "BCA", value: "BCA" },
+    { id: "BCB", value: "BCB" },
+    { id: "BCC", value: "BCC" },
+    { id: "CAA", value: "CAA" },
+    { id: "CAB", value: "CAB" },
+    { id: "CAC", value: "CAC" },
+    { id: "CBA", value: "CBA" },
+    { id: "CBB", value: "CBB" },
+    { id: "CBC", value: "CBC" },
+    { id: "CCA", value: "CCA" },
+    { id: "CCB", value: "CCB" },
+    { id: "CCC", value: "CCC" },
+    { id: "XXX", value: "XXX" },
+    { id: "XXY", value: "XXY" },
+    { id: "XXZ", value: "XXZ" },
+    { id: "XYX", value: "XYX" },
+    { id: "XYY", value: "XYY" },
+    { id: "XYZ", value: "XYZ" },
+    { id: "XZX", value: "XZX" },
+    { id: "XZY", value: "XZY" },
+    { id: "XZZ", value: "XZZ" },
+    { id: "YXX", value: "YXX" },
+    { id: "YXY", value: "YXY" },
+    { id: "YXZ", value: "YXZ" },
+    { id: "YYX", value: "YYX" },
+    { id: "YYY", value: "YYY" },
+    { id: "YYZ", value: "YYZ" },
+    { id: "YZX", value: "YZX" },
+    { id: "YZY", value: "YZY" },
+    { id: "YZZ", value: "YZZ" },
+    { id: "ZXX", value: "ZXX" },
+    { id: "ZXY", value: "ZXY" },
+    { id: "ZXZ", value: "ZXZ" },
+    { id: "ZYX", value: "ZYX" },
+    { id: "ZYY", value: "ZYY" },
+    { id: "ZYZ", value: "ZYZ" },
+    { id: "ZZX", value: "ZZX" },
+    { id: "ZZY", value: "ZZY" },
+    { id: "ZZZ", value: "ZZZ" },
+  ];
+
+  //Add logic for doing global search in the spreadsheet
+  const globalSearchLogic = (e) => {
     searchKey = String(e.target.value).toLowerCase();
     let filteredRows = rows.filter((item) => {
       return (
@@ -101,20 +478,43 @@ export default function App() {
       setStatus("");
     }
   };
+
+  //Gets called when there is a cell edit
+  const updateCellData = (rowIndex) => {
+    console.log(rowIndex);
+  };
+
+  //Gets called when row bulk edit is done
+  const selectBulkData = (selectedRows) => {
+    console.log(selectedRows);
+  };
+
+  useEffect(() => {
+    //Make API call to fetch initial set of data, uncomment below code to use API call
+    // fetchData(0).then((data) => {
+    //   setItems(data);
+    // });
+    setData(rows);
+  }, []);
+
   if (data && data.length) {
     return (
       <div>
-        <Grid
+        <SpreadSheet
           rows={data}
           textValue={searchKey}
-          handleChange={getSearchWord}
+          globalSearchLogic={globalSearchLogic}
           status={status}
           count={data.length}
+          columns={columns}
+          airportCodes={airportCodes}
+          gridHeight={gridHeight}
+          updateCellData={updateCellData}
+          selectBulkData={selectBulkData}
         />
-        {/* <ColumnReordering /> */}
-        {/* <ExportData/> */}
-        <Sorting/>
       </div>
     );
-  } else return <LoadingSpinner />;
-}
+  } else return <h2>Loading Data</h2>;
+};
+
+export default App;

@@ -32,7 +32,6 @@
     },
     {
       "name": "Arrival Port",
-      "enabled": false,
       "types": [
         {
           "name": "Airport",
