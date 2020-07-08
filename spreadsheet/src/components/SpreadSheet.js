@@ -529,28 +529,28 @@ class SpreadSheet extends Component {
               value={this.state.searchValue}
             />
           </div>
-          <div className="filterIcons">
+          {/* <div className="filterIcons">
             <FontAwesomeIcon icon={faFilter} />
-          </div>
+          </div> */}
           <div className="filterIcons" onClick={this.sortingPanel}>
-            <FontAwesomeIcon icon={faSortAmountDown} />
-            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
+           <FontAwesomeIcon title="Group Sort" icon={faSortAmountDown} />
+            <FontAwesomeIcon  icon={faSortDown} className="filterArrow" />
           </div>
           {this.state.sortingPanelComponent}
           <div className="filterIcons" onClick={this.columnReorderingPannel}>
-            <FontAwesomeIcon icon={faColumns} />
+            <FontAwesomeIcon title="Column Chooser" icon={faColumns} />
             <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
           </div>
           {this.state.columnReorderingComponent}
+          {/* <div className="filterIcons">
+            <FontAwesomeIcon title="Reload" icon={faSyncAlt} />
+          </div> */}
           <div className="filterIcons">
-            <FontAwesomeIcon icon={faSyncAlt} />
+            <FontAwesomeIcon title="Export" icon={faShareAlt} onClick={this.exportPDF} />
           </div>
-          <div className="filterIcons">
-            <FontAwesomeIcon icon={faShareAlt} onClick={this.exportPDF} />
-          </div>
-          <div className="filterIcons">
+          {/* <div className="filterIcons">
             <FontAwesomeIcon icon={faAlignLeft} />
-          </div>
+          </div> */}
         </div>
         <ErrorMessage className="errorDiv" status={this.props.status} closeWarningStatus={this.props.closeWarningStatus} clearSearchValue={this.clearSearchValue} />
         <DraggableContainer
