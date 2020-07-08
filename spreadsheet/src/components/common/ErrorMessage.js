@@ -18,7 +18,9 @@ useEffect(
           {SEARCH_NOT_FOUNT_ERROR}
         </div>
         <div className="notification-close" >
-          <FontAwesomeIcon icon={faTimes} onClick={props.func} />
+          <FontAwesomeIcon icon={faTimes} 
+          onClick={(e)=>{props.closeWarningStatus();
+          props.clearSearchValue();}} />
         </div>
       </div>
     );
