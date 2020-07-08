@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
 import SpreadSheet from "./components/SpreadSheet";
-import CargoData from "./data.json"
+import CargoData from "./data.json";
+import { fetchData } from "./getData";
 
 const App = () => {
   //Get spreadsheet height value, which is a required value
   const gridHeight = "90vh";
+
+  let searchKey = "";
+  //Set state value for variable to hold grid data
+  const [data, setData] = useState();
+  //Set state value for variable to hold grid record status
+  const [status, setStatus] = useState("");
+  const rows = CargoData;
 
   //Configure columns and its related featues such as editor(Text/DropDown), FormulaApplicable(True/False)
   //Editable, Draggable, sortable, resizable, filterable, default width
@@ -418,15 +426,6 @@ const App = () => {
     { id: "ZZZ", value: "ZZZ" },
   ];
 
-  let searchKey = "";
-  const [data, setData] = useState();
-  const [status, setStatus] = useState("");
-  const rows = CargoData;
-
-  useEffect(() => {
-    setData(rows);
-  }, []);
-
   //Add logic for doing global search in the spreadsheet
   const globalSearchLogic = (e) => {
     searchKey = String(e.target.value).toLowerCase();
@@ -481,14 +480,22 @@ const App = () => {
   };
 
   //Gets called when there is a cell edit
-  const updateCellData = (e) => {
-    console.log(e);
+  const updateCellData = (rowIndex) => {
+    console.log(rowIndex);
   };
 
   //Gets called when row bulk edit is done
   const selectBulkData = (selectedRows) => {
     console.log(selectedRows);
   };
+
+  useEffect(() => {
+    //Make API call to fetch initial set of data, uncomment below code to use API call
+    // fetchData(0).then((data) => {
+    //   setItems(data);
+    // });
+    setData(rows);
+  }, []);
 
   if (data && data.length) {
     return (
