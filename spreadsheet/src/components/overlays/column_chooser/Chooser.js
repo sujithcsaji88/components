@@ -6,8 +6,11 @@ class ColumnReordering extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      columnReorderEntityList: [],
+      columnReorderEntityList: this.props.headerKeys,
+      columnSelectList: this.props.headerKeys,
+      leftPinnedColumList: [],
       isAllSelected: false,
+      maxLeftPinnedColumn: this.props.maxLeftPinnedColumn,
     };
   }
 
@@ -28,6 +31,7 @@ class ColumnReordering extends React.Component {
 
   addToColumnReorderEntityList = (typeToBeAdded) => {
     var existingColumnReorderEntityList = this.state.columnReorderEntityList;
+    var existingLeftPinnedList = this.state.leftPinnedColumList;
     if (!existingColumnReorderEntityList.includes(typeToBeAdded)) {
       existingColumnReorderEntityList.push(typeToBeAdded);
     } else {
@@ -36,12 +40,64 @@ class ColumnReordering extends React.Component {
           if (item !== typeToBeAdded) return item;
         }
       );
+      if (existingLeftPinnedList.includes(typeToBeAdded)) {
+        existingLeftPinnedList = existingLeftPinnedList.filter(
+          (item) => item !== typeToBeAdded
+        );
+    }
     }
     this.setState({
       columnReorderEntityList: existingColumnReorderEntityList,
       isAllSelected: false,
+      leftPinnedColumList: existingLeftPinnedList,
     });
   };
+
+  filterColumnReorderList = (e) => {
+    var searchKey = String(e.target.value).toLowerCase();
+    var existingList = this.state.columnSelectList;
+    let filtererdColumnReorderList = [];
+    if (searchKey.length > 0) {
+      if (existingList.length === 0) {
+        existingList = this.props.headerKeys;
+      }
+      filtererdColumnReorderList = existingList.filter((item) => {
+        return item.toLowerCase().includes(searchKey);
+      });
+    } else {
+      filtererdColumnReorderList = this.props.headerKeys;
+    }
+    this.setState({
+      columnSelectList: filtererdColumnReorderList,
+    });
+  };
+
+  reArrangeLeftPinnedColumn = (columHeaderName) => {
+    var existingLeftPinnedList = this.state.leftPinnedColumList;
+    var existingColumnReorderEntityList = this.state.columnReorderEntityList;
+    if (!existingLeftPinnedList.includes(columHeaderName)) {
+      existingLeftPinnedList.unshift(columHeaderName);
+    } else {
+      existingLeftPinnedList = existingLeftPinnedList.filter(
+        (item) => item !== columHeaderName
+      );
+    }
+    this.setState({
+      leftPinnedColumList: existingLeftPinnedList,
+    });
+
+    existingLeftPinnedList.map((item) => {
+      existingColumnReorderEntityList = existingColumnReorderEntityList.filter(
+        (subItem) => subItem !== item
+      );
+      existingColumnReorderEntityList.unshift(item);
+    });
+
+    this.setState({
+      columnReorderEntityList: existingColumnReorderEntityList,
+    });
+  };
+
   render() {
     return (
       <div className="columns--grid">
@@ -58,6 +114,7 @@ class ColumnReordering extends React.Component {
                   type="text"
                   placeholder="Search column"
                   className="custom__ctrl"
+                  onChange={this.filterColumnReorderList}
                 ></input>
               </div>
               <div className="column__selectAll">
@@ -69,7 +126,7 @@ class ColumnReordering extends React.Component {
                   Select All
                 </a>
               </div>
-              {this.props.headerKeys.map((item) => {
+              {this.state.columnSelectList.map((item) => {
                 return (
                   <div className="column__wrap" key={item}>
                     <div className="column__checkbox">
@@ -93,7 +150,11 @@ class ColumnReordering extends React.Component {
                 <strong>Column Setting</strong>
               </div>
               <div className="column__close">
-                <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                <FontAwesomeIcon
+                  type="button"
+                  icon={faTimes}
+                  onClick={() => this.props.closeColumnReOrdering()}
+                ></FontAwesomeIcon>
               </div>
             </div>
             <div className="column__headerTxt">
@@ -101,6 +162,21 @@ class ColumnReordering extends React.Component {
                &nbsp; &nbsp; Selected Column Count :{" "}
                 {this.state.columnReorderEntityList.length}
               </strong>
+            </div>
+            <div className="column__headerTxt">
+              {this.state.maxLeftPinnedColumn -
+                this.state.leftPinnedColumList.length >
+              0 ? (
+                <strong>
+                  &nbsp; &nbsp; Left Pinned Column Count Remaining :{" "}
+                  {this.state.maxLeftPinnedColumn -
+                    this.state.leftPinnedColumList.length}
+                </strong>
+              ) : (
+                <strong style={{ color: "red" }}>
+                  &nbsp; &nbsp; Maximum Count Of Left Pin Columns REACHED
+                </strong>
+              )}
             </div>
             <div className="column__body">
               {this.state.columnReorderEntityList.map((item) => {
@@ -112,7 +188,22 @@ class ColumnReordering extends React.Component {
                     <div className="">{item}</div>
                     <div className="column__wrap">
                       <div className="column__checkbox">
-                        <input type="checkbox"></input>
+                        <input
+                          type="checkbox"
+                          checked={this.state.leftPinnedColumList.includes(
+                            item
+                          )}
+                          disabled={
+                            this.state.maxLeftPinnedColumn -
+                              this.state.leftPinnedColumList.length <=
+                            0
+                              ? this.state.leftPinnedColumList.includes(item)
+                                ? false
+                                : true
+                              : false
+                          }
+                          onChange={() => this.reArrangeLeftPinnedColumn(item)}
+                        ></input>
                       </div>
                       <div className="column__txt">Pin Left</div>
                     </div>
@@ -134,7 +225,17 @@ class ColumnReordering extends React.Component {
                 >
                   Cancel
                 </button>
-                <button className="btns btns__save">Save</button>
+                <button
+                  className="btns btns__save"
+                  onClick={() =>
+                    this.props.updateTableAsPerRowChooser(
+                      this.state.columnReorderEntityList,
+                      this.state.leftPinnedColumList
+                    )
+                  }
+                >
+                  Save
+                </button>
               </div>
             </div>
           </div>

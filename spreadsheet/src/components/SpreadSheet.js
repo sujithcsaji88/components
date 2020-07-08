@@ -421,12 +421,33 @@ class SpreadSheet extends Component {
     });
   }
 
+  updateTableAsPerRowChooser = (inComingColumnsHeaderList, pinnedColumnsList) => {
+    var existingColumnsHeaderList = this.state.columns;
+    existingColumnsHeaderList = existingColumnsHeaderList.filter((item) => {
+      return inComingColumnsHeaderList.includes(item.name);
+    });
+    existingColumnsHeaderList.map((headerItem,index)=>{
+      if(pinnedColumnsList.includes(headerItem.name)){
+        existingColumnsHeaderList[index]["frozen"] = true;
+      }
+    })
+    console.log("existingColumnsHeaderList ",existingColumnsHeaderList)
+    this.setState({
+      columns: existingColumnsHeaderList,
+    });
+
+    this.closeColumnReOrdering();
+  };
+
+
   columnReorderingPannel = () => {
     var headerNameList = [];
     this.state.columns.map((item) => headerNameList.push(item.name));
     this.setState({
       columnReorderingComponent: (
         <ColumnReordering
+          maxLeftPinnedColumn={this.props.maxLeftPinnedColumn}
+          updateTableAsPerRowChooser={this.updateTableAsPerRowChooser}
           headerKeys={headerNameList}
           closeColumnReOrdering={this.closeColumnReOrdering}
         />
