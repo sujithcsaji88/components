@@ -17,11 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "./common/ErrorMessage";
 import ColumnReordering from "./overlays/column_chooser/Chooser";
 import Sorting from "./overlays/sorting/Sorting";
-
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-import * as FileSaver from "file-saver";
-import * as XLSX from "xlsx";
+import ExportData from './overlays/export_data/ExportData';
 
 const {
   DraggableHeader: { DraggableContainer },
@@ -101,6 +97,7 @@ class SpreadSheet extends Component {
       status: "",
       textValue: "",
       columnReorderingComponent: null,
+      exportComponent: null,
       filteringRows: this.props.rows,
       sortingPanelComponent: null,
       columns: this.props.columns.map((item) => {
@@ -132,82 +129,6 @@ class SpreadSheet extends Component {
       return item.formaulaApplicable;
     });
   }
-
-  exportPDF = () => {
-    const unit = "pt";
-    const size = "A4"; // Use A1, A2, A3 or A4
-    const orientation = "landscape"; // portrait or landscape
-
-    const marginLeft = 300;
-    const doc = new jsPDF(orientation, unit, size);
-
-    doc.setFontSize(15);
-
-    const title = "Multiline Grid Data Export To PDF";
-    const headers = [
-      [
-        "Id",
-        "Flight",
-        "Date",
-        "Segment From",
-        "Revenue",
-        "Segment TO",
-        "Flight Model",
-        "Body Type",
-        "Type",
-        "Start Time",
-        "End Time",
-      ],
-    ];
-
-    const dataValues = this.state.rows.map((row) => [
-      row.travelId,
-      row.flightno,
-      row.date,
-      row.segmentfrom,
-      row.revenue,
-      row.segmentto,
-      row.flightModel,
-      row.bodyType,
-      row.type,
-      row.startTime,
-      row.endTime,
-    ]);
-
-    let content = {
-      startY: 50,
-      head: headers,
-      body: dataValues,
-    };
-
-    doc.text(title, marginLeft, 40);
-    doc.autoTable(content);
-    doc.save("report.pdf");
-  };
-
-  downloadCSVFile = () => {
-    const fileType =
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-    const fileExtension = ".csv";
-    const fileName = "CSVDownload";
-    const ws = XLSX.utils.json_to_sheet(this.state.rows);
-    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-    const excelBuffer = XLSX.write(wb, { bookType: "csv", type: "array" });
-    const data = new Blob([excelBuffer], { type: fileType });
-    FileSaver.saveAs(data, fileName + fileExtension);
-  };
-
-  downloadXLSFile = () => {
-    const fileType =
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-    const fileExtension = ".xlsx";
-    const fileName = "XLSXDownload";
-    const ws = XLSX.utils.json_to_sheet(this.state.rows);
-    const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-    const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-    const data = new Blob([excelBuffer], { type: fileType });
-    FileSaver.saveAs(data, fileName + fileExtension);
-  };
 
   updateRows = (startIdx, newRows) => {
     this.setState((state) => {
@@ -511,6 +432,25 @@ class SpreadSheet extends Component {
     });
   };
 
+  //Export Data Logic
+  exportColumnData = () => {
+    this.setState({
+      exportComponent: (
+        <ExportData
+          rows={this.state.rows}
+          columnsList={this.state.columns}
+          closeExport={this.closeExport}
+        />
+      ),
+    });
+  };
+
+  closeExport = () => {
+    this.setState({
+      exportComponent: null,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -542,12 +482,13 @@ class SpreadSheet extends Component {
             <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
           </div>
           {this.state.columnReorderingComponent}
+          <div className="filterIcons">
+            <FontAwesomeIcon title="Export" icon={faShareAlt} onClick={this.exportColumnData} />
+          </div>
+          {this.state.exportComponent}
           {/* <div className="filterIcons">
             <FontAwesomeIcon title="Reload" icon={faSyncAlt} />
           </div> */}
-          <div className="filterIcons">
-            <FontAwesomeIcon title="Export" icon={faShareAlt} onClick={this.exportPDF} />
-          </div>
           {/* <div className="filterIcons">
             <FontAwesomeIcon icon={faAlignLeft} />
           </div> */}
