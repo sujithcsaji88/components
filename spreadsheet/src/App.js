@@ -1,8 +1,5 @@
 
 import React, { useState, useEffect } from "react";
-import CargoData from "./stubs/CargoData1.json";
-
-import React, { useState, useEffect } from "react";
 import SpreadSheet from "./components/SpreadSheet";
 import CargoData from "./data.json";
 
