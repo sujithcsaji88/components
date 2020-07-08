@@ -20,6 +20,8 @@ import "jspdf-autotable";
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
+import ExportData from '../column/exportData/exportData';
+
 const {
   DraggableHeader: { DraggableContainer },
 } = require("react-data-grid-addons");
@@ -633,6 +635,10 @@ class Grid extends Component {
             }
           />
         </DraggableContainer>
+        <ExportData
+          rows={this.state.rows}
+          columnsList={this.state.columns}
+        />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Grid from "./components/datagrid/datagrid";
-import CargoData from "./stubs/CargoData.json";
+import CargoData from "./stubs/CargoData1.json";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import ColumnReordering from "./components/column/column-reorder/column-reorder";
 import ExportData from './components/column/exportData/exportData';
@@ -112,9 +112,9 @@ export default function App() {
           count={data.length}
         />
         {/* <ColumnReordering /> */}
-        <ExportData
+        {/* <ExportData
           rows={data}
-        />
+        /> */}
         {/* <Sorting/> */}
       </div>
     );

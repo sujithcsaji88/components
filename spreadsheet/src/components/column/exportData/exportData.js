@@ -14,13 +14,74 @@ import "jspdf-autotable";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 
+import {
+  CheckboxGroup,
+  AllCheckerCheckbox,
+  Checkbox
+} from "@createnl/grouped-checkboxes";
+
 const ExportData = (props) => {
-  const downLaodFileType = [];
-  const selectDownLoadType = (event) => {
-    downLaodFileType.push(event.target.value);
+  const [isChecked, setIsChecked] = useState(false);
+  const selectAllColumns = () => {
+    if (!isChecked) setIsChecked(true);
+    else setIsChecked(false);
   };
+  var downLaodFileType = [];
+  var filteredRow = [];
+  const selectDownLoadType = (event) => {
+    if (
+      event.target.checked &&
+      !downLaodFileType.includes(event.target.value)
+    ) {
+      downLaodFileType.push(event.target.value);
+    } else {
+      downLaodFileType = downLaodFileType.filter(function (value, index, arr) {
+        return value !== event.target.value;
+      });
+    }
+  };
+
+  var selectedColumnList = [];
+  var selectedColumnHeaderList = [];
+  const selectColumnName = (event) => {
+    debugger;
+    if (
+      event.target.checked &&
+      !selectedColumnList.includes(event.target.value)
+    ) {
+      selectedColumnList.push(event.target.value);
+      selectedColumnHeaderList.push(event.target.title);
+    } else {
+      selectedColumnList = selectedColumnList.filter(function (
+        value,
+        index,
+        arr
+      ) {
+        return value !== event.target.value;
+      });
+      selectedColumnHeaderList = selectedColumnHeaderList.filter(function (
+        value,
+        index,
+        arr
+      ) {
+        return value !== event.target.title;
+      });
+    }
+  };
+
   const exportData = () => {
-    if (downLaodFileType.length > 0) {
+    if (selectedColumnList.length > 0 && downLaodFileType.length > 0) {
+      const rowValues = props.rows.filter((row) => {
+        const keys = Object.getOwnPropertyNames(row);
+        var filteredColumnVal = {};
+        keys.map(function (key) {
+          selectedColumnList.forEach((columnName) => {
+            if (columnName == key) filteredColumnVal[key] = row[key];
+          });
+        });
+        filteredRow.push(filteredColumnVal);
+      });
+
       downLaodFileType.forEach((item) => {
         if (item == "pdf") downloadPDF();
         else if (item == "excel") downloadCSVFile();
@@ -39,35 +100,18 @@ const ExportData = (props) => {
     doc.setFontSize(15);
 
     const title = "Multiline Grid Data Export To PDF";
-    const headers = [
-      [
-        "Id",
-        "Flight",
-        "Date",
-        "Segment From",
-        "Revenue",
-        "Segment TO",
-        "Flight Model",
-        "Body Type",
-        "Type",
-        "Start Time",
-        "End Time",
-      ],
-    ];
-
-    const dataValues = props.rows.map((row) => [
-      row.travelId,
-      row.flightno,
-      row.date,
-      row.segmentfrom,
-      row.revenue,
-      row.segmentto,
-      row.flightModel,
-      row.bodyType,
-      row.type,
-      row.startTime,
-      row.endTime,
-    ]);
+    const headers = [selectedColumnHeaderList];
+    var dataValues = [];
+    const rowValues = props.rows.map((row) => {
+      const keys = Object.keys(row);
+      var filteredColumnVal = [];
+      selectedColumnList.filter((columnName) => {
+        keys.map((key) => {
+          if (columnName == key) filteredColumnVal.push(row[key]);
+        });
+      });
+      dataValues.push(filteredColumnVal);
+    });
 
     let content = {
       startY: 50,
@@ -85,7 +129,7 @@ const ExportData = (props) => {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".csv";
     const fileName = "CSVDownload";
-    const ws = XLSX.utils.json_to_sheet(props.rows);
+    const ws = XLSX.utils.json_to_sheet(filteredRow);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "csv", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
@@ -97,7 +141,7 @@ const ExportData = (props) => {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
     const fileName = "XLSXDownload";
-    const ws = XLSX.utils.json_to_sheet(props.rows);
+    const ws = XLSX.utils.json_to_sheet(filteredRow);
     const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const data = new Blob([excelBuffer], { type: fileType });
@@ -122,70 +166,26 @@ const ExportData = (props) => {
               ></input>
             </div>
             <div className="export__selectAll">
-              <a href="" className="export__selectTxt">
+              <div className="export__selectTxt" onClick={selectAllColumns}>
                 Select All
-              </a>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
               </div>
-              <div className="export__txt">AWB Number</div>
             </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
-            <div className="export__wrap">
-              <div className="export__checkbox">
-                <input type="checkbox"></input>
-              </div>
-              <div className="export__txt">AWB Number</div>
-            </div>
+            {props.columnsList.length > 0
+              ? props.columnsList.map((column) => (
+                  <div className="export__wrap">
+                    <div className="export__checkbox">
+                      <input
+                        type="checkbox"
+                        value={column.key}
+                        title={column.name}
+                        onChange={selectColumnName}
+                        checked={isChecked}
+                      ></input>
+                    </div>
+                    <div className="export__txt">{column.name}</div>
+                  </div>
+                ))
+              : ""}
           </div>
         </div>
         <div className="export__settings">
@@ -210,7 +210,6 @@ const ExportData = (props) => {
                 <FontAwesomeIcon
                   icon={faFilePdf}
                   className="temp"
-                  onClick={downloadPDF}
                 ></FontAwesomeIcon>
               </div>
             </div>
@@ -243,7 +242,6 @@ const ExportData = (props) => {
                 <FontAwesomeIcon
                   icon={faFileCsv}
                   className="temp"
-                  onClick={downloadCSVFile}
                 ></FontAwesomeIcon>
               </div>
             </div>
