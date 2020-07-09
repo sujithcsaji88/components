@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ReactDataGrid from "react-data-grid";
+import ExtDataGrid from "./common/extDataGrid";
 import { Toolbar, Data, Filters, Editors } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../utilities/utils";
@@ -106,13 +106,13 @@ class SpreadSheet extends Component {
     return rows[i];
   };
 
-  handleCopy = (e) => {
+   handleCopy = (e) => {
     e.preventDefault();
     const { topLeft, botRight } = this.state;
     const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
       .map((rowIdx) =>
         this.state.columns
-          .slice(topLeft.colIdx, botRight.colIdx + 1)
+          .slice(topLeft.colIdx - 1, botRight.colIdx)
           .map((col) => this.rowGetter(rowIdx)[col.key])
           .join("\t")
       )
@@ -129,7 +129,7 @@ class SpreadSheet extends Component {
       const rowData = {};
       // Merge the values from pasting and the keys from the columns
       this.state.columns
-        .slice(topLeft.colIdx, topLeft.colIdx + row.length)
+        .slice(topLeft.colIdx - 1, (topLeft.colIdx - 1) + row.length)
         .forEach((col, j) => {
           rowData[col.key] = row[j];
         });
@@ -513,7 +513,7 @@ class SpreadSheet extends Component {
           className="gridDiv"
           onHeaderDrop={this.onHeaderDrop}
         >
-          <ReactDataGrid
+          <ExtDataGrid
             toolbar={<Toolbar enableFilter={true} />}
             getValidFilterValues={(columnKey) =>
               this.getValidFilterValues(this.state.filteringRows, columnKey)
@@ -541,6 +541,9 @@ class SpreadSheet extends Component {
             onGridSort={(sortColumn, sortDirection) =>
               this.sortRows(this.state.rows, sortColumn, sortDirection)
             }
+            cellRangeSelection={{
+              onComplete: this.setSelection,
+            }}
           />
         </DraggableContainer>
       </div>
