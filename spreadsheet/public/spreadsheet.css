@@ -228,3 +228,16 @@ input.editor-checkbox {
   margin-right: 13px;
   cursor: pointer;
 }
+.react-grid-Container .react-grid-Toolbar{
+  padding: 0;
+    border: none;
+    right: 90px;
+    top: 22px;
+    background-color: transparent;
+}
+.react-grid-Container .react-grid-Toolbar .btn{
+  border: 1px solid #ddd;
+  text-indent: -9999px;
+  height: 27px;
+  background: url('images/filter.svg') no-repeat 0 0;
+}
