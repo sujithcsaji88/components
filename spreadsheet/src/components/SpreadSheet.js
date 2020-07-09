@@ -324,16 +324,45 @@ class SpreadSheet extends Component {
   }
 
   updateTableAsPerRowChooser = (inComingColumnsHeaderList, pinnedColumnsList) => {
-    var existingColumnsHeaderList = this.state.columns;
+    var existingColumnsHeaderList = this.props.columns;
     existingColumnsHeaderList = existingColumnsHeaderList.filter((item) => {
       return inComingColumnsHeaderList.includes(item.name);
     });
+
+    var rePositionedArray = existingColumnsHeaderList;
+    var singleHeaderOneList;
+    if(pinnedColumnsList.length>0){
+      pinnedColumnsList
+        .slice(0)
+        .reverse()
+        .map((item, index) => {
+          singleHeaderOneList = existingColumnsHeaderList.filter(
+            (subItem) => item === subItem.name
+          );
+          rePositionedArray = this.array_move(
+            existingColumnsHeaderList,
+            existingColumnsHeaderList.indexOf(singleHeaderOneList[0]),
+            index
+          );
+        });
+    }
+
+    existingColumnsHeaderList = rePositionedArray;
+       /**
+       making all the frozen attribute as false for all the columns and then 
+       setting items of pinnedColumnsList as frozen = true
+       */
     existingColumnsHeaderList.map((headerItem, index) => {
+      if (headerItem.frozen !== undefined && headerItem.frozen === true) {
+        existingColumnsHeaderList[index]["frozen"] = false;
+      }
       if (pinnedColumnsList.includes(headerItem.name)) {
         existingColumnsHeaderList[index]["frozen"] = true;
       }
-    })
-    console.log("existingColumnsHeaderList ", existingColumnsHeaderList)
+    });
+
+    console.log("existingColumnsHeaderList ", existingColumnsHeaderList);
+
     this.setState({
       columns: existingColumnsHeaderList,
     });
@@ -342,8 +371,32 @@ class SpreadSheet extends Component {
   };
 
 
+  /**
+   * Method To re-position a particular object in an Array from old_index to new_index
+   * @param {*} arr inComing array
+   * @param {*} old_index initial index 
+   * @param {*} new_index final index
+   */
+  array_move = (arr, old_index, new_index) => {
+    if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+        arr.push(undefined);
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr;
+  };
+
+  /**
+   * Method to render the column Selector Pannel
+   */
   columnReorderingPannel = () => {
     var headerNameList = [];
+    var existingPinnedHeadersList = [];
+    this.state.columns
+      .filter((item) => item.frozen !== undefined && item.frozen === true)
+      .map((item) => existingPinnedHeadersList.push(item.name));
     this.state.columns.map((item) => headerNameList.push(item.name));
     this.setState({
       columnReorderingComponent: (
@@ -352,11 +405,17 @@ class SpreadSheet extends Component {
           updateTableAsPerRowChooser={this.updateTableAsPerRowChooser}
           headerKeys={headerNameList}
           closeColumnReOrdering={this.closeColumnReOrdering}
+          existingPinnedHeadersList={existingPinnedHeadersList}
+          {...this.props}
         />
       ),
     });
   };
 
+
+  /**
+   * Method to stop the render the column Selector Pannel
+   */
   closeColumnReOrdering = () => {
     this.setState({
       columnReorderingComponent: null,

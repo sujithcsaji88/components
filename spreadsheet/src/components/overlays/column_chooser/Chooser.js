@@ -10,13 +10,16 @@ class ColumnReordering extends React.Component {
 		super(props);
 		this.state = {
 			columnReorderEntityList: this.props.headerKeys,
-			columnSelectList: this.props.headerKeys,
-			leftPinnedColumList: [],
+			columnSelectList: this.props.columns.map(item=> item.name),
+			leftPinnedColumList: this.props.existingPinnedHeadersList,
 			isAllSelected: false,
 			maxLeftPinnedColumn: this.props.maxLeftPinnedColumn,
 		};
 	}
 
+	/**
+	 * Method to reset the coloumn list onClick of Reset button
+	 */
 	resetColumnReorderList = () => {
 		this.setState({
 			columnReorderEntityList: [],
@@ -24,14 +27,21 @@ class ColumnReordering extends React.Component {
 		});
 	};
 
+	/**
+	 * Method to Select all options in the coloumn list onClick of Select All button
+	 */
 	selectAllToColumnReOrderList = () => {
 		this.resetColumnReorderList();
 		this.setState({
-			columnReorderEntityList: this.props.headerKeys,
+			columnReorderEntityList: this.props.columns.map(item=> item.name),
 			isAllSelected: true,
 		});
 	};
 
+	/**
+	 * Method To add a column to columnReorderEntityList when selected.
+	 * @param {String} typeToBeAdded 
+	 */
 	addToColumnReorderEntityList = (typeToBeAdded) => {
 		var existingColumnReorderEntityList = this.state.columnReorderEntityList;
 		var existingLeftPinnedList = this.state.leftPinnedColumList;
@@ -52,19 +62,20 @@ class ColumnReordering extends React.Component {
 		});
 	};
 
+	/**
+	 * Method to handle the like-search on key stroke.
+	 * @param {Event} e 
+	 */
 	filterColumnReorderList = (e) => {
 		var searchKey = String(e.target.value).toLowerCase();
-		var existingList = this.state.columnSelectList;
+		var existingList = this.props.columns.map(item=> item.name);
 		let filtererdColumnReorderList = [];
 		if (searchKey.length > 0) {
-			if (existingList.length === 0) {
-				existingList = this.props.headerKeys;
-			}
 			filtererdColumnReorderList = existingList.filter((item) => {
 				return item.toLowerCase().includes(searchKey);
 			});
 		} else {
-			filtererdColumnReorderList = this.props.headerKeys;
+			filtererdColumnReorderList = this.props.columns.map(item=> item.name);
 		}
 		this.setState({
 			columnSelectList: filtererdColumnReorderList,
@@ -104,6 +115,10 @@ class ColumnReordering extends React.Component {
 		});
 	};
 
+	/**
+	 * Method to handle the position of columns Names when left pinned in coloumn selector view.
+	 * @param {String} columHeaderName 
+	 */
 	reArrangeLeftPinnedColumn = (columHeaderName) => {
 		var existingLeftPinnedList = this.state.leftPinnedColumList;
 		var existingColumnReorderEntityList = this.state.columnReorderEntityList;
