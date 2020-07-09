@@ -75,15 +75,15 @@ class ExportData extends React.Component {
         var filteredColumnVal = {};
         keys.map(function (key) {
           var rows = columnVlaueList.forEach((columnName) => {
-            if (columnName.key == key) filteredColumnVal[key] = row[key];
+            if (columnName.key === key) filteredColumnVal[key] = row[key];
           });
         });
         this.state.filteredRow.push(filteredColumnVal);
       });
 
       this.state.downLaodFileType.forEach((item) => {
-        if (item == "pdf") this.downloadPDF();
-        else if (item == "excel") this.downloadXLSFile();
+        if (item === "pdf") this.downloadPDF();
+        else if (item === "excel") this.downloadXLSFile();
         else this.downloadCSVFile();
       });
     }
@@ -98,7 +98,7 @@ class ExportData extends React.Component {
 
     doc.setFontSize(15);
 
-    const title = "Multiline Grid Data Export To PDF";
+    const title = "iCargo Report";
     const headers = [
       this.state.columnEntityList.map((column) => {
         return column.name;
@@ -110,7 +110,7 @@ class ExportData extends React.Component {
       var filteredColumnVal = [];
       this.state.columnEntityList.filter((columnName) => {
         keys.map((key) => {
-          if (columnName.key == key) filteredColumnVal.push(row[key]);
+          if (columnName.key === key) filteredColumnVal.push(row[key]);
         });
       });
       dataValues.push(filteredColumnVal);

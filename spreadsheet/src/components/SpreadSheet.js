@@ -4,6 +4,7 @@ import { Toolbar, Data, Filters, Editors } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../utilities/utils";
 import { FormControl } from "react-bootstrap";
+import DatePicker from "./functions/DatePicker.js";
 import {
   faSortAmountDown,
   faColumns,
@@ -64,25 +65,6 @@ class DatePicker extends React.Component {
     return updated;
   }
 
-  onValueChanged(ev) {
-    this.setState({ value: ev.target.value });
-  }
-
-  render() {
-    return (
-      <div>
-        <input
-          type="date"
-          ref={(ref) => {
-            this.input = ref;
-          }}
-          value={this.state.value}
-          onChange={this.onValueChanged}
-        />
-      </div>
-    );
-  }
-}
 
 const defaultParsePaste = (str) =>
   str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
@@ -96,6 +78,10 @@ const { AutoCompleteFilter } = Filters;
 class SpreadSheet extends Component {
   constructor(props) {
     super(props);
+    const airportCodes = [];
+    this.props.airportCodes.forEach((item) => {
+      airportCodes.push({ "id": item, "value": item })
+    })
     this.state = {
       searchValue: "",
       filter: {},
@@ -133,7 +119,7 @@ class SpreadSheet extends Component {
     this.handleFilterChange = this.handleFilterChange.bind(this);
 
     this.formulaAppliedCols = this.props.columns.filter((item) => {
-      return item.formaulaApplicable;
+      return item.formulaApplicable;
     });
   }
 
@@ -304,7 +290,8 @@ class SpreadSheet extends Component {
       filteredRows = this.state.filteringRows;
     }
     this.setState({ junk });
-    const data = this.getrows(filteredRows, this.state.junk);
+    const data = this.getrows(this.state.filteringRows, this.state.junk);
+    debugger
     this.setState({
       rows: data,
     });
@@ -313,8 +300,9 @@ class SpreadSheet extends Component {
     if (Object.keys(filters).length <= 0) {
       filters = {};
     }
-    const data = selectors.getRows({ rows, filters });
-    return data;
+    const value = selectors.getRows({ rows: [], filters: {} });
+    return selectors.getRows({ rows: rows, filters: filters });
+    //return data;
   };
 
   getValidFilterValues(rows, columnId) {
@@ -531,7 +519,6 @@ class SpreadSheet extends Component {
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)
             }
-            toolbar={<Toolbar enableFilter={true} />}
             onAddFilter={(filter) => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,
