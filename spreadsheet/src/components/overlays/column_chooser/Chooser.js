@@ -6,16 +6,35 @@ import { faTimes, faAlignJustify } from "@fortawesome/free-solid-svg-icons";
 import ColumnsList from "./columnsList";
 
 class ColumnReordering extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			columnReorderEntityList: this.props.headerKeys,
-			columnSelectList: this.props.columns.map(item=> item.name),
-			leftPinnedColumList: this.props.existingPinnedHeadersList,
-			isAllSelected: false,
-			maxLeftPinnedColumn: this.props.maxLeftPinnedColumn,
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      columnReorderEntityList: this.props.headerKeys,
+      columnSelectList: this.props.headerKeys,
+      leftPinnedColumList: this.props.existingPinnedHeadersList,
+      isAllSelected: false,
+      maxLeftPinnedColumn: this.props.maxLeftPinnedColumn,
+    };
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.props.closeColumnReOrdering()
+    }
+  }
 
 	/**
 	 * Method to reset the coloumn list onClick of Reset button
@@ -143,7 +162,7 @@ class ColumnReordering extends React.Component {
 
 	render() {
 		return (
-			<div className='columns--grid'>
+			<div className='columns--grid'ref={this.setWrapperRef}>
 				<div className='column__grid'>
 					<div className='column__chooser'>
 						<div className='column__header'>

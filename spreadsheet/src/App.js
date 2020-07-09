@@ -88,7 +88,7 @@ const App = () => {
     {
       key: "flightModel",
       name: "Flight Model",
-      draggable: true,
+      //draggable: true,
       formulaApplicable: false,
       sortable: true,
       resizable: true,
@@ -430,6 +430,7 @@ const App = () => {
         (item.uldvalue2 && item.uldvalue2.toLowerCase().includes(searchKey)) ||
         (item.uldposition3 &&
           item.uldposition3.toLowerCase().includes(searchKey)) ||
+          (item.weightvalue && item.weightvalue.toLowerCase().includes(searchKey)) ||
         (item.uldvalue3 && item.uldvalue3.toLowerCase().includes(searchKey)) ||
         (item.uldposition4 &&
           item.uldposition4.toLowerCase().includes(searchKey)) ||
@@ -469,7 +470,7 @@ const App = () => {
     //   setItems(data);
     // });
     setData(rows);
-  }, []);
+  }, [rows]);
 
   if (data && data.length) {
     return (

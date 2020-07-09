@@ -5,13 +5,14 @@ import { range } from "lodash";
 import { applyFormula } from "../utilities/utils";
 import { FormControl } from "react-bootstrap";
 import DatePicker from "./functions/DatePicker.js";
+import Spinner from 'react-bootstrap/Spinner';
 import {
   faSortAmountDown,
   faColumns,
-  faSyncAlt,
+  // faSyncAlt,
   faShareAlt,
-  faAlignLeft,
-  faFilter,
+  // faAlignLeft,
+  // faFilter,
   faSortDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,7 +31,7 @@ const { DropDownEditor } = Editors;
 const defaultParsePaste = (str) =>
   str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
 
-let newFilters = {};
+// let newFilters = {};
 
 const selectors = Data.Selectors;
 
@@ -55,7 +56,9 @@ class SpreadSheet extends Component {
       columnReorderingComponent: null,
       exportComponent: null,
       filteringRows: this.props.rows,
+      tempRows: this.props.rows,
       sortingPanelComponent: null,
+      count: this.props.rows.length,
       columns: this.props.columns.map((item) => {
         if (item.editor === "DatePicker") {
           item.editor = DatePicker;
@@ -175,6 +178,7 @@ class SpreadSheet extends Component {
     this.setState({
       textValue: props.textValue,
     });
+    this.setState({ count: props.count })
   }
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     let columnName = "";
@@ -183,6 +187,7 @@ class SpreadSheet extends Component {
         columnName = item.key;
         return true;
       }
+      else return false;
     });
 
     if (filter.length > 0) {
@@ -216,6 +221,19 @@ class SpreadSheet extends Component {
           filteringRows,
         };
       });
+      this.setState((state) => {
+        const tempRows = state.tempRows.slice();
+        for (let i = fromRow; i <= toRow; i++) {
+          tempRows[i] = {
+            ...tempRows[i],
+            ...updated,
+          };
+        }
+
+        return {
+          tempRows,
+        };
+      });
     }
     //find row
     if (this.props.updateCellData) {
@@ -242,33 +260,35 @@ class SpreadSheet extends Component {
   };
 
   handleFilterChange = (value) => {
-    let filteredRows = null;
     let junk = this.state.junk;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
       junk[value.column.key] = value;
-      filteredRows = this.state.rows;
     }
     else {
       delete junk[value.column.key];
-      filteredRows = this.state.filteringRows;
     }
     this.setState({ junk });
     const data = this.getrows(this.state.filteringRows, this.state.junk);
-    debugger
     this.setState({
       rows: data,
+      tempRows: data,
+      count: data.length
     });
   };
   getrows = (rows, filters) => {
     if (Object.keys(filters).length <= 0) {
       filters = {};
     }
-    const value = selectors.getRows({ rows: [], filters: {} });
+    selectors.getRows({ rows: [], filters: {} });
     return selectors.getRows({ rows: rows, filters: filters });
-    //return data;
   };
 
   getValidFilterValues(rows, columnId) {
+    // return (
+    //   <Spinner animation="border" role="status">
+    //     <span className="sr-only">Loading...</span>
+    //   </Spinner>
+    // );
     return rows
       .map((r) => r[columnId])
       .filter((item, i, a) => {
@@ -471,7 +491,7 @@ class SpreadSheet extends Component {
       <div>
         <div className="parentDiv">
           <div className="totalCount">
-            Showing <strong> {this.props.count} </strong> records
+            Showing <strong> {this.state.count} </strong> records
           </div>
           <div className="globalSearch">
             <FormControl
@@ -479,7 +499,7 @@ class SpreadSheet extends Component {
               placeholder="Search a screen"
               onChange={(e) => {
                 this.handleSearchValue(e.target.value)
-                this.props.globalSearchLogic(e, this.state.filteringRows)
+                this.props.globalSearchLogic(e, this.state.tempRows)
               }}
               value={this.state.searchValue}
             />
