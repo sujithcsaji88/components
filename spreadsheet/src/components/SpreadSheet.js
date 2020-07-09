@@ -80,7 +80,7 @@ class SpreadSheet extends Component {
     this.handleFilterChange = this.handleFilterChange.bind(this);
 
     this.formulaAppliedCols = this.props.columns.filter((item) => {
-      return item.formaulaApplicable;
+      return item.formulaApplicable;
     });
   }
 

@@ -1,5 +1,5 @@
 export const applyFormula = (obj, columnName) => {
-  let item = obj[columnName];
+  let item = obj[columnName].toString();
   if (item && item.charAt(0) === "=") {
     var operation = item.split("(");
     var value = operation[1]
