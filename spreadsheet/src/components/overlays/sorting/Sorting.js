@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimes,
@@ -75,15 +75,33 @@ const AddedElement = (props) => {
   );
 };
 
+function useOutsideDetector(ref,props) {
+  useEffect(() => {
+    
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        props.closeSorting()
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref,props]);
+}
 const deleteHandler = (index) => {
   console.log("deleted", index);
 };
 
 const Sorting = (props) => {
   const [count, setCount] = useState(0);
+  const wrapperRef = useRef(null);
+  useOutsideDetector(wrapperRef,props);
+
+  
 
   return (
-    <div className="sorts--grid">
+    <div className="sorts--grid" ref={wrapperRef}>
       <div className="sort__grid">
         <div className="sort__settings">
           <div className="sort__header">

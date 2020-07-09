@@ -12,6 +12,25 @@ class ColumnReordering extends React.Component {
       isAllSelected: false,
       maxLeftPinnedColumn: this.props.maxLeftPinnedColumn,
     };
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.props.closeColumnReOrdering()
+    }
   }
 
   resetColumnReorderList = () => {
@@ -100,7 +119,7 @@ class ColumnReordering extends React.Component {
 
   render() {
     return (
-      <div className="columns--grid">
+      <div className="columns--grid" ref={this.setWrapperRef}>
         <div className="column__grid">
           <div className="column__chooser">
             <div className="column__header">
