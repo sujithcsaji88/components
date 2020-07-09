@@ -47,13 +47,14 @@
   display: flex;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__new {
-  margin-left: 60px;
+  margin: 15px 0px 0px 60px;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__new .sort__section {
   font-size: 18px;
   color: #98a3ac;
   display: flex;
   align-items: center;
+  width: 13%;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__new .sort__txt {
   margin-left: 5px;

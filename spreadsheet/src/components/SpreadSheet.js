@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "./common/ErrorMessage";
 import ColumnReordering from "./overlays/column_chooser/Chooser";
 import Sorting from "./overlays/sorting/Sorting";
-import ExportData from './overlays/export_data/ExportData';
+import ExportData from "./overlays/export_data/ExportData";
 
 const {
   DraggableHeader: { DraggableContainer },
@@ -48,11 +48,20 @@ class DatePicker extends React.Component {
     var updated = {};
     let date;
     date = new Date(this.state.value);
-    const dateTimeFormat = new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "2-digit" });
-    const [{ value: month }, , { value: day }, , { value: year }] = dateTimeFormat.formatToParts(date);
+    const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    });
+    const [
+      { value: month },
+      ,
+      { value: day },
+      ,
+      { value: year },
+    ] = dateTimeFormat.formatToParts(date);
     updated[this.props.column.key] = `${day}-${month}-${year}`;
     return updated;
-
   }
 
   onValueChanged(ev) {
@@ -101,19 +110,17 @@ class SpreadSheet extends Component {
       filteringRows: this.props.rows,
       sortingPanelComponent: null,
       columns: this.props.columns.map((item) => {
-        if(item.editable){
-        if (item.editor === "DatePicker") {
-          item.editor = DatePicker;
-        } else if (item.editor === "DropDown") {
-          item.editor = <DropDownEditor options={this.props.airportCodes} />;
+        if (item.editable) {
+          if (item.editor === "DatePicker") {
+            item.editor = DatePicker;
+          } else if (item.editor === "DropDown") {
+            item.editor = <DropDownEditor options={this.props.airportCodes} />;
+          } else {
+            item.editor = "text";
+          }
+        } else {
+          item.editor = null;
         }
-        else{
-          item.editor="text";
-        }
-      }
-      else{
-        item.editor=null;
-      }
         item.filterRenderer = AutoCompleteFilter;
         return item;
       }),
@@ -267,7 +274,6 @@ class SpreadSheet extends Component {
     if (this.props.updateCellData) {
       //this.props.updateCellData(passRow);
     }
-
   };
 
   onRowsSelected = (rows) => {
@@ -289,12 +295,11 @@ class SpreadSheet extends Component {
 
   handleFilterChange = (value) => {
     let filteredRows = {};
-    let  junk = this.state.junk;
+    let junk = this.state.junk;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
       junk[value.column.key] = value;
       filteredRows = this.state.rows;
-    } 
-      else{
+    } else {
       delete junk[value.column.key];
       filteredRows = this.state.filteringRows;
     }
@@ -367,24 +372,26 @@ class SpreadSheet extends Component {
     });
   }
 
-  updateTableAsPerRowChooser = (inComingColumnsHeaderList, pinnedColumnsList) => {
+  updateTableAsPerRowChooser = (
+    inComingColumnsHeaderList,
+    pinnedColumnsList
+  ) => {
     var existingColumnsHeaderList = this.state.columns;
     existingColumnsHeaderList = existingColumnsHeaderList.filter((item) => {
       return inComingColumnsHeaderList.includes(item.name);
     });
-    existingColumnsHeaderList.map((headerItem,index)=>{
-      if(pinnedColumnsList.includes(headerItem.name)){
+    existingColumnsHeaderList.map((headerItem, index) => {
+      if (pinnedColumnsList.includes(headerItem.name)) {
         existingColumnsHeaderList[index]["frozen"] = true;
       }
-    })
-    console.log("existingColumnsHeaderList ",existingColumnsHeaderList)
+    });
+    console.log("existingColumnsHeaderList ", existingColumnsHeaderList);
     this.setState({
       columns: existingColumnsHeaderList,
     });
 
     this.closeColumnReOrdering();
   };
-
 
   columnReorderingPannel = () => {
     var headerNameList = [];
@@ -407,11 +414,11 @@ class SpreadSheet extends Component {
     });
   };
   handleSearchValue = (value) => {
-    this.setState({ searchValue: value })
-  }
+    this.setState({ searchValue: value });
+  };
   clearSearchValue = () => {
-    this.setState({ searchValue: "" })
-  }
+    this.setState({ searchValue: "" });
+  };
 
   sortingPanel = () => {
     let columnField = [];
@@ -463,8 +470,8 @@ class SpreadSheet extends Component {
               type="text"
               placeholder="Search a screen"
               onChange={(e) => {
-                this.handleSearchValue(e.target.value)
-                this.props.globalSearchLogic(e, this.state.filteringRows)
+                this.handleSearchValue(e.target.value);
+                this.props.globalSearchLogic(e, this.state.filteringRows);
               }}
               value={this.state.searchValue}
             />
@@ -473,8 +480,8 @@ class SpreadSheet extends Component {
             <FontAwesomeIcon icon={faFilter} />
           </div> */}
           <div className="filterIcons" onClick={this.sortingPanel}>
-           <FontAwesomeIcon title="Group Sort" icon={faSortAmountDown} />
-            <FontAwesomeIcon  icon={faSortDown} className="filterArrow" />
+            <FontAwesomeIcon title="Group Sort" icon={faSortAmountDown} />
+            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
           </div>
           {this.state.sortingPanelComponent}
           <div className="filterIcons" onClick={this.columnReorderingPannel}>
@@ -483,7 +490,11 @@ class SpreadSheet extends Component {
           </div>
           {this.state.columnReorderingComponent}
           <div className="filterIcons">
-            <FontAwesomeIcon title="Export" icon={faShareAlt} onClick={this.exportColumnData} />
+            <FontAwesomeIcon
+              title="Export"
+              icon={faShareAlt}
+              onClick={this.exportColumnData}
+            />
           </div>
           {this.state.exportComponent}
           {/* <div className="filterIcons">
@@ -493,13 +504,18 @@ class SpreadSheet extends Component {
             <FontAwesomeIcon icon={faAlignLeft} />
           </div> */}
         </div>
-        <ErrorMessage className="errorDiv" status={this.props.status} closeWarningStatus={this.props.closeWarningStatus} clearSearchValue={this.clearSearchValue} />
+        <ErrorMessage
+          className="errorDiv"
+          status={this.props.status}
+          closeWarningStatus={this.props.closeWarningStatus}
+          clearSearchValue={this.clearSearchValue}
+        />
         <DraggableContainer
           className="gridDiv"
           onHeaderDrop={this.onHeaderDrop}
         >
           <ReactDataGrid
-            toolbar={<Toolbar enableFilter={true} />}
+            toolbar={<Toolbar enableFilter={true}>True</Toolbar>}
             getValidFilterValues={(columnKey) =>
               this.getValidFilterValues(this.state.filteringRows, columnKey)
             }
@@ -509,7 +525,9 @@ class SpreadSheet extends Component {
             rowsCount={this.state.rows.length}
             onGridRowsUpdated={this.onGridRowsUpdated}
             enableCellSelect={true}
-            onClearFilters={() => { this.setState({ junk: {} }) }}
+            onClearFilters={() => {
+              this.setState({ junk: {} });
+            }}
             onColumnResize={(idx, width) =>
               console.log(`Column ${idx} has been resized to ${width}`)
             }

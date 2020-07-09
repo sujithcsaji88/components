@@ -10,7 +10,7 @@ import {
 
 const AddedElement = (props) => {
   return (
-    <div className="sort__bodyContent">
+    <div className="sort__bodyContent" key={props.test}>
       <div className="sort__reorder">
         <div className="">
           <div>&nbsp;</div>
@@ -25,8 +25,8 @@ const AddedElement = (props) => {
         </div>
         <div className="sort__file">
           <select className="custom__ctrl">
-            {props.newColumnValue.map((item) => (
-              <option>{item}</option>
+            {props.newColumnValue.map((item, index) => (
+              <option key={index}>{item}</option>
             ))}
           </select>
         </div>
@@ -65,18 +65,19 @@ const AddedElement = (props) => {
           <div>&nbsp;</div>
         </div>
         <div className="sort__icon">
-          <FontAwesomeIcon
-            icon={faTrash}
-            onClick={deleteHandler}
-          ></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
         </div>
       </div>
     </div>
   );
 };
 
-const deleteHandler = (index) => {
-  console.log("deleted", index);
+const deleteHandler = (value) => {
+  console.log("deleted", value);
+};
+
+const clearAll = () => {
+  console.log("cleared");
 };
 
 const Sorting = (props) => {
@@ -155,13 +156,16 @@ const Sorting = (props) => {
                 <div className="sort__icon">
                   <FontAwesomeIcon
                     icon={faTrash}
-                    onClick={deleteHandler}
+                    onClick={() => deleteHandler(props.test)}
                   ></FontAwesomeIcon>
                 </div>
               </div>
             </div>
             {Array(count).fill(
-              <AddedElement newColumnValue={props.columnFieldValue} />
+              <AddedElement
+                newColumnValue={props.columnFieldValue}
+                test={count}
+              />
             )}
             <div className="sort__new">
               <div
@@ -178,7 +182,9 @@ const Sorting = (props) => {
           </div>
           <div className="sort__footer">
             <div className="sort__btns">
-              <button className="btns">Clear All</button>
+              <button className="btns" onClick={clearAll}>
+                Clear All
+              </button>
               <button className="btns btns__save">Ok</button>
             </div>
           </div>
