@@ -71,6 +71,39 @@ class ColumnReordering extends React.Component {
 		});
 	};
 
+	createColumnsArrayFromProps = (colsList) => {
+		return colsList.map((item) => {
+			return {
+				id: item,
+				text: (
+					<div className='column__reorder' key={item}>
+						<div className=''>
+							<FontAwesomeIcon icon={faAlignJustify}></FontAwesomeIcon>
+						</div>
+						<div className=''>{item}</div>
+						<div className='column__wrap'>
+							<div className='column__checkbox'>
+								<input
+									type='checkbox'
+									checked={this.state.leftPinnedColumList.includes(item)}
+									disabled={
+										this.state.maxLeftPinnedColumn - this.state.leftPinnedColumList.length <= 0
+											? this.state.leftPinnedColumList.includes(item)
+												? false
+												: true
+											: false
+									}
+									onChange={() => this.reArrangeLeftPinnedColumn(item)}
+								></input>
+							</div>
+							<div className='column__txt'>Pin Left</div>
+						</div>
+					</div>
+				),
+			};
+		});
+	};
+
 	reArrangeLeftPinnedColumn = (columHeaderName) => {
 		var existingLeftPinnedList = this.state.leftPinnedColumList;
 		var existingColumnReorderEntityList = this.state.columnReorderEntityList;
@@ -166,10 +199,7 @@ class ColumnReordering extends React.Component {
 						<div className='column__body'>
 							<DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
 								<ColumnsList
-									list={this.state.columnReorderEntityList}
-									leftPinnedColumList={this.state.leftPinnedColumList}
-									maxLeftPinnedColumn={this.state.maxLeftPinnedColumn}
-									reArrangeLeftPinnedColumn={this.reArrangeLeftPinnedColumn}
+									columnsArray={this.createColumnsArrayFromProps(this.state.columnReorderEntityList)}
 								/>
 							</DndProvider>
 						</div>
