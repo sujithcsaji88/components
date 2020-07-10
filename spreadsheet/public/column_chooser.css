@@ -1,5 +1,5 @@
 .columns--grid {
-	z-index: 9;
+	z-index:11;
 	box-shadow: 0px 15px 30px rgba(32, 77, 111, 0.2);
 	position: absolute;
 	font-size: 14px;
@@ -26,6 +26,17 @@
 .columns--grid .column__grid {
 	display: flex;
 }
+.columns--grid .column__grid :before{
+	width: 0px;
+	  height: 0px;
+	  border-left: 7px solid transparent;
+	  border-right: 7px solid transparent;
+	  border-bottom: 7px solid #fff;
+	  position: absolute;
+	  top: -7px;
+	  right: 10px;
+	  content: "";
+  }
 .columns--grid .column__grid .column__chooser {
 	border-right: 1px solid #eee;
 }
@@ -49,6 +60,7 @@
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	padding: 0px 5px;
+	width: 100%;
 }
 .columns--grid .column__grid .column__chooser .column__wrap {
 	display: flex;
@@ -142,3 +154,6 @@
 		width: 74%;
 	}
 }
+.icon-close {
+	font-size: 15px;
+  }

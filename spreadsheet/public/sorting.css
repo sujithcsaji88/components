@@ -27,6 +27,17 @@
 .sorts--grid .sort__grid {
   display: flex;
 }
+.sorts--grid .sort__grid :before{
+  width: 0px;
+    height: 0px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #fff;
+    position: absolute;
+    top: -7px;
+    right: 10px;
+    content: "";
+}
 .sorts--grid .sort__grid .sort__settings {
   width: 667px;
 }
@@ -114,5 +125,8 @@
 .sorts--grid .sort__grid .sort__settings .sort__footer .sort__btns .btns__save {
   color: #fff;
   background: #034bda;
+}
+.icon-close {
+  font-size: 15px;
 }
 /* Sorting CSS ends here... @author Krishna */

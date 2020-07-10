@@ -144,6 +144,7 @@ class App extends React.Component {
               </div>
               <div className="sort__close">
                 <FontAwesomeIcon
+                  className="icon-close" 
                   icon={faTimes}
                   onClick={() => this.props.closeSorting()}
                 ></FontAwesomeIcon>

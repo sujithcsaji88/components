@@ -211,7 +211,7 @@ class ColumnReordering extends React.Component {
 							</div>
 							<div className='column__close'>
 								<FontAwesomeIcon
-									type='button'
+									className="icon-close" 
 									icon={faTimes}
 									onClick={() => this.props.closeColumnReOrdering()}
 								></FontAwesomeIcon>
