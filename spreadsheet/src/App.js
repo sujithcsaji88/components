@@ -451,7 +451,9 @@ const App = () => {
       setStatus("");
     }
   };
-
+const handleWarningStatus=()=>{
+  setStatus("invalid");
+}
   //Gets called when there is a cell edit
   const updateCellData = (fromRow,toRow,value,updateType) => {
     if(updateType==="CELL_UPDATE"){
@@ -486,6 +488,7 @@ const App = () => {
           globalSearchLogic={globalSearchLogic}
           status={status}
           closeWarningStatus={closeWarningStatus}
+          handleWarningStatus={handleWarningStatus}
           count={data.length}
           columns={columns}
           airportCodes={airportCodeList}

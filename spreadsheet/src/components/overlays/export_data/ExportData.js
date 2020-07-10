@@ -88,7 +88,7 @@ class ExportData extends React.Component {
       downLaodFileType.push(event.target.value);
       this.setState({ downLaodFileType })
     } else {
-      downLaodFileType.forEach(function (value, index) {
+      downLaodFileType.map(function (value, index) {
         if (value === event.target.value) {
           downLaodFileType = downLaodFileType.splice(index, value);
         }
@@ -100,18 +100,18 @@ class ExportData extends React.Component {
   exportRowData = () => {
     const columnVlaueList = this.state.columnEntityList;
     if (columnVlaueList.length > 0 && this.state.downLaodFileType.length > 0) {
-      // const rowValues = this.props.rows.filter((row) => {
-      //   const keys = Object.getOwnPropertyNames(row);
-      //   var filteredColumnVal = {};
-      //   keys.map(function (key) {
-      //     var rows = columnVlaueList.forEach((columnName) => {
-      //       if (columnName.key === key) filteredColumnVal[key] = row[key];
-      //     });
-      //   });
-      //   this.state.filteredRow.push(filteredColumnVal);
-      // });
+      const rowValues = this.props.rows.filter((row) => {
+        const keys = Object.getOwnPropertyNames(row);
+        var filteredColumnVal = {};
+        keys.map(function (key) {
+          var rows = columnVlaueList.map((columnName) => {
+            if (columnName.key === key) filteredColumnVal[key] = row[key];
+          });
+        });
+        this.state.filteredRow.push(filteredColumnVal);
+      });
 
-      this.state.downLaodFileType.forEach((item) => {
+      this.state.downLaodFileType.map((item) => {
         if (item === "pdf") this.downloadPDF();
         else if (item === "excel") this.downloadXLSFile();
         else this.downloadCSVFile();
@@ -135,16 +135,16 @@ class ExportData extends React.Component {
       }),
     ];
     var dataValues = [];
-    // const rowValues = this.props.rows.map((row) => {
-    //   const keys = Object.keys(row);
-    //   var filteredColumnVal = [];
-    //   this.state.columnEntityList.filter((columnName) => {
-    //     keys.map((key) => {
-    //       if (columnName.key === key) filteredColumnVal.push(row[key]);
-    //     });
-    //   });
-    //   dataValues.push(filteredColumnVal);
-    // });
+    const rowValues = this.props.rows.map((row) => {
+      const keys = Object.keys(row);
+      var filteredColumnVal = [];
+      this.state.columnEntityList.filter((columnName) => {
+        keys.map((key) => {
+          if (columnName.key === key) filteredColumnVal.push(row[key]);
+        });
+      });
+      dataValues.push(filteredColumnVal);
+    });
 
     let content = {
       startY: 50,

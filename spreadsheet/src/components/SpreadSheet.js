@@ -5,7 +5,7 @@ import { range } from "lodash";
 import { applyFormula } from "../utilities/utils";
 import { FormControl } from "react-bootstrap";
 import DatePicker from "./functions/DatePicker.js";
-import Spinner from "react-bootstrap/Spinner";
+//import {onRowsSelected} from "../components/functions/OnRowsSelected.js"
 import {
   faSortAmountDown,
   faColumns,
@@ -51,8 +51,6 @@ class SpreadSheet extends Component {
       selectedIndexes: [],
       junk: {},
       topLeft: {},
-      status: "",
-      textValue: "",
       columnReorderingComponent: null,
       exportComponent: null,
       filteringRows: this.props.rows,
@@ -80,7 +78,6 @@ class SpreadSheet extends Component {
     };
     document.addEventListener("copy", this.handleCopy);
     document.addEventListener("paste", this.handlePaste);
-    this.handletextValue = this.handletextValue.bind(this);
     this.handleSearchValue = this.handleSearchValue.bind(this);
     this.clearSearchValue = this.clearSearchValue.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
@@ -289,12 +286,10 @@ class SpreadSheet extends Component {
       count: data.length,
     });
     if (data.length === 0) {
-      this.setState({ displayNoRows: "" })
-      this.setState({ height: 1 })
+      this.props.handleWarningStatus();
     }
-    else {
-      this.setState({ displayNoRows: "none" })
-      this.setState({ height: 680 })
+    else{
+      this.props.closeWarningStatus();
     }
   };
   getrows = (rows, filters) => {
@@ -358,16 +353,6 @@ class SpreadSheet extends Component {
     });
     this.setState(reorderedColumns);
   };
-
-  handletextValue() {
-    this.setState({
-      textValue: "",
-    });
-    this.setState({
-      status: "",
-    });
-  }
-
   updateTableAsPerRowChooser = (inComingColumnsHeaderList, pinnedColumnsList) => {
     var existingColumnsHeaderList = this.props.columns;
     existingColumnsHeaderList = existingColumnsHeaderList.filter((item) => {
@@ -410,8 +395,8 @@ class SpreadSheet extends Component {
       columns: existingColumnsHeaderList,
     });
 
-		this.closeColumnReOrdering();
-	};
+    this.closeColumnReOrdering();
+  };
 
 	/**
 	 * Method To re-position a particular object in an Array from old_index to new_index
@@ -468,6 +453,7 @@ class SpreadSheet extends Component {
   };
   clearSearchValue = () => {
     this.setState({ searchValue: "" });
+    this.setState({filteringRows:this.state.filteringRows})
   };
 
   sortingPanel = () => {
@@ -498,11 +484,7 @@ class SpreadSheet extends Component {
       exportComponent: null,
     });
   };
-
-
-
-
-
+  
   render() {
     return (
       <div>
@@ -578,13 +560,14 @@ class SpreadSheet extends Component {
               },
             }}
             onGridSort={(sortColumn, sortDirection) => this.sortRows(this.state.rows, sortColumn, sortDirection)}
+          //**************************/
           //--Todo-- This is commented aspart of fixing column filtering 
           // cellRangeSelection={{
           //   onComplete: this.setSelection,
           // }}
+          //***********************/
           />
         </DraggableContainer>
-        <span className="noRecordDiv" style={{ display: this.state.displayNoRows }}>No records Found</span>
       </div>
     );
   }
