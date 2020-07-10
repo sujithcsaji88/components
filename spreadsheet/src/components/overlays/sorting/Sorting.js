@@ -17,8 +17,26 @@ class App extends React.Component {
     this.state = {
       rowList: [true],
     };
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.props.closeSorting();
+    }
+  }
   add = () => {
     let rowList = [...this.state.rowList];
     rowList.push(true);
@@ -43,7 +61,7 @@ class App extends React.Component {
   createColumnsArrayFromProps = (rowList) => {
     return rowList.map((x, i) => {
       return (
-        <div className="sort__bodyContent" key={i}>
+        <div className="sort__bodyContent" key={i}  >
           <div className="sort__reorder">
             <div className="">
               <div>&nbsp;</div>
@@ -117,7 +135,7 @@ class App extends React.Component {
   render() {
     let { rowList } = this.state;
     return (
-      <div className="sorts--grid">
+      <div className="sorts--grid" ref={this.setWrapperRef}>
         <div className="sort__grid">
           <div className="sort__settings">
             <div className="sort__header">

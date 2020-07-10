@@ -4,13 +4,13 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { SEARCH_NOT_FOUNT_ERROR } from "./ErrorConstants";
 
 const ErrorMessage = (props) => {
-  
-const [status,setStatus] = useState(props.status);
-useEffect(
-    ()=>{
+
+  const [status, setStatus] = useState(props.status);
+  useEffect(
+    () => {
       setStatus(props.status)
     }
-  ,[props.status]);
+    , [props.status]);
   if (status === "invalid") {
     return (
       <div id="errorMsg">
@@ -18,9 +18,11 @@ useEffect(
           {SEARCH_NOT_FOUNT_ERROR}
         </div>
         <div className="notification-close" >
-          <FontAwesomeIcon icon={faTimes} 
-          onClick={(e)=>{props.closeWarningStatus();
-          props.clearSearchValue();}} />
+          <FontAwesomeIcon icon={faTimes}
+            onClick={(e) => {
+              props.closeWarningStatus();
+              props.clearSearchValue();
+            }} />
         </div>
       </div>
     );

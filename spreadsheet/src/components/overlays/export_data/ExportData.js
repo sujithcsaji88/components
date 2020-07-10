@@ -86,7 +86,7 @@ class ExportData extends React.Component {
       downLaodFileType.push(event.target.value);
       this.setState({ downLaodFileType });
     } else {
-      downLaodFileType.forEach(function (value, index) {
+      downLaodFileType.map(function (value, index) {
         if (value === event.target.value) {
           downLaodFileType = downLaodFileType.splice(index, value);
         }
@@ -109,7 +109,7 @@ class ExportData extends React.Component {
         this.state.filteredRow.push(filteredColumnVal);
       });
 
-      this.state.downLaodFileType.forEach((item) => {
+      this.state.downLaodFileType.map((item) => {
         if (item === "pdf") this.downloadPDF();
         else if (item === "excel") this.downloadXLSFile();
         else this.downloadCSVFile();
