@@ -55,6 +55,7 @@
   .export__selectAll
   .export__selectTxt {
   margin-left: auto;
+  cursor: pointer;
 }
 .exports--grid .export__grid .export__chooser .export__body .custom__ctrl {
   border: 1px solid #ddd;
