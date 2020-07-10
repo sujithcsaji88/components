@@ -410,12 +410,8 @@ class SpreadSheet extends Component {
       columns: existingColumnsHeaderList,
     });
 
-    this.closeColumnReOrdering();
-
-    const resizeEvent = document.createEvent("HTMLEvents");
-    resizeEvent.initEvent("resize", true, false);
-    window.dispatchEvent(resizeEvent);
-  };
+		this.closeColumnReOrdering();
+	};
 
 	/**
 	 * Method To re-position a particular object in an Array from old_index to new_index
