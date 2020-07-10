@@ -110,7 +110,7 @@ class ColumnReordering extends React.Component {
 						<div className=''>
 							<FontAwesomeIcon icon={faAlignJustify}></FontAwesomeIcon>
 						</div>
-						<div className=''>{item}</div>
+						<div className='column__reorder__name'>{item}</div>
 						<div className='column__wrap'>
 							<div className='column__checkbox'>
 								<input

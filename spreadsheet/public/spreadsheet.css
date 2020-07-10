@@ -1,7 +1,7 @@
 
 
-.globalSeachInput{
-  padding-left:20px !important;
+.globalSeachInput.form-control{
+  padding-left:30px;
 }
 
 .noRecordDiv{
@@ -27,7 +27,7 @@
 .fa-search:before {
   content: "\f002";
   position: absolute;
-  top: 58%;
+  top: 9px;
   left: 3%;
   color: darkslategrey;
 }
@@ -39,8 +39,9 @@
 }
 .parentDiv {
   display: flex;
-  margin: 15px 15px 15px 0px;
+  padding: 15px;
   align-items: center;
+  background: #f4f8f7;
 }
 .totalCount {
   position: absolute;
@@ -54,16 +55,18 @@
   padding: 2px 5px;
   color: #566a81;
   cursor: pointer;
+  background: #fff;
 }
 .filterArrow {
   margin: 0px 0px 3px 5px;
 }
 .globalSearch {
-  width: 20% !important;
+  width: 20%;
   margin-left: auto;
   position: relative;
-  margin-top: -1.5%;
   margin-right: 40px;
+  display: flex;
+  align-items: center;
 }
 .grid-header label {
   display: inline-block;
@@ -282,4 +285,5 @@ input.editor-checkbox {
   top: 3px;
   left: 7px;
   font-size: 15px;
+  pointer-events: none;
 }

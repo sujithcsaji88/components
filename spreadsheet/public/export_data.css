@@ -12,10 +12,22 @@
   color: #1f567e;
   line-height: 32px;
   top: 50px;
-  right: 50px;
+  right: 10px;
   transition: 0.5s;
   background: #fff;
   border: 1px solid #ddd;
+  user-select: none;
+}
+.export__grid:before{
+  width: 0px;
+    height: 0px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #fff;
+    position: absolute;
+    top: -7px;
+    right: 10px;
+    content: "";
 }
 .exports--grid ::-webkit-scrollbar {
   width: 6px;
@@ -47,14 +59,6 @@
 }
 .exports--grid .export__grid .export__chooser .export__body .export__selectAll {
   display: flex;
-}
-.exports--grid
-  .export__grid
-  .export__chooser
-  .export__body
-  .export__selectAll
-  .export__selectTxt {
-  margin-left: auto;
 }
 .exports--grid .export__grid .export__chooser .export__body .custom__ctrl {
   border: 1px solid #ddd;
@@ -163,4 +167,22 @@
   .exports--grid .export__grid .export__settings .export__footer {
     width: 74%;
   }
+}
+.export__header{
+  color:#3c425e;
+}
+.icon-close {
+  font-size: 15px;
+}
+.icon-close path{
+  fill:#9ca1b6;
+}
+.export__body .custom__ctrl{
+  width: 100%;
+}
+.export__selectAll .export__selectTxt{
+  cursor: pointer;
+}
+.export__body .custom__ctrl{
+  width: 100%;
 }
