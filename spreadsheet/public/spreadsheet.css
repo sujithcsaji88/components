@@ -13,9 +13,8 @@
 }
 .parentDiv {
   display: flex;
-  margin: 15px 0px 15px 0px;
+  margin: 15px 15px 15px 0px;
   align-items: center;
-  width: 91%;
 }
 .totalCount {
   width: 20%;
@@ -35,6 +34,7 @@
   width: 20% !important;
   margin-left: auto;
   position: relative;
+  margin-right: 40px;
 }
 .grid-header label {
   display: inline-block;
@@ -228,16 +228,29 @@ input.editor-checkbox {
   margin-right: 13px;
   cursor: pointer;
 }
-.react-grid-Container .react-grid-Toolbar{
+.react-grid-Container .react-grid-Toolbar {
   padding: 0;
-    border: none;
-    right: 90px;
-    top: 22px;
-    background-color: transparent;
+  border: none;
+  right: 150px;
+  top: 22px;
+  background-color: transparent;
 }
-.react-grid-Container .react-grid-Toolbar .btn{
+.react-grid-Container .react-grid-Toolbar .btn {
   border: 1px solid #ddd;
   text-indent: -9999px;
   height: 27px;
-  background: url('images/filter.svg') no-repeat 0 0;
+}
+.tools:after {
+  content: "\f0b0";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  color: #566a81;
+  font-size: 18px;
+  padding-right: 0.5em;
+  position: absolute;
+  top: 3px;
+  left: 7px;
+  font-size: 15px;
 }
