@@ -15,7 +15,6 @@ import * as XLSX from "xlsx";
 let downLaodFileType = [];
 class ExportData extends React.Component {
   constructor(props) {
-
     super(props);
     this.state = {
       columnValueList: this.props.columnsList,
@@ -24,20 +23,19 @@ class ExportData extends React.Component {
       downLaodFileType: [],
       filteredRow: [],
       warning: "",
-      clickTag: "none"
+      clickTag: "none",
     };
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
     this.selectDownLoadType = this.selectDownLoadType.bind(this);
     this.exportValidation = this.exportValidation.bind(this);
-
   }
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
+    document.addEventListener("mousedown", this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
+    document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
   setWrapperRef(node) {
@@ -71,7 +69,7 @@ class ExportData extends React.Component {
       existingColumnEntityList.push(typeToBeAdded);
     } else {
       existingColumnEntityList = existingColumnEntityList.filter((item) => {
-        if (item !== typeToBeAdded) return item;
+        return item !== typeToBeAdded 
       });
     }
     this.setState({
@@ -86,30 +84,30 @@ class ExportData extends React.Component {
       !this.state.downLaodFileType.includes(event.target.value)
     ) {
       downLaodFileType.push(event.target.value);
-      this.setState({ downLaodFileType })
+      this.setState({ downLaodFileType });
     } else {
       downLaodFileType.forEach(function (value, index) {
         if (value === event.target.value) {
           downLaodFileType = downLaodFileType.splice(index, value);
         }
       });
-      this.setState({ downLaodFileType })
+      this.setState({ downLaodFileType });
     }
   };
 
   exportRowData = () => {
     const columnVlaueList = this.state.columnEntityList;
     if (columnVlaueList.length > 0 && this.state.downLaodFileType.length > 0) {
-      // const rowValues = this.props.rows.filter((row) => {
-      //   const keys = Object.getOwnPropertyNames(row);
-      //   var filteredColumnVal = {};
-      //   keys.map(function (key) {
-      //     var rows = columnVlaueList.forEach((columnName) => {
-      //       if (columnName.key === key) filteredColumnVal[key] = row[key];
-      //     });
-      //   });
-      //   this.state.filteredRow.push(filteredColumnVal);
-      // });
+      this.props.rows.forEach((row) => {
+        const keys = Object.getOwnPropertyNames(row);
+        var filteredColumnVal = {};
+        keys.forEach(function (key) {
+          columnVlaueList.forEach((columnName) => {
+            if (columnName.key === key) filteredColumnVal[key] = row[key];
+          });
+        });
+        this.state.filteredRow.push(filteredColumnVal);
+      });
 
       this.state.downLaodFileType.forEach((item) => {
         if (item === "pdf") this.downloadPDF();
@@ -118,6 +116,7 @@ class ExportData extends React.Component {
       });
     }
   };
+
   downloadPDF = () => {
     const unit = "pt";
     const size = "A4"; // Use A1, A2, A3 or A4
@@ -135,16 +134,16 @@ class ExportData extends React.Component {
       }),
     ];
     var dataValues = [];
-    // const rowValues = this.props.rows.map((row) => {
-    //   const keys = Object.keys(row);
-    //   var filteredColumnVal = [];
-    //   this.state.columnEntityList.filter((columnName) => {
-    //     keys.map((key) => {
-    //       if (columnName.key === key) filteredColumnVal.push(row[key]);
-    //     });
-    //   });
-    //   dataValues.push(filteredColumnVal);
-    // });
+    this.props.rows.forEach((row) => {
+      const keys = Object.keys(row);
+      var filteredColumnVal = [];
+      this.state.columnEntityList.forEach((columnName) => {
+        keys.forEach((key) => {
+          if (columnName.key === key) filteredColumnVal.push(row[key]);
+        });
+      });
+      dataValues.push(filteredColumnVal);
+    });
 
     let content = {
       startY: 50,
@@ -195,24 +194,22 @@ class ExportData extends React.Component {
 
   exportValidation = () => {
     let columnLength = this.state.columnEntityList.length;
-    let fileLength = this.state.downLaodFileType.length
+    let fileLength = this.state.downLaodFileType.length;
     if (columnLength > 0 && fileLength > 0) {
       this.exportRowData();
-      this.setState({ clickTag: "none" })
-    }
-    else if (columnLength === 0) {
-      this.setState({ warning: "Column" })
-      this.setState({ clickTag: "" })
-    }
-    else if (fileLength === 0) {
-      this.setState({ warning: "File Type" })
-      this.setState({ clickTag: "" })
+      this.setState({ clickTag: "none" });
+    } else if (columnLength === 0) {
+      this.setState({ warning: "Column" });
+      this.setState({ clickTag: "" });
+    } else if (fileLength === 0) {
+      this.setState({ warning: "File Type" });
+      this.setState({ clickTag: "" });
     }
     if (columnLength === 0 && fileLength === 0) {
-      this.setState({ warning: "File Type & Column" })
-      this.setState({ clickTag: "" })
+      this.setState({ warning: "File Type & Column" });
+      this.setState({ clickTag: "" });
     }
-  }
+  };
   render() {
     return (
       <div className="exports--grid" ref={this.setWrapperRef}>
@@ -242,21 +239,21 @@ class ExportData extends React.Component {
               </div>
               {this.state.columnValueList.length > 0
                 ? this.state.columnValueList.map((column, index) => {
-                  return (
-                    <div className="export__wrap" key={column.key}>
-                      <div className="export__checkbox">
-                        <input
-                          type="checkbox"
-                          checked={this.state.columnEntityList.includes(
-                            column
-                          )}
-                          onChange={() => this.addToColumnEntityList(column)}
-                        ></input>
+                    return (
+                      <div className="export__wrap" key={column.key}>
+                        <div className="export__checkbox">
+                          <input
+                            type="checkbox"
+                            checked={this.state.columnEntityList.includes(
+                              column
+                            )}
+                            onChange={() => this.addToColumnEntityList(column)}
+                          ></input>
+                        </div>
+                        <div className="export__txt">{column.name}</div>
                       </div>
-                      <div className="export__txt">{column.name}</div>
-                    </div>
-                  );
-                })
+                    );
+                  })
                 : ""}
             </div>
           </div>
@@ -318,9 +315,12 @@ class ExportData extends React.Component {
                 </div>
               </div>
               <div className="exportWarning">
-              <span  style={{ display: this.state.clickTag }} className="alert alert-danger" >
-                You haven't selected <strong>{this.state.warning}</strong>
-              </span>
+                <span
+                  style={{ display: this.state.clickTag }}
+                  className="alert alert-danger"
+                >
+                  You haven't selected <strong>{this.state.warning}</strong>
+                </span>
               </div>
             </div>
             <div className="export__footer">
