@@ -1,9 +1,29 @@
+.noRecordDiv{
+  position: relative;
+  left: 40%;
+  text-align: center;
+  font-size: x-large;
+}
+
+.Select, .Select div, .Select input, .Select span {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  z-index: 10;
+}
 .gridDiv {
   overflow: hidden;
   outline: 0px;
   position: relative;
   min-height: 680px;
   margin-top: 50px;
+}
+.fa-search:before {
+  content: "\f002";
+  position: absolute;
+  top: 58%;
+  left: 3%;
+  color: darkslategrey;
 }
 .errorDiv {
   position: fixed;
@@ -18,6 +38,8 @@
   width: 91%;
 }
 .totalCount {
+  position: absolute;
+  left:1.5%;
   width: 20%;
 }
 .filterIcons {
@@ -35,6 +57,7 @@
   width: 20% !important;
   margin-left: auto;
   position: relative;
+  margin-top: -1.5%;
 }
 .grid-header label {
   display: inline-block;
@@ -240,4 +263,5 @@ input.editor-checkbox {
   text-indent: -9999px;
   height: 27px;
   background: url('images/filter.svg') no-repeat 0 0;
+
 }

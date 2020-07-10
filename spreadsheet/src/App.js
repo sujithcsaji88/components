@@ -453,13 +453,18 @@ const App = () => {
   };
 
   //Gets called when there is a cell edit
-  const updateCellData = (rowIndex) => {
-    console.log(rowIndex);
-  };
+  const updateCellData = (fromRow,toRow,value,updateType) => {
+    if(updateType==="CELL_UPDATE"){
+      console.log("row:", fromRow, "updated-Value:", value,"Updation-Type:", updateType);
+    }
+    if(updateType==="CELL_DRAG"){
+      console.log("fromRow:", fromRow,"toRow:",toRow, "updated-Value:", value,"Updation-Type:", updateType);
+    }
+  }
 
   //Gets called when row bulk edit is done
   const selectBulkData = (selectedRows) => {
-    console.log(selectedRows);
+    console.log("selectedRows:", selectedRows);
   };
   const closeWarningStatus = () => {
     setStatus("")
