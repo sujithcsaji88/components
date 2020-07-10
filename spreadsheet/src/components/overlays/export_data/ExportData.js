@@ -261,10 +261,7 @@ class ExportData extends React.Component {
             <div className="export__header">
               <div className="export__headerTxt"></div>
               <div className="export__close">
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  onClick={this.props.closeExport}
-                ></FontAwesomeIcon>
+                <FontAwesomeIcon icon={faTimes} className="icon-close" onClick={this.props.closeExport}></FontAwesomeIcon>
               </div>
             </div>
             <div className="export__as">Export as</div>

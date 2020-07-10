@@ -74,6 +74,7 @@
 	overflow-y: scroll;
 	height: 380px;
 	width: 768px;
+	padding-bottom: 60px;
 }
 .columns--grid .column__grid .column__settings .column__body .column__reorder {
 	border: 1px solid #9ea2a5;
@@ -87,6 +88,12 @@
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 	-webkit-touch-callout: none;
+	min-width: 111px;
+    max-width: 111px;
+}
+.columns--grid .column__grid .column__settings .column__body .column__reorder .column__reorder__name{
+	word-break: break-all;
+    line-height: 15px;
 }
 .columns--grid .column__grid .column__settings .column__body .column__reorder .column__wrap {
 	display: flex;
@@ -103,6 +110,7 @@
 	right: 0px;
 	width: 81%;
 	display: flex;
+	background: #fff;
 }
 .columns--grid .column__grid .column__settings .column__footer .column__btns {
 	margin-left: auto;
@@ -128,6 +136,7 @@
 		height: 230px;
 		overflow-y: scroll;
 		width: 568px;
+		padding-bottom: 58px;
 	}
 	.columns--grid .column__grid .column__settings .column__footer {
 		width: 74%;
