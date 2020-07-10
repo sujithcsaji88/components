@@ -181,6 +181,14 @@ class SpreadSheet extends Component {
     });
     this.setState({ count: props.count });
   }
+
+ 	/**
+	 * Method To update the cell/cells with the edited values
+	 * @param {*} fromRow is the row from which this edit is performed
+   * @param {*} toRow is the row upto which this edit is performed
+   * @param {*} updated is the value of change
+   * @param {*} action is type of edit action performed
+	 */ 
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     let columnName = "";
     const filter = this.formulaAppliedCols.filter((item) => {
@@ -239,7 +247,10 @@ class SpreadSheet extends Component {
       this.props.updateCellData(this.state.tempRows[fromRow], this.state.tempRows[toRow], updated, action);
     }
   };
-
+	/**
+	 * Method To bulk/individual select of rows
+	 * @param {*} rows is the selected row
+	 */
   onRowsSelected = (rows) => {
     this.setState({
       selectedIndexes: this.state.selectedIndexes.concat(rows.map((r) => r.rowIdx)),
@@ -248,7 +259,10 @@ class SpreadSheet extends Component {
       this.props.selectBulkData(rows);
     }
   };
-
+	/**
+	 * Method To bulk/individual deselect of rows
+	 * @param {*} rows is the deselected row
+	 */
   onRowsDeselected = (rows) => {
     let rowIndexes = rows.map((r) => r.rowIdx);
     this.setState({
@@ -256,6 +270,10 @@ class SpreadSheet extends Component {
     });
   };
 
+	/**
+	 * Method To filter the multiple columns
+	 * @param {*} value is the  incoming filtering event
+	 */
   handleFilterChange = (value) => {
     let junk = this.state.junk;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
@@ -287,6 +305,11 @@ class SpreadSheet extends Component {
     return selectors.getRows({ rows: rows, filters: filters });
   };
 
+  	/**
+	 * Method To render the filter values for filtering rows
+	 * @param {*} rows is the row data to be considered for filtering
+   * @param {*} columnId is the specific columnId for which the row datas are being considered
+	 */
   getValidFilterValues(rows, columnId) {
     return rows
       .map((r) => r[columnId])
@@ -294,6 +317,12 @@ class SpreadSheet extends Component {
         return i === a.indexOf(item);
       });
   }
+   	/**
+	 * Method To sort the rows for a particular column
+	 * @param {*} data is the row datas to be considered for sorting
+   * @param {*} sortColumn is the specific column for which the row sort is being triggered
+   * @param {*} sortDirection is the type of sort
+	 */
   sortRows = (data, sortColumn, sortDirection) => {
     const comparer = (a, b) => {
       if (sortDirection === "ASC") {
@@ -307,6 +336,11 @@ class SpreadSheet extends Component {
     });
     return sortDirection === "NONE" ? data : this.state.rows;
   };
+/**
+	 * Method To swap the columns
+	 * @param {*} source is source column
+   * @param {*} target is the target column 
+	 */
   onHeaderDrop = (source, target) => {
     const stateCopy = Object.assign({}, this.state);
     const columnSourceIndex = this.state.columns.findIndex((i) => i.key === source);
@@ -487,7 +521,7 @@ class SpreadSheet extends Component {
             Showing <strong> {this.state.count} </strong> records
 					</div>
           <div className='globalSearch'>
-            <i style={{ display: this.state.searchIconDisplay }} class="fa fa-search"></i>
+            <i style={{ display: this.state.searchIconDisplay }} className="fa fa-search"></i>
             <FormControl
               type='text'
               placeholder="    Search"
