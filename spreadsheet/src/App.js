@@ -88,7 +88,7 @@ const App = () => {
     {
       key: "flightModel",
       name: "Flight Model",
-      draggable: true,
+      //draggable: true,
       formulaApplicable: false,
       sortable: true,
       resizable: true,
@@ -430,6 +430,7 @@ const App = () => {
         (item.uldvalue2 && item.uldvalue2.toLowerCase().includes(searchKey)) ||
         (item.uldposition3 &&
           item.uldposition3.toLowerCase().includes(searchKey)) ||
+          (item.weightvalue && item.weightvalue.toLowerCase().includes(searchKey)) ||
         (item.uldvalue3 && item.uldvalue3.toLowerCase().includes(searchKey)) ||
         (item.uldposition4 &&
           item.uldposition4.toLowerCase().includes(searchKey)) ||
@@ -452,13 +453,18 @@ const App = () => {
   };
 
   //Gets called when there is a cell edit
-  const updateCellData = (rowIndex) => {
-    console.log(rowIndex);
-  };
+  const updateCellData = (fromRow,toRow,value,updateType) => {
+    if(updateType==="CELL_UPDATE"){
+      console.log("row:", fromRow, "updated-Value:", value,"Updation-Type:", updateType);
+    }
+    if(updateType==="CELL_DRAG"){
+      console.log("fromRow:", fromRow,"toRow:",toRow, "updated-Value:", value,"Updation-Type:", updateType);
+    }
+  }
 
   //Gets called when row bulk edit is done
   const selectBulkData = (selectedRows) => {
-    console.log(selectedRows);
+    console.log("selectedRows:", selectedRows);
   };
   const closeWarningStatus = () => {
     setStatus("")
@@ -469,7 +475,7 @@ const App = () => {
     //   setItems(data);
     // });
     setData(rows);
-  }, []);
+  }, [rows]);
 
   if (data && data.length) {
     return (

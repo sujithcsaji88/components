@@ -1,24 +1,25 @@
 import React, { Component } from "react";
-import ReactDataGrid from "react-data-grid";
+import ExtDataGrid from "./common/extDataGrid";
 import { Toolbar, Data, Filters, Editors } from "react-data-grid-addons";
 import { range } from "lodash";
 import { applyFormula } from "../utilities/utils";
 import { FormControl } from "react-bootstrap";
 import DatePicker from "./functions/DatePicker.js";
+import Spinner from "react-bootstrap/Spinner";
 import {
   faSortAmountDown,
   faColumns,
-  faSyncAlt,
+  // faSyncAlt,
   faShareAlt,
-  faAlignLeft,
-  faFilter,
+  // faAlignLeft,
+  // faFilter,
   faSortDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorMessage from "./common/ErrorMessage";
 import ColumnReordering from "./overlays/column_chooser/Chooser";
 import Sorting from "./overlays/sorting/Sorting";
-import ExportData from './overlays/export_data/ExportData';
+import ExportData from "./overlays/export_data/ExportData";
 
 const {
   DraggableHeader: { DraggableContainer },
@@ -26,24 +27,24 @@ const {
 
 const { DropDownEditor } = Editors;
 
+const defaultParsePaste = (str) => str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
 
-const defaultParsePaste = (str) =>
-  str.split(/\r\n|\n|\r/).map((row) => row.split("\t"));
-
-let newFilters = {};
+// let newFilters = {};
 
 const selectors = Data.Selectors;
 
-const { AutoCompleteFilter } = Filters;
-
+const { AutoCompleteFilter, NumericFilter } = Filters;
 class SpreadSheet extends Component {
   constructor(props) {
     super(props);
     const airportCodes = [];
     this.props.airportCodes.forEach((item) => {
-      airportCodes.push({ "id": item, "value": item })
-    })
+      airportCodes.push({ id: item, value: item });
+    });
     this.state = {
+      height: 680,
+      displayNoRows: "none",
+      searchIconDisplay: "",
       searchValue: "",
       filter: {},
       rows: this.props.rows,
@@ -55,20 +56,25 @@ class SpreadSheet extends Component {
       columnReorderingComponent: null,
       exportComponent: null,
       filteringRows: this.props.rows,
+      tempRows: this.props.rows,
       sortingPanelComponent: null,
+      count: this.props.rows.length,
       columns: this.props.columns.map((item) => {
         if (item.editor === "DatePicker") {
           item.editor = DatePicker;
         } else if (item.editor === "DropDown") {
           item.editor = <DropDownEditor options={airportCodes} />;
-        }
-        else if (item.editor === "Text") {
+        } else if (item.editor === "Text") {
           item.editor = "text";
-        }
-        else {
+        } else {
           item.editor = null;
         }
-        item.filterRenderer = AutoCompleteFilter;
+        if (item.name === "Flight Model") {
+          item.filterRenderer = NumericFilter;
+        }
+        else {
+          item.filterRenderer = AutoCompleteFilter;
+        }
         return item;
       }),
     };
@@ -99,7 +105,7 @@ class SpreadSheet extends Component {
         rows,
       };
     });
-  };
+  }
 
   rowGetter = (i) => {
     const { rows } = this.state;
@@ -112,7 +118,7 @@ class SpreadSheet extends Component {
     const text = range(topLeft.rowIdx, botRight.rowIdx + 1)
       .map((rowIdx) =>
         this.state.columns
-          .slice(topLeft.colIdx, botRight.colIdx + 1)
+          .slice(topLeft.colIdx - 1, botRight.colIdx)
           .map((col) => this.rowGetter(rowIdx)[col.key])
           .join("\t")
       )
@@ -128,11 +134,9 @@ class SpreadSheet extends Component {
     pasteData.forEach((row) => {
       const rowData = {};
       // Merge the values from pasting and the keys from the columns
-      this.state.columns
-        .slice(topLeft.colIdx, topLeft.colIdx + row.length)
-        .forEach((col, j) => {
-          rowData[col.key] = row[j];
-        });
+      this.state.columns.slice(topLeft.colIdx - 1, topLeft.colIdx - 1 + row.length).forEach((col, j) => {
+        rowData[col.key] = row[j];
+      });
       newRows.push(rowData);
     });
     this.updateRows(topLeft.rowIdx, newRows);
@@ -175,14 +179,23 @@ class SpreadSheet extends Component {
     this.setState({
       textValue: props.textValue,
     });
+    this.setState({ count: props.count });
   }
+
+  /**
+ * Method To update the cell/cells with the edited values
+ * @param {*} fromRow is the row from which this edit is performed
+ * @param {*} toRow is the row upto which this edit is performed
+ * @param {*} updated is the value of change
+ * @param {*} action is type of edit action performed
+ */
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     let columnName = "";
     const filter = this.formulaAppliedCols.filter((item) => {
       if (updated[item.key] !== null && updated[item.key] !== undefined) {
         columnName = item.key;
         return true;
-      }
+      } else return false;
     });
 
     if (filter.length > 0) {
@@ -216,58 +229,87 @@ class SpreadSheet extends Component {
           filteringRows,
         };
       });
+      this.setState((state) => {
+        const tempRows = state.tempRows.slice();
+        for (let i = fromRow; i <= toRow; i++) {
+          tempRows[i] = {
+            ...tempRows[i],
+            ...updated,
+          };
+        }
+
+        return {
+          tempRows,
+        };
+      });
     }
-    //find row
     if (this.props.updateCellData) {
-      //this.props.updateCellData(passRow);
+      this.props.updateCellData(this.state.tempRows[fromRow], this.state.tempRows[toRow], updated, action);
     }
-
   };
-
+	/**
+	 * Method To bulk/individual select of rows
+	 * @param {*} rows is the selected row
+	 */
   onRowsSelected = (rows) => {
     this.setState({
-      selectedIndexes: this.state.selectedIndexes.concat(
-        rows.map((r) => r.rowIdx)
-      ),
+      selectedIndexes: this.state.selectedIndexes.concat(rows.map((r) => r.rowIdx)),
     });
+    if (this.props.selectBulkData) {
+      this.props.selectBulkData(rows);
+    }
   };
-
+	/**
+	 * Method To bulk/individual deselect of rows
+	 * @param {*} rows is the deselected row
+	 */
   onRowsDeselected = (rows) => {
     let rowIndexes = rows.map((r) => r.rowIdx);
     this.setState({
-      selectedIndexes: this.state.selectedIndexes.filter(
-        (i) => rowIndexes.indexOf(i) === -1
-      ),
+      selectedIndexes: this.state.selectedIndexes.filter((i) => rowIndexes.indexOf(i) === -1),
     });
   };
 
+	/**
+	 * Method To filter the multiple columns
+	 * @param {*} value is the  incoming filtering event
+	 */
   handleFilterChange = (value) => {
-    let filteredRows = null;
     let junk = this.state.junk;
     if (!(value.filterTerm == null) && !(value.filterTerm.length <= 0)) {
       junk[value.column.key] = value;
-      filteredRows = this.state.rows;
-    }
-    else {
+    } else {
       delete junk[value.column.key];
-      filteredRows = this.state.filteringRows;
     }
     this.setState({ junk });
     const data = this.getrows(this.state.filteringRows, this.state.junk);
-    debugger
     this.setState({
       rows: data,
+      tempRows: data,
+      count: data.length,
     });
+    if (data.length === 0) {
+      this.setState({ displayNoRows: "" })
+      this.setState({ height: 1 })
+    }
+    else {
+      this.setState({ displayNoRows: "none" })
+      this.setState({ height: 680 })
+    }
   };
   getrows = (rows, filters) => {
     if (Object.keys(filters).length <= 0) {
       filters = {};
     }
-    const value = selectors.getRows({ rows: [], filters: {} });
+    selectors.getRows({ rows: [], filters: {} });
     return selectors.getRows({ rows: rows, filters: filters });
-    //return data;
   };
 
+  /**
+ * Method To render the filter values for filtering rows
+ * @param {*} rows is the row data to be considered for filtering
+ * @param {*} columnId is the specific columnId for which the row datas are being considered
+ */
   getValidFilterValues(rows, columnId) {
     return rows
       .map((r) => r[columnId])
@@ -275,6 +317,12 @@ class SpreadSheet extends Component {
         return i === a.indexOf(item);
       });
   }
+  /**
+* Method To sort the rows for a particular column
+* @param {*} data is the row datas to be considered for sorting
+* @param {*} sortColumn is the specific column for which the row sort is being triggered
+* @param {*} sortDirection is the type of sort
+*/
   sortRows = (data, sortColumn, sortDirection) => {
     const comparer = (a, b) => {
       if (sortDirection === "ASC") {
@@ -288,20 +336,17 @@ class SpreadSheet extends Component {
     });
     return sortDirection === "NONE" ? data : this.state.rows;
   };
+  /**
+     * Method To swap the columns
+     * @param {*} source is source column
+     * @param {*} target is the target column 
+     */
   onHeaderDrop = (source, target) => {
     const stateCopy = Object.assign({}, this.state);
-    const columnSourceIndex = this.state.columns.findIndex(
-      (i) => i.key === source
-    );
-    const columnTargetIndex = this.state.columns.findIndex(
-      (i) => i.key === target
-    );
+    const columnSourceIndex = this.state.columns.findIndex((i) => i.key === source);
+    const columnTargetIndex = this.state.columns.findIndex((i) => i.key === target);
 
-    stateCopy.columns.splice(
-      columnTargetIndex,
-      0,
-      stateCopy.columns.splice(columnSourceIndex, 1)[0]
-    );
+    stateCopy.columns.splice(columnTargetIndex, 0, stateCopy.columns.splice(columnSourceIndex, 1)[0]);
 
     const emptyColumns = Object.assign({}, this.state, {
       columns: [],
@@ -324,26 +369,76 @@ class SpreadSheet extends Component {
   }
 
   updateTableAsPerRowChooser = (inComingColumnsHeaderList, pinnedColumnsList) => {
-    var existingColumnsHeaderList = this.state.columns;
+    var existingColumnsHeaderList = this.props.columns;
     existingColumnsHeaderList = existingColumnsHeaderList.filter((item) => {
       return inComingColumnsHeaderList.includes(item.name);
     });
+
+    var rePositionedArray = existingColumnsHeaderList;
+    var singleHeaderOneList;
+    if (pinnedColumnsList.length > 0) {
+      pinnedColumnsList
+        .slice(0)
+        .reverse()
+        .map((item, index) => {
+          singleHeaderOneList = existingColumnsHeaderList.filter((subItem) => item === subItem.name);
+          rePositionedArray = this.array_move(
+            existingColumnsHeaderList,
+            existingColumnsHeaderList.indexOf(singleHeaderOneList[0]),
+            index
+          );
+        });
+    }
+
+    existingColumnsHeaderList = rePositionedArray;
+		/**
+       making all the frozen attribute as false for all the columns and then 
+       setting items of pinnedColumnsList as frozen = true
+       */
     existingColumnsHeaderList.map((headerItem, index) => {
+      if (headerItem.frozen !== undefined && headerItem.frozen === true) {
+        existingColumnsHeaderList[index]["frozen"] = false;
+      }
       if (pinnedColumnsList.includes(headerItem.name)) {
         existingColumnsHeaderList[index]["frozen"] = true;
       }
-    })
-    console.log("existingColumnsHeaderList ", existingColumnsHeaderList)
+    });
+
+    console.log("existingColumnsHeaderList ", existingColumnsHeaderList);
+
     this.setState({
       columns: existingColumnsHeaderList,
     });
 
-    this.closeColumnReOrdering();
+		this.closeColumnReOrdering();
+	};
+
+	/**
+	 * Method To re-position a particular object in an Array from old_index to new_index
+	 * @param {*} arr inComing array
+	 * @param {*} old_index initial index
+	 * @param {*} new_index final index
+	 */
+  array_move = (arr, old_index, new_index) => {
+    if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+        arr.push(undefined);
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr;
   };
 
-
+	/**
+	 * Method to render the column Selector Pannel
+	 */
   columnReorderingPannel = () => {
     var headerNameList = [];
+    var existingPinnedHeadersList = [];
+    this.state.columns
+      .filter((item) => item.frozen !== undefined && item.frozen === true)
+      .map((item) => existingPinnedHeadersList.push(item.name));
     this.state.columns.map((item) => headerNameList.push(item.name));
     this.setState({
       columnReorderingComponent: (
@@ -352,33 +447,34 @@ class SpreadSheet extends Component {
           updateTableAsPerRowChooser={this.updateTableAsPerRowChooser}
           headerKeys={headerNameList}
           closeColumnReOrdering={this.closeColumnReOrdering}
+          existingPinnedHeadersList={existingPinnedHeadersList}
+          {...this.props}
         />
       ),
     });
   };
 
+	/**
+	 * Method to stop the render the column Selector Pannel
+	 */
   closeColumnReOrdering = () => {
     this.setState({
       columnReorderingComponent: null,
     });
   };
   handleSearchValue = (value) => {
-    this.setState({ searchValue: value })
-  }
+
+    this.setState({ searchValue: value });
+  };
   clearSearchValue = () => {
-    this.setState({ searchValue: "" })
-  }
+    this.setState({ searchValue: "" });
+  };
 
   sortingPanel = () => {
     let columnField = [];
     this.state.columns.map((item) => columnField.push(item.name));
     this.setState({
-      sortingPanelComponent: (
-        <Sorting
-          columnFieldValue={columnField}
-          closeSorting={this.closeSorting}
-        />
-      ),
+      sortingPanelComponent: <Sorting columnFieldValue={columnField} closeSorting={this.closeSorting} />,
     });
   };
 
@@ -392,11 +488,7 @@ class SpreadSheet extends Component {
   exportColumnData = () => {
     this.setState({
       exportComponent: (
-        <ExportData
-          rows={this.state.rows}
-          columnsList={this.state.columns}
-          closeExport={this.closeExport}
-        />
+        <ExportData rows={this.state.rows} columnsList={this.state.columns} closeExport={this.closeExport} />
       ),
     });
   };
@@ -407,20 +499,26 @@ class SpreadSheet extends Component {
     });
   };
 
+
+
+
+
   render() {
     return (
       <div>
-        <div className="parentDiv">
-          <div className="totalCount">
-            Showing <strong> {this.props.count} </strong> records
-          </div>
-          <div className="globalSearch">
+        <div className='parentDiv'>
+          <div className='totalCount'>
+            Showing <strong> {this.state.count} </strong> records
+					</div>
+          <div className='globalSearch'>
+            <i className="fa fa-search"></i>
             <FormControl
-              type="text"
-              placeholder="Search a screen"
+              className="globalSeachInput"
+              type='text'
+              placeholder="Search"
               onChange={(e) => {
-                this.handleSearchValue(e.target.value)
-                this.props.globalSearchLogic(e, this.state.filteringRows)
+                this.handleSearchValue(e.target.value);
+                this.props.globalSearchLogic(e, this.state.tempRows);
               }}
               value={this.state.searchValue}
             />
@@ -428,18 +526,18 @@ class SpreadSheet extends Component {
           {/* <div className="filterIcons">
             <FontAwesomeIcon icon={faFilter} />
           </div> */}
-          <div className="filterIcons" onClick={this.sortingPanel}>
-            <FontAwesomeIcon title="Group Sort" icon={faSortAmountDown} />
-            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
+          <div className='filterIcons' onClick={this.sortingPanel}>
+            <FontAwesomeIcon title='Group Sort' icon={faSortAmountDown} />
+            <FontAwesomeIcon icon={faSortDown} className='filterArrow' />
           </div>
           {this.state.sortingPanelComponent}
-          <div className="filterIcons" onClick={this.columnReorderingPannel}>
-            <FontAwesomeIcon title="Column Chooser" icon={faColumns} />
-            <FontAwesomeIcon icon={faSortDown} className="filterArrow" />
+          <div className='filterIcons' onClick={this.columnReorderingPannel}>
+            <FontAwesomeIcon title='Column Chooser' icon={faColumns} />
+            <FontAwesomeIcon icon={faSortDown} className='filterArrow' />
           </div>
           {this.state.columnReorderingComponent}
-          <div className="filterIcons">
-            <FontAwesomeIcon title="Export" icon={faShareAlt} onClick={this.exportColumnData} />
+          <div className='filterIcons'>
+            <FontAwesomeIcon title='Export' icon={faShareAlt} onClick={this.exportColumnData} />
           </div>
           {this.state.exportComponent}
           {/* <div className="filterIcons">
@@ -449,26 +547,26 @@ class SpreadSheet extends Component {
             <FontAwesomeIcon icon={faAlignLeft} />
           </div> */}
         </div>
-        <ErrorMessage className="errorDiv" status={this.props.status} closeWarningStatus={this.props.closeWarningStatus} clearSearchValue={this.clearSearchValue} />
-        <DraggableContainer
-          className="gridDiv"
-          onHeaderDrop={this.onHeaderDrop}
-        >
-          <ReactDataGrid
+        <ErrorMessage
+          className='errorDiv'
+          status={this.props.status}
+          closeWarningStatus={this.props.closeWarningStatus}
+          clearSearchValue={this.clearSearchValue}
+        />
+        <DraggableContainer className='gridDiv' onHeaderDrop={this.onHeaderDrop}>
+          <ExtDataGrid
             toolbar={<Toolbar enableFilter={true} />}
-            getValidFilterValues={(columnKey) =>
-              this.getValidFilterValues(this.state.filteringRows, columnKey)
-            }
-            minHeight={680}
+            getValidFilterValues={(columnKey) => this.getValidFilterValues(this.state.filteringRows, columnKey)}
+            minHeight={this.state.height}
             columns={this.state.columns}
             rowGetter={(i) => this.state.rows[i]}
             rowsCount={this.state.rows.length}
             onGridRowsUpdated={this.onGridRowsUpdated}
             enableCellSelect={true}
-            onClearFilters={() => { this.setState({ junk: {} }) }}
-            onColumnResize={(idx, width) =>
-              console.log(`Column ${idx} has been resized to ${width}`)
-            }
+            onClearFilters={() => {
+              this.setState({ junk: {} });
+            }}
+            onColumnResize={(idx, width) => console.log(`Column ${idx} has been resized to ${width}`)}
             onAddFilter={(filter) => this.handleFilterChange(filter)}
             rowSelection={{
               showCheckbox: true,
@@ -479,11 +577,14 @@ class SpreadSheet extends Component {
                 indexes: this.state.selectedIndexes,
               },
             }}
-            onGridSort={(sortColumn, sortDirection) =>
-              this.sortRows(this.state.rows, sortColumn, sortDirection)
-            }
+            onGridSort={(sortColumn, sortDirection) => this.sortRows(this.state.rows, sortColumn, sortDirection)}
+          //--Todo-- This is commented aspart of fixing column filtering 
+          // cellRangeSelection={{
+          //   onComplete: this.setSelection,
+          // }}
           />
         </DraggableContainer>
+        <span className="noRecordDiv" style={{ display: this.state.displayNoRows }}>No records Found</span>
       </div>
     );
   }

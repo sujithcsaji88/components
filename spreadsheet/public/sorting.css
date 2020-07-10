@@ -37,26 +37,30 @@
 }
 .sorts--grid .sort__grid .sort__settings .sort__header .sort__close {
   margin-left: auto;
+  font-size: 18px;
+  color: #98a3ac;
+  cursor: pointer;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body {
   padding: 10px;
-  height: 250px;
+  min-height: 100px;
   overflow-y: scroll;
+  max-height: 300px;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__bodyContent {
   display: flex;
 }
-.sorts--grid .sort__grid .sort__settings .sort__body .sort__new {
-  margin-left: 60px;
-}
-.sorts--grid .sort__grid .sort__settings .sort__body .sort__new .sort__section {
-  font-size: 18px;
-  color: #98a3ac;
+.sorts--grid .sort__grid .sort__settings .sort__section {
+  margin: 15px 0px 0px 60px;
+  width: 12%;
   display: flex;
   align-items: center;
+  color: #98a3ac;
 }
-.sorts--grid .sort__grid .sort__settings .sort__body .sort__new .sort__txt {
+.sorts--grid .sort__grid .sort__settings .sort__new .sort__section .sort__txt {
   margin-left: 5px;
+  color: #98a3ac;
+  cursor: pointer;
 }
 .sorts--grid .sort__grid .sort__settings .sort__body .sort__reorder {
   padding: 0px 15px 0px 15px;
@@ -69,6 +73,7 @@
   .sort__icon {
   font-size: 18px;
   color: #98a3ac;
+  cursor: pointer;
 }
 .sorts--grid
   .sort__grid
