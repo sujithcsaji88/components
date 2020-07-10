@@ -182,13 +182,13 @@ class SpreadSheet extends Component {
     this.setState({ count: props.count });
   }
 
- 	/**
-	 * Method To update the cell/cells with the edited values
-	 * @param {*} fromRow is the row from which this edit is performed
-   * @param {*} toRow is the row upto which this edit is performed
-   * @param {*} updated is the value of change
-   * @param {*} action is type of edit action performed
-	 */ 
+  /**
+ * Method To update the cell/cells with the edited values
+ * @param {*} fromRow is the row from which this edit is performed
+ * @param {*} toRow is the row upto which this edit is performed
+ * @param {*} updated is the value of change
+ * @param {*} action is type of edit action performed
+ */
   onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
     let columnName = "";
     const filter = this.formulaAppliedCols.filter((item) => {
@@ -305,11 +305,11 @@ class SpreadSheet extends Component {
     return selectors.getRows({ rows: rows, filters: filters });
   };
 
-  	/**
-	 * Method To render the filter values for filtering rows
-	 * @param {*} rows is the row data to be considered for filtering
-   * @param {*} columnId is the specific columnId for which the row datas are being considered
-	 */
+  /**
+ * Method To render the filter values for filtering rows
+ * @param {*} rows is the row data to be considered for filtering
+ * @param {*} columnId is the specific columnId for which the row datas are being considered
+ */
   getValidFilterValues(rows, columnId) {
     return rows
       .map((r) => r[columnId])
@@ -317,12 +317,12 @@ class SpreadSheet extends Component {
         return i === a.indexOf(item);
       });
   }
-   	/**
-	 * Method To sort the rows for a particular column
-	 * @param {*} data is the row datas to be considered for sorting
-   * @param {*} sortColumn is the specific column for which the row sort is being triggered
-   * @param {*} sortDirection is the type of sort
-	 */
+  /**
+* Method To sort the rows for a particular column
+* @param {*} data is the row datas to be considered for sorting
+* @param {*} sortColumn is the specific column for which the row sort is being triggered
+* @param {*} sortDirection is the type of sort
+*/
   sortRows = (data, sortColumn, sortDirection) => {
     const comparer = (a, b) => {
       if (sortDirection === "ASC") {
@@ -336,11 +336,11 @@ class SpreadSheet extends Component {
     });
     return sortDirection === "NONE" ? data : this.state.rows;
   };
-/**
-	 * Method To swap the columns
-	 * @param {*} source is source column
-   * @param {*} target is the target column 
-	 */
+  /**
+     * Method To swap the columns
+     * @param {*} source is source column
+     * @param {*} target is the target column 
+     */
   onHeaderDrop = (source, target) => {
     const stateCopy = Object.assign({}, this.state);
     const columnSourceIndex = this.state.columns.findIndex((i) => i.key === source);
@@ -467,17 +467,11 @@ class SpreadSheet extends Component {
     });
   };
   handleSearchValue = (value) => {
-    if (value !== "") {
-      this.setState({ searchIconDisplay: "none" })
-    }
-    else {
-      this.setState({ searchIconDisplay: "" })
-    }
+
     this.setState({ searchValue: value });
   };
   clearSearchValue = () => {
     this.setState({ searchValue: "" });
-    this.setState({ searchIconDisplay: "" })
   };
 
   sortingPanel = () => {
@@ -521,10 +515,11 @@ class SpreadSheet extends Component {
             Showing <strong> {this.state.count} </strong> records
 					</div>
           <div className='globalSearch'>
-            <i style={{ display: this.state.searchIconDisplay }} className="fa fa-search"></i>
+            <i className="fa fa-search"></i>
             <FormControl
+              className="globalSeachInput"
               type='text'
-              placeholder="    Search"
+              placeholder="Search"
               onChange={(e) => {
                 this.handleSearchValue(e.target.value);
                 this.props.globalSearchLogic(e, this.state.tempRows);
@@ -587,9 +582,10 @@ class SpreadSheet extends Component {
               },
             }}
             onGridSort={(sortColumn, sortDirection) => this.sortRows(this.state.rows, sortColumn, sortDirection)}
-            cellRangeSelection={{
-              onComplete: this.setSelection,
-            }}
+          //--Todo-- This is commented aspart of fixing column filtering 
+          // cellRangeSelection={{
+          //   onComplete: this.setSelection,
+          // }}
           />
         </DraggableContainer>
         <span className="noRecordDiv" style={{ display: this.state.displayNoRows }}>No records Found</span>
