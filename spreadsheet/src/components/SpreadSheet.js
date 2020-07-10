@@ -174,6 +174,13 @@ class SpreadSheet extends Component {
 		});
 		this.setState({ count: props.count });
 	}
+
+	componentDidUpdate(prevProps) {
+		const resizeEvent = document.createEvent("HTMLEvents");
+		resizeEvent.initEvent("resize", true, false);
+		window.dispatchEvent(resizeEvent);
+	}
+
 	onGridRowsUpdated = ({ fromRow, toRow, updated, action }) => {
 		let columnName = "";
 		const filter = this.formulaAppliedCols.filter((item) => {
@@ -365,10 +372,6 @@ class SpreadSheet extends Component {
 		});
 
 		this.closeColumnReOrdering();
-
-		const resizeEvent = document.createEvent("HTMLEvents");
-		resizeEvent.initEvent("resize", true, false);
-		window.dispatchEvent(resizeEvent);
 	};
 
 	/**
